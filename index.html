@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thomas Denny</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ======================================================
+         NAVIGATION BAR
+    ====================================================== -->
+    <nav class="main-nav">
+      <a href="index.html" class="nav-title">thomas denny</a>
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="now.html"   class="nav-link">Now</a>
+      <a href="about.html" class="nav-link">About Me</a>
+      <a href="blog.html"  class="nav-link">Blog</a>
+      <a href="books.html" class="nav-link">Books</a>
+    </nav>
+
+    <!-- ======================================================
+         MAIN LAYOUT — 2 columns
+    ====================================================== -->
+    <div class="main-layout">
+
+      <!-- ====================================================
+           LEFT COLUMN
+      ==================================================== -->
+      <aside class="col-left">
+
+        <!-- Profile card -->
+        <div class="profile-card">
+
+          <div class="profile-photo-wrap">
+            <img
+              src="https://www.iamthomasdenny.com/content/images/size/w400/2025/08/IMG_1828-2.jpeg"
+              alt="Thomas Denny"
+              title="Thomas Denny"
+            />
+          </div>
+
+          <div class="profile-name">Thomas Denny</div>
+          <div class="profile-tagline">
+            "Life is simple. We make it hard."<br />— Dwayne Denny
+          </div>
+
+          <!-- "View My" quick links — classic MySpace style -->
+          <div class="view-my-links">
+            View My:
+            <a href="about.html">Pics</a> |
+            <a href="blog.html">Blog</a> |
+            <a href="books.html">Books</a>
+          </div>
+
+          <!-- Online status -->
+          <div class="online-status">
+            <span class="online-dot"></span>
+            Online Now
+          </div>
+
+          <!-- Meta info table -->
+          <div class="profile-meta">
+            <table>
+              <tr>
+                <td class="label">Location</td>
+                <td class="value">Austin, TX</td>
+              </tr>
+              <tr>
+                <td class="label">Mood</td>
+                <td class="value">Focused</td>
+              </tr>
+              <tr>
+                <td class="label">Last Login</td>
+                <td class="value last-login-value">Today</td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+        <!-- /profile-card -->
+
+        <!-- ================================================
+             CONTACT BOX
+             Styled like the MySpace "Contacting..." box
+             from the screenshot — blue header, email link
+        ================================================ -->
+        <div class="contact-box">
+          <div class="contact-box-header">Contact Thomas</div>
+          <div class="contact-box-body">
+            <a href="mailto:93.thomasdenny@gmail.com" class="contact-row">
+              <span class="contact-icon">✉</span>
+              <span>Send Message</span>
+            </a>
+            <a href="https://www.linkedin.com/in/thomasdenny1/" class="contact-row">
+              <span class="contact-icon">in</span>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://www.strava.com/athletes/124421039" class="contact-row">
+              <span class="contact-icon" style="display:flex; align-items:center; justify-content:center;">
+                <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 7.5L4.5 0L7.5 6H5.5L4.5 3.5L1.8 7.5H0Z" fill="#FC4C02"/>
+                  <path d="M6.5 6H8.5L11.5 14L9 14L7.5 10L6 14L3.5 14L6.5 6Z" fill="#FC4C02"/>
+                </svg>
+              </span>
+              <span>Strava</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- ================================================
+             MUSIC PLAYER
+             MySpace-style horizontal bar player
+             Click the play button to expand the YouTube embed
+        ================================================ -->
+        <div class="ms-player-card">
+          <div class="np-titlebar">Now Playing</div>
+
+          <!-- The player bar: play button + song info + equalizer -->
+          <div class="ms-player-bar">
+            <button class="ms-play-btn" id="ms-play-btn" title="Play on YouTube">▶</button>
+            <div class="ms-player-center">
+              <div class="ms-song-name">Say It Again — Santana</div>
+              <!-- Animated equalizer bars -->
+              <div class="ms-equalizer" id="ms-equalizer">
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer bar — "add song" style row -->
+          <div class="ms-player-footer">
+            <span class="ms-album-info">Santana · 2007</span>
+            <a href="https://www.youtube.com/watch?v=cGfCqS59ZSE&list=RDcGfCqS59ZSE&start_radio=1"
+               class="ms-yt-link">▶ YouTube</a>
+          </div>
+
+          <!-- Hidden HTML5 audio player — controlled by the play button via JS -->
+          <audio id="ms-audio" src="say-it-again-official-video.mp3" preload="auto"></audio>
+        </div>
+        <!-- /ms-player-card -->
+
+        <!-- ================================================
+             DETAILS BOX
+             Classic MySpace "My Details" table —
+             alternating blue/white rows, bold labels
+        ================================================ -->
+        <div class="details-box">
+          <div class="details-header">Thomas's Details</div>
+          <table class="details-table">
+            <tr>
+              <td class="details-label">Status:</td>
+              <td class="details-value">Married</td>
+            </tr>
+            <tr>
+              <td class="details-label">Zodiac Sign:</td>
+              <td class="details-value">Virgo</td>
+            </tr>
+            <tr>
+              <td class="details-label">Hometown:</td>
+              <td class="details-value">Brick, New Jersey</td>
+            </tr>
+            <tr>
+              <td class="details-label">Dog:</td>
+              <td class="details-value">Bru</td>
+            </tr>
+            <tr>
+              <td class="details-label">Reading:</td>
+              <td class="details-value"><em>If This Is A Man</em> — Primo Levi</td>
+            </tr>
+            <tr>
+              <td class="details-label">Occupation:</td>
+              <td class="details-value">Operations &amp; AI</td>
+            </tr>
+          </table>
+        </div>
+
+      </aside>
+      <!-- /col-left -->
+
+
+      <!-- ====================================================
+           RIGHT COLUMN
+      ==================================================== -->
+      <main class="col-right">
+
+        <!-- ================================================
+             HERO BLURB — expanded with merged bio content
+        ================================================ -->
+        <div class="hero-blurb">
+          <h1>Hey, I'm Thomas.</h1>
+          <p>
+            I grew up in Tampa and live in Austin. Both feel like home, which I think is a good thing to have.
+          </p>
+          <p>
+            My wife Jenny and I met in high school, lost track of each other, and reconnected years later through a mutual friend. We have a French Bulldog named Bru who is a goofy little pain in the ass.
+          </p>
+          <p>
+            My own path has been in operations and AI, but on weekends you'll find me running long distances with friends, practicing guitar, or reading. I'm drawn to people who take their craft seriously.
+          </p>
+          <p>
+            This site is where I think in public. I write about building things, fitness, deep work, and whatever else is on my mind. No brand. Just a person with a website. <a href="about.html">More about me →</a>
+          </p>
+        </div>
+
+        <!-- ================================================
+             PHOTOS
+        ================================================ -->
+        <div class="section-header">Thomas's Top 3</div>
+        <div class="content-box">
+          <div class="photos-grid">
+
+            <div class="photo-tile">
+              <img src="photo-rome.JPG" alt="Thomas and his wife in Rome" />
+              <div class="photo-caption">Jenny</div>
+            </div>
+
+            <div class="photo-tile">
+              <img src="photo-family.JPG" alt="Family" />
+              <div class="photo-caption">Family</div>
+            </div>
+
+            <div class="photo-tile">
+              <img src="photo-bru.jpg" alt="Bru" />
+              <div class="photo-caption">Bru</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ================================================
+             LATEST BLOG POSTS
+        ================================================ -->
+        <div class="section-header">Latest from the Blog</div>
+        <div class="content-box">
+
+          <div class="blog-preview-item">
+            <h3>
+              <a href="houston-marathon-2026.html">Running Through Doubt — The 2026 Houston Marathon</a>
+            </h3>
+            <div class="post-meta">January 19, 2026 &nbsp;·&nbsp; 5 min read</div>
+            <p>
+              3:59:51 — just 9 seconds under 4 hours. The training was rough, the injuries piled up, and I showed up full of doubt. The lead-up taught me more about character and friendship than any finish time could.
+            </p>
+            <a href="houston-marathon-2026.html" class="read-more">Read more →</a>
+          </div>
+
+          <div class="blog-preview-item">
+            <h3>
+              <a href="annual-review-2025.html">My 2025 Annual Review</a>
+            </h3>
+            <div class="post-meta">December 2025 &nbsp;·&nbsp; 10 min read</div>
+            <p>
+              The central theme of 2025 was "addition through subtraction." A personal look at what worked, what didn't, and what I'm carrying into 2026.
+            </p>
+            <a href="annual-review-2025.html" class="read-more">Read more →</a>
+          </div>
+
+          <div class="blog-preview-item">
+            <h3>
+              <a href="logging-off.html">Logging Off: Reclaiming Attention in a Distracted World</a>
+            </h3>
+            <div class="post-meta">August 4, 2025 &nbsp;·&nbsp; 5 min read</div>
+            <p>
+              56 days off social media. 1,345 hours. It was quiet, unshared, unseen — and somehow, more meaningful.
+            </p>
+            <a href="logging-off.html" class="read-more">Read more →</a>
+          </div>
+
+        </div>
+
+        <!-- ================================================
+             INTERESTS
+             Classic MySpace "Tom's Interests" table
+        ================================================ -->
+        <div class="section-header">Thomas's Interests</div>
+        <div class="interests-box content-box" style="padding:0;">
+          <table class="interests-table">
+            <tr>
+              <td class="interests-label">General</td>
+              <td class="interests-value">Running, Guitar, Building Things, Reading, AI, Austin TX</td>
+            </tr>
+            <tr>
+              <td class="interests-label">Music</td>
+              <td class="interests-value">Eric Clapton, Santana, Metallica, John Mayer, Linkin Park, Daft Punk&hellip; way too many</td>
+            </tr>
+            <tr>
+              <td class="interests-label">Books</td>
+              <td class="interests-value">
+                <em>Deep Work</em>, <em>1984</em>, <em>Man's Search for Meaning</em>
+                &nbsp;&mdash;&nbsp;<a href="books.html">see full list &rsaquo;</a>
+              </td>
+            </tr>
+            <tr>
+              <td class="interests-label">Heroes</td>
+              <td class="interests-value">
+                My <a href="hero-mom.jpg" target="_blank">mom</a> and <a href="hero-dad.jpg" target="_blank">dad</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+      </main>
+      <!-- /col-right -->
+
+    </div>
+    <!-- /main-layout -->
+
+    <footer class="site-footer">
+      Thomas Denny &copy; 2025 &nbsp;|&nbsp; Built with intention, not a template.
+    </footer>
+
+  </div>
+  <!-- /page-wrapper -->
+
+  <script src="script.js"></script>
+</body>
+</html>

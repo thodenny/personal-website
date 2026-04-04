@@ -1,0 +1,1231 @@
+/* ============================================================
+   THOMAS DENNY — Personal Site
+   MySpace ORIGINAL color palette:
+     - Body: White (#FFFFFF)
+     - Nav/headers: Blue gradient (#336699 → #003366)
+     - CTA/accents: Orange (#FF6600)
+     - Text: Dark gray (#333333)
+     - Borders: Blue-gray (#99AACC)
+   ============================================================ */
+
+/* --- Reset & Base ----------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  font-family: Verdana, Georgia, Arial, sans-serif;
+  /* White base with very subtle blue dot-grid — classic web 1.0 hint */
+  background-color: #dde4ee;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(51, 102, 153, 0.18) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+  color: #333333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: #336699;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #FF6600;
+  text-decoration: underline;
+}
+
+/* --- Page Wrapper ----------------------------------------- */
+.page-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 10px;
+}
+
+/* ============================================================
+   NAVIGATION BAR
+   Classic MySpace blue-gradient raised-button nav
+   ============================================================ */
+nav.main-nav {
+  background: linear-gradient(to bottom, #4d7db5, #1a4d8a);
+  border: 1px solid #1a3f72;
+  border-bottom-color: #0d2d5a;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  padding: 7px 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Site title */
+.nav-title {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: auto;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+.nav-title:hover {
+  color: #FFD080;
+  text-decoration: none;
+}
+
+/* Nav buttons — beveled blue */
+nav.main-nav a.nav-link {
+  display: inline-block;
+  padding: 5px 13px;
+  background: linear-gradient(to bottom, #5a8ec4 0%, #3a6ea4 50%, #2e5e94 100%);
+  border: 1px solid #1a4070;
+  border-bottom-color: #0d2d56;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+nav.main-nav a.nav-link:hover {
+  background: linear-gradient(to bottom, #6a9ed4 0%, #4a7eb4 50%, #3a6ea4 100%);
+  color: #fff;
+  text-decoration: none;
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Active nav button — MySpace orange highlight */
+nav.main-nav a.nav-link.active {
+  background: linear-gradient(to bottom, #ff8833 0%, #ff6600 50%, #cc4400 100%);
+  color: #fff;
+  border-color: #aa3300;
+  border-bottom-color: #882200;
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   MAIN LAYOUT
+   ============================================================ */
+.main-layout {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.col-left     { width: 260px; flex-shrink: 0; }
+.col-right    { flex: 1; min-width: 0; }
+.col-single   { width: 100%; }
+.col-left-sm  { width: 180px; flex-shrink: 0; }
+
+/* ============================================================
+   PROFILE CARD
+   White card, blue border, classic MySpace shadow
+   ============================================================ */
+.profile-card {
+  background: #ffffff;
+  border: 2px solid #336699;
+  border-radius: 2px;
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: 3px 3px 0px #99AACC, 0 0 0 1px #336699;
+}
+
+/* Profile photo — blue/orange cycling glow */
+.profile-photo-wrap {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.profile-photo-wrap img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border: 3px solid #336699;
+  animation: photoGlow 4s ease-in-out infinite;
+}
+
+@keyframes photoGlow {
+  0%   { box-shadow: 0 0 7px #336699, 0 0 14px rgba(51, 102, 153, 0.4); border-color: #336699; }
+  50%  { box-shadow: 0 0 9px #FF6600, 0 0 18px rgba(255, 102, 0, 0.3);  border-color: #FF6600; }
+  100% { box-shadow: 0 0 7px #336699, 0 0 14px rgba(51, 102, 153, 0.4); border-color: #336699; }
+}
+
+/* Name */
+.profile-name {
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-weight: bold;
+  color: #003366;
+  text-align: center;
+  margin-bottom: 3px;
+}
+
+/* Tagline */
+.profile-tagline {
+  font-size: 11px;
+  color: #666688;
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 10px;
+  line-height: 1.45;
+  padding: 0 4px;
+}
+
+/* Online status */
+.online-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: #007700;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.online-dot {
+  width: 8px;
+  height: 8px;
+  background: #00bb44;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #00bb44;
+  animation: dotBlink 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+/* Meta info */
+.profile-meta {
+  font-size: 11px;
+  color: #555577;
+  margin-bottom: 8px;
+  line-height: 1.8;
+}
+
+.profile-meta table   { width: 100%; border-collapse: collapse; }
+.profile-meta td      { padding: 1px 0; vertical-align: top; }
+.profile-meta td.label {
+  color: #336699;
+  width: 68px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: bold;
+}
+.profile-meta td.value { color: #333333; font-size: 11px; }
+
+/* View My Pics — orange CTA button */
+.btn-profile-cta {
+  display: block;
+  text-align: center;
+  padding: 6px 10px;
+  background: linear-gradient(to bottom, #ff8833, #ff6600 60%, #cc4400);
+  border: 1px solid #aa3300;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.25);
+  transition: all 0.15s ease;
+  margin-bottom: 10px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  letter-spacing: 0.3px;
+}
+
+.btn-profile-cta:hover {
+  background: linear-gradient(to bottom, #ff9944, #ff7711 60%, #dd5500);
+  text-decoration: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+/* ============================================================
+   NOW PLAYING WIDGET
+   Light player panel — retro Winamp/RealPlayer vibe
+   ============================================================ */
+.now-playing-card {
+  background: #eef2f8;
+  border: 1px solid #99AACC;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 2px 2px 0 #99AACC;
+}
+
+.np-titlebar {
+  background: linear-gradient(to right, #1a4d8a, #336699);
+  padding: 5px 9px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.np-titlebar::before {
+  content: "♫";
+  color: #FFD080;
+  font-size: 12px;
+}
+
+.np-embed {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  background: #000;
+}
+
+.np-info-bar {
+  background: #1a1a2e;
+  border-top: 1px solid #336699;
+  padding: 5px 8px;
+  overflow: hidden;
+}
+
+.np-marquee-track {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.np-marquee-text {
+  display: inline-block;
+  font-size: 11px;
+  color: #00dd88;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  animation: marqueeScroll 16s linear infinite;
+  padding-right: 60px;
+}
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(110%); }
+  100% { transform: translateX(-110%); }
+}
+
+.np-artist-line {
+  font-size: 10px;
+  color: #8888aa;
+  padding-top: 2px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* ============================================================
+   VISITOR COUNTER
+   ============================================================ */
+.visitor-counter {
+  background: #1a1a2e;
+  border: 1px solid #336699;
+  border-radius: 3px;
+  padding: 7px 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  box-shadow: 2px 2px 0 #99AACC;
+}
+
+.visitor-counter .vc-label {
+  font-size: 10px;
+  color: #8899bb;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 3px;
+}
+
+.visitor-counter .vc-count {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  font-weight: bold;
+  color: #00dd88;
+  letter-spacing: 3px;
+  display: block;
+  text-shadow: 0 0 8px rgba(0, 221, 136, 0.6);
+}
+
+/* ============================================================
+   COMPACT PROFILE CARD (inner pages)
+   ============================================================ */
+.profile-card-sm {
+  background: #ffffff;
+  border: 2px solid #336699;
+  border-radius: 2px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 0 #99AACC;
+}
+
+.profile-card-sm img {
+  width: 100%;
+  max-width: 140px;
+  border: 2px solid #336699;
+  display: block;
+  margin: 0 auto 8px;
+  animation: photoGlow 4s ease-in-out infinite;
+}
+
+.profile-card-sm .pcm-name {
+  font-family: Georgia, serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 5px;
+}
+
+.profile-card-sm .pcm-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #007700;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.profile-card-sm .pcm-mood {
+  font-size: 10px;
+  color: #666688;
+  margin-bottom: 8px;
+}
+
+.profile-card-sm .pcm-mood span { color: #FF6600; font-weight: bold; }
+
+.profile-card-sm .btn-back-home {
+  display: block;
+  padding: 4px 8px;
+  background: linear-gradient(to bottom, #ff8833, #ff6600 60%, #cc4400);
+  border: 1px solid #aa3300;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  margin-top: 4px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+}
+
+.profile-card-sm .btn-back-home:hover {
+  background: linear-gradient(to bottom, #ff9944, #ff7711 60%, #dd5500);
+  text-decoration: none;
+}
+
+/* Sidebar page nav */
+.sidebar-page-nav {
+  background: #ffffff;
+  border: 1px solid #99AACC;
+  border-radius: 2px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  box-shadow: 1px 1px 0 #99AACC;
+}
+
+.sidebar-page-nav .spn-title {
+  font-size: 10px;
+  color: #ffffff;
+  background: linear-gradient(to right, #336699, #5588bb);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: bold;
+  margin: -8px -10px 6px;
+  padding: 4px 10px;
+}
+
+.sidebar-page-nav a {
+  display: block;
+  color: #336699;
+  padding: 3px 0;
+  font-size: 11px;
+  text-decoration: none;
+  border-bottom: 1px solid #ddeeff;
+  transition: color 0.15s;
+}
+
+.sidebar-page-nav a:last-child { border-bottom: none; }
+
+.sidebar-page-nav a:hover {
+  color: #FF6600;
+  text-decoration: none;
+}
+
+.sidebar-page-nav a.current {
+  color: #FF6600;
+  font-weight: bold;
+}
+
+.sidebar-page-nav a.now-tab.active {
+  color: #FF6600;
+  font-weight: bold;
+}
+
+/* ============================================================
+   SECTION HEADERS
+   Blue gradient bar — the definitive MySpace look
+   ============================================================ */
+.section-header {
+  background: linear-gradient(to right, #1a4d8a, #4477aa);
+  border-left: 4px solid #003366;
+  padding: 5px 12px 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  margin-bottom: 8px;
+  border-radius: 0 3px 3px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ============================================================
+   CONTENT BOXES
+   ============================================================ */
+.content-box {
+  background: #ffffff;
+  border: 1px solid #aabbcc;
+  border-radius: 2px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  box-shadow: 2px 2px 0 #ccddee;
+}
+
+.content-box p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 9px;
+  color: #333333;
+}
+
+.content-box p:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   HOME PAGE — HERO BLURB
+   ============================================================ */
+.hero-blurb {
+  background: #ffffff;
+  border: 1px solid #aabbcc;
+  border-radius: 2px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  box-shadow: 2px 2px 0 #ccddee;
+}
+
+.hero-blurb h1 {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  color: #003366;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.hero-blurb p {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #333333;
+  margin-bottom: 9px;
+}
+
+.hero-blurb p:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   PHOTOS GRID
+   ============================================================ */
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.photo-tile {
+  border: 1px solid #99AACC;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #e4edf8;
+  transition: all 0.2s ease;
+}
+
+.photo-tile:hover {
+  border-color: #FF6600;
+  box-shadow: 2px 2px 0 #ffccaa;
+  transform: translateY(-2px);
+}
+
+.photo-tile img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-caption {
+  font-size: 10px;
+  color: #336699;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  padding: 5px 4px;
+  background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+}
+
+/* ============================================================
+   BLOG PREVIEWS (home page)
+   ============================================================ */
+.blog-preview-item {
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #ddeeff;
+}
+
+.blog-preview-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.blog-preview-item h3 { font-family: Georgia, serif; font-size: 14px; margin-bottom: 3px; }
+.blog-preview-item h3 a { color: #336699; }
+.blog-preview-item h3 a:hover { color: #FF6600; text-decoration: underline; }
+
+.post-meta { font-size: 10px; color: #8899bb; margin-bottom: 5px; letter-spacing: 0.3px; }
+
+.blog-preview-item p { font-size: 12px; color: #444466; line-height: 1.55; margin-bottom: 5px; }
+
+.read-more { font-size: 11px; color: #FF6600; font-weight: bold; text-decoration: none; }
+.read-more:hover { color: #CC4400; text-decoration: none; }
+
+/* ============================================================
+   BLOG PAGE — full post cards
+   ============================================================ */
+.blog-post-card {
+  padding: 16px 0;
+  border-bottom: 1px solid #ddeeff;
+}
+
+.blog-post-card:first-child { padding-top: 0; }
+.blog-post-card:last-child  { border-bottom: none; }
+
+.blog-post-card h3 { font-family: Georgia, serif; font-size: 17px; margin-bottom: 4px; }
+.blog-post-card h3 a { color: #336699; }
+.blog-post-card h3 a:hover { color: #FF6600; text-decoration: underline; }
+
+.blog-post-card .post-tags { margin-bottom: 7px; }
+
+.tag {
+  display: inline-block;
+  background: #eef4ff;
+  border: 1px solid #99AACC;
+  color: #336699;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  margin-right: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.blog-post-card p { font-size: 13px; color: #444444; line-height: 1.65; margin-bottom: 8px; }
+
+/* ============================================================
+   BOOKS PAGE
+   ============================================================ */
+.book-list { list-style: none; padding: 0; margin: 0; }
+
+.book-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddeeff;
+}
+
+.book-item:last-child { border-bottom: none; }
+
+.book-num {
+  color: #336699;
+  font-size: 11px;
+  font-weight: bold;
+  min-width: 22px;
+  padding-top: 3px;
+  font-family: 'Courier New', monospace;
+}
+
+.book-info h4 { font-family: Georgia, serif; font-size: 14px; color: #003366; margin-bottom: 2px; }
+.book-author  { font-size: 11px; color: #6688aa; margin-bottom: 4px; }
+.book-note    { font-size: 12px; color: #555566; font-style: italic; line-height: 1.5; }
+
+.book-stars {
+  margin-left: auto;
+  color: #FF6600;
+  font-size: 13px;
+  white-space: nowrap;
+  padding-top: 3px;
+  flex-shrink: 0;
+}
+
+.book-sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.sort-label {
+  font-size: 11px;
+  color: #6688aa;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sort-btn {
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+  color: #336699;
+  background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+  border: 1px solid #99AACC;
+  border-radius: 2px;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sort-btn:hover {
+  background: linear-gradient(to bottom, #fff4ee, #ffe0cc);
+  border-color: #FF6600;
+  color: #CC4400;
+}
+
+.sort-btn.active {
+  background: linear-gradient(to right, #1a4d8a, #4477aa);
+  border-color: #003366;
+  color: #ffffff;
+}
+
+.book-tags {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.book-tag {
+  font-size: 9px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #336699;
+  background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+  border: 1px solid #99AACC;
+  border-radius: 2px;
+  padding: 2px 6px;
+}
+
+.currently-reading-badge {
+  display: inline-block;
+  background: #eef8ff;
+  border: 1px solid #336699;
+  color: #336699;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+/* ============================================================
+   NOW PAGE
+   ============================================================ */
+.now-updated {
+  font-size: 11px;
+  color: #8899bb;
+  font-style: italic;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddeeff;
+}
+
+.now-section { margin-bottom: 22px; }
+
+.now-section-label {
+  font-size: 10px;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(to right, #1a4d8a, #4477aa);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-left: 3px solid #003366;
+}
+
+.now-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.3);
+}
+
+.now-section p { font-size: 13px; color: #333344; line-height: 1.7; margin-bottom: 8px; }
+.now-section p:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   ABOUT / INNER PAGES
+   ============================================================ */
+.inner-content h2 {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: #003366;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ddeeff;
+}
+
+.inner-content h3 {
+  font-family: Georgia, serif;
+  font-size: 15px;
+  color: #336699;
+  margin: 18px 0 8px;
+}
+
+.inner-content p { font-size: 13px; line-height: 1.75; color: #333344; margin-bottom: 10px; }
+.inner-content p:last-child { margin-bottom: 0; }
+
+.inner-content ul { margin: 6px 0 12px 20px; }
+.inner-content ul li { font-size: 13px; color: #444455; margin-bottom: 6px; line-height: 1.55; }
+
+/* Aside / callout box */
+.aside-box {
+  background: #f0f5ff;
+  border: 1px solid #99AACC;
+  border-left: 3px solid #336699;
+  border-radius: 0 3px 3px 0;
+  padding: 10px 14px;
+  margin: 14px 0;
+  font-size: 12px;
+  color: #445566;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.aside-box a { color: #336699; }
+.aside-box a:hover { color: #FF6600; }
+
+.contact-link { color: #336699; font-weight: bold; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer.site-footer {
+  border-top: 2px solid #99AACC;
+  margin-top: 18px;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 11px;
+  color: #668899;
+  background: transparent;
+}
+
+footer.site-footer a { color: #336699; }
+footer.site-footer a:hover { color: #FF6600; }
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+hr.divider { border: none; border-top: 1px solid #ddeeff; margin: 12px 0; }
+
+/* ============================================================
+   INTERESTS TABLE
+   Matches the "Tom's Interests" style from the screenshot:
+   same alternating rows as Details, category label left,
+   comma-separated values right
+   ============================================================ */
+.interests-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.interests-table tr:nth-child(odd)  td { background: #dde8f4; }
+.interests-table tr:nth-child(even) td { background: #ffffff; }
+
+.interests-table td {
+  padding: 7px 10px;
+  font-size: 12px;
+  vertical-align: top;
+  border-bottom: 1px solid #c8d8ec;
+  line-height: 1.55;
+}
+
+.interests-table tr:last-child td { border-bottom: none; }
+
+.interests-label {
+  color: #336699;
+  font-weight: bold;
+  white-space: nowrap;
+  width: 70px;
+}
+
+.interests-value {
+  color: #333333;
+}
+
+.interests-value em {
+  font-style: italic;
+  color: #444455;
+}
+
+
+/* ============================================================
+   DETAILS BOX
+   Mirrors the "My Name's Details" table from classic MySpace:
+   blue gradient header, alternating light-blue / white rows,
+   bold blue labels on the left
+   ============================================================ */
+.details-box {
+  background: #ffffff;
+  border: 1px solid #99AACC;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 2px 2px 0 #ccddee;
+}
+
+.details-header {
+  background: linear-gradient(to right, #1a4d8a, #4477aa);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Alternating rows — white then light blue, just like the screenshot */
+.details-table tr:nth-child(odd)  td { background: #dde8f4; }
+.details-table tr:nth-child(even) td { background: #ffffff; }
+
+.details-table td {
+  padding: 5px 8px;
+  font-size: 11px;
+  vertical-align: top;
+  border-bottom: 1px solid #c8d8ec;
+}
+
+.details-table tr:last-child td { border-bottom: none; }
+
+.details-label {
+  color: #336699;
+  font-weight: bold;
+  white-space: nowrap;
+  width: 80px;
+}
+
+.details-value {
+  color: #333333;
+}
+
+.details-value em {
+  font-style: italic;
+  color: #444455;
+}
+
+/* ============================================================
+   VIEW MY LINKS
+   The "View My: Pics | Blog | Books" row under the photo
+   ============================================================ */
+.view-my-links {
+  font-size: 11px;
+  color: #666688;
+  text-align: center;
+  margin-bottom: 9px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ddeeff;
+}
+
+.view-my-links a {
+  color: #336699;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.view-my-links a:hover {
+  color: #FF6600;
+  text-decoration: underline;
+}
+
+/* ============================================================
+   CONTACT BOX
+   Mirrors the "Contacting My Name" box from classic MySpace:
+   blue gradient header, white body, icon + link rows
+   ============================================================ */
+.contact-box {
+  background: #ffffff;
+  border: 1px solid #99AACC;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 2px 2px 0 #ccddee;
+}
+
+.contact-box-header {
+  background: linear-gradient(to right, #1a4d8a, #4477aa);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.contact-box-body {
+  padding: 6px 4px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px;
+  color: #336699;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.contact-row:hover {
+  background: #f0f5ff;
+  color: #FF6600;
+  text-decoration: none;
+}
+
+.contact-icon {
+  font-size: 15px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   MYSPACE-STYLE MUSIC PLAYER
+   Horizontal bar player — matches the screenshot aesthetic:
+   dark bar, circular play button, song title, animated
+   equalizer bars. YouTube iframe expands on play click.
+   ============================================================ */
+.ms-player-card {
+  background: #eef2f8;
+  border: 1px solid #99AACC;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: 2px 2px 0 #ccddee;
+}
+
+/* The main player bar — dark, like in the screenshot */
+.ms-player-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(to bottom, #555566, #333344);
+  padding: 8px 10px;
+  min-height: 46px;
+}
+
+/* Circular play/pause button */
+.ms-play-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, #888899, #555566);
+  border: 2px solid #888899;
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: background 0.15s;
+  padding: 0;
+  padding-left: 2px; /* optical center for ▶ */
+  line-height: 1;
+}
+
+.ms-play-btn:hover {
+  background: linear-gradient(to bottom, #aaaacc, #777788);
+  border-color: #aaaacc;
+}
+
+.ms-play-btn.playing {
+  color: #FF6600;
+  border-color: #FF6600;
+}
+
+/* Song name + equalizer */
+.ms-player-center {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ms-song-name {
+  font-size: 11px;
+  font-weight: bold;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Animated equalizer bars — idle (slow bounce), active (fast) */
+.ms-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+
+.eq-bar {
+  display: inline-block;
+  width: 4px;
+  border-radius: 1px 1px 0 0;
+  background: linear-gradient(to top, #FF6600, #ffaa44);
+  transform-origin: bottom;
+  /* Idle: slow, low pulse */
+  animation: eqIdle 1.4s ease-in-out infinite alternate;
+}
+
+/* Stagger each bar at a different height and delay */
+.eq-bar:nth-child(1) { height: 8px;  animation-delay: 0s;    animation-duration: 1.2s; }
+.eq-bar:nth-child(2) { height: 12px; animation-delay: 0.2s;  animation-duration: 0.9s; }
+.eq-bar:nth-child(3) { height: 6px;  animation-delay: 0.05s; animation-duration: 1.5s; }
+.eq-bar:nth-child(4) { height: 10px; animation-delay: 0.3s;  animation-duration: 1.1s; }
+.eq-bar:nth-child(5) { height: 7px;  animation-delay: 0.15s; animation-duration: 0.8s; }
+.eq-bar:nth-child(6) { height: 11px; animation-delay: 0.25s; animation-duration: 1.3s; }
+
+@keyframes eqIdle {
+  from { transform: scaleY(0.25); opacity: 0.6; }
+  to   { transform: scaleY(1);    opacity: 1;   }
+}
+
+/* When playing — faster, more dramatic */
+.ms-player-card.is-playing .eq-bar {
+  animation-name: eqPlaying;
+}
+
+.ms-player-card.is-playing .eq-bar:nth-child(1) { animation-duration: 0.4s; }
+.ms-player-card.is-playing .eq-bar:nth-child(2) { animation-duration: 0.3s; }
+.ms-player-card.is-playing .eq-bar:nth-child(3) { animation-duration: 0.5s; }
+.ms-player-card.is-playing .eq-bar:nth-child(4) { animation-duration: 0.35s; }
+.ms-player-card.is-playing .eq-bar:nth-child(5) { animation-duration: 0.45s; }
+.ms-player-card.is-playing .eq-bar:nth-child(6) { animation-duration: 0.28s; }
+
+@keyframes eqPlaying {
+  from { transform: scaleY(0.2); }
+  to   { transform: scaleY(1);   }
+}
+
+/* Footer bar below the player — "add song" row style */
+.ms-player-footer {
+  background: #f8f9fc;
+  border-top: 1px solid #ccddee;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.ms-album-info {
+  color: #8899bb;
+  font-style: italic;
+}
+
+.ms-yt-link {
+  color: #336699;
+  font-weight: bold;
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.ms-yt-link:hover {
+  color: #FF6600;
+  text-decoration: none;
+}
+
+/* YouTube iframe — hidden by default, revealed on play click */
+.ms-yt-container {
+  display: none;
+  border-top: 1px solid #99AACC;
+}
+
+.ms-yt-container iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 680px) {
+  .main-layout { flex-direction: column; }
+  .col-left, .col-left-sm { width: 100%; }
+  .photos-grid { grid-template-columns: repeat(2, 1fr); }
+  nav.main-nav { flex-wrap: wrap; gap: 4px; }
+  .nav-title { width: 100%; margin-bottom: 4px; }
+}
