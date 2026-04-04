@@ -855,6 +855,62 @@ nav.main-nav a.nav-link.active {
 .contact-link { color: #336699; font-weight: bold; }
 
 /* ============================================================
+   NEWSLETTER FORM
+============================================================ */
+.newsletter-form {
+  margin: 14px 0 4px 0;
+}
+
+.newsletter-form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  border: 1px solid #99AACC;
+  border-radius: 3px;
+  background: #fff;
+  color: #333;
+  outline: none;
+}
+
+.newsletter-input:focus {
+  border-color: #336699;
+  box-shadow: 0 0 0 2px rgba(51,102,153,0.15);
+}
+
+.newsletter-btn {
+  padding: 7px 14px;
+  font-size: 11px;
+  font-family: inherit;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: #336699;
+  color: #fff;
+  border: 1px solid #224466;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.newsletter-btn:hover {
+  background: #FF6600;
+  border-color: #cc5500;
+}
+
+.newsletter-fine-print {
+  margin: 8px 0 0 0;
+  font-size: 11px;
+  color: #888;
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 footer.site-footer {

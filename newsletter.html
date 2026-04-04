@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Newsletter — Thomas Denny</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ======================================================
+         NAVIGATION BAR
+    ====================================================== -->
+    <nav class="main-nav">
+      <a href="index.html" class="nav-title">thomas denny</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="now.html"   class="nav-link">Now</a>
+      <a href="about.html" class="nav-link">About Me</a>
+      <a href="blog.html"  class="nav-link">Blog</a>
+      <a href="books.html" class="nav-link">Books</a>
+    </nav>
+
+    <!-- ======================================================
+         MAIN LAYOUT
+    ====================================================== -->
+    <div class="main-layout">
+
+      <!-- ====================================================
+           LEFT COLUMN — Compact Profile Card
+      ==================================================== -->
+      <aside class="col-left-sm">
+
+        <div class="profile-card-sm">
+          <img
+            src="https://www.iamthomasdenny.com/content/images/size/w400/2025/08/IMG_1828-2.jpeg"
+            alt="Thomas Denny"
+          />
+          <div class="pcm-name">Thomas Denny</div>
+          <div class="pcm-status">
+            <span class="online-dot"></span> Online Now
+          </div>
+          <div class="pcm-mood">Mood: <span>Focused</span></div>
+          <a href="index.html" class="btn-back-home">← Back to Profile</a>
+        </div>
+
+        <div class="sidebar-page-nav">
+          <div class="spn-title">Pages</div>
+          <a href="index.html">Home</a>
+          <a href="now.html">Now</a>
+          <a href="about.html">About Me</a>
+          <a href="blog.html">Blog</a>
+          <a href="books.html">Books</a>
+          <a href="newsletter.html" class="current">Newsletter</a>
+        </div>
+
+      </aside>
+
+      <!-- ====================================================
+           RIGHT COLUMN — Newsletter Content
+      ==================================================== -->
+      <main class="col-right">
+
+        <div class="section-header">Newsletter</div>
+
+        <div class="content-box inner-content">
+
+          <h2>Stay in the loop.</h2>
+
+          <p>
+            I send occasional updates — new posts, things I'm reading, what I'm building. No schedule, no cadence. Just when I have something worth sharing.
+          </p>
+          <p>
+            No spam. You can reply directly to any email and I'll get it.
+          </p>
+
+          <form
+            action="https://formspree.io/f/xvzvwlvj"
+            method="POST"
+            class="newsletter-form"
+          >
+            <div class="newsletter-form-row">
+              <input
+                type="email"
+                name="email"
+                placeholder="your@email.com"
+                required
+                class="newsletter-input"
+              />
+              <button type="submit" class="newsletter-btn">Subscribe</button>
+            </div>
+            <p class="newsletter-fine-print">No spam. Unsubscribe anytime by emailing me directly.</p>
+          </form>
+
+        </div>
+
+      </main>
+
+    </div>
+    <!-- /main-layout -->
+
+    <footer class="site-footer">
+      Thomas Denny &copy; 2025 &nbsp;|&nbsp; Built with intention, not a template.
+    </footer>
+
+  </div>
+  <!-- /page-wrapper -->
+
+  <script src="script.js"></script>
+</body>
+</html>
