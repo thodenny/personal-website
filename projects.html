@@ -20,6 +20,7 @@
       <a href="about.html" class="nav-link">About Me</a>
       <a href="blog.html"  class="nav-link">Blog</a>
       <a href="books.html" class="nav-link">Books</a>
+      <a href="projects.html" class="nav-link">Projects</a>
     </nav>
 
     <!-- ======================================================
@@ -75,7 +76,7 @@
 
           <div class="project-card">
             <div class="project-header">
-              <span class="project-title">ResumeIQ</span>
+              <span class="project-title"><a href="https://github.com/thodenny/resumeiq" target="_blank" style="color: inherit; text-decoration: none;">ResumeIQ ↗</a></span>
               <span class="project-tag project-tag--built">Built</span>
             </div>
             <p class="project-desc">
@@ -121,12 +122,16 @@
               <span class="project-tag project-tag--course">Course</span>
             </div>
             <p class="project-desc">
-              A neural network trained to classify financial news sentiment. Input: a news headline or article. Output: positive, neutral, or negative (-1, 0, 1). We trained the model from scratch rather than using a pretrained one.
+              Manual NASDAQ monitoring is slow and biased — two analysts reading the same headline can reach opposite conclusions. We built an automated sentiment classifier to replace that with objective, real-time signals.
+            </p>
+            <p class="project-desc">
+              We evaluated four model architectures and the Sentence Transformer came out on top: 77.8% accuracy, +9% F1 improvement over Word2Vec. Input is a financial news headline or article; output is a sentiment score — positive, neutral, or negative.
             </p>
             <div class="book-tags">
-              <span class="book-tag">Neural Networks</span>
+              <span class="book-tag">Sentence Transformers</span>
               <span class="book-tag">NLP</span>
               <span class="book-tag">Finance</span>
+              <span class="book-tag">Feb 2026</span>
             </div>
           </div>
 
@@ -136,12 +141,16 @@
               <span class="project-tag project-tag--course">Course</span>
             </div>
             <p class="project-desc">
-              A retrieval-augmented generation system built on top of ChatGPT and trained on the Merck manuals. Designed for medical teams doing knowledge retrieval — ask it a clinical question, get a grounded answer sourced from the manual rather than a hallucinated one.
+              The Merck Manual is 4,104 pages. No clinician can hold all of it — especially under pressure. We built a RAG system on top of GPT-4o that ingests the full manual into a vector database and returns grounded, source-cited answers to clinical questions.
+            </p>
+            <p class="project-desc">
+              Every response includes a page citation, so the output is verifiable rather than generated from thin air. We benchmarked three approaches — raw GPT-4o, prompt-engineered GPT-4o, and the full RAG pipeline — and scored outputs using an LLM-as-a-Judge framework across groundedness and relevance.
             </p>
             <div class="book-tags">
               <span class="book-tag">RAG</span>
-              <span class="book-tag">ChatGPT</span>
+              <span class="book-tag">GPT-4o</span>
               <span class="book-tag">Healthcare</span>
+              <span class="book-tag">Mar 2026</span>
             </div>
           </div>
 
