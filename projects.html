@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Thomas Denny</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ======================================================
+         NAVIGATION BAR
+    ====================================================== -->
+    <nav class="main-nav">
+      <a href="index.html" class="nav-title">thomas denny</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="now.html"   class="nav-link">Now</a>
+      <a href="about.html" class="nav-link">About Me</a>
+      <a href="blog.html"  class="nav-link">Blog</a>
+      <a href="books.html" class="nav-link">Books</a>
+    </nav>
+
+    <!-- ======================================================
+         MAIN LAYOUT
+    ====================================================== -->
+    <div class="main-layout">
+
+      <!-- ====================================================
+           LEFT COLUMN
+      ==================================================== -->
+      <aside class="col-left-sm">
+
+        <div class="profile-card-sm">
+          <img
+            src="https://www.iamthomasdenny.com/content/images/size/w400/2025/08/IMG_1828-2.jpeg"
+            alt="Thomas Denny"
+          />
+          <div class="pcm-name">Thomas Denny</div>
+          <div class="pcm-status">
+            <span class="online-dot"></span> Online Now
+          </div>
+          <div class="pcm-mood">Mood: <span>Focused</span></div>
+          <a href="index.html" class="btn-back-home">← Back to Profile</a>
+        </div>
+
+        <div class="sidebar-page-nav">
+          <div class="spn-title">Pages</div>
+          <a href="index.html">Home</a>
+          <a href="now.html">Now</a>
+          <a href="about.html">About Me</a>
+          <a href="blog.html">Blog</a>
+          <a href="books.html">Books</a>
+          <a href="projects.html" class="current">Projects</a>
+        </div>
+
+      </aside>
+
+      <!-- ====================================================
+           RIGHT COLUMN
+      ==================================================== -->
+      <main class="col-right">
+
+        <div class="section-header">Projects</div>
+
+        <div class="content-box inner-content">
+
+          <p style="margin: 0 0 20px 0;">Things I've built. Some finished, some still going. Most started because I wanted to see if I could.</p>
+
+          <!-- ================================================
+               PERSONAL PROJECTS
+          ================================================ -->
+          <h3 style="margin: 0 0 12px 0;">Personal</h3>
+
+          <div class="project-card">
+            <div class="project-header">
+              <span class="project-title">ResumeIQ</span>
+              <span class="project-tag project-tag--built">Built</span>
+            </div>
+            <p class="project-desc">
+              Paste a job description, get a tailored resume back. It rewrites your bullets to match the JD's language, updates your summary and skills section, flags ATS issues, scores keyword overlap and honest fit separately, generates a cover letter, an elevator pitch for phone screens, and maps 3–5 STAR stories to likely behavioral questions for that role.
+            </p>
+            <p class="project-desc">
+              Built on Claude's API. Everything runs in one call. Results are saved to a history tab — every run stored with company, title, date, and scores so nothing gets lost between sessions.
+            </p>
+            <div class="book-tags">
+              <span class="book-tag">Claude API</span>
+              <span class="book-tag">Productivity</span>
+              <span class="book-tag">Job Search</span>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-header">
+              <span class="project-title">Your Guitar Roadmap</span>
+              <span class="project-tag project-tag--built">Built</span>
+            </div>
+            <p class="project-desc">
+              A full guitar learning environment organized around four phases — Absolute Beginner through Advanced. Each phase has a structured curriculum, milestone songs with tutorials, gear recommendations, and exit criteria so you actually know when you've leveled up.
+            </p>
+            <p class="project-desc">
+              Beyond the curriculum: a skill tracker (44 skills, each with curated resources), a practice timer that builds a session plan from your available time, a metronome built on the Web Audio API with tap tempo and lookahead scheduling, a chord library (37 SVG diagrams), a scale library (9 scales across all 12 keys with full neck diagrams), a practice log with BPM tracking and streak counter, and a placement quiz that drops you into the right phase based on your current level.
+            </p>
+            <div class="book-tags">
+              <span class="book-tag">Web Audio API</span>
+              <span class="book-tag">Guitar</span>
+              <span class="book-tag">Learning</span>
+            </div>
+          </div>
+
+          <!-- ================================================
+               COURSE PROJECTS
+          ================================================ -->
+          <h3 style="margin: 20px 0 4px 0;">UT Austin — Generative AI for Business Applications</h3>
+          <p style="font-size: 11px; color: #6688aa; margin: 0 0 12px 0;">Projects built as part of my GenAI graduate coursework.</p>
+
+          <div class="project-card">
+            <div class="project-header">
+              <span class="project-title">Stock Market Sentiment Analysis</span>
+              <span class="project-tag project-tag--course">Course</span>
+            </div>
+            <p class="project-desc">
+              A neural network trained to classify financial news sentiment. Input: a news headline or article. Output: positive, neutral, or negative (-1, 0, 1). We trained the model from scratch rather than using a pretrained one.
+            </p>
+            <div class="book-tags">
+              <span class="book-tag">Neural Networks</span>
+              <span class="book-tag">NLP</span>
+              <span class="book-tag">Finance</span>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-header">
+              <span class="project-title">Medical Assistant (RAG)</span>
+              <span class="project-tag project-tag--course">Course</span>
+            </div>
+            <p class="project-desc">
+              A retrieval-augmented generation system built on top of ChatGPT and trained on the Merck manuals. Designed for medical teams doing knowledge retrieval — ask it a clinical question, get a grounded answer sourced from the manual rather than a hallucinated one.
+            </p>
+            <div class="book-tags">
+              <span class="book-tag">RAG</span>
+              <span class="book-tag">ChatGPT</span>
+              <span class="book-tag">Healthcare</span>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+    <!-- /main-layout -->
+
+    <footer class="site-footer">
+      Thomas Denny &copy; 2025 &nbsp;|&nbsp; Built with intention, not a template.
+    </footer>
+
+  </div>
+  <!-- /page-wrapper -->
+
+  <script src="script.js"></script>
+</body>
+</html>

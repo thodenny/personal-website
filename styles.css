@@ -904,6 +904,66 @@ nav.main-nav a.nav-link.active {
   border-color: #cc5500;
 }
 
+/* ============================================================
+   PROJECT CARDS
+============================================================ */
+.project-card {
+  border: 1px solid #c8d8e8;
+  border-left: 3px solid #336699;
+  border-radius: 0 3px 3px 0;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: #f8fafd;
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.project-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #1a3a5c;
+}
+
+.project-tag {
+  font-size: 9px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+  padding: 2px 6px;
+  border: 1px solid;
+}
+
+.project-tag--built {
+  color: #2a6e2a;
+  background: #eaf5ea;
+  border-color: #88bb88;
+}
+
+.project-tag--course {
+  color: #7a5200;
+  background: #fff8e6;
+  border-color: #ddbb66;
+}
+
+.project-tag--progress {
+  color: #5544aa;
+  background: #f0eeff;
+  border-color: #aa99dd;
+}
+
+.project-desc {
+  font-size: 12px;
+  color: #445566;
+  line-height: 1.6;
+  margin: 0 0 6px 0;
+}
+
 .newsletter-fine-print {
   margin: 8px 0 0 0;
   font-size: 11px;
