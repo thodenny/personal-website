@@ -441,21 +441,23 @@
   <script>
     // ── Deep Work data ────────────────────────────────────────────────────────
     //
-    // Format:
+    // Single session:
     //   '2026-05-01': { h: 3, cat: 'build', note: 'What you worked on.' }
     //
+    // Multiple sessions on the same day — use an array:
+    //   '2026-05-02': [
+    //     { h: 3, cat: 'build',    note: 'Personal website.' },
+    //     { h: 1, cat: 'practice', note: 'Guitar lesson with Mark.' },
+    //   ]
+    //
     // cat options: 'build' | 'study' | 'practice'
-    // note is optional but recommended — shows in the month detail view.
     // Leave a day out entirely if it was a rest day.
     //
-    // Example:
-    //   '2026-04-07': { h: 2, cat: 'practice', note: 'Guitar: 45 min scales + blues jam.' },
-    //   '2026-04-08': { h: 4, cat: 'build',    note: 'ResumeIQ: added export feature.' },
-    //   '2026-04-09': { h: 3, cat: 'study',    note: 'Finished Co-Intelligence. Started Primo Levi.' },
-    //
     var deepWork = {
-      '2026-04-04': { h: 3, cat: 'build', note: 'Personal website creation' },
-      '2026-04-04': { h: 1, cat: 'practica', note: 'Guitar lesson with Mark' },
+      '2026-04-04': [
+        { h: 3, cat: 'build',    note: 'Personal website creation.' },
+        { h: 1, cat: 'practice', note: 'Guitar lesson with Mark.' },
+      ],
     };
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -476,9 +478,19 @@
 
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
     function dateKey(y, m, d) { return y + '-' + pad(m+1) + '-' + pad(d); }
-    function getH(val)    { if (!val) return 0; return typeof val === 'object' ? (val.h || 0) : val; }
-    function getCat(val)  { return (val && typeof val === 'object' && val.cat) ? val.cat : ''; }
-    function getNote(val) { return (val && typeof val === 'object' && val.note) ? val.note : ''; }
+
+    // Normalize any entry (single object, number, or array) to an array of sessions
+    function getSessions(val) {
+      if (!val) return [];
+      if (Array.isArray(val)) return val;
+      if (typeof val === 'number') return [{ h: val, cat: '', note: '' }];
+      return [val];
+    }
+
+    // Total hours for a day entry
+    function getDayH(val) {
+      return getSessions(val).reduce(function(sum, s) { return sum + (s.h || 0); }, 0);
+    }
 
     function heatColor(h) {
       if (!h || h === 0) return '#ebedf0';
@@ -501,10 +513,12 @@
 
       for (var d = 1; d <= numDays; d++) {
         var val = deepWork[dateKey(YEAR, m, d)];
-        var h   = getH(val);
-        var cat = getCat(val);
-        monthTotal += h;
-        if (cat && catTotals[cat] !== undefined) catTotals[cat] += h;
+        var sessions = getSessions(val);
+        sessions.forEach(function(s) {
+          var h = s.h || 0;
+          monthTotal += h;
+          if (s.cat && catTotals[s.cat] !== undefined) catTotals[s.cat] += h;
+        });
       }
 
       var card = document.createElement('div');
@@ -568,7 +582,7 @@
 
       for (var d2 = 1; d2 <= numDays; d2++) {
         var val2 = deepWork[dateKey(YEAR, m, d2)];
-        var hrs  = getH(val2);
+        var hrs  = getDayH(val2);
         var dayEl = document.createElement('div');
         dayEl.className = 'dw-day';
         dayEl.style.background = heatColor(hrs);
@@ -592,7 +606,7 @@
     var ytdHours = 0;
     var ytdDays  = 0;
     Object.keys(deepWork).forEach(function(key) {
-      var h = getH(deepWork[key]);
+      var h = getDayH(deepWork[key]);
       if (h > 0) { ytdHours += h; ytdDays++; }
     });
     var banner = document.getElementById('dw-year-banner');
@@ -625,73 +639,93 @@
       tbody.innerHTML = '';
 
       for (var d = 1; d <= numDays; d++) {
-        var key  = dateKey(YEAR, m, d);
-        var val  = deepWork[key];
-        var hrs  = getH(val);
-        var cat  = getCat(val);
-        var note = getNote(val);
-        var dow  = new Date(YEAR, m, d).getDay();
-        var isRest = hrs === 0;
+        var key      = dateKey(YEAR, m, d);
+        var val      = deepWork[key];
+        var sessions = getSessions(val);
+        var dayH     = getDayH(val);
+        var dow      = new Date(YEAR, m, d).getDay();
+        var isRest   = dayH === 0;
 
-        if (hrs > 0) {
-          monthTotal += hrs;
+        if (dayH > 0) {
+          monthTotal += dayH;
           activeDays++;
-          if (cat && catTotals[cat] !== undefined) catTotals[cat] += hrs;
+          sessions.forEach(function(s) {
+            if (s.cat && catTotals[s.cat] !== undefined) catTotals[s.cat] += (s.h || 0);
+          });
         }
 
-        var tr = document.createElement('tr');
-        if (isRest) tr.className = 'rest';
-
-        // Date
-        var tdDate = document.createElement('td');
-        tdDate.textContent = pad(m+1) + '/' + pad(d);
-        tr.appendChild(tdDate);
-
-        // Day of week
-        var tdDay = document.createElement('td');
-        tdDay.textContent = DAY_NAMES[dow];
-        tr.appendChild(tdDay);
-
-        // Hours
-        var tdHrs = document.createElement('td');
-        tdHrs.className = 'dw-hrs-cell';
-        if (!isRest) {
-          var dot = document.createElement('span');
-          dot.className = 'dw-dot';
-          dot.style.background = heatColor(hrs);
-          tdHrs.appendChild(dot);
-          tdHrs.appendChild(document.createTextNode(hrs + 'h'));
-        } else {
+        if (isRest) {
+          // Single rest row
+          var tr = document.createElement('tr');
+          tr.className = 'rest';
+          var tdDate = document.createElement('td');
+          tdDate.textContent = pad(m+1) + '/' + pad(d);
+          tr.appendChild(tdDate);
+          var tdDay = document.createElement('td');
+          tdDay.textContent = DAY_NAMES[dow];
+          tr.appendChild(tdDay);
+          var tdHrs = document.createElement('td');
           tdHrs.style.color = '#ddd';
           tdHrs.textContent = '—';
-        }
-        tr.appendChild(tdHrs);
+          tr.appendChild(tdHrs);
+          tr.appendChild(document.createElement('td'));
+          tr.appendChild(document.createElement('td'));
+          tbody.appendChild(tr);
+        } else {
+          // One row per session
+          sessions.forEach(function(s, idx) {
+            var tr = document.createElement('tr');
 
-        // Category badge
-        var tdCat = document.createElement('td');
-        tdCat.className = 'dw-cat-cell';
-        if (!isRest && cat && CATS[cat]) {
-          var badge = document.createElement('span');
-          badge.className = 'dw-cat-badge ' + cat;
-          badge.textContent = CATS[cat].label;
-          tdCat.appendChild(badge);
-        } else if (!isRest) {
-          tdCat.style.color = '#ccc';
-          tdCat.textContent = '—';
-        }
-        tr.appendChild(tdCat);
+            // Date — only on first session row
+            var tdDate = document.createElement('td');
+            if (idx === 0) {
+              tdDate.textContent = pad(m+1) + '/' + pad(d);
+              if (sessions.length > 1) tdDate.style.fontWeight = 'bold';
+            }
+            tr.appendChild(tdDate);
 
-        // Note
-        var tdNote = document.createElement('td');
-        if (note) {
-          tdNote.textContent = note;
-        } else if (!isRest) {
-          tdNote.className = 'dw-note-empty';
-          tdNote.textContent = 'no note';
-        }
-        tr.appendChild(tdNote);
+            // Day — only on first session row
+            var tdDay = document.createElement('td');
+            if (idx === 0) tdDay.textContent = DAY_NAMES[dow];
+            tr.appendChild(tdDay);
 
-        tbody.appendChild(tr);
+            // Hours
+            var tdHrs = document.createElement('td');
+            tdHrs.className = 'dw-hrs-cell';
+            var dot = document.createElement('span');
+            dot.className = 'dw-dot';
+            dot.style.background = heatColor(s.h || 0);
+            tdHrs.appendChild(dot);
+            tdHrs.appendChild(document.createTextNode((s.h || 0) + 'h'));
+            tr.appendChild(tdHrs);
+
+            // Category badge
+            var tdCat = document.createElement('td');
+            tdCat.className = 'dw-cat-cell';
+            if (s.cat && CATS[s.cat]) {
+              var badge = document.createElement('span');
+              badge.className = 'dw-cat-badge ' + s.cat;
+              badge.textContent = CATS[s.cat].label;
+              tdCat.appendChild(badge);
+            } else {
+              tdCat.style.color = '#ccc';
+              tdCat.textContent = '—';
+            }
+            tr.appendChild(tdCat);
+
+            // Note
+            var tdNote = document.createElement('td');
+            if (s.note) {
+              tdNote.textContent = s.note;
+            } else {
+              tdNote.className = 'dw-note-empty';
+              tdNote.textContent = 'no note';
+            }
+            tr.appendChild(tdNote);
+
+            tbody.appendChild(tr);
+          });
+        }
       }
 
       // Total line
