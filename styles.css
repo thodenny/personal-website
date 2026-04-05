@@ -482,7 +482,8 @@ nav.main-nav a.nav-link.active {
   text-decoration: none;
 }
 
-.sidebar-page-nav a.current {
+.sidebar-page-nav a.current,
+.project-filter.active {
   color: #FF6600;
   font-weight: bold;
 }

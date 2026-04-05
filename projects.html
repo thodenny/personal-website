@@ -32,7 +32,7 @@
       <a href="about.html" class="nav-link">About Me</a>
       <a href="blog.html"  class="nav-link">Blog</a>
       <a href="books.html" class="nav-link">Books</a>
-      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="projects.html" class="nav-link active">Projects</a>
     </nav>
 
     <!-- ======================================================
@@ -68,6 +68,13 @@
           <a href="projects.html" class="current">Projects</a>
         </div>
 
+        <div class="sidebar-page-nav" style="margin-top: 0;">
+          <div class="spn-title">Filter</div>
+          <a href="#" class="project-filter active" data-filter="all">All</a>
+          <a href="#" class="project-filter" data-filter="personal">Personal</a>
+          <a href="#" class="project-filter" data-filter="course">Course</a>
+        </div>
+
       </aside>
 
       <!-- ====================================================
@@ -84,89 +91,93 @@
           <!-- ================================================
                PERSONAL PROJECTS
           ================================================ -->
-          <h3 style="margin: 0 0 12px 0;">Personal</h3>
+          <div class="project-section" data-section="personal">
+            <h3 style="margin: 0 0 12px 0;">Personal</h3>
 
-          <div class="project-card">
-            <div class="project-header">
-              <span class="project-title"><a href="https://resumeiq-gamma.vercel.app" target="_blank" style="color: inherit; text-decoration: none;">ResumeIQ ↗</a></span>
-              <span class="project-tag project-tag--built">Built</span>
+            <div class="project-card" data-category="personal">
+              <div class="project-header">
+                <span class="project-title"><a href="https://resumeiq-gamma.vercel.app" target="_blank" style="color: inherit; text-decoration: none;">ResumeIQ ↗</a></span>
+                <span class="project-tag project-tag--built">Built</span>
+              </div>
+              <p class="project-desc">
+                Paste a job description, get a tailored resume back. It rewrites your bullets to match the JD's language, updates your summary and skills section, flags ATS issues, scores keyword overlap and honest fit separately, generates a cover letter, an elevator pitch for phone screens, and maps 3–5 STAR stories to likely behavioral questions for that role.
+              </p>
+              <p class="project-desc">
+                Built on Claude's API. Everything runs in one call. Results are saved to a history tab — every run stored with company, title, date, and scores so nothing gets lost between sessions.
+              </p>
+              <div class="book-tags">
+                <span class="book-tag">Claude API</span>
+                <span class="book-tag">Productivity</span>
+                <span class="book-tag">Job Search</span>
+              </div>
             </div>
-            <p class="project-desc">
-              Paste a job description, get a tailored resume back. It rewrites your bullets to match the JD's language, updates your summary and skills section, flags ATS issues, scores keyword overlap and honest fit separately, generates a cover letter, an elevator pitch for phone screens, and maps 3–5 STAR stories to likely behavioral questions for that role.
-            </p>
-            <p class="project-desc">
-              Built on Claude's API. Everything runs in one call. Results are saved to a history tab — every run stored with company, title, date, and scores so nothing gets lost between sessions.
-            </p>
-            <div class="book-tags">
-              <span class="book-tag">Claude API</span>
-              <span class="book-tag">Productivity</span>
-              <span class="book-tag">Job Search</span>
-            </div>
-          </div>
 
-          <div class="project-card">
-            <div class="project-header">
-              <span class="project-title"><a href="guitar-roadmap.html" target="_blank" style="color: inherit; text-decoration: none;">Your Guitar Roadmap ↗</a></span>
-              <span class="project-tag project-tag--built">Built</span>
+            <div class="project-card" data-category="personal">
+              <div class="project-header">
+                <span class="project-title"><a href="guitar-roadmap.html" target="_blank" style="color: inherit; text-decoration: none;">Your Guitar Roadmap ↗</a></span>
+                <span class="project-tag project-tag--built">Built</span>
+              </div>
+              <p class="project-desc">
+                A full guitar learning environment organized around four phases — Absolute Beginner through Advanced. Each phase has a structured curriculum, milestone songs with tutorials, gear recommendations, and exit criteria so you actually know when you've leveled up.
+              </p>
+              <p class="project-desc">
+                Beyond the curriculum: a skill tracker (44 skills, each with curated resources), a practice timer that builds a session plan from your available time, a metronome built on the Web Audio API with tap tempo and lookahead scheduling, a chord library (37 SVG diagrams), a scale library (9 scales across all 12 keys with full neck diagrams), a practice log with BPM tracking and streak counter, and a placement quiz that drops you into the right phase based on your current level.
+              </p>
+              <div class="book-tags">
+                <span class="book-tag">Web Audio API</span>
+                <span class="book-tag">Guitar</span>
+                <span class="book-tag">Learning</span>
+              </div>
+              <p class="project-desc" style="margin-top: 8px;"><a href="guitar-roadmap.html" target="_blank">Open the app →</a></p>
             </div>
-            <p class="project-desc">
-              A full guitar learning environment organized around four phases — Absolute Beginner through Advanced. Each phase has a structured curriculum, milestone songs with tutorials, gear recommendations, and exit criteria so you actually know when you've leveled up.
-            </p>
-            <p class="project-desc">
-              Beyond the curriculum: a skill tracker (44 skills, each with curated resources), a practice timer that builds a session plan from your available time, a metronome built on the Web Audio API with tap tempo and lookahead scheduling, a chord library (37 SVG diagrams), a scale library (9 scales across all 12 keys with full neck diagrams), a practice log with BPM tracking and streak counter, and a placement quiz that drops you into the right phase based on your current level.
-            </p>
-            <div class="book-tags">
-              <span class="book-tag">Web Audio API</span>
-              <span class="book-tag">Guitar</span>
-              <span class="book-tag">Learning</span>
-            </div>
-            <p class="project-desc" style="margin-top: 8px;"><a href="guitar-roadmap.html" target="_blank">Open the app →</a></p>
           </div>
 
           <!-- ================================================
                COURSE PROJECTS
           ================================================ -->
-          <h3 style="margin: 20px 0 4px 0;">UT Austin — Generative AI for Business Applications</h3>
-          <p style="font-size: 11px; color: #6688aa; margin: 0 0 12px 0;">Projects built as part of my GenAI graduate coursework.</p>
+          <div class="project-section" data-section="course">
+            <h3 style="margin: 20px 0 4px 0;">UT Austin — Generative AI for Business Applications</h3>
+            <p style="font-size: 11px; color: #6688aa; margin: 0 0 12px 0;">Projects built as part of my GenAI graduate coursework.</p>
 
-          <div class="project-card">
-            <div class="project-header">
-              <span class="project-title"><a href="Thomas_Denny_Project_1.pdf" target="_blank" style="color: inherit; text-decoration: none;">Stock Market Sentiment Analysis ↗</a></span>
-              <span class="project-tag project-tag--course">Course</span>
+            <div class="project-card" data-category="course">
+              <div class="project-header">
+                <span class="project-title"><a href="Thomas_Denny_Project_1.pdf" target="_blank" style="color: inherit; text-decoration: none;">Stock Market Sentiment Analysis ↗</a></span>
+                <span class="project-tag project-tag--course">Course</span>
+              </div>
+              <p class="project-desc">
+                Manual NASDAQ monitoring is slow and biased — two analysts reading the same headline can reach opposite conclusions. We built an automated sentiment classifier to replace that with objective, real-time signals.
+              </p>
+              <p class="project-desc">
+                We evaluated four model architectures and the Sentence Transformer came out on top: 77.8% accuracy, +9% F1 improvement over Word2Vec. Input is a financial news headline or article; output is a sentiment score — positive, neutral, or negative.
+              </p>
+              <div class="book-tags">
+                <span class="book-tag">Sentence Transformers</span>
+                <span class="book-tag">NLP</span>
+                <span class="book-tag">Finance</span>
+                <span class="book-tag">Feb 2026</span>
+              </div>
+              <p class="project-desc" style="margin-top: 8px;"><a href="Thomas_Denny_Project_1.pdf" target="_blank">View presentation →</a></p>
             </div>
-            <p class="project-desc">
-              Manual NASDAQ monitoring is slow and biased — two analysts reading the same headline can reach opposite conclusions. We built an automated sentiment classifier to replace that with objective, real-time signals.
-            </p>
-            <p class="project-desc">
-              We evaluated four model architectures and the Sentence Transformer came out on top: 77.8% accuracy, +9% F1 improvement over Word2Vec. Input is a financial news headline or article; output is a sentiment score — positive, neutral, or negative.
-            </p>
-            <div class="book-tags">
-              <span class="book-tag">Sentence Transformers</span>
-              <span class="book-tag">NLP</span>
-              <span class="book-tag">Finance</span>
-              <span class="book-tag">Feb 2026</span>
-            </div>
-            <p class="project-desc" style="margin-top: 8px;"><a href="Thomas_Denny_Project_1.pdf" target="_blank">View presentation →</a></p>
-          </div>
 
-          <div class="project-card">
-            <div class="project-header">
-              <span class="project-title"><a href="Thomas_Denny_Project_2_Medical_Assistant.pdf" target="_blank" style="color: inherit; text-decoration: none;">Medical Assistant (RAG) ↗</a></span>
-              <span class="project-tag project-tag--course">Course</span>
+            <div class="project-card" data-category="course">
+              <div class="project-header">
+                <span class="project-title"><a href="Thomas_Denny_Project_2_Medical_Assistant.pdf" target="_blank" style="color: inherit; text-decoration: none;">Medical Assistant (RAG) ↗</a></span>
+                <span class="project-tag project-tag--course">Course</span>
+              </div>
+              <p class="project-desc">
+                The Merck Manual is 4,104 pages. No clinician can hold all of it — especially under pressure. We built a RAG system on top of GPT-4o that ingests the full manual into a vector database and returns grounded, source-cited answers to clinical questions.
+              </p>
+              <p class="project-desc">
+                Every response includes a page citation, so the output is verifiable rather than generated from thin air. We benchmarked three approaches — raw GPT-4o, prompt-engineered GPT-4o, and the full RAG pipeline — and scored outputs using an LLM-as-a-Judge framework across groundedness and relevance.
+              </p>
+              <div class="book-tags">
+                <span class="book-tag">RAG</span>
+                <span class="book-tag">GPT-4o</span>
+                <span class="book-tag">Healthcare</span>
+                <span class="book-tag">Mar 2026</span>
+              </div>
+              <p class="project-desc" style="margin-top: 8px;"><a href="Thomas_Denny_Project_2_Medical_Assistant.pdf" target="_blank">View presentation →</a></p>
             </div>
-            <p class="project-desc">
-              The Merck Manual is 4,104 pages. No clinician can hold all of it — especially under pressure. We built a RAG system on top of GPT-4o that ingests the full manual into a vector database and returns grounded, source-cited answers to clinical questions.
-            </p>
-            <p class="project-desc">
-              Every response includes a page citation, so the output is verifiable rather than generated from thin air. We benchmarked three approaches — raw GPT-4o, prompt-engineered GPT-4o, and the full RAG pipeline — and scored outputs using an LLM-as-a-Judge framework across groundedness and relevance.
-            </p>
-            <div class="book-tags">
-              <span class="book-tag">RAG</span>
-              <span class="book-tag">GPT-4o</span>
-              <span class="book-tag">Healthcare</span>
-              <span class="book-tag">Mar 2026</span>
-            </div>
-            <p class="project-desc" style="margin-top: 8px;"><a href="Thomas_Denny_Project_2_Medical_Assistant.pdf" target="_blank">View presentation →</a></p>
           </div>
 
         </div>
@@ -184,5 +195,32 @@
   <!-- /page-wrapper -->
 
   <script src="script.js"></script>
+
+  <script>
+    // Project filter
+    document.querySelectorAll('.project-filter').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var filter = this.getAttribute('data-filter');
+
+        // Update active state
+        document.querySelectorAll('.project-filter').forEach(function(b) {
+          b.classList.remove('active');
+        });
+        this.classList.add('active');
+
+        // Show/hide sections and cards
+        document.querySelectorAll('.project-section').forEach(function(section) {
+          var sectionType = section.getAttribute('data-section');
+          if (filter === 'all' || filter === sectionType) {
+            section.style.display = '';
+          } else {
+            section.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+
 </body>
 </html>
