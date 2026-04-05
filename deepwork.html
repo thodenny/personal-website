@@ -19,7 +19,7 @@
   <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
 
   <style>
-    /* Monthly grid layout */
+    /* ── Monthly grid ─────────────────────────────────────────── */
     .dw-months-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -32,6 +32,23 @@
       border: 1px solid #99AACC;
       border-radius: 3px;
       padding: 10px 12px 12px;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .dw-month-card:hover {
+      border-color: #c8930a;
+      box-shadow: 0 2px 6px rgba(168,100,0,0.15);
+    }
+
+    .dw-month-card.future {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .dw-month-card.future:hover {
+      border-color: #99AACC;
+      box-shadow: none;
     }
 
     .dw-month-name {
@@ -49,11 +66,9 @@
       margin-bottom: 8px;
     }
 
-    .dw-month-total strong {
-      color: #a06800;
-    }
+    .dw-month-total strong { color: #a06800; }
 
-    /* Mini calendar grid: 7 rows (days) × N cols (weeks) */
+    /* ── Mini calendar grid ───────────────────────────────────── */
     .dw-cal {
       display: grid;
       grid-auto-flow: column;
@@ -76,10 +91,7 @@
       margin-right: 4px;
     }
 
-    .dw-cal-wrap {
-      display: flex;
-      align-items: flex-start;
-    }
+    .dw-cal-wrap { display: flex; align-items: flex-start; }
 
     .dw-day-label {
       width: 14px;
@@ -89,31 +101,10 @@
       line-height: 11px;
     }
 
-    /* Future months — dimmed */
-    .dw-month-card.future {
-      opacity: 0.45;
-    }
-
-    /* Legend */
-    .dw-legend {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 16px;
-      font-size: 10px;
-      color: #6688aa;
-    }
-
-    .dw-legend-cell {
-      width: 11px;
-      height: 11px;
-      border-radius: 2px;
-    }
-
-    /* Year total banner */
+    /* ── YTD banner — greyed ──────────────────────────────────── */
     .dw-year-banner {
-      background: #003366;
-      color: #f0ead8;
+      background: #c8c8c8;
+      border: 1px solid #aaaaaa;
       border-radius: 3px;
       padding: 10px 14px;
       margin-bottom: 16px;
@@ -121,13 +112,147 @@
       display: flex;
       gap: 24px;
       flex-wrap: wrap;
+      align-items: center;
+      opacity: 0.6;
     }
 
     .dw-year-stat strong {
       display: block;
       font-size: 20px;
-      color: #ddb870;
+      color: #888;
       line-height: 1.2;
+    }
+
+    .dw-year-stat span {
+      color: #666;
+      font-size: 11px;
+    }
+
+    .dw-tracking-note {
+      font-size: 11px;
+      color: #888;
+      font-style: italic;
+      margin-left: auto;
+    }
+
+    /* ── Modal overlay ────────────────────────────────────────── */
+    .dw-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 30, 60, 0.55);
+      z-index: 1000;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 16px;
+      overflow-y: auto;
+    }
+
+    .dw-modal-overlay.open {
+      display: flex;
+    }
+
+    .dw-modal {
+      background: #fff;
+      border: 2px solid #003366;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 560px;
+      font-family: Verdana, sans-serif;
+    }
+
+    .dw-modal-header {
+      background: linear-gradient(to bottom, #336699, #003366);
+      color: #fff;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dw-modal-title {
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .dw-modal-close {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+
+    .dw-modal-close:hover { background: rgba(255,255,255,0.15); }
+
+    .dw-modal-body {
+      padding: 12px 14px 16px;
+    }
+
+    .dw-modal-summary {
+      font-size: 11px;
+      color: #6688aa;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #dde4ee;
+    }
+
+    .dw-modal-summary strong { color: #a06800; }
+
+    /* Day-by-day table */
+    .dw-day-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .dw-day-table th {
+      text-align: left;
+      color: #336699;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 6px;
+      border-bottom: 1px solid #99AACC;
+    }
+
+    .dw-day-table td {
+      padding: 5px 6px;
+      vertical-align: top;
+      border-bottom: 1px solid #eef0f5;
+      color: #333;
+    }
+
+    .dw-day-table tr:last-child td { border-bottom: none; }
+
+    .dw-day-table tr.rest td { color: #aaa; }
+
+    .dw-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      margin-right: 5px;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .dw-hrs-cell {
+      white-space: nowrap;
+      width: 52px;
+    }
+
+    .dw-note-cell {
+      color: #555;
+    }
+
+    .dw-note-empty {
+      color: #bbb;
+      font-style: italic;
     }
   </style>
 </head>
@@ -137,7 +262,7 @@
 
     <!-- NAV -->
     <nav class="main-nav">
-      <a href="index.html" class="nav-title">thomas denny</a>
+      <a href="index.html"    class="nav-title">thomas denny</a>
       <a href="index.html"    class="nav-link">Home</a>
       <a href="now.html"      class="nav-link">Now</a>
       <a href="about.html"    class="nav-link">About Me</a>
@@ -189,7 +314,7 @@
         <div class="details-box" style="margin-top:0;">
           <div class="details-header">Color scale</div>
           <table class="details-table">
-            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#f0ead8;vertical-align:middle;"></span></td><td class="details-value">Rest day</td></tr>
+            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#f0ead8;vertical-align:middle;"></span></td><td class="details-value">Rest / no log</td></tr>
             <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#ddb870;vertical-align:middle;"></span></td><td class="details-value">1–2 hrs</td></tr>
             <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#c8930a;vertical-align:middle;"></span></td><td class="details-value">3–4 hrs</td></tr>
             <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#a06800;vertical-align:middle;"></span></td><td class="details-value">5–6 hrs</td></tr>
@@ -207,11 +332,17 @@
         <div class="content-box inner-content">
 
           <p style="font-size:12px; color:#6688aa; margin-bottom:16px;">
-            A running log of focused hours: guitar, running, reading, building. Each square is one day. Updated manually.
+            A running log of focused hours: guitar, running, reading, building. Each square is one day. Click any past month to see the breakdown. Updated manually.
           </p>
 
-          <!-- Year stats banner — filled by JS -->
-          <div class="dw-year-banner" id="dw-year-banner"></div>
+          <!-- YTD banner — greyed until tracking starts -->
+          <div class="dw-year-banner">
+            <div class="dw-year-stat"><strong>—</strong><span>hours logged</span></div>
+            <div class="dw-year-stat"><strong>—</strong><span>days tracked</span></div>
+            <div class="dw-year-stat"><strong>—</strong><span>avg hrs / day</span></div>
+            <div class="dw-year-stat"><strong>—</strong><span>best day</span></div>
+            <div class="dw-tracking-note">tracking starts soon</div>
+          </div>
 
           <!-- Monthly grids — filled by JS -->
           <div class="dw-months-grid" id="dw-months-grid"></div>
@@ -228,120 +359,126 @@
 
   </div>
 
+  <!-- Month detail modal -->
+  <div class="dw-modal-overlay" id="dw-modal-overlay">
+    <div class="dw-modal">
+      <div class="dw-modal-header">
+        <div class="dw-modal-title" id="dw-modal-title">January 2026</div>
+        <button class="dw-modal-close" id="dw-modal-close">✕</button>
+      </div>
+      <div class="dw-modal-body">
+        <div class="dw-modal-summary" id="dw-modal-summary"></div>
+        <table class="dw-day-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Day</th>
+              <th>Hours</th>
+              <th>What I worked on</th>
+            </tr>
+          </thead>
+          <tbody id="dw-modal-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script>
-    // ── Deep Work data ─────────────────────────────────────────────────────────
-    // Update daily: key = 'YYYY-MM-DD', value = hours of deep work
+    // ── Deep Work data ────────────────────────────────────────────────────────
+    //
+    // Two formats both work:
+    //   '2026-05-01': 3                              — hours only
+    //   '2026-05-01': { h: 3, note: 'what you did'} — hours + note
+    //
+    // Add entries here as you go. Leave days out entirely for rest days.
+    //
     var deepWork = {
-      '2026-01-01':2,'2026-01-02':3,'2026-01-03':4,'2026-01-04':2,
-      '2026-01-05':5,'2026-01-06':4,'2026-01-07':3,'2026-01-08':5,
-      '2026-01-09':4,'2026-01-10':6,'2026-01-11':0,'2026-01-12':1,
-      '2026-01-13':1,'2026-01-14':2,'2026-01-15':3,'2026-01-16':4,
-      '2026-01-17':3,'2026-01-18':2,'2026-01-19':4,'2026-01-20':5,
-      '2026-01-21':4,'2026-01-22':4,'2026-01-23':3,'2026-01-24':5,
-      '2026-01-25':2,'2026-01-26':4,'2026-01-27':5,'2026-01-28':4,
-      '2026-01-29':3,'2026-01-30':4,'2026-01-31':3,
-      '2026-02-01':2,'2026-02-02':5,'2026-02-03':6,'2026-02-04':4,
-      '2026-02-05':5,'2026-02-06':4,'2026-02-07':3,'2026-02-08':2,
-      '2026-02-09':5,'2026-02-10':6,'2026-02-11':5,'2026-02-12':4,
-      '2026-02-13':3,'2026-02-14':2,'2026-02-15':3,'2026-02-16':5,
-      '2026-02-17':4,'2026-02-18':5,'2026-02-19':4,'2026-02-20':3,
-      '2026-02-21':4,'2026-02-22':2,'2026-02-23':6,'2026-02-24':5,
-      '2026-02-25':4,'2026-02-26':5,'2026-02-27':3,'2026-02-28':6,
-      '2026-03-01':2,'2026-03-02':4,'2026-03-03':5,'2026-03-04':3,
-      '2026-03-05':4,'2026-03-06':3,'2026-03-07':2,'2026-03-08':2,
-      '2026-03-09':4,'2026-03-10':5,'2026-03-11':4,'2026-03-12':3,
-      '2026-03-13':2,'2026-03-14':3,'2026-03-15':1,'2026-03-16':4,
-      '2026-03-17':3,'2026-03-18':4,'2026-03-19':5,'2026-03-20':3,
-      '2026-03-21':2,'2026-03-22':2,'2026-03-23':5,'2026-03-24':4,
-      '2026-03-25':5,'2026-03-26':4,'2026-03-27':3,'2026-03-28':2,
-      '2026-03-29':6,'2026-03-30':3,'2026-03-31':4,
-      '2026-04-01':3,'2026-04-02':4,'2026-04-03':5,'2026-04-04':3,
-      '2026-04-05':4
+      // Example entries — replace with your real data when you start tracking:
+      // '2026-04-06': { h: 2, note: 'Guitar: 45 min scales. Ran 5 miles.' },
+      // '2026-04-07': { h: 4, note: 'Coding: deepwork page redesign. Reading: Cal Newport.' },
     };
 
-    var MONTH_NAMES = ['January','February','March','April','May','June',
-                       'July','August','September','October','November','December'];
-    var DAY_LABELS  = ['S','M','T','W','T','F','S'];
-    var TODAY       = new Date();
+    // ─────────────────────────────────────────────────────────────────────────
+
+    var MONTH_NAMES  = ['January','February','March','April','May','June',
+                        'July','August','September','October','November','December'];
+    var DAY_NAMES    = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    var DAY_LABELS   = ['S','M','T','W','T','F','S'];
+    var TODAY        = new Date();
     TODAY.setHours(0,0,0,0);
+    var YEAR         = 2026;
 
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
     function dateKey(y, m, d) { return y + '-' + pad(m+1) + '-' + pad(d); }
-
+    function getHours(val) {
+      if (!val) return 0;
+      return typeof val === 'object' ? (val.h || 0) : val;
+    }
+    function getNote(val) {
+      if (!val || typeof val !== 'object') return '';
+      return val.note || '';
+    }
     function heatColor(h) {
       if (!h || h === 0) return '#f0ead8';
-      if (h <= 2) return '#ddb870';
-      if (h <= 4) return '#c8930a';
-      if (h <= 6) return '#a06800';
+      if (h <= 2)        return '#ddb870';
+      if (h <= 4)        return '#c8930a';
+      if (h <= 6)        return '#a06800';
       return '#703a00';
     }
+    function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
 
-    function daysInMonth(y, m) {
-      return new Date(y, m + 1, 0).getDate();
-    }
-
-    var year = 2026;
-    var totalHours = 0;
-    var totalDays  = 0;
-    var bestDay    = 0;
-    var container  = document.getElementById('dw-months-grid');
+    var container = document.getElementById('dw-months-grid');
 
     for (var m = 0; m < 12; m++) {
-      var firstDow  = new Date(year, m, 1).getDay(); // 0=Sun
-      var numDays   = daysInMonth(year, m);
+      var firstDow  = new Date(YEAR, m, 1).getDay();
+      var numDays   = daysInMonth(YEAR, m);
+      var isFuture  = new Date(YEAR, m, 1) > TODAY;
       var monthTotal = 0;
-      var isFuture  = new Date(year, m, 1) > TODAY;
 
-      // Build card
+      // Pre-calculate total
+      for (var d = 1; d <= numDays; d++) {
+        monthTotal += getHours(deepWork[dateKey(YEAR, m, d)]);
+      }
+
+      // Card
       var card = document.createElement('div');
       card.className = 'dw-month-card' + (isFuture ? ' future' : '');
+      card.setAttribute('data-month', m);
 
       var nameEl = document.createElement('div');
       nameEl.className = 'dw-month-name';
       nameEl.textContent = MONTH_NAMES[m];
       card.appendChild(nameEl);
 
-      // Calculate month total
-      for (var d = 1; d <= numDays; d++) {
-        var key = dateKey(year, m, d);
-        var h = deepWork[key] || 0;
-        monthTotal += h;
-        totalHours += h;
-        if (h > bestDay) bestDay = h;
-        var dayDate = new Date(year, m, d);
-        if (dayDate <= TODAY) totalDays++;
-      }
-
       var totalEl = document.createElement('div');
       totalEl.className = 'dw-month-total';
       if (!isFuture) {
-        totalEl.innerHTML = '<strong>' + monthTotal + 'h</strong> logged';
+        totalEl.innerHTML = monthTotal > 0
+          ? '<strong>' + monthTotal + 'h</strong> logged'
+          : '<span style="color:#bbb;">no entries yet</span>';
       } else {
         totalEl.textContent = 'upcoming';
       }
       card.appendChild(totalEl);
 
-      // Calendar grid wrapper (day-of-week labels + cells)
+      // Calendar
       var calWrap = document.createElement('div');
       calWrap.className = 'dw-cal-wrap';
 
-      // Day-of-week labels column
       var labelCol = document.createElement('div');
       labelCol.className = 'dw-day-label-row';
       DAY_LABELS.forEach(function(l, i) {
         var lbl = document.createElement('div');
         lbl.className = 'dw-day-label';
-        lbl.textContent = (i % 2 === 0) ? l : ''; // show every other to avoid crowding
+        lbl.textContent = (i % 2 === 0) ? l : '';
         labelCol.appendChild(lbl);
       });
       calWrap.appendChild(labelCol);
 
-      // The actual grid
       var cal = document.createElement('div');
       cal.className = 'dw-cal';
 
-      // Leading blank cells for day-of-week offset
       for (var b = 0; b < firstDow; b++) {
         var blank = document.createElement('div');
         blank.className = 'dw-day';
@@ -350,8 +487,8 @@
       }
 
       for (var d2 = 1; d2 <= numDays; d2++) {
-        var key2 = dateKey(year, m, d2);
-        var hrs  = deepWork[key2] || 0;
+        var key2 = dateKey(YEAR, m, d2);
+        var hrs  = getHours(deepWork[key2]);
         var dayEl = document.createElement('div');
         dayEl.className = 'dw-day';
         dayEl.style.background = heatColor(hrs);
@@ -361,16 +498,95 @@
 
       calWrap.appendChild(cal);
       card.appendChild(calWrap);
+
+      if (!isFuture) {
+        card.addEventListener('click', (function(monthIdx) {
+          return function() { openModal(monthIdx); };
+        })(m));
+      }
+
       container.appendChild(card);
     }
 
-    // Year banner
-    var avgPerDay = totalDays > 0 ? (totalHours / totalDays).toFixed(1) : '0';
-    document.getElementById('dw-year-banner').innerHTML =
-      '<div class="dw-year-stat"><strong>' + totalHours + '</strong>hours logged</div>' +
-      '<div class="dw-year-stat"><strong>' + totalDays + '</strong>days tracked</div>' +
-      '<div class="dw-year-stat"><strong>' + avgPerDay + '</strong>avg hrs / day</div>' +
-      '<div class="dw-year-stat"><strong>' + bestDay + '</strong>best day (hrs)</div>';
+    // ── Modal ─────────────────────────────────────────────────────────────────
+    function openModal(m) {
+      var numDays   = daysInMonth(YEAR, m);
+      var monthTotal = 0;
+      var activeDays = 0;
+
+      document.getElementById('dw-modal-title').textContent = MONTH_NAMES[m] + ' ' + YEAR;
+
+      var tbody = document.getElementById('dw-modal-body');
+      tbody.innerHTML = '';
+
+      for (var d = 1; d <= numDays; d++) {
+        var key  = dateKey(YEAR, m, d);
+        var val  = deepWork[key];
+        var hrs  = getHours(val);
+        var note = getNote(val);
+        var dow  = new Date(YEAR, m, d).getDay();
+        var isRest = hrs === 0;
+
+        if (hrs > 0) { monthTotal += hrs; activeDays++; }
+
+        var tr = document.createElement('tr');
+        if (isRest) tr.className = 'rest';
+
+        // Date cell
+        var tdDate = document.createElement('td');
+        tdDate.textContent = pad(m+1) + '/' + pad(d);
+        tr.appendChild(tdDate);
+
+        // Day-of-week cell
+        var tdDay = document.createElement('td');
+        tdDay.textContent = DAY_NAMES[dow];
+        tr.appendChild(tdDay);
+
+        // Hours cell with color dot
+        var tdHrs = document.createElement('td');
+        tdHrs.className = 'dw-hrs-cell';
+        if (!isRest) {
+          var dot = document.createElement('span');
+          dot.className = 'dw-dot';
+          dot.style.background = heatColor(hrs);
+          tdHrs.appendChild(dot);
+          tdHrs.appendChild(document.createTextNode(hrs + 'h'));
+        } else {
+          tdHrs.style.color = '#ccc';
+          tdHrs.textContent = '—';
+        }
+        tr.appendChild(tdHrs);
+
+        // Note cell
+        var tdNote = document.createElement('td');
+        tdNote.className = note ? 'dw-note-cell' : 'dw-note-empty';
+        tdNote.textContent = note || (isRest ? '' : 'no note');
+        tr.appendChild(tdNote);
+
+        tbody.appendChild(tr);
+      }
+
+      // Summary line
+      var avg = activeDays > 0 ? (monthTotal / activeDays).toFixed(1) : '—';
+      document.getElementById('dw-modal-summary').innerHTML =
+        '<strong>' + monthTotal + 'h</strong> logged across ' +
+        '<strong>' + activeDays + '</strong> active day' + (activeDays !== 1 ? 's' : '') +
+        ' &nbsp;·&nbsp; avg <strong>' + avg + 'h</strong> on active days';
+
+      document.getElementById('dw-modal-overlay').classList.add('open');
+    }
+
+    document.getElementById('dw-modal-close').addEventListener('click', function() {
+      document.getElementById('dw-modal-overlay').classList.remove('open');
+    });
+    document.getElementById('dw-modal-overlay').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('dw-modal-overlay').classList.remove('open');
+      }
+    });
   </script>
 
 </body>
