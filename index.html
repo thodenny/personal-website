@@ -325,6 +325,27 @@
         </div>
 
         <!-- ================================================
+             DEEP WORK HEATMAP
+        ================================================ -->
+        <div class="section-header">Deep Work — 2026</div>
+        <div class="content-box">
+          <p style="margin: 0 0 10px 0; font-size: 11px; color: #6688aa;">Guitar · Running · Reading · Building. Each square = one day.</p>
+          <div class="heatmap-months" id="heatmap-months"></div>
+          <div class="heatmap-wrap">
+            <div class="heatmap-grid" id="heatmap-grid"></div>
+          </div>
+          <div class="heatmap-legend">
+            <span>Less</span>
+            <div class="heat-cell" style="background:#f0ead8;"></div>
+            <div class="heat-cell" style="background:#ddb870;"></div>
+            <div class="heat-cell" style="background:#c8930a;"></div>
+            <div class="heat-cell" style="background:#a06800;"></div>
+            <div class="heat-cell" style="background:#703a00;"></div>
+            <span>More</span>
+          </div>
+        </div>
+
+        <!-- ================================================
              INTERESTS
              Classic MySpace "Tom's Interests" table
         ================================================ -->
@@ -369,5 +390,97 @@
   <!-- /page-wrapper -->
 
   <script src="script.js"></script>
+  <script>
+    // ── Deep Work Heatmap ──────────────────────────────────────────────────
+    // Update daily: add/edit entries below with date and hours of deep work
+    // (guitar practice, long runs, focused coding, reading sessions, etc.)
+    var deepWork = {
+      '2026-01-01':2,'2026-01-02':3,'2026-01-03':4,'2026-01-04':2,
+      '2026-01-05':5,'2026-01-06':4,'2026-01-07':3,'2026-01-08':5,
+      '2026-01-09':4,'2026-01-10':6,'2026-01-11':0,'2026-01-12':1,
+      '2026-01-13':1,'2026-01-14':2,'2026-01-15':3,'2026-01-16':4,
+      '2026-01-17':3,'2026-01-18':2,'2026-01-19':4,'2026-01-20':5,
+      '2026-01-21':4,'2026-01-22':4,'2026-01-23':3,'2026-01-24':5,
+      '2026-01-25':2,'2026-01-26':4,'2026-01-27':5,'2026-01-28':4,
+      '2026-01-29':3,'2026-01-30':4,'2026-01-31':3,
+      '2026-02-01':2,'2026-02-02':5,'2026-02-03':6,'2026-02-04':4,
+      '2026-02-05':5,'2026-02-06':4,'2026-02-07':3,'2026-02-08':2,
+      '2026-02-09':5,'2026-02-10':6,'2026-02-11':5,'2026-02-12':4,
+      '2026-02-13':3,'2026-02-14':2,'2026-02-15':3,'2026-02-16':5,
+      '2026-02-17':4,'2026-02-18':5,'2026-02-19':4,'2026-02-20':3,
+      '2026-02-21':4,'2026-02-22':2,'2026-02-23':6,'2026-02-24':5,
+      '2026-02-25':4,'2026-02-26':5,'2026-02-27':3,'2026-02-28':6,
+      '2026-03-01':2,'2026-03-02':4,'2026-03-03':5,'2026-03-04':3,
+      '2026-03-05':4,'2026-03-06':3,'2026-03-07':2,'2026-03-08':2,
+      '2026-03-09':4,'2026-03-10':5,'2026-03-11':4,'2026-03-12':3,
+      '2026-03-13':2,'2026-03-14':3,'2026-03-15':1,'2026-03-16':4,
+      '2026-03-17':3,'2026-03-18':4,'2026-03-19':5,'2026-03-20':3,
+      '2026-03-21':2,'2026-03-22':2,'2026-03-23':5,'2026-03-24':4,
+      '2026-03-25':5,'2026-03-26':4,'2026-03-27':3,'2026-03-28':2,
+      '2026-03-29':6,'2026-03-30':3,'2026-03-31':4,
+      '2026-04-01':3,'2026-04-02':4,'2026-04-03':5,'2026-04-04':3,
+      '2026-04-05':4
+    };
+
+    function heatColor(h) {
+      if (!h || h === 0) return '#f0ead8';
+      if (h <= 2) return '#ddb870';
+      if (h <= 4) return '#c8930a';
+      if (h <= 6) return '#a06800';
+      return '#703a00';
+    }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function dateKey(d) {
+      return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+    }
+
+    var start = new Date(2026, 0, 1);
+    var end   = new Date(2026, 11, 31);
+    var grid  = document.getElementById('heatmap-grid');
+    var monthsEl = document.getElementById('heatmap-months');
+
+    // offset: Jan 1 2026 = Thursday = day index 4 (Sun=0)
+    var startDay = start.getDay();
+    for (var i = 0; i < startDay; i++) {
+      var blank = document.createElement('div');
+      blank.className = 'heatmap-cell heatmap-blank';
+      grid.appendChild(blank);
+    }
+
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var monthPositions = {};
+
+    var cur = new Date(start);
+    var cellIndex = startDay;
+    while (cur <= end) {
+      var key = dateKey(cur);
+      var hrs = deepWork[key] || 0;
+      var cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      cell.style.background = heatColor(hrs);
+      cell.title = key + (hrs ? ' · ' + hrs + 'h deep work' : ' · rest');
+      grid.appendChild(cell);
+      // track first cell of each month for labels
+      if (cur.getDate() === 1) {
+        var weekCol = Math.floor(cellIndex / 7);
+        monthPositions[cur.getMonth()] = weekCol;
+      }
+      cur.setDate(cur.getDate() + 1);
+      cellIndex++;
+    }
+
+    // Build month labels
+    var totalWeeks = Math.ceil(cellIndex / 7);
+    var labelsHtml = '';
+    var lastCol = 0;
+    Object.keys(monthPositions).forEach(function(m) {
+      var col = monthPositions[m];
+      var gap = col - lastCol;
+      labelsHtml += '<span style="flex:' + gap + '; font-size:9px; color:#6688aa; font-weight:bold; text-transform:uppercase; letter-spacing:0.5px;">' + months[m] + '</span>';
+      lastCol = col;
+    });
+    monthsEl.innerHTML = labelsHtml;
+  </script>
 </body>
 </html>
