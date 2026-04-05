@@ -972,6 +972,20 @@ nav.main-nav a.nav-link.active {
 }
 
 /* ============================================================
+   CUSDIS COMMENTS
+============================================================ */
+#cusdis_thread {
+  width: 100%;
+}
+
+#cusdis_thread iframe {
+  width: 100% !important;
+  border: none !important;
+  display: block;
+  overflow: hidden;
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 footer.site-footer {
