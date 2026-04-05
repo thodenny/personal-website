@@ -353,11 +353,11 @@
         <div class="details-box" style="margin-top:0;">
           <div class="details-header">Color scale</div>
           <table class="details-table">
-            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#f0ead8;vertical-align:middle;"></span></td><td class="details-value">Rest / no log</td></tr>
-            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#ddb870;vertical-align:middle;"></span></td><td class="details-value">1–2 hrs</td></tr>
-            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#c8930a;vertical-align:middle;"></span></td><td class="details-value">3–4 hrs</td></tr>
-            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#a06800;vertical-align:middle;"></span></td><td class="details-value">5–6 hrs</td></tr>
-            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#703a00;vertical-align:middle;"></span></td><td class="details-value">7+ hrs</td></tr>
+            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#ebedf0;vertical-align:middle;"></span></td><td class="details-value">Rest / no log</td></tr>
+            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#9be9a8;vertical-align:middle;"></span></td><td class="details-value">1–2 hrs</td></tr>
+            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#40c463;vertical-align:middle;"></span></td><td class="details-value">3–4 hrs</td></tr>
+            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#30a14e;vertical-align:middle;"></span></td><td class="details-value">5–6 hrs</td></tr>
+            <tr><td class="details-label"><span style="display:inline-block;width:11px;height:11px;border-radius:2px;background:#216e39;vertical-align:middle;"></span></td><td class="details-value">7+ hrs</td></tr>
           </table>
         </div>
 
@@ -466,11 +466,11 @@
     function getNote(val) { return (val && typeof val === 'object' && val.note) ? val.note : ''; }
 
     function heatColor(h) {
-      if (!h || h === 0) return '#f0ead8';
-      if (h <= 2)        return '#ddb870';
-      if (h <= 4)        return '#c8930a';
-      if (h <= 6)        return '#a06800';
-      return '#703a00';
+      if (!h || h === 0) return '#ebedf0';
+      if (h <= 2)        return '#9be9a8';
+      if (h <= 4)        return '#40c463';
+      if (h <= 6)        return '#30a14e';
+      return '#216e39';
     }
 
     function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
