@@ -344,9 +344,9 @@
         <div class="details-box" style="margin-top:0;">
           <div class="details-header">Categories</div>
           <table class="details-table">
-            <tr><td class="details-label">💻</td><td class="details-value"><strong>Build</strong> — Coding, AI, technical projects</td></tr>
-            <tr><td class="details-label">📖</td><td class="details-value"><strong>Study</strong> — Deep reading, academic research</td></tr>
-            <tr><td class="details-label">🎸</td><td class="details-value"><strong>Practice</strong> — Guitar, creative skills</td></tr>
+            <tr><td class="details-value"><strong>Build</strong> — Coding, AI, technical projects</td></tr>
+            <tr><td class="details-value"><strong>Study</strong> — Deep reading, academic research</td></tr>
+            <tr><td class="details-value"><strong>Practice</strong> — Guitar, creative skills</td></tr>
           </table>
         </div>
 
@@ -446,9 +446,9 @@
     // ─────────────────────────────────────────────────────────────────────────
 
     var CATS = {
-      build:    { label: 'Build',    icon: '💻', pill: 'build' },
-      study:    { label: 'Study',    icon: '📖', pill: 'study' },
-      practice: { label: 'Practice', icon: '🎸', pill: 'practice' }
+      build:    { label: 'Build',    icon: '', pill: 'build' },
+      study:    { label: 'Study',    icon: '', pill: 'study' },
+      practice: { label: 'Practice', icon: '', pill: 'practice' }
     };
 
     var MONTH_NAMES = ['January','February','March','April','May','June',
@@ -520,7 +520,7 @@
           if (catTotals[cat] > 0) {
             var pill = document.createElement('span');
             pill.className = 'dw-cat-pill ' + cat;
-            pill.textContent = CATS[cat].icon + ' ' + catTotals[cat] + 'h';
+            pill.textContent = catTotals[cat] + 'h ' + CATS[cat].label;
             catsEl.appendChild(pill);
           }
         });
@@ -671,8 +671,7 @@
           if (catTotals[cat] > 0) {
             var block = document.createElement('div');
             block.className = 'dw-cat-block';
-            block.innerHTML = '<span class="dw-cat-icon">' + CATS[cat].icon + '</span> ' +
-              '<span><strong>' + catTotals[cat] + 'h</strong> ' + CATS[cat].label + '</span>';
+            block.innerHTML = '<span><strong>' + catTotals[cat] + 'h</strong> ' + CATS[cat].label + '</span>';
             catSummary.appendChild(block);
           }
         });
