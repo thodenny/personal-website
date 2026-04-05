@@ -10,12 +10,12 @@
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://iamthomasdenny.com/deepwork.html" />
   <meta property="og:title"       content="Deep Work — Thomas Denny" />
-  <meta property="og:description" content="A month-by-month log of deep work hours: guitar, running, reading, building." />
+  <meta property="og:description" content="A month-by-month log of deep work hours: building, studying, practicing." />
   <meta property="og:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="Deep Work — Thomas Denny" />
-  <meta name="twitter:description" content="A month-by-month log of deep work hours: guitar, running, reading, building." />
+  <meta name="twitter:description" content="A month-by-month log of deep work hours: building, studying, practicing." />
   <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
 
   <style>
@@ -63,10 +63,31 @@
     .dw-month-total {
       font-size: 10px;
       color: #6688aa;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .dw-month-total strong { color: #a06800; }
+
+    /* Category pill row under month total */
+    .dw-month-cats {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .dw-cat-pill {
+      font-size: 9px;
+      font-weight: bold;
+      padding: 1px 5px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .dw-cat-pill.build   { background: #dbeafe; color: #1e40af; }
+    .dw-cat-pill.study   { background: #dcfce7; color: #166534; }
+    .dw-cat-pill.practice { background: #fdf4ff; color: #7e22ce; }
 
     /* ── Mini calendar grid ───────────────────────────────────── */
     .dw-cal {
@@ -123,10 +144,7 @@
       line-height: 1.2;
     }
 
-    .dw-year-stat span {
-      color: #666;
-      font-size: 11px;
-    }
+    .dw-year-stat span { color: #666; font-size: 11px; }
 
     .dw-tracking-note {
       font-size: 11px;
@@ -148,16 +166,14 @@
       overflow-y: auto;
     }
 
-    .dw-modal-overlay.open {
-      display: flex;
-    }
+    .dw-modal-overlay.open { display: flex; }
 
     .dw-modal {
       background: #fff;
       border: 2px solid #003366;
       border-radius: 4px;
       width: 100%;
-      max-width: 560px;
+      max-width: 580px;
       font-family: Verdana, sans-serif;
     }
 
@@ -189,19 +205,37 @@
 
     .dw-modal-close:hover { background: rgba(255,255,255,0.15); }
 
-    .dw-modal-body {
-      padding: 12px 14px 16px;
-    }
+    .dw-modal-body { padding: 12px 14px 16px; }
 
-    .dw-modal-summary {
-      font-size: 11px;
-      color: #6688aa;
+    /* Category breakdown bar */
+    .dw-cat-summary {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-bottom: 12px;
       padding-bottom: 10px;
       border-bottom: 1px solid #dde4ee;
     }
 
-    .dw-modal-summary strong { color: #a06800; }
+    .dw-cat-block {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: #444;
+    }
+
+    .dw-cat-icon { font-size: 13px; }
+
+    .dw-cat-block strong { color: #003366; }
+
+    .dw-modal-total {
+      font-size: 11px;
+      color: #6688aa;
+      margin-bottom: 10px;
+    }
+
+    .dw-modal-total strong { color: #a06800; }
 
     /* Day-by-day table */
     .dw-day-table {
@@ -228,32 +262,38 @@
     }
 
     .dw-day-table tr:last-child td { border-bottom: none; }
-
-    .dw-day-table tr.rest td { color: #aaa; }
+    .dw-day-table tr.rest td { color: #bbb; }
 
     .dw-dot {
       display: inline-block;
       width: 10px;
       height: 10px;
       border-radius: 2px;
-      margin-right: 5px;
+      margin-right: 4px;
       vertical-align: middle;
       flex-shrink: 0;
     }
 
-    .dw-hrs-cell {
-      white-space: nowrap;
-      width: 52px;
+    .dw-hrs-cell { white-space: nowrap; width: 48px; }
+
+    .dw-cat-cell {
+      width: 60px;
     }
 
-    .dw-note-cell {
-      color: #555;
+    .dw-cat-badge {
+      font-size: 9px;
+      font-weight: bold;
+      padding: 1px 4px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
-    .dw-note-empty {
-      color: #bbb;
-      font-style: italic;
-    }
+    .dw-cat-badge.build    { background: #dbeafe; color: #1e40af; }
+    .dw-cat-badge.study    { background: #dcfce7; color: #166534; }
+    .dw-cat-badge.practice { background: #fdf4ff; color: #7e22ce; }
+
+    .dw-note-empty { color: #ccc; font-style: italic; }
   </style>
 </head>
 <body>
@@ -302,12 +342,11 @@
         </div>
 
         <div class="details-box" style="margin-top:0;">
-          <div class="details-header">What counts</div>
+          <div class="details-header">Categories</div>
           <table class="details-table">
-            <tr><td class="details-label">🎸</td><td class="details-value">Guitar practice</td></tr>
-            <tr><td class="details-label">🏃</td><td class="details-value">Running</td></tr>
-            <tr><td class="details-label">📖</td><td class="details-value">Reading</td></tr>
-            <tr><td class="details-label">💻</td><td class="details-value">Building / coding</td></tr>
+            <tr><td class="details-label">💻</td><td class="details-value"><strong>Build</strong> — Coding, AI, technical projects</td></tr>
+            <tr><td class="details-label">📖</td><td class="details-value"><strong>Study</strong> — Deep reading, academic research</td></tr>
+            <tr><td class="details-label">🎸</td><td class="details-value"><strong>Practice</strong> — Guitar, creative skills</td></tr>
           </table>
         </div>
 
@@ -332,15 +371,14 @@
         <div class="content-box inner-content">
 
           <p style="font-size:12px; color:#6688aa; margin-bottom:16px;">
-            A running log of focused hours: guitar, running, reading, building. Each square is one day. Click any past month to see the breakdown. Updated manually.
+            A running log of focused hours across three areas: Build, Study, Practice. Each square is one day. Click any past month to see the full breakdown.
           </p>
 
           <!-- YTD banner — greyed until tracking starts -->
           <div class="dw-year-banner">
             <div class="dw-year-stat"><strong>—</strong><span>hours logged</span></div>
-            <div class="dw-year-stat"><strong>—</strong><span>days tracked</span></div>
+            <div class="dw-year-stat"><strong>—</strong><span>days active</span></div>
             <div class="dw-year-stat"><strong>—</strong><span>avg hrs / day</span></div>
-            <div class="dw-year-stat"><strong>—</strong><span>best day</span></div>
             <div class="dw-tracking-note">tracking starts soon</div>
           </div>
 
@@ -367,13 +405,15 @@
         <button class="dw-modal-close" id="dw-modal-close">✕</button>
       </div>
       <div class="dw-modal-body">
-        <div class="dw-modal-summary" id="dw-modal-summary"></div>
+        <div class="dw-modal-total"  id="dw-modal-total"></div>
+        <div class="dw-cat-summary" id="dw-cat-summary"></div>
         <table class="dw-day-table">
           <thead>
             <tr>
               <th>Date</th>
               <th>Day</th>
-              <th>Hours</th>
+              <th>Hrs</th>
+              <th>Category</th>
               <th>What I worked on</th>
             </tr>
           </thead>
@@ -387,38 +427,44 @@
   <script>
     // ── Deep Work data ────────────────────────────────────────────────────────
     //
-    // Two formats both work:
-    //   '2026-05-01': 3                              — hours only
-    //   '2026-05-01': { h: 3, note: 'what you did'} — hours + note
+    // Format:
+    //   '2026-05-01': { h: 3, cat: 'build', note: 'What you worked on.' }
     //
-    // Add entries here as you go. Leave days out entirely for rest days.
+    // cat options: 'build' | 'study' | 'practice'
+    // note is optional but recommended — shows in the month detail view.
+    // Leave a day out entirely if it was a rest day.
+    //
+    // Example:
+    //   '2026-04-07': { h: 2, cat: 'practice', note: 'Guitar: 45 min scales + blues jam.' },
+    //   '2026-04-08': { h: 4, cat: 'build',    note: 'ResumeIQ: added export feature.' },
+    //   '2026-04-09': { h: 3, cat: 'study',    note: 'Finished Co-Intelligence. Started Primo Levi.' },
     //
     var deepWork = {
-      // Example entries — replace with your real data when you start tracking:
-      // '2026-04-06': { h: 2, note: 'Guitar: 45 min scales. Ran 5 miles.' },
-      // '2026-04-07': { h: 4, note: 'Coding: deepwork page redesign. Reading: Cal Newport.' },
+
     };
 
     // ─────────────────────────────────────────────────────────────────────────
 
-    var MONTH_NAMES  = ['January','February','March','April','May','June',
-                        'July','August','September','October','November','December'];
-    var DAY_NAMES    = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    var DAY_LABELS   = ['S','M','T','W','T','F','S'];
-    var TODAY        = new Date();
+    var CATS = {
+      build:    { label: 'Build',    icon: '💻', pill: 'build' },
+      study:    { label: 'Study',    icon: '📖', pill: 'study' },
+      practice: { label: 'Practice', icon: '🎸', pill: 'practice' }
+    };
+
+    var MONTH_NAMES = ['January','February','March','April','May','June',
+                       'July','August','September','October','November','December'];
+    var DAY_NAMES   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    var DAY_LABELS  = ['S','M','T','W','T','F','S'];
+    var TODAY       = new Date();
     TODAY.setHours(0,0,0,0);
-    var YEAR         = 2026;
+    var YEAR        = 2026;
 
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
     function dateKey(y, m, d) { return y + '-' + pad(m+1) + '-' + pad(d); }
-    function getHours(val) {
-      if (!val) return 0;
-      return typeof val === 'object' ? (val.h || 0) : val;
-    }
-    function getNote(val) {
-      if (!val || typeof val !== 'object') return '';
-      return val.note || '';
-    }
+    function getH(val)    { if (!val) return 0; return typeof val === 'object' ? (val.h || 0) : val; }
+    function getCat(val)  { return (val && typeof val === 'object' && val.cat) ? val.cat : ''; }
+    function getNote(val) { return (val && typeof val === 'object' && val.note) ? val.note : ''; }
+
     function heatColor(h) {
       if (!h || h === 0) return '#f0ead8';
       if (h <= 2)        return '#ddb870';
@@ -426,6 +472,7 @@
       if (h <= 6)        return '#a06800';
       return '#703a00';
     }
+
     function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
 
     var container = document.getElementById('dw-months-grid');
@@ -435,13 +482,16 @@
       var numDays   = daysInMonth(YEAR, m);
       var isFuture  = new Date(YEAR, m, 1) > TODAY;
       var monthTotal = 0;
+      var catTotals  = { build: 0, study: 0, practice: 0 };
 
-      // Pre-calculate total
       for (var d = 1; d <= numDays; d++) {
-        monthTotal += getHours(deepWork[dateKey(YEAR, m, d)]);
+        var val = deepWork[dateKey(YEAR, m, d)];
+        var h   = getH(val);
+        var cat = getCat(val);
+        monthTotal += h;
+        if (cat && catTotals[cat] !== undefined) catTotals[cat] += h;
       }
 
-      // Card
       var card = document.createElement('div');
       card.className = 'dw-month-card' + (isFuture ? ' future' : '');
       card.setAttribute('data-month', m);
@@ -462,7 +512,22 @@
       }
       card.appendChild(totalEl);
 
-      // Calendar
+      // Category pills — only show categories with hours
+      if (!isFuture && monthTotal > 0) {
+        var catsEl = document.createElement('div');
+        catsEl.className = 'dw-month-cats';
+        Object.keys(catTotals).forEach(function(cat) {
+          if (catTotals[cat] > 0) {
+            var pill = document.createElement('span');
+            pill.className = 'dw-cat-pill ' + cat;
+            pill.textContent = CATS[cat].icon + ' ' + catTotals[cat] + 'h';
+            catsEl.appendChild(pill);
+          }
+        });
+        card.appendChild(catsEl);
+      }
+
+      // Calendar grid
       var calWrap = document.createElement('div');
       calWrap.className = 'dw-cal-wrap';
 
@@ -487,8 +552,8 @@
       }
 
       for (var d2 = 1; d2 <= numDays; d2++) {
-        var key2 = dateKey(YEAR, m, d2);
-        var hrs  = getHours(deepWork[key2]);
+        var val2 = deepWork[dateKey(YEAR, m, d2)];
+        var hrs  = getH(val2);
         var dayEl = document.createElement('div');
         dayEl.className = 'dw-day';
         dayEl.style.background = heatColor(hrs);
@@ -510,9 +575,10 @@
 
     // ── Modal ─────────────────────────────────────────────────────────────────
     function openModal(m) {
-      var numDays   = daysInMonth(YEAR, m);
+      var numDays    = daysInMonth(YEAR, m);
       var monthTotal = 0;
       var activeDays = 0;
+      var catTotals  = { build: 0, study: 0, practice: 0 };
 
       document.getElementById('dw-modal-title').textContent = MONTH_NAMES[m] + ' ' + YEAR;
 
@@ -522,27 +588,32 @@
       for (var d = 1; d <= numDays; d++) {
         var key  = dateKey(YEAR, m, d);
         var val  = deepWork[key];
-        var hrs  = getHours(val);
+        var hrs  = getH(val);
+        var cat  = getCat(val);
         var note = getNote(val);
         var dow  = new Date(YEAR, m, d).getDay();
         var isRest = hrs === 0;
 
-        if (hrs > 0) { monthTotal += hrs; activeDays++; }
+        if (hrs > 0) {
+          monthTotal += hrs;
+          activeDays++;
+          if (cat && catTotals[cat] !== undefined) catTotals[cat] += hrs;
+        }
 
         var tr = document.createElement('tr');
         if (isRest) tr.className = 'rest';
 
-        // Date cell
+        // Date
         var tdDate = document.createElement('td');
         tdDate.textContent = pad(m+1) + '/' + pad(d);
         tr.appendChild(tdDate);
 
-        // Day-of-week cell
+        // Day of week
         var tdDay = document.createElement('td');
         tdDay.textContent = DAY_NAMES[dow];
         tr.appendChild(tdDay);
 
-        // Hours cell with color dot
+        // Hours
         var tdHrs = document.createElement('td');
         tdHrs.className = 'dw-hrs-cell';
         if (!isRest) {
@@ -552,26 +623,62 @@
           tdHrs.appendChild(dot);
           tdHrs.appendChild(document.createTextNode(hrs + 'h'));
         } else {
-          tdHrs.style.color = '#ccc';
+          tdHrs.style.color = '#ddd';
           tdHrs.textContent = '—';
         }
         tr.appendChild(tdHrs);
 
-        // Note cell
+        // Category badge
+        var tdCat = document.createElement('td');
+        tdCat.className = 'dw-cat-cell';
+        if (!isRest && cat && CATS[cat]) {
+          var badge = document.createElement('span');
+          badge.className = 'dw-cat-badge ' + cat;
+          badge.textContent = CATS[cat].label;
+          tdCat.appendChild(badge);
+        } else if (!isRest) {
+          tdCat.style.color = '#ccc';
+          tdCat.textContent = '—';
+        }
+        tr.appendChild(tdCat);
+
+        // Note
         var tdNote = document.createElement('td');
-        tdNote.className = note ? 'dw-note-cell' : 'dw-note-empty';
-        tdNote.textContent = note || (isRest ? '' : 'no note');
+        if (note) {
+          tdNote.textContent = note;
+        } else if (!isRest) {
+          tdNote.className = 'dw-note-empty';
+          tdNote.textContent = 'no note';
+        }
         tr.appendChild(tdNote);
 
         tbody.appendChild(tr);
       }
 
-      // Summary line
+      // Total line
       var avg = activeDays > 0 ? (monthTotal / activeDays).toFixed(1) : '—';
-      document.getElementById('dw-modal-summary').innerHTML =
-        '<strong>' + monthTotal + 'h</strong> logged across ' +
+      document.getElementById('dw-modal-total').innerHTML =
+        '<strong>' + monthTotal + 'h</strong> logged &nbsp;·&nbsp; ' +
         '<strong>' + activeDays + '</strong> active day' + (activeDays !== 1 ? 's' : '') +
         ' &nbsp;·&nbsp; avg <strong>' + avg + 'h</strong> on active days';
+
+      // Category breakdown
+      var catSummary = document.getElementById('dw-cat-summary');
+      catSummary.innerHTML = '';
+      var hasCats = Object.keys(catTotals).some(function(c) { return catTotals[c] > 0; });
+      if (hasCats) {
+        Object.keys(catTotals).forEach(function(cat) {
+          if (catTotals[cat] > 0) {
+            var block = document.createElement('div');
+            block.className = 'dw-cat-block';
+            block.innerHTML = '<span class="dw-cat-icon">' + CATS[cat].icon + '</span> ' +
+              '<span><strong>' + catTotals[cat] + 'h</strong> ' + CATS[cat].label + '</span>';
+            catSummary.appendChild(block);
+          }
+        });
+      } else {
+        catSummary.style.display = 'none';
+      }
 
       document.getElementById('dw-modal-overlay').classList.add('open');
     }
