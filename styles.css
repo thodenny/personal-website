@@ -1351,6 +1351,71 @@ hr.divider { border: none; border-top: 1px solid #ddeeff; margin: 12px 0; }
 }
 
 /* ============================================================
+   HEATMAP — Deep Work 2026
+   ============================================================ */
+
+.heatmap-wrap {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 12px);
+  gap: 2px;
+  width: max-content;
+}
+
+.heatmap-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  cursor: default;
+  transition: opacity 0.1s;
+}
+
+.heatmap-cell:hover {
+  opacity: 0.75;
+}
+
+.heatmap-blank {
+  width: 12px;
+  height: 12px;
+  background: transparent;
+}
+
+.heatmap-months {
+  display: grid;
+  grid-auto-flow: column;
+  width: max-content;
+  margin-bottom: 4px;
+  overflow-x: auto;
+}
+
+.heatmap-month-label {
+  font-size: 9px;
+  color: #6688aa;
+  font-family: Verdana, sans-serif;
+  padding-right: 2px;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 8px;
+  font-size: 10px;
+  color: #6688aa;
+}
+
+.heat-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 680px) {
