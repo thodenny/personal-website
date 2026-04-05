@@ -122,10 +122,8 @@
       line-height: 11px;
     }
 
-    /* ── YTD banner — greyed ──────────────────────────────────── */
+    /* ── YTD banner ───────────────────────────────────────────── */
     .dw-year-banner {
-      background: #c8c8c8;
-      border: 1px solid #aaaaaa;
       border-radius: 3px;
       padding: 10px 14px;
       margin-bottom: 16px;
@@ -134,17 +132,32 @@
       gap: 24px;
       flex-wrap: wrap;
       align-items: center;
+    }
+
+    .dw-year-banner.live {
+      background: #003366;
+      border: 1px solid #003366;
+    }
+
+    .dw-year-banner.live .dw-year-stat strong { color: #9be9a8; }
+    .dw-year-banner.live .dw-year-stat span   { color: #aac4dd; }
+
+    .dw-year-banner.empty {
+      background: #c8c8c8;
+      border: 1px solid #aaaaaa;
       opacity: 0.6;
     }
+
+    .dw-year-banner.empty .dw-year-stat strong { color: #888; }
+    .dw-year-banner.empty .dw-year-stat span   { color: #666; }
 
     .dw-year-stat strong {
       display: block;
       font-size: 20px;
-      color: #888;
       line-height: 1.2;
     }
 
-    .dw-year-stat span { color: #666; font-size: 11px; }
+    .dw-year-stat span { font-size: 11px; }
 
     .dw-tracking-note {
       font-size: 11px;
@@ -374,13 +387,8 @@
             A running log of focused hours across three areas: Build, Study, Practice. Each square is one day. Click any past month to see the full breakdown.
           </p>
 
-          <!-- YTD banner — greyed until tracking starts -->
-          <div class="dw-year-banner">
-            <div class="dw-year-stat"><strong>—</strong><span>hours logged</span></div>
-            <div class="dw-year-stat"><strong>—</strong><span>days active</span></div>
-            <div class="dw-year-stat"><strong>—</strong><span>avg hrs / day</span></div>
-            <div class="dw-tracking-note">tracking starts soon</div>
-          </div>
+          <!-- YTD banner — filled by JS -->
+          <div class="dw-year-banner" id="dw-year-banner"></div>
 
           <!-- Monthly grids — filled by JS -->
           <div class="dw-months-grid" id="dw-months-grid"></div>
@@ -571,6 +579,30 @@
       }
 
       container.appendChild(card);
+    }
+
+    // ── YTD banner ────────────────────────────────────────────────────────────
+    var ytdHours = 0;
+    var ytdDays  = 0;
+    Object.keys(deepWork).forEach(function(key) {
+      var h = getH(deepWork[key]);
+      if (h > 0) { ytdHours += h; ytdDays++; }
+    });
+    var banner = document.getElementById('dw-year-banner');
+    if (ytdHours > 0) {
+      var ytdAvg = (ytdHours / ytdDays).toFixed(1);
+      banner.className = 'dw-year-banner live';
+      banner.innerHTML =
+        '<div class="dw-year-stat"><strong>' + ytdHours + '</strong><span>hours logged</span></div>' +
+        '<div class="dw-year-stat"><strong>' + ytdDays  + '</strong><span>days active</span></div>' +
+        '<div class="dw-year-stat"><strong>' + ytdAvg   + '</strong><span>avg hrs / day</span></div>';
+    } else {
+      banner.className = 'dw-year-banner empty';
+      banner.innerHTML =
+        '<div class="dw-year-stat"><strong>—</strong><span>hours logged</span></div>' +
+        '<div class="dw-year-stat"><strong>—</strong><span>days active</span></div>' +
+        '<div class="dw-year-stat"><strong>—</strong><span>avg hrs / day</span></div>' +
+        '<div class="dw-tracking-note">tracking starts soon</div>';
     }
 
     // ── Modal ─────────────────────────────────────────────────────────────────
