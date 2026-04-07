@@ -371,5 +371,228 @@
   <!-- /page-wrapper -->
 
   <script src="script.js"></script>
+
+  <!-- ── Bru the French Bulldog ──────────────────────────────────────────── -->
+  <style>
+    #bru-wrap {
+      position: fixed;
+      bottom: 16px;
+      right: 20px;
+      z-index: 9999;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #bru-bubble {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      right: -4px;
+      width: 210px;
+      background: #fff;
+      border: 2px solid #336699;
+      border-radius: 3px;
+      padding: 8px 10px;
+      font-family: Verdana, Georgia, sans-serif;
+      font-size: 10px;
+      line-height: 1.55;
+      color: #333;
+      box-shadow: 2px 2px 0 #99AACC;
+      white-space: pre-line;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    #bru-bubble.show { opacity: 1; pointer-events: auto; }
+    #bru-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      right: 16px;
+      width: 0; height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 10px solid #336699;
+    }
+    #bru-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -7px;
+      right: 18px;
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #fff;
+      z-index: 1;
+    }
+    #bru-canvas {
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+  </style>
+
+  <div id="bru-wrap">
+    <div id="bru-bubble"></div>
+    <canvas id="bru-canvas" width="64" height="90"></canvas>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var SCALE = 4;
+    var COLS  = 16;
+    var ROWS  = 20;
+    var YPAD  = 6; // top padding for bob headroom
+
+    // Palette: index → CSS color (0 = transparent)
+    var PAL = [
+      null,        // 0 transparent
+      '#C8956C',   // 1 fawn body
+      '#D4927A',   // 2 pink inner ear
+      '#3D2010',   // 3 dark mask / outline
+      '#1A1A1A',   // 4 eye pupil
+      '#111111',   // 5 nose
+      '#FF7A8A',   // 6 tongue
+      '#A0744E',   // 7 shadow / crease
+      '#F0EDE6',   // 8 white paw / chest
+    ];
+
+    // 16 × 20 pixel grid — eyes open
+    var FRAME_OPEN = [
+      [0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0], // 0  ear tips
+      [0,1,1,2,2,0,0,0,0,2,2,1,1,0,0,0], // 1  ears
+      [1,1,2,2,1,1,1,1,1,1,2,2,1,1,0,0], // 2  ears base
+      [0,1,1,1,1,1,7,7,7,1,1,1,1,1,0,0], // 3  head + forehead wrinkle
+      [0,1,1,1,1,1,1,7,1,1,1,1,1,1,0,0], // 4  head
+      [0,1,3,3,1,1,1,1,1,1,3,3,1,1,0,0], // 5  eye socket top
+      [0,1,3,4,3,1,1,1,1,3,4,3,1,1,0,0], // 6  eyes open
+      [0,1,3,3,1,1,1,1,1,1,3,3,1,1,0,0], // 7  eye socket bottom
+      [0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0], // 8  mask / cheeks
+      [0,3,3,3,5,5,3,3,5,5,3,3,3,3,0,0], // 9  nose
+      [0,3,3,3,5,0,5,3,5,0,5,3,3,3,0,0], // 10 nostrils
+      [0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0], // 11 mouth
+      [0,3,3,3,6,6,6,6,6,6,3,3,3,3,0,0], // 12 tongue
+      [0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], // 13 neck
+      [1,1,1,1,8,8,8,8,8,8,1,1,1,1,1,0], // 14 body + white chest
+      [1,1,7,1,8,8,8,8,8,8,1,1,7,1,1,0], // 15 body + creases
+      [1,1,1,1,8,8,8,8,8,8,1,1,1,1,1,0], // 16 body
+      [1,8,8,1,0,0,0,0,0,0,1,8,8,1,1,0], // 17 paw tops
+      [0,8,8,8,0,0,0,0,0,0,8,8,8,0,0,0], // 18 paws
+      [0,0,8,0,0,0,0,0,0,0,0,8,0,0,0,0], // 19 paw tips
+    ];
+
+    // Blink frame — row 6 eyes closed
+    var FRAME_BLINK = FRAME_OPEN.map(function (row, i) {
+      if (i === 6) return [0,1,3,3,3,1,1,1,1,3,3,3,1,1,0,0];
+      return row;
+    });
+
+    var QUOTES = [
+      '"Life is simple. We make it hard."\n— Dwayne Denny',
+      '"Clarity about what matters provides clarity about what does not."\n— Cal Newport, Deep Work',
+      '"If you don\'t produce, you won\'t thrive — no matter how skilled or talented you are."\n— Cal Newport, Deep Work',
+      '"He who has a why to live can bear almost any how."\n— Viktor Frankl, Man\'s Search for Meaning',
+      '"The most terrifying fact about the universe is not that it is hostile but that it is indifferent."\n— Stanley Kubrick',
+      '"War is peace. Freedom is slavery. Ignorance is strength."\n— George Orwell, 1984',
+      '"Do I dare disturb the universe?"\n— T.S. Eliot',
+    ];
+
+    var canvas = document.getElementById('bru-canvas');
+    var ctx    = canvas.getContext('2d');
+    var bubble = document.getElementById('bru-bubble');
+    var wrap   = document.getElementById('bru-wrap');
+
+    // ── Draw ──────────────────────────────────────────────────────────────
+    function drawFrame(frame, yShift) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var r = 0; r < ROWS; r++) {
+        for (var c = 0; c < COLS; c++) {
+          var v = frame[r][c];
+          if (!v) continue;
+          ctx.fillStyle = PAL[v];
+          ctx.fillRect(c * SCALE, r * SCALE + YPAD + yShift, SCALE, SCALE);
+        }
+      }
+    }
+
+    // ── Animate ───────────────────────────────────────────────────────────
+    var tick     = 0;
+    var blinkCd  = 180;
+    var blinkOn  = false;
+    var blinkT   = 0;
+
+    function animate() {
+      tick++;
+      var yShift = Math.round(Math.sin(tick * 0.05) * 2);
+
+      if (blinkOn) {
+        blinkT++;
+        if (blinkT >= 8) { blinkOn = false; blinkCd = 150 + (Math.random() * 120 | 0); }
+      } else {
+        blinkCd--;
+        if (blinkCd <= 0) { blinkOn = true; blinkT = 0; }
+      }
+
+      drawFrame(blinkOn ? FRAME_BLINK : FRAME_OPEN, yShift);
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // ── Bark sound ────────────────────────────────────────────────────────
+    function bark() {
+      try {
+        var ac  = new (window.AudioContext || window.webkitAudioContext)();
+        var dur = 0.09;
+        var buf = ac.createBuffer(1, ac.sampleRate * dur, ac.sampleRate);
+        var d   = buf.getChannelData(0);
+        for (var i = 0; i < d.length; i++) {
+          d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3) * 0.9;
+        }
+        var src = ac.createBufferSource();
+        src.buffer = buf;
+        var bp = ac.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = 900;
+        bp.Q.value = 0.8;
+        var gain = ac.createGain();
+        gain.gain.setValueAtTime(0.18, ac.currentTime);
+        src.connect(bp); bp.connect(gain); gain.connect(ac.destination);
+        src.start();
+      } catch (e) {}
+    }
+
+    // ── Speech bubble ─────────────────────────────────────────────────────
+    var shown      = false;
+    var fadeTimer  = null;
+    var lastQuote  = -1;
+
+    function showBubble() {
+      var idx;
+      do { idx = Math.floor(Math.random() * QUOTES.length); } while (idx === lastQuote && QUOTES.length > 1);
+      lastQuote = idx;
+      bubble.textContent = QUOTES[idx];
+      bubble.classList.add('show');
+      shown = true;
+      if (fadeTimer) clearTimeout(fadeTimer);
+      fadeTimer = setTimeout(hideBubble, 4000);
+    }
+
+    function hideBubble() {
+      bubble.classList.remove('show');
+      shown = false;
+      if (fadeTimer) { clearTimeout(fadeTimer); fadeTimer = null; }
+    }
+
+    wrap.addEventListener('click', function () {
+      bark();
+      if (shown) { hideBubble(); } else { showBubble(); }
+    });
+
+  }());
+  </script>
+  <!-- ── /Bru ──────────────────────────────────────────────────────────────── -->
+
 </body>
 </html>
