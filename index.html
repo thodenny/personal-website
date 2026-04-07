@@ -446,36 +446,37 @@
     var YPAD  = 6; // top padding for bob headroom
 
     // Palette: index → CSS color (0 = transparent)
+    // Matched to Bru: black brindle body, tan eyebrow/cheek markings, white chest
     var PAL = [
       null,        // 0 transparent
-      '#C8956C',   // 1 fawn body
-      '#D4927A',   // 2 pink inner ear
-      '#3D2010',   // 3 dark mask / outline
-      '#1A1A1A',   // 4 eye pupil
-      '#111111',   // 5 nose
+      '#2B2E32',   // 1 dark brindle body
+      '#C8845A',   // 2 pink-tan inner ear
+      '#111111',   // 3 near-black mask
+      '#6B3A1F',   // 4 warm brown eye
+      '#0A0A0A',   // 5 nose
       '#FF7A8A',   // 6 tongue
-      '#A0744E',   // 7 shadow / crease
-      '#F0EDE6',   // 8 white paw / chest
+      '#B8864A',   // 7 tan/rust eyebrow & cheek markings
+      '#F0EDE6',   // 8 white chest / paws
     ];
 
     // 16 × 20 pixel grid — eyes open
     var FRAME_OPEN = [
-      [0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0], // 0  ear tips
-      [0,1,1,2,2,0,0,0,0,2,2,1,1,0,0,0], // 1  ears
+      [0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0], // 0  ear tips (dark)
+      [0,1,1,2,2,0,0,0,0,2,2,1,1,0,0,0], // 1  ears with tan-pink inner
       [1,1,2,2,1,1,1,1,1,1,2,2,1,1,0,0], // 2  ears base
-      [0,1,1,1,1,1,7,7,7,1,1,1,1,1,0,0], // 3  head + forehead wrinkle
-      [0,1,1,1,1,1,1,7,1,1,1,1,1,1,0,0], // 4  head
+      [0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], // 3  top of head (dark)
+      [0,1,7,7,1,1,1,1,1,1,7,7,1,1,0,0], // 4  tan eyebrow spots
       [0,1,3,3,1,1,1,1,1,1,3,3,1,1,0,0], // 5  eye socket top
-      [0,1,3,4,3,1,1,1,1,3,4,3,1,1,0,0], // 6  eyes open
-      [0,1,3,3,1,1,1,1,1,1,3,3,1,1,0,0], // 7  eye socket bottom
-      [0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0], // 8  mask / cheeks
+      [0,1,3,4,3,1,1,1,1,3,4,3,1,1,0,0], // 6  eyes open (brown pupils)
+      [0,7,3,3,1,1,1,1,1,1,3,3,7,1,0,0], // 7  tan cheek patches, eye socket bottom
+      [0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0], // 8  dark mask / muzzle
       [0,3,3,3,5,5,3,3,5,5,3,3,3,3,0,0], // 9  nose
       [0,3,3,3,5,0,5,3,5,0,5,3,3,3,0,0], // 10 nostrils
       [0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0], // 11 mouth
       [0,3,3,3,6,6,6,6,6,6,3,3,3,3,0,0], // 12 tongue
       [0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], // 13 neck
       [1,1,1,1,8,8,8,8,8,8,1,1,1,1,1,0], // 14 body + white chest
-      [1,1,7,1,8,8,8,8,8,8,1,1,7,1,1,0], // 15 body + creases
+      [1,1,1,1,8,8,8,8,8,8,1,1,1,1,1,0], // 15 body
       [1,1,1,1,8,8,8,8,8,8,1,1,1,1,1,0], // 16 body
       [1,8,8,1,0,0,0,0,0,0,1,8,8,1,1,0], // 17 paw tops
       [0,8,8,8,0,0,0,0,0,0,8,8,8,0,0,0], // 18 paws
