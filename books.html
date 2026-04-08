@@ -82,6 +82,7 @@
           <a href="#" class="genre-filter" data-genre="philosophy">Philosophy</a>
           <a href="#" class="genre-filter" data-genre="history">History</a>
           <a href="#" class="genre-filter" data-genre="memoir">Memoir</a>
+          <a href="#" class="genre-filter" data-genre="dystopian">Dystopian</a>
         </div>
 
         <!-- Reading stats -->
@@ -233,7 +234,7 @@
               <div class="book-stars">9/10</div>
             </li>
 
-            <li class="book-item" data-tags="fiction">
+            <li class="book-item" data-tags="fiction dystopian">
               <div class="book-num">06</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
                 <img src="faranheit-451.jpg" alt="Fahrenheit 451" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
@@ -243,7 +244,7 @@
                 <h4><a href="book-notes-fahrenheit-451.html" style="color:#003366; text-decoration:none;">Fahrenheit 451</a> <a href="https://www.goodreads.com/book/show/13079982-fahrenheit-451" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
                 <div class="book-author">Ray Bradbury &nbsp;·&nbsp; March 2026</div>
                 <div class="book-note"></div>
-                <div class="book-tags"><span class="book-tag">Fiction</span></div>
+                <div class="book-tags"><span class="book-tag">Fiction</span><span class="book-tag">Dystopian</span></div>
               </div>
               <div class="book-stars">7/10</div>
             </li>
@@ -306,7 +307,7 @@
           if (genre === 'all') {
             item.style.display = '';
           } else {
-            var tags = item.getAttribute('data-tags') || '';
+            var tags = (item.getAttribute('data-tags') || '').split(' ');
             item.style.display = tags.indexOf(genre) !== -1 ? '' : 'none';
           }
         });
