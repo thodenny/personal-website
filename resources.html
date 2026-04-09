@@ -226,6 +226,85 @@
     .sidebar-tag-link.tag-active { color: #FF6600; font-weight: bold; }
     .sidebar-tag-count { font-size: 10px; color: #aabbcc; }
 
+
+    /* ── Search bar ──────────────────────────── */
+    .res-search-wrap {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .res-search-input {
+      flex: 1;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      background: #fff;
+      color: #333;
+      outline: none;
+    }
+    .res-search-input:focus {
+      border-color: #336699;
+      box-shadow: 0 0 0 2px rgba(51,102,153,0.15);
+    }
+    .res-search-clear {
+      padding: 7px 12px;
+      font-size: 11px;
+      font-family: inherit;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      cursor: pointer;
+      color: #6688aa;
+      display: none;
+    }
+    .res-search-clear:hover { color: #FF6600; border-color: #FF6600; }
+
+    /* ── Tag cloud ───────────────────────────── */
+    .res-tag-cloud-section { margin-bottom: 14px; }
+    .res-tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .res-tag-cloud-pill {
+      display: inline-block;
+      padding: 3px 9px;
+      font-size: 11px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      text-decoration: none;
+      background: #eef2f8;
+      font-weight: bold;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .res-tag-cloud-pill:hover {
+      color: #FF6600;
+      border-color: #FF6600;
+      background: #fff3ee;
+      text-decoration: none;
+    }
+    .res-tag-count {
+      font-size: 9px;
+      color: #8899bb;
+      margin-left: 3px;
+      font-weight: normal;
+    }
+
+    /* search highlight */
+    mark.res-hit {
+      background: #ffe066;
+      color: #333;
+      padding: 0 1px;
+      border-radius: 1px;
+    }
+
     .media-filter-sep {
       color: #aabbcc;
       font-size: 11px;
@@ -307,9 +386,11 @@
         </div>
 
 
-        <div class="sidebar-page-nav" style="margin-top:0;" id="res-tag-sidebar">
-          <div class="spn-title">Browse by Tag</div>
-          <!-- filled by JS -->
+        <div class="details-box" style="margin-top:0;" id="res-tag-sidebar">
+          <div class="details-header">Browse by Tag</div>
+          <div style="padding:6px 8px;" id="res-tag-list">
+            <!-- filled by JS -->
+          </div>
         </div>
 
       </aside>
@@ -327,6 +408,18 @@
             Articles, quotes, and videos I've found worthwhile — with my take and tags on each.
             Tagged entries also show up on <a href="notes.html">notes.html</a> when filtered by tag.
           </p>
+
+          <!-- Search -->
+          <div class="res-search-wrap">
+            <input type="text" class="res-search-input" id="res-search"
+              placeholder="Search titles, authors, quotes..." autocomplete="off" />
+            <button class="res-search-clear" id="res-search-clear">✕ Clear</button>
+          </div>
+
+          <!-- Tag cloud (hidden when a tag or search is active) -->
+          <div class="res-tag-cloud-section" id="res-tag-cloud-section" style="display:none;">
+            <div class="res-tag-cloud" id="res-tag-cloud"></div>
+          </div>
 
           <!-- Media type filter (top of page, mirrors sidebar) -->
           <div class="media-filter-bar">
@@ -451,63 +544,108 @@
 
   <script src="script.js"></script>
   <script>
+    // ── Searchable text for each entry (read from DOM) ──────
+    function getEntryText(entry) {
+      return [
+        entry.querySelector('.resource-title')    ? entry.querySelector('.resource-title').textContent    : '',
+        entry.querySelector('.resource-meta')     ? entry.querySelector('.resource-meta').textContent     : '',
+        entry.querySelector('.resource-blockquote') ? entry.querySelector('.resource-blockquote').textContent : '',
+        entry.querySelector('.resource-attribution') ? entry.querySelector('.resource-attribution').textContent : '',
+        entry.querySelector('.resource-why')      ? entry.querySelector('.resource-why').textContent      : '',
+        entry.querySelector('.my-take-text')      ? entry.querySelector('.my-take-text').textContent      : ''
+      ].join(' ').toLowerCase();
+    }
+
     // ── Tag data: read from DOM ─────────────────────────────
     function getTagsFromDOM() {
       var counts = {};
       document.querySelectorAll('#resource-list .resource-entry').forEach(function(entry) {
-        var tagLinks = entry.querySelectorAll('.resource-tag');
-        tagLinks.forEach(function(a) {
-          var tag = a.href.split('?tag=')[1];
+        entry.querySelectorAll('.resource-tag').forEach(function(a) {
+          var href = a.getAttribute('href');
+          var tag = href ? href.split('?tag=')[1] : null;
           if (tag) counts[tag] = (counts[tag] || 0) + 1;
         });
       });
       return counts;
     }
 
+    // ── Build tag cloud (top of content area) ──────────────
+    function buildTagCloud() {
+      var counts = getTagsFromDOM();
+      var sorted = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; });
+      var cloud = document.getElementById('res-tag-cloud');
+      if (!cloud) return;
+      cloud.innerHTML = sorted.map(function(pair) {
+        return '<a href="resources.html?tag=' + pair[0] + '" class="res-tag-cloud-pill">'
+          + '#' + pair[0]
+          + '<span class="res-tag-count">' + pair[1] + '</span>'
+          + '</a>';
+      }).join('');
+    }
+
     // ── Build "Browse by Tag" sidebar ──────────────────────
     function buildTagSidebar(activeTag) {
       var counts = getTagsFromDOM();
-      var sorted = Object.entries(counts).sort(function(a, b) { return b[1] - a[1]; });
-      var box = document.getElementById('res-tag-sidebar');
-      var html = '<div class="spn-title">Browse by Tag</div>';
-      sorted.forEach(function(pair) {
+      var sorted = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; });
+      var list = document.getElementById('res-tag-list');
+      if (!list) return;
+      list.innerHTML = sorted.map(function(pair) {
         var tag = pair[0], count = pair[1];
-        var cls = tag === activeTag ? ' tag-active' : '';
-        html += '<a href="resources.html?tag=' + tag + '" class="sidebar-tag-link' + cls + '">'
-          + '<span>#' + tag + '</span>'
-          + '<span class="sidebar-tag-count">' + count + '</span>'
-          + '</a>';
-      });
-      if (box) box.innerHTML = html;
+        var isActive = tag === activeTag;
+        var style = isActive
+          ? 'display:block;padding:3px 0;font-size:11px;color:#FF6600;font-weight:bold;text-decoration:none;'
+          : 'display:block;padding:3px 0;font-size:11px;color:#336699;text-decoration:none;';
+        return '<a href="resources.html?tag=' + tag + '" style="' + style + '">'
+          + '#' + tag
+          + ' <span style="color:#99AACC;font-size:10px;">(' + count + ')</span></a>';
+      }).join('');
     }
 
     // ── Active tag banner ──────────────────────────────────
-    function updateBanner(activeTag, visibleCount) {
+    function updateBanner(activeTag, searchTerm, visibleCount) {
       var banner = document.getElementById('active-tag-banner');
       if (!banner) return;
-      if (activeTag) {
+      var cloudSection = document.getElementById('res-tag-cloud-section');
+      if (activeTag || searchTerm) {
         banner.style.display = '';
-        banner.innerHTML = 'Showing <strong>' + visibleCount + ' resource'
-          + (visibleCount !== 1 ? 's' : '') + '</strong> tagged <strong>#' + activeTag
-          + '</strong> &nbsp;·&nbsp; <a href="resources.html">Show all</a>';
+        if (cloudSection) cloudSection.style.display = 'none';
+        if (activeTag && searchTerm) {
+          banner.innerHTML = '<strong>' + visibleCount + ' result' + (visibleCount !== 1 ? 's' : '')
+            + '</strong> for &ldquo;' + searchTerm + '&rdquo; in <strong>#' + activeTag
+            + '</strong> &nbsp;&middot;&nbsp; <a href="resources.html">Clear all</a>';
+        } else if (activeTag) {
+          banner.innerHTML = 'Showing <strong>' + visibleCount + ' resource' + (visibleCount !== 1 ? 's' : '')
+            + '</strong> tagged <strong>#' + activeTag
+            + '</strong> &nbsp;&middot;&nbsp; <a href="resources.html">Show all</a>';
+        } else {
+          banner.innerHTML = '<strong>' + visibleCount + ' result' + (visibleCount !== 1 ? 's' : '')
+            + '</strong> for &ldquo;' + searchTerm + '&rdquo;'
+            + ' &nbsp;&middot;&nbsp; <a id="res-clear-link" href="#">Clear</a>';
+        }
       } else {
         banner.style.display = 'none';
+        if (cloudSection) cloudSection.style.display = '';
       }
     }
 
-    // ── Filter by type ─────────────────────────────────────
-    function applyFilters(typeFilter, tagFilter) {
+    // ── Filter entries (type + tag + search) ───────────────
+    function applyFilters(typeFilter, tagFilter, searchTerm) {
+      var q = (searchTerm || '').trim().toLowerCase();
       var entries = document.querySelectorAll('#resource-list .resource-entry');
       var visible = 0;
       entries.forEach(function(entry) {
         var typeOk = (typeFilter === 'all') || (entry.getAttribute('data-type') === typeFilter);
+
         var tagOk = !tagFilter;
         if (!tagOk) {
           entry.querySelectorAll('.resource-tag').forEach(function(a) {
-            if (a.href.indexOf('?tag=' + tagFilter) !== -1) tagOk = true;
+            if ((a.getAttribute('href') || '').indexOf('?tag=' + tagFilter) !== -1) tagOk = true;
           });
         }
-        var show = typeOk && tagOk;
+
+        var searchOk = !q || getEntryText(entry).indexOf(q) !== -1;
+
+        var show = typeOk && tagOk && searchOk;
         entry.style.display = show ? '' : 'none';
         if (show) visible++;
       });
@@ -515,19 +653,16 @@
     }
 
     // ── Sync all filter controls ───────────────────────────
-    function syncControls(typeFilter, tagFilter) {
-      // top bar buttons
+    function syncControls(typeFilter, tagFilter, searchTerm) {
       document.querySelectorAll('.media-filter-btn').forEach(function(b) {
         b.classList.toggle('active', b.getAttribute('data-type') === typeFilter);
       });
-      // sidebar type links
       document.querySelectorAll('.genre-filter').forEach(function(a) {
         a.classList.toggle('active', a.getAttribute('data-type') === typeFilter);
       });
-      var visible = applyFilters(typeFilter, tagFilter);
-      updateBanner(tagFilter, visible);
+      var visible = applyFilters(typeFilter, tagFilter, searchTerm);
+      updateBanner(tagFilter, searchTerm, visible);
       buildTagSidebar(tagFilter);
-      // live counts
       ['article', 'quote', 'video'].forEach(function(t) {
         var el = document.getElementById('count-' + t);
         if (el) el.textContent = document.querySelectorAll('#resource-list [data-type="' + t + '"]').length;
@@ -537,17 +672,18 @@
     // ── Init ───────────────────────────────────────────────
     (function () {
       var params = new URLSearchParams(window.location.search);
-      var activeTag = params.get('tag') || '';
+      var activeTag  = params.get('tag') || '';
       var activeType = 'all';
+      var activeSearch = '';
 
-      // Initial render
-      syncControls(activeType, activeTag);
+      buildTagCloud();
+      syncControls(activeType, activeTag, activeSearch);
 
       // Top filter bar buttons
       document.querySelectorAll('.media-filter-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           activeType = this.getAttribute('data-type');
-          syncControls(activeType, activeTag);
+          syncControls(activeType, activeTag, activeSearch);
         });
       });
 
@@ -556,8 +692,41 @@
         link.addEventListener('click', function(e) {
           e.preventDefault();
           activeType = this.getAttribute('data-type');
-          syncControls(activeType, activeTag);
+          syncControls(activeType, activeTag, activeSearch);
         });
+      });
+
+      // Search input
+      var searchInput = document.getElementById('res-search');
+      var clearBtn    = document.getElementById('res-search-clear');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', function() {
+          activeSearch = this.value;
+          clearBtn.style.display = activeSearch.trim() ? 'inline-block' : 'none';
+          syncControls(activeType, activeTag, activeSearch);
+        });
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+          searchInput.value = '';
+          activeSearch = '';
+          clearBtn.style.display = 'none';
+          syncControls(activeType, activeTag, activeSearch);
+        });
+      }
+
+      // "Clear" link in banner (for search-only banner)
+      document.getElementById('active-tag-banner').addEventListener('click', function(e) {
+        var t = e.target;
+        if (t && t.id === 'res-clear-link') {
+          e.preventDefault();
+          if (searchInput) { searchInput.value = ''; }
+          activeSearch = '';
+          clearBtn.style.display = 'none';
+          syncControls(activeType, activeTag, activeSearch);
+        }
       });
 
       // Read more / read less toggle
@@ -570,11 +739,8 @@
         var naturalHeight = el.scrollHeight;
         el.classList.add('collapsed');
         el.style.maxHeight = '';
-
         var btn = el.nextElementSibling;
-        if (naturalHeight > MAX_HEIGHT + 4) {
-          btn.style.display = 'inline-block';
-        }
+        if (naturalHeight > MAX_HEIGHT + 4) { btn.style.display = 'inline-block'; }
       });
 
       document.querySelectorAll('.my-take-toggle').forEach(function(btn) {
@@ -582,13 +748,11 @@
           var el = document.getElementById(this.getAttribute('data-target'));
           var state = this.getAttribute('data-state');
           if (state === 'collapsed') {
-            el.classList.remove('collapsed');
-            el.classList.add('expanded');
+            el.classList.remove('collapsed'); el.classList.add('expanded');
             this.setAttribute('data-state', 'expanded');
             this.textContent = 'read less ↑';
           } else {
-            el.classList.remove('expanded');
-            el.classList.add('collapsed');
+            el.classList.remove('expanded'); el.classList.add('collapsed');
             this.setAttribute('data-state', 'collapsed');
             this.textContent = 'read more ↓';
           }
