@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources — Thomas Denny</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://iamthomasdenny.com/resources.html" />
+  <meta property="og:title"       content="Resources — Thomas Denny" />
+  <meta property="og:description" content="Articles, quotes, and videos Thomas Denny has found worthwhile — with notes and tags." />
+  <meta property="og:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Resources — Thomas Denny" />
+  <meta name="twitter:description" content="Articles, quotes, and videos Thomas Denny has found worthwhile — with notes and tags." />
+  <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
+
+  <style>
+    /* ── Resource entry card ────────────────────────────── */
+    .resource-list { list-style: none; padding: 0; margin: 0; }
+
+    .resource-entry {
+      position: relative;
+      padding: 16px 0 16px 0;
+      border-bottom: 1px solid #ddeeff;
+    }
+    .resource-entry:last-child { border-bottom: none; }
+
+    /* Media type badge */
+    .media-badge {
+      position: absolute;
+      top: 16px;
+      right: 0;
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8899bb;
+      background: #eef2f8;
+      border: 1px solid #c8d8ec;
+      border-radius: 2px;
+      padding: 2px 6px;
+    }
+    .media-badge--article { color: #336699; background: #eef4ff; border-color: #99AACC; }
+    .media-badge--quote   { color: #6655aa; background: #f0eeff; border-color: #bbaadd; }
+    .media-badge--video   { color: #aa4400; background: #fff3ee; border-color: #ddbb99; }
+
+    /* Entry title / meta */
+    .resource-title {
+      font-family: Georgia, serif;
+      font-size: 14px;
+      color: #003366;
+      margin-bottom: 3px;
+      padding-right: 70px; /* clear the badge */
+    }
+    .resource-title a { color: #003366; text-decoration: none; }
+    .resource-title a:hover { color: #FF6600; text-decoration: underline; }
+
+    .resource-meta {
+      font-size: 11px;
+      color: #6688aa;
+      margin-bottom: 10px;
+    }
+
+    /* My take — collapsible */
+    .my-take-wrap {
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .my-take-text {
+      font-size: 12px;
+      color: #444466;
+      line-height: 1.65;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+    }
+    .my-take-text.collapsed {
+      /* roughly 4 lines at 12px / 1.65 line-height ≈ 79px */
+      max-height: 79px;
+    }
+    .my-take-text.expanded {
+      max-height: 1000px;
+    }
+    .my-take-toggle {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 10px;
+      color: #336699;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .my-take-toggle:hover { color: #FF6600; }
+
+    /* Blockquotes inside entries */
+    .resource-blockquote {
+      margin: 10px 0 6px 0;
+      padding: 8px 12px;
+      border-left: 3px solid #336699;
+      background: #f0f4fa;
+      font-size: 12px;
+      color: #333;
+      line-height: 1.7;
+      font-style: italic;
+    }
+    .resource-blockquote .bq-timestamp {
+      font-style: normal;
+      font-weight: bold;
+      color: #6688aa;
+      font-size: 10px;
+      margin-right: 6px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Standalone quote style (bigger, more prominent) */
+    .resource-blockquote--standalone {
+      border-left: 3px solid #6655aa;
+      background: #f6f4ff;
+      font-size: 13px;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+    .resource-attribution {
+      font-size: 11px;
+      color: #6688aa;
+      margin-bottom: 8px;
+    }
+    .resource-attribution em { font-style: normal; color: #8877bb; }
+
+    /* Why-it's-here note */
+    .resource-why {
+      font-size: 12px;
+      color: #555566;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    /* Tag pills */
+    .resource-tags { margin-top: 8px; }
+    .resource-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 0 4px 4px 0;
+      font-size: 10px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      text-decoration: none;
+      background: #eef2f8;
+      font-weight: bold;
+    }
+    .resource-tag:hover {
+      color: #FF6600;
+      border-color: #FF6600;
+      background: #fff3ee;
+      text-decoration: none;
+    }
+
+    /* Media type filter row */
+    .media-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .media-filter-btn {
+      font-size: 11px;
+      font-family: Verdana, Arial, sans-serif;
+      color: #336699;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 4px 12px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.15s ease;
+    }
+    .media-filter-btn:hover {
+      background: linear-gradient(to bottom, #fff4ee, #ffe0cc);
+      border-color: #FF6600;
+      color: #CC4400;
+    }
+    .media-filter-btn.active {
+      background: linear-gradient(to right, #1a4d8a, #4477aa);
+      border-color: #003366;
+      color: #ffffff;
+    }
+    .media-filter-sep {
+      color: #aabbcc;
+      font-size: 11px;
+      padding: 0 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ======================================================
+         NAVIGATION BAR
+    ====================================================== -->
+    <nav class="main-nav">
+      <a href="index.html" class="nav-title">thomas denny</a>
+      <a href="index.html"    class="nav-link">Home</a>
+      <a href="now.html"      class="nav-link">Now</a>
+      <a href="about.html"    class="nav-link">About Me</a>
+      <a href="blog.html"     class="nav-link">Blog</a>
+      <a href="books.html"    class="nav-link">Books</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="deepwork.html" class="nav-link">Deep Work</a>
+      <a href="resources.html" class="nav-link active">Resources</a>
+    </nav>
+
+    <!-- ======================================================
+         MAIN LAYOUT
+    ====================================================== -->
+    <div class="main-layout">
+
+      <!-- ====================================================
+           LEFT COLUMN
+      ==================================================== -->
+      <aside class="col-left-sm">
+
+        <div class="profile-card-sm">
+          <img
+            src="https://www.iamthomasdenny.com/content/images/size/w400/2025/08/IMG_1828-2.jpeg"
+            alt="Thomas Denny"
+          />
+          <div class="pcm-name">Thomas Denny</div>
+          <div class="pcm-status">
+            <span class="online-dot"></span> Online Now
+          </div>
+          <div class="pcm-mood">Mood: <span>Curious</span></div>
+          <a href="index.html" class="btn-back-home">← Back to Profile</a>
+        </div>
+
+        <div class="sidebar-page-nav">
+          <div class="spn-title">Pages</div>
+          <a href="index.html">Home</a>
+          <a href="now.html">Now</a>
+          <a href="about.html">About Me</a>
+          <a href="blog.html">Blog</a>
+          <a href="books.html">Books</a>
+          <a href="notes.html">Notes</a>
+          <a href="projects.html">Projects</a>
+          <a href="deepwork.html">Deep Work</a>
+          <a href="resources.html" class="current">Resources</a>
+        </div>
+
+        <div class="sidebar-page-nav" style="margin-top:0;">
+          <div class="spn-title">Filter by Type</div>
+          <a href="#" class="genre-filter active" data-type="all">All</a>
+          <a href="#" class="genre-filter" data-type="article">Articles</a>
+          <a href="#" class="genre-filter" data-type="quote">Quotes</a>
+          <a href="#" class="genre-filter" data-type="video">Videos</a>
+        </div>
+
+        <div class="details-box" style="margin-top:0;">
+          <div class="details-header">In Here</div>
+          <table class="details-table">
+            <tr><td class="details-label">Articles:</td><td class="details-value" id="count-article">1</td></tr>
+            <tr><td class="details-label">Quotes:</td><td class="details-value" id="count-quote">1</td></tr>
+            <tr><td class="details-label">Videos:</td><td class="details-value" id="count-video">1</td></tr>
+          </table>
+        </div>
+
+      </aside>
+
+      <!-- ====================================================
+           RIGHT COLUMN — Resources list
+      ==================================================== -->
+      <main class="col-right">
+
+        <div class="section-header">Resources</div>
+
+        <div class="content-box inner-content">
+
+          <p style="font-size:12px; color:#6688aa; margin-bottom:14px;">
+            Articles, quotes, and videos I've found worthwhile — with my take and tags on each.
+            Tagged entries also show up on <a href="notes.html">notes.html</a> when filtered by tag.
+          </p>
+
+          <!-- Media type filter (top of page, mirrors sidebar) -->
+          <div class="media-filter-bar">
+            <button class="media-filter-btn active" data-type="all">All</button>
+            <span class="media-filter-sep">·</span>
+            <button class="media-filter-btn" data-type="article">Articles</button>
+            <span class="media-filter-sep">·</span>
+            <button class="media-filter-btn" data-type="quote">Quotes</button>
+            <span class="media-filter-sep">·</span>
+            <button class="media-filter-btn" data-type="video">Videos</button>
+          </div>
+
+          <ul class="resource-list" id="resource-list">
+
+            <!-- ══════════════════════════════════════════
+                 ARTICLE ENTRY
+                 You Are Not a Parrot · April 2026
+            ══════════════════════════════════════════ -->
+            <li class="resource-entry" data-type="article">
+              <span class="media-badge media-badge--article">Article</span>
+
+              <div class="resource-title">
+                <a href="https://nymag.com/intelligencer/article/ai-artificial-intelligence-chatbot-language-model.html" target="_blank" rel="noopener">
+                  You Are Not a Parrot
+                </a>
+              </div>
+              <div class="resource-meta">
+                New York Magazine &nbsp;·&nbsp; Elizabeth Weil &nbsp;·&nbsp; Read April 2026
+              </div>
+
+              <div class="my-take-wrap">
+                <div class="my-take-text collapsed" id="take-article-1">
+                  [Thomas fills in — what did this piece make you think? Did it change anything, confirm something you already believed, or frustrate you? Keep it honest and specific.]
+                </div>
+                <button class="my-take-toggle" data-target="take-article-1" data-state="collapsed" style="display:none;">read more ↓</button>
+              </div>
+
+              <blockquote class="resource-blockquote">
+                "The most interesting question about ChatGPT is not whether it can write a convincing essay, but whether it understands anything at all."
+              </blockquote>
+              <div class="resource-tags">
+                <a href="notes.html?tag=AI" class="resource-tag">#AI</a>
+                <a href="notes.html?tag=HumanNature" class="resource-tag">#HumanNature</a>
+              </div>
+
+            </li>
+
+            <!-- ══════════════════════════════════════════
+                 QUOTE ENTRY
+                 Kierkegaard
+            ══════════════════════════════════════════ -->
+            <li class="resource-entry" data-type="quote">
+              <span class="media-badge media-badge--quote">Quote</span>
+
+              <blockquote class="resource-blockquote resource-blockquote--standalone">
+                "The most common form of despair is not being who you are."
+              </blockquote>
+              <div class="resource-attribution">
+                Søren Kierkegaard &nbsp;·&nbsp; <em>Either/Or</em>
+              </div>
+
+              <div class="resource-why">
+                It's a short sentence that keeps coming back to me — especially in conversations about how we use AI to outsource thinking and writing we should be doing ourselves.
+              </div>
+
+              <div class="resource-tags">
+                <a href="notes.html?tag=Identity" class="resource-tag">#Identity</a>
+                <a href="notes.html?tag=Philosophy" class="resource-tag">#Philosophy</a>
+              </div>
+            </li>
+
+            <!-- ══════════════════════════════════════════
+                 VIDEO ENTRY
+                 Cal Newport on Deep Work · April 2026
+            ══════════════════════════════════════════ -->
+            <li class="resource-entry" data-type="video">
+              <span class="media-badge media-badge--video">Video</span>
+
+              <div class="resource-title">
+                <a href="https://www.youtube.com/watch?v=doGo1-_6jT4" target="_blank" rel="noopener">
+                  Cal Newport on Deep Work
+                </a>
+              </div>
+              <div class="resource-meta">
+                Cal Newport &nbsp;·&nbsp; YouTube &nbsp;·&nbsp; Watched April 2026
+              </div>
+
+              <div class="my-take-wrap">
+                <div class="my-take-text collapsed" id="take-video-1">
+                  [Thomas fills in — what made this worth your time? What landed differently on video vs. the book?]
+                </div>
+                <button class="my-take-toggle" data-target="take-video-1" data-state="collapsed" style="display:none;">read more ↓</button>
+              </div>
+
+              <blockquote class="resource-blockquote">
+                <span class="bq-timestamp">[12:34]</span> "The ability to perform deep work is becoming increasingly rare at exactly the same time it's becoming increasingly valuable."
+              </blockquote>
+              <div class="resource-tags">
+                <a href="notes.html?tag=DeepWork" class="resource-tag">#DeepWork</a>
+                <a href="notes.html?tag=Attention" class="resource-tag">#Attention</a>
+              </div>
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </main>
+
+    </div>
+    <!-- /main-layout -->
+
+    <footer class="site-footer">
+      Thomas Denny &copy; 2025 &nbsp;|&nbsp; Built with intention, not a template.
+    </footer>
+
+  </div>
+  <!-- /page-wrapper -->
+
+  <script src="script.js"></script>
+  <script>
+    // ── Read more / read less toggle ──────────────────────────
+    // On load: check each my-take-text. If content overflows 4 lines,
+    // show the toggle button. If it fits, leave it fully visible.
+    (function () {
+      var LINE_HEIGHT = 12 * 1.65; // font-size 12px × line-height 1.65
+      var MAX_LINES   = 4;
+      var MAX_HEIGHT  = Math.round(LINE_HEIGHT * MAX_LINES); // ~79px
+
+      document.querySelectorAll('.my-take-text').forEach(function (el) {
+        // Measure natural height (temporarily remove clamp)
+        el.classList.remove('collapsed');
+        el.style.maxHeight = 'none';
+        var naturalHeight = el.scrollHeight;
+        el.classList.add('collapsed');
+        el.style.maxHeight = '';
+
+        var btn = el.nextElementSibling;
+        if (naturalHeight > MAX_HEIGHT + 4) {
+          // Content is tall enough to need a toggle
+          btn.style.display = 'inline-block';
+        }
+        // else: content is short — leave collapsed class in place but
+        // it won't clip since content is shorter than max-height
+      });
+
+      document.querySelectorAll('.my-take-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var targetId = this.getAttribute('data-target');
+          var el = document.getElementById(targetId);
+          var state = this.getAttribute('data-state');
+
+          if (state === 'collapsed') {
+            el.classList.remove('collapsed');
+            el.classList.add('expanded');
+            this.setAttribute('data-state', 'expanded');
+            this.textContent = 'read less ↑';
+          } else {
+            el.classList.remove('expanded');
+            el.classList.add('collapsed');
+            this.setAttribute('data-state', 'collapsed');
+            this.textContent = 'read more ↓';
+          }
+        });
+      });
+    })();
+
+    // ── Media type filter (top bar buttons) ──────────────────
+    function applyTypeFilter(type) {
+      document.querySelectorAll('.media-filter-btn').forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-type') === type);
+      });
+      // keep sidebar in sync
+      document.querySelectorAll('.genre-filter').forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('data-type') === type);
+      });
+      document.querySelectorAll('#resource-list .resource-entry').forEach(function (entry) {
+        if (type === 'all') {
+          entry.style.display = '';
+        } else {
+          entry.style.display = entry.getAttribute('data-type') === type ? '' : 'none';
+        }
+      });
+    }
+
+    document.querySelectorAll('.media-filter-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyTypeFilter(this.getAttribute('data-type'));
+      });
+    });
+
+    // Sidebar filter links
+    document.querySelectorAll('.genre-filter').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        applyTypeFilter(this.getAttribute('data-type'));
+      });
+    });
+
+    // ── Live counts ───────────────────────────────────────────
+    (function () {
+      var types = ['article', 'quote', 'video'];
+      types.forEach(function (t) {
+        var count = document.querySelectorAll('#resource-list [data-type="' + t + '"]').length;
+        var el = document.getElementById('count-' + t);
+        if (el) el.textContent = count;
+      });
+    })();
+  </script>
+</body>
+</html>

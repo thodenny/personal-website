@@ -66,6 +66,7 @@
       <a href="projects.html" class="nav-link">Projects</a>
       <a href="deepwork.html" class="nav-link">Deep Work</a>
       <a href="notes.html" class="nav-link active">Notes</a>
+      <a href="resources.html" class="nav-link">Resources</a>
     </nav>
 
     <div class="main-layout">
@@ -95,6 +96,7 @@
           <a href="notes.html" class="current">Notes</a>
           <a href="projects.html">Projects</a>
           <a href="deepwork.html">Deep Work</a>
+          <a href="resources.html">Resources</a>
         </div>
 
         <div class="details-box" style="margin-top:0;" id="sidebar-tags">
@@ -376,6 +378,37 @@
         url: "book-notes-a-marriage-at-sea.html",
         tags: ["HumanNature"]
       }
+
+      // Article — resources.html
+      {
+        type: "article",
+        quote: "The most interesting question about ChatGPT is not whether it can write a convincing essay, but whether it understands anything at all.",
+        title: "You Are Not a Parrot",
+        publication: "New York Magazine",
+        author: "Elizabeth Weil",
+        url: "resources.html",
+        tags: ["AI", "HumanNature"]
+      },
+      // Standalone quote — resources.html
+      {
+        type: "quote",
+        quote: "The most common form of despair is not being who you are.",
+        author: "Søren Kierkegaard",
+        source: "Either/Or",
+        url: "resources.html",
+        tags: ["Identity", "Philosophy"]
+      },
+      // Video — resources.html
+      {
+        type: "video",
+        quote: "The ability to perform deep work is becoming increasingly rare at exactly the same time it\'s becoming increasingly valuable.",
+        timestamp: "12:34",
+        title: "Cal Newport on Deep Work",
+        creator: "Cal Newport",
+        platform: "YouTube",
+        url: "resources.html",
+        tags: ["DeepWork", "Attention"]
+      }
     ];
 
     // ============================================================
@@ -458,24 +491,61 @@
         '<mark style="background:#fff3b0;color:#333;padding:0 1px;">$1</mark>');
     }
 
+    function sourceAttribution(note, query) {
+      var t = note.type || 'book';
+      if (t === 'article') {
+        return '<span style="color:#aabbcc;">Article</span> '
+          + '<a href="' + note.url + '" style="color:#336699;">' + highlight(note.title, query) + '</a>'
+          + ' &mdash; ' + highlight(note.publication, query) + ' &middot; ' + highlight(note.author, query);
+      } else if (t === 'quote') {
+        return '<span style="color:#aabbcc;">Quote</span> '
+          + highlight(note.author, query) + ', <em>' + highlight(note.source, query) + '</em>'
+          + ' <a href="' + note.url + '" style="color:#6688aa;font-size:10px;">→ resources</a>';
+      } else if (t === 'video') {
+        return '<span style="color:#aabbcc;">Video</span> '
+          + '<a href="' + note.url + '" style="color:#336699;">' + highlight(note.title, query) + '</a>'
+          + ' &mdash; ' + highlight(note.creator, query) + ' &middot; ' + highlight(note.platform, query);
+      } else {
+        return '<a href="' + note.url + '" style="color:#336699;">' + highlight(note.book, query) + '</a>'
+          + ' &mdash; ' + highlight(note.author, query);
+      }
+    }
+
     function renderCardWithHighlight(note, activeTag, query) {
+      var t = note.type || 'book';
       var tagPills = note.tags.map(function(t) { return tagPill(t, t === activeTag); }).join('');
       var commentaryHtml = note.commentary
         ? '<p style="font-size:12px;color:#444;line-height:1.6;margin:8px 0 0;">' + highlight(note.commentary, query) + '</p>'
         : '';
-      var headerText = note.chapter
-        ? escHtml(note.chapter) + ' &nbsp;&middot;&nbsp; ' + escHtml(note.page)
-        : escHtml(note.page);
+      var bqStyle = t === 'quote'
+        ? 'margin:0 0 0 0;padding:8px 12px;border-left:3px solid #6655aa;background:#f6f4ff;font-size:13px;color:#333;line-height:1.7;font-style:italic;'
+        : 'margin:0 0 0 0;padding:8px 12px;border-left:3px solid #336699;background:#f0f4fa;font-size:12px;color:#333;line-height:1.7;font-style:italic;';
+      var tsHtml = (t === 'video' && note.timestamp)
+        ? '<span style="font-style:normal;font-weight:bold;color:#6688aa;font-size:10px;margin-right:6px;font-family:monospace;">[' + note.timestamp + ']</span>'
+        : '';
+      var headerText;
+      if (t === 'book') {
+        headerText = note.chapter
+          ? escHtml(note.chapter) + ' &nbsp;&middot;&nbsp; ' + escHtml(note.page)
+          : escHtml(note.page || '');
+      } else if (t === 'article') {
+        headerText = 'Article &nbsp;&middot;&nbsp; ' + escHtml(note.publication || '');
+      } else if (t === 'quote') {
+        headerText = 'Quote &nbsp;&middot;&nbsp; ' + escHtml(note.author || '');
+      } else if (t === 'video') {
+        headerText = 'Video &nbsp;&middot;&nbsp; ' + escHtml(note.creator || '');
+      } else {
+        headerText = '';
+      }
       return '<div class="details-box" style="margin-bottom:16px;">'
         + '<div class="details-header">' + headerText + '</div>'
         + '<div style="padding:10px 12px;">'
-        + '<blockquote style="margin:0 0 0 0;padding:8px 12px;border-left:3px solid #336699;background:#f0f4fa;font-size:12px;color:#333;line-height:1.7;font-style:italic;">'
-        + '&ldquo;' + highlight(note.quote, query) + '&rdquo;'
+        + '<blockquote style="' + bqStyle + '">'
+        + tsHtml + '&ldquo;' + highlight(note.quote, query) + '&rdquo;'
         + '</blockquote>'
         + commentaryHtml
         + '<div class="note-card-meta" style="font-size:11px;color:#6688aa;margin:8px 0 6px;">'
-        + '<a href="' + note.url + '" style="color:#336699;">' + highlight(note.book, query) + '</a>'
-        + ' &mdash; ' + highlight(note.author, query)
+        + sourceAttribution(note, query)
         + '</div>'
         + '<div>' + tagPills + '</div>'
         + '</div>'
@@ -488,8 +558,14 @@
       return (note.quote && note.quote.toLowerCase().indexOf(q) !== -1)
           || (note.commentary && note.commentary.toLowerCase().indexOf(q) !== -1)
           || (note.book && note.book.toLowerCase().indexOf(q) !== -1)
+          || (note.title && note.title.toLowerCase().indexOf(q) !== -1)
           || (note.author && note.author.toLowerCase().indexOf(q) !== -1)
-          || (note.chapter && note.chapter.toLowerCase().indexOf(q) !== -1);
+          || (note.creator && note.creator.toLowerCase().indexOf(q) !== -1)
+          || (note.publication && note.publication.toLowerCase().indexOf(q) !== -1)
+          || (note.source && note.source.toLowerCase().indexOf(q) !== -1)
+          || (note.platform && note.platform.toLowerCase().indexOf(q) !== -1)
+          || (note.chapter && note.chapter.toLowerCase().indexOf(q) !== -1)
+          || (note.tags && note.tags.some(function(t){ return t.toLowerCase().indexOf(q) !== -1; }));
     }
 
     // ============================================================
