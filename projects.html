@@ -36,37 +36,22 @@
       color: #ffffff;
     }
 
-    /* Sidebar tag cloud */
-    .proj-tag-cloud {
+    /* Sidebar tag list — matches knowledge base "Browse by Tag" style */
+    .sidebar-tag-link {
       display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 6px;
-    }
-    .proj-tag-cloud a {
-      font-size: 9px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+      font-size: 11px;
       color: #336699;
-      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
-      border: 1px solid #99AACC;
-      border-radius: 2px;
-      padding: 2px 6px;
-      cursor: pointer;
       text-decoration: none;
-      display: inline-block;
+      border-bottom: 1px solid #ddeeff;
+      transition: color 0.15s;
     }
-    .proj-tag-cloud a:hover {
-      background: linear-gradient(to bottom, #ffe8d6, #ffd0b0);
-      border-color: #FF6600;
-      color: #FF6600;
-    }
-    .proj-tag-cloud a.active-tag {
-      background: #FF6600;
-      border-color: #cc5200;
-      color: #ffffff;
-    }
+    .sidebar-tag-link:last-child { border-bottom: none; }
+    .sidebar-tag-link:hover { color: #FF6600; text-decoration: none; }
+    .sidebar-tag-link.tag-active { color: #FF6600; font-weight: bold; }
+    .sidebar-tag-count { font-size: 10px; color: #aabbcc; }
 
     /* Active tag banner */
     #proj-tag-banner {
@@ -162,9 +147,11 @@
           <a href="#" class="project-filter" data-filter="course">Course</a>
         </div>
 
-        <div class="sidebar-page-nav" style="margin-top: 0;">
-          <div class="spn-title">Filter by Tag</div>
-          <div class="proj-tag-cloud" id="proj-tag-cloud"></div>
+        <div class="details-box" id="proj-tag-sidebar" style="margin-top: 0;">
+          <div class="details-header">Browse by Tag</div>
+          <div id="proj-tag-cloud" style="padding: 6px 8px;">
+            <!-- filled by JS -->
+          </div>
         </div>
 
       </aside>
@@ -314,25 +301,25 @@
     });
 
     // ============================================================
-    // BUILD SIDEBAR TAG CLOUD
+    // BUILD SIDEBAR TAG LIST (matches knowledge base "Browse by Tag" style)
     // ============================================================
     function buildTagCloud() {
       var cloud = document.getElementById('proj-tag-cloud');
       cloud.innerHTML = '';
 
-      // Collect unique slugs from currently-visible-category cards
-      var slugSet = {};
+      // Count how many cards (matching current category filter) have each tag
+      var slugCount = {};
       document.querySelectorAll('.project-card').forEach(function(card) {
         var cat = card.getAttribute('data-category');
         if (activeFilter !== 'all' && cat !== activeFilter) return;
         var tagStr = card.getAttribute('data-tags') || '';
         tagStr.split(',').forEach(function(s) {
           s = s.trim();
-          if (s) slugSet[s] = true;
+          if (s) slugCount[s] = (slugCount[s] || 0) + 1;
         });
       });
 
-      var slugs = Object.keys(slugSet).sort(function(a, b) {
+      var slugs = Object.keys(slugCount).sort(function(a, b) {
         return (tagLabels[a] || a).localeCompare(tagLabels[b] || b);
       });
 
@@ -344,9 +331,20 @@
       slugs.forEach(function(slug) {
         var a = document.createElement('a');
         a.href = '#';
-        a.textContent = tagLabels[slug] || slug;
+        a.className = 'sidebar-tag-link';
+        if (activeTags.indexOf(slug) !== -1) a.classList.add('tag-active');
         a.setAttribute('data-tag', slug);
-        if (activeTags.indexOf(slug) !== -1) a.classList.add('active-tag');
+
+        var labelSpan = document.createElement('span');
+        labelSpan.textContent = '#' + (tagLabels[slug] || slug);
+
+        var countSpan = document.createElement('span');
+        countSpan.className = 'sidebar-tag-count';
+        countSpan.textContent = '(' + slugCount[slug] + ')';
+
+        a.appendChild(labelSpan);
+        a.appendChild(countSpan);
+
         a.addEventListener('click', function(e) {
           e.preventDefault();
           toggleTag(slug);
