@@ -194,6 +194,38 @@
       border-color: #003366;
       color: #ffffff;
     }
+    /* Active tag banner */
+    .active-tag-banner {
+      background: #fff8ee;
+      border: 1px solid #ffcc88;
+      border-left: 3px solid #FF6600;
+      border-radius: 0 3px 3px 0;
+      padding: 7px 12px;
+      font-size: 12px;
+      color: #664400;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .active-tag-banner a { color: #FF6600; font-weight: bold; }
+    .active-tag-banner a:hover { color: #CC4400; }
+
+    /* "Browse by Tag" sidebar section */
+    .sidebar-tag-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+      font-size: 11px;
+      color: #336699;
+      text-decoration: none;
+      border-bottom: 1px solid #ddeeff;
+      transition: color 0.15s;
+    }
+    .sidebar-tag-link:last-child { border-bottom: none; }
+    .sidebar-tag-link:hover { color: #FF6600; text-decoration: none; }
+    .sidebar-tag-link.tag-active { color: #FF6600; font-weight: bold; }
+    .sidebar-tag-count { font-size: 10px; color: #aabbcc; }
+
     .media-filter-sep {
       color: #aabbcc;
       font-size: 11px;
@@ -273,6 +305,12 @@
           </table>
         </div>
 
+
+        <div class="sidebar-page-nav" style="margin-top:0;" id="res-tag-sidebar">
+          <div class="spn-title">Browse by Tag</div>
+          <!-- filled by JS -->
+        </div>
+
       </aside>
 
       <!-- ====================================================
@@ -299,6 +337,8 @@
             <span class="media-filter-sep">·</span>
             <button class="media-filter-btn" data-type="video">Videos</button>
           </div>
+
+          <div class="active-tag-banner" id="active-tag-banner"></div>
 
           <ul class="resource-list" id="resource-list">
 
@@ -328,9 +368,9 @@
               <blockquote class="resource-blockquote">
                 "The most interesting question about ChatGPT is not whether it can write a convincing essay, but whether it understands anything at all."
               </blockquote>
-              <div class="resource-tags">
-                <a href="notes.html?tag=AI" class="resource-tag">#AI</a>
-                <a href="notes.html?tag=HumanNature" class="resource-tag">#HumanNature</a>
+              <div class="resource-tags" data-tags="AI HumanNature">
+                <a href="resources.html?tag=AI" class="resource-tag">#AI</a>
+                <a href="resources.html?tag=HumanNature" class="resource-tag">#HumanNature</a>
               </div>
 
             </li>
@@ -354,8 +394,8 @@
               </div>
 
               <div class="resource-tags">
-                <a href="notes.html?tag=Identity" class="resource-tag">#Identity</a>
-                <a href="notes.html?tag=Philosophy" class="resource-tag">#Philosophy</a>
+                <a href="resources.html?tag=Identity" class="resource-tag">#Identity</a>
+                <a href="resources.html?tag=Philosophy" class="resource-tag">#Philosophy</a>
               </div>
             </li>
 
@@ -386,8 +426,8 @@
                 <span class="bq-timestamp">[12:34]</span> "The ability to perform deep work is becoming increasingly rare at exactly the same time it's becoming increasingly valuable."
               </blockquote>
               <div class="resource-tags">
-                <a href="notes.html?tag=DeepWork" class="resource-tag">#DeepWork</a>
-                <a href="notes.html?tag=Attention" class="resource-tag">#Attention</a>
+                <a href="resources.html?tag=DeepWork" class="resource-tag">#DeepWork</a>
+                <a href="resources.html?tag=Attention" class="resource-tag">#Attention</a>
               </div>
 
             </li>
@@ -410,16 +450,120 @@
 
   <script src="script.js"></script>
   <script>
-    // ── Read more / read less toggle ──────────────────────────
-    // On load: check each my-take-text. If content overflows 4 lines,
-    // show the toggle button. If it fits, leave it fully visible.
-    (function () {
-      var LINE_HEIGHT = 12 * 1.65; // font-size 12px × line-height 1.65
-      var MAX_LINES   = 4;
-      var MAX_HEIGHT  = Math.round(LINE_HEIGHT * MAX_LINES); // ~79px
+    // ── Tag data: read from DOM ─────────────────────────────
+    function getTagsFromDOM() {
+      var counts = {};
+      document.querySelectorAll('#resource-list .resource-entry').forEach(function(entry) {
+        var tagLinks = entry.querySelectorAll('.resource-tag');
+        tagLinks.forEach(function(a) {
+          var tag = a.href.split('?tag=')[1];
+          if (tag) counts[tag] = (counts[tag] || 0) + 1;
+        });
+      });
+      return counts;
+    }
 
-      document.querySelectorAll('.my-take-text').forEach(function (el) {
-        // Measure natural height (temporarily remove clamp)
+    // ── Build "Browse by Tag" sidebar ──────────────────────
+    function buildTagSidebar(activeTag) {
+      var counts = getTagsFromDOM();
+      var sorted = Object.entries(counts).sort(function(a, b) { return b[1] - a[1]; });
+      var box = document.getElementById('res-tag-sidebar');
+      var html = '<div class="spn-title">Browse by Tag</div>';
+      sorted.forEach(function(pair) {
+        var tag = pair[0], count = pair[1];
+        var cls = tag === activeTag ? ' tag-active' : '';
+        html += '<a href="resources.html?tag=' + tag + '" class="sidebar-tag-link' + cls + '">'
+          + '<span>#' + tag + '</span>'
+          + '<span class="sidebar-tag-count">' + count + '</span>'
+          + '</a>';
+      });
+      if (box) box.innerHTML = html;
+    }
+
+    // ── Active tag banner ──────────────────────────────────
+    function updateBanner(activeTag, visibleCount) {
+      var banner = document.getElementById('active-tag-banner');
+      if (!banner) return;
+      if (activeTag) {
+        banner.style.display = '';
+        banner.innerHTML = 'Showing <strong>' + visibleCount + ' resource'
+          + (visibleCount !== 1 ? 's' : '') + '</strong> tagged <strong>#' + activeTag
+          + '</strong> &nbsp;·&nbsp; <a href="resources.html">Show all</a>';
+      } else {
+        banner.style.display = 'none';
+      }
+    }
+
+    // ── Filter by type ─────────────────────────────────────
+    function applyFilters(typeFilter, tagFilter) {
+      var entries = document.querySelectorAll('#resource-list .resource-entry');
+      var visible = 0;
+      entries.forEach(function(entry) {
+        var typeOk = (typeFilter === 'all') || (entry.getAttribute('data-type') === typeFilter);
+        var tagOk = !tagFilter;
+        if (!tagOk) {
+          entry.querySelectorAll('.resource-tag').forEach(function(a) {
+            if (a.href.indexOf('?tag=' + tagFilter) !== -1) tagOk = true;
+          });
+        }
+        var show = typeOk && tagOk;
+        entry.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      return visible;
+    }
+
+    // ── Sync all filter controls ───────────────────────────
+    function syncControls(typeFilter, tagFilter) {
+      // top bar buttons
+      document.querySelectorAll('.media-filter-btn').forEach(function(b) {
+        b.classList.toggle('active', b.getAttribute('data-type') === typeFilter);
+      });
+      // sidebar type links
+      document.querySelectorAll('.genre-filter').forEach(function(a) {
+        a.classList.toggle('active', a.getAttribute('data-type') === typeFilter);
+      });
+      var visible = applyFilters(typeFilter, tagFilter);
+      updateBanner(tagFilter, visible);
+      buildTagSidebar(tagFilter);
+      // live counts
+      ['article', 'quote', 'video'].forEach(function(t) {
+        var el = document.getElementById('count-' + t);
+        if (el) el.textContent = document.querySelectorAll('#resource-list [data-type="' + t + '"]').length;
+      });
+    }
+
+    // ── Init ───────────────────────────────────────────────
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var activeTag = params.get('tag') || '';
+      var activeType = 'all';
+
+      // Initial render
+      syncControls(activeType, activeTag);
+
+      // Top filter bar buttons
+      document.querySelectorAll('.media-filter-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          activeType = this.getAttribute('data-type');
+          syncControls(activeType, activeTag);
+        });
+      });
+
+      // Sidebar type filter links
+      document.querySelectorAll('.genre-filter').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          activeType = this.getAttribute('data-type');
+          syncControls(activeType, activeTag);
+        });
+      });
+
+      // Read more / read less toggle
+      var LINE_HEIGHT = 12 * 1.65;
+      var MAX_HEIGHT  = Math.round(LINE_HEIGHT * 4);
+
+      document.querySelectorAll('.my-take-text').forEach(function(el) {
         el.classList.remove('collapsed');
         el.style.maxHeight = 'none';
         var naturalHeight = el.scrollHeight;
@@ -428,19 +572,14 @@
 
         var btn = el.nextElementSibling;
         if (naturalHeight > MAX_HEIGHT + 4) {
-          // Content is tall enough to need a toggle
           btn.style.display = 'inline-block';
         }
-        // else: content is short — leave collapsed class in place but
-        // it won't clip since content is shorter than max-height
       });
 
-      document.querySelectorAll('.my-take-toggle').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var targetId = this.getAttribute('data-target');
-          var el = document.getElementById(targetId);
+      document.querySelectorAll('.my-take-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var el = document.getElementById(this.getAttribute('data-target'));
           var state = this.getAttribute('data-state');
-
           if (state === 'collapsed') {
             el.classList.remove('collapsed');
             el.classList.add('expanded');
@@ -453,48 +592,6 @@
             this.textContent = 'read more ↓';
           }
         });
-      });
-    })();
-
-    // ── Media type filter (top bar buttons) ──────────────────
-    function applyTypeFilter(type) {
-      document.querySelectorAll('.media-filter-btn').forEach(function (b) {
-        b.classList.toggle('active', b.getAttribute('data-type') === type);
-      });
-      // keep sidebar in sync
-      document.querySelectorAll('.genre-filter').forEach(function (a) {
-        a.classList.toggle('active', a.getAttribute('data-type') === type);
-      });
-      document.querySelectorAll('#resource-list .resource-entry').forEach(function (entry) {
-        if (type === 'all') {
-          entry.style.display = '';
-        } else {
-          entry.style.display = entry.getAttribute('data-type') === type ? '' : 'none';
-        }
-      });
-    }
-
-    document.querySelectorAll('.media-filter-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        applyTypeFilter(this.getAttribute('data-type'));
-      });
-    });
-
-    // Sidebar filter links
-    document.querySelectorAll('.genre-filter').forEach(function (link) {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        applyTypeFilter(this.getAttribute('data-type'));
-      });
-    });
-
-    // ── Live counts ───────────────────────────────────────────
-    (function () {
-      var types = ['article', 'quote', 'video'];
-      types.forEach(function (t) {
-        var count = document.querySelectorAll('#resource-list [data-type="' + t + '"]').length;
-        var el = document.getElementById('count-' + t);
-        if (el) el.textContent = count;
       });
     })();
   </script>
