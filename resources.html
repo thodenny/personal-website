@@ -161,6 +161,16 @@
       background: #fff3ee;
       text-decoration: none;
     }
+    .resource-tag.active-tag-pill {
+      background: #FF6600;
+      border-color: #CC4400;
+      color: #fff;
+    }
+    .resource-tag.active-tag-pill:hover {
+      background: #CC4400;
+      border-color: #993300;
+      color: #fff;
+    }
 
     /* Media type filter row */
     .media-filter-bar {
@@ -290,11 +300,24 @@
       background: #fff3ee;
       text-decoration: none;
     }
+    .res-tag-cloud-pill.active-tag-pill {
+      background: #FF6600;
+      border-color: #CC4400;
+      color: #fff;
+    }
+    .res-tag-cloud-pill.active-tag-pill:hover {
+      background: #CC4400;
+      border-color: #993300;
+      color: #fff;
+    }
     .res-tag-count {
       font-size: 9px;
       color: #8899bb;
       margin-left: 3px;
       font-weight: normal;
+    }
+    .res-tag-cloud-pill.active-tag-pill .res-tag-count {
+      color: #ffddcc;
     }
 
     /* search highlight */
@@ -462,9 +485,9 @@
               <blockquote class="resource-blockquote">
                 "The most interesting question about ChatGPT is not whether it can write a convincing essay, but whether it understands anything at all."
               </blockquote>
-              <div class="resource-tags" data-tags="AI HumanNature">
-                <a href="resources.html?tag=AI" class="resource-tag">#AI</a>
-                <a href="resources.html?tag=HumanNature" class="resource-tag">#HumanNature</a>
+              <div class="resource-tags">
+                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
+                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
               </div>
 
             </li>
@@ -488,8 +511,8 @@
               </div>
 
               <div class="resource-tags">
-                <a href="resources.html?tag=Identity" class="resource-tag">#Identity</a>
-                <a href="resources.html?tag=Philosophy" class="resource-tag">#Philosophy</a>
+                <a href="resources.html?tag=Identity" class="resource-tag" data-tag="Identity">#Identity</a>
+                <a href="resources.html?tag=Philosophy" class="resource-tag" data-tag="Philosophy">#Philosophy</a>
               </div>
             </li>
 
@@ -520,8 +543,8 @@
                 <span class="bq-timestamp">[12:34]</span> "The ability to perform deep work is becoming increasingly rare at exactly the same time it's becoming increasingly valuable."
               </blockquote>
               <div class="resource-tags">
-                <a href="resources.html?tag=DeepWork" class="resource-tag">#DeepWork</a>
-                <a href="resources.html?tag=Attention" class="resource-tag">#Attention</a>
+                <a href="resources.html?tag=DeepWork" class="resource-tag" data-tag="DeepWork">#DeepWork</a>
+                <a href="resources.html?tag=Attention" class="resource-tag" data-tag="Attention">#Attention</a>
               </div>
 
             </li>
@@ -544,83 +567,133 @@
 
   <script src="script.js"></script>
   <script>
+    // ── State ──────────────────────────────────────────────
+    var activeTags   = [];   // array — supports multi-select
+    var activeType   = 'all';
+    var activeSearch = '';
+
     // ── Searchable text for each entry (read from DOM) ──────
     function getEntryText(entry) {
       return [
-        entry.querySelector('.resource-title')    ? entry.querySelector('.resource-title').textContent    : '',
-        entry.querySelector('.resource-meta')     ? entry.querySelector('.resource-meta').textContent     : '',
+        entry.querySelector('.resource-title')      ? entry.querySelector('.resource-title').textContent      : '',
+        entry.querySelector('.resource-meta')       ? entry.querySelector('.resource-meta').textContent       : '',
         entry.querySelector('.resource-blockquote') ? entry.querySelector('.resource-blockquote').textContent : '',
-        entry.querySelector('.resource-attribution') ? entry.querySelector('.resource-attribution').textContent : '',
-        entry.querySelector('.resource-why')      ? entry.querySelector('.resource-why').textContent      : '',
-        entry.querySelector('.my-take-text')      ? entry.querySelector('.my-take-text').textContent      : ''
+        entry.querySelector('.resource-attribution')? entry.querySelector('.resource-attribution').textContent: '',
+        entry.querySelector('.resource-why')        ? entry.querySelector('.resource-why').textContent        : '',
+        entry.querySelector('.my-take-text')        ? entry.querySelector('.my-take-text').textContent        : ''
       ].join(' ').toLowerCase();
     }
 
-    // ── Tag data: read from DOM ─────────────────────────────
+    // ── Tag counts: read from DOM data-tag attributes ───────
     function getTagsFromDOM() {
       var counts = {};
-      document.querySelectorAll('#resource-list .resource-entry').forEach(function(entry) {
-        entry.querySelectorAll('.resource-tag').forEach(function(a) {
-          var href = a.getAttribute('href');
-          var tag = href ? href.split('?tag=')[1] : null;
-          if (tag) counts[tag] = (counts[tag] || 0) + 1;
-        });
+      document.querySelectorAll('#resource-list .resource-tag').forEach(function(a) {
+        var tag = a.getAttribute('data-tag');
+        if (tag) counts[tag] = (counts[tag] || 0) + 1;
       });
       return counts;
     }
 
-    // ── Build tag cloud (top of content area) ──────────────
+    // ── Update URL (pushState) ─────────────────────────────
+    function updateURL() {
+      var url = 'resources.html';
+      if (activeTags.length > 0) url += '?tag=' + activeTags.join(',');
+      history.pushState(null, '', url);
+    }
+
+    // ── Toggle a tag on/off ────────────────────────────────
+    function toggleTag(tag) {
+      var idx = activeTags.indexOf(tag);
+      if (idx === -1) { activeTags.push(tag); }
+      else            { activeTags.splice(idx, 1); }
+      updateURL();
+      syncControls();
+    }
+
+    // ── Build tag cloud ────────────────────────────────────
     function buildTagCloud() {
       var counts = getTagsFromDOM();
       var sorted = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; });
       var cloud = document.getElementById('res-tag-cloud');
       if (!cloud) return;
       cloud.innerHTML = sorted.map(function(pair) {
-        return '<a href="resources.html?tag=' + pair[0] + '" class="res-tag-cloud-pill">'
+        var isActive = activeTags.indexOf(pair[0]) !== -1;
+        return '<a href="resources.html?tag=' + pair[0]
+          + '" class="res-tag-cloud-pill' + (isActive ? ' active-tag-pill' : '')
+          + '" data-tag="' + pair[0] + '">'
           + '#' + pair[0]
           + '<span class="res-tag-count">' + pair[1] + '</span>'
           + '</a>';
       }).join('');
+      cloud.querySelectorAll('.res-tag-cloud-pill').forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          toggleTag(this.getAttribute('data-tag'));
+        });
+      });
     }
 
     // ── Build "Browse by Tag" sidebar ──────────────────────
-    function buildTagSidebar(activeTag) {
+    function buildTagSidebar() {
       var counts = getTagsFromDOM();
       var sorted = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; });
       var list = document.getElementById('res-tag-list');
       if (!list) return;
       list.innerHTML = sorted.map(function(pair) {
         var tag = pair[0], count = pair[1];
-        var isActive = tag === activeTag;
+        var isActive = activeTags.indexOf(tag) !== -1;
         var style = isActive
           ? 'display:block;padding:3px 0;font-size:11px;color:#FF6600;font-weight:bold;text-decoration:none;'
           : 'display:block;padding:3px 0;font-size:11px;color:#336699;text-decoration:none;';
-        return '<a href="resources.html?tag=' + tag + '" style="' + style + '">'
+        return '<a href="resources.html?tag=' + tag + '" style="' + style + '" data-tag="' + tag + '">'
           + '#' + tag
           + ' <span style="color:#99AACC;font-size:10px;">(' + count + ')</span></a>';
       }).join('');
+      list.querySelectorAll('a[data-tag]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          toggleTag(this.getAttribute('data-tag'));
+        });
+      });
     }
 
-    // ── Active tag banner ──────────────────────────────────
-    function updateBanner(activeTag, searchTerm, visibleCount) {
+    // ── Update active state on entry tag pills ─────────────
+    function updateEntryTagPills() {
+      document.querySelectorAll('#resource-list .resource-tag').forEach(function(a) {
+        var tag = a.getAttribute('data-tag');
+        a.classList.toggle('active-tag-pill', tag !== null && activeTags.indexOf(tag) !== -1);
+      });
+      // entry tag pill clicks — delegated once at init; toggling happens via data-tag
+    }
+
+    // ── Banner: show active tags + back button ─────────────
+    function updateBanner(visibleCount) {
       var banner = document.getElementById('active-tag-banner');
       if (!banner) return;
       var cloudSection = document.getElementById('res-tag-cloud-section');
-      if (activeTag || searchTerm) {
+      var hasFilters = activeTags.length > 0 || activeSearch;
+
+      if (hasFilters) {
         banner.style.display = '';
         if (cloudSection) cloudSection.style.display = 'none';
-        if (activeTag && searchTerm) {
+
+        var tagPills = activeTags.map(function(t) {
+          return '<strong>#' + t + '</strong>';
+        }).join(', ');
+
+        if (activeTags.length > 0 && activeSearch) {
           banner.innerHTML = '<strong>' + visibleCount + ' result' + (visibleCount !== 1 ? 's' : '')
-            + '</strong> for &ldquo;' + searchTerm + '&rdquo; in <strong>#' + activeTag
-            + '</strong> &nbsp;&middot;&nbsp; <a href="resources.html">Clear all</a>';
-        } else if (activeTag) {
+            + '</strong> for &ldquo;' + activeSearch + '&rdquo; in ' + tagPills
+            + ' &nbsp;&middot;&nbsp; <a href="#" id="res-clear-tags-link">← clear tags</a>'
+            + ' &nbsp;/&nbsp; <a href="#" id="res-clear-all-link">clear all</a>';
+        } else if (activeTags.length > 0) {
           banner.innerHTML = 'Showing <strong>' + visibleCount + ' resource' + (visibleCount !== 1 ? 's' : '')
-            + '</strong> tagged <strong>#' + activeTag
-            + '</strong> &nbsp;&middot;&nbsp; <a href="resources.html">Show all</a>';
+            + '</strong> tagged ' + tagPills
+            + ' &nbsp;&middot;&nbsp; <a href="#" id="res-clear-tags-link">← all tags</a>';
         } else {
           banner.innerHTML = '<strong>' + visibleCount + ' result' + (visibleCount !== 1 ? 's' : '')
-            + '</strong> for &ldquo;' + searchTerm + '&rdquo;'
-            + ' &nbsp;&middot;&nbsp; <a id="res-clear-link" href="#">Clear</a>';
+            + '</strong> for &ldquo;' + activeSearch + '&rdquo;'
+            + ' &nbsp;&middot;&nbsp; <a href="#" id="res-clear-search-link">← clear</a>';
         }
       } else {
         banner.style.display = 'none';
@@ -628,18 +701,19 @@
       }
     }
 
-    // ── Filter entries (type + tag + search) ───────────────
-    function applyFilters(typeFilter, tagFilter, searchTerm) {
-      var q = (searchTerm || '').trim().toLowerCase();
+    // ── Filter entries (type + tags + search) ─────────────
+    function applyFilters() {
+      var q = (activeSearch || '').trim().toLowerCase();
       var entries = document.querySelectorAll('#resource-list .resource-entry');
       var visible = 0;
       entries.forEach(function(entry) {
-        var typeOk = (typeFilter === 'all') || (entry.getAttribute('data-type') === typeFilter);
+        var typeOk = (activeType === 'all') || (entry.getAttribute('data-type') === activeType);
 
-        var tagOk = !tagFilter;
+        var tagOk = activeTags.length === 0;
         if (!tagOk) {
           entry.querySelectorAll('.resource-tag').forEach(function(a) {
-            if ((a.getAttribute('href') || '').indexOf('?tag=' + tagFilter) !== -1) tagOk = true;
+            var t = a.getAttribute('data-tag');
+            if (t && activeTags.indexOf(t) !== -1) tagOk = true;
           });
         }
 
@@ -652,17 +726,19 @@
       return visible;
     }
 
-    // ── Sync all filter controls ───────────────────────────
-    function syncControls(typeFilter, tagFilter, searchTerm) {
+    // ── Sync everything ────────────────────────────────────
+    function syncControls() {
       document.querySelectorAll('.media-filter-btn').forEach(function(b) {
-        b.classList.toggle('active', b.getAttribute('data-type') === typeFilter);
+        b.classList.toggle('active', b.getAttribute('data-type') === activeType);
       });
       document.querySelectorAll('.genre-filter').forEach(function(a) {
-        a.classList.toggle('active', a.getAttribute('data-type') === typeFilter);
+        a.classList.toggle('active', a.getAttribute('data-type') === activeType);
       });
-      var visible = applyFilters(typeFilter, tagFilter, searchTerm);
-      updateBanner(tagFilter, searchTerm, visible);
-      buildTagSidebar(tagFilter);
+      var visible = applyFilters();
+      updateBanner(visible);
+      buildTagCloud();
+      buildTagSidebar();
+      updateEntryTagPills();
       ['article', 'quote', 'video'].forEach(function(t) {
         var el = document.getElementById('count-' + t);
         if (el) el.textContent = document.querySelectorAll('#resource-list [data-type="' + t + '"]').length;
@@ -672,18 +748,16 @@
     // ── Init ───────────────────────────────────────────────
     (function () {
       var params = new URLSearchParams(window.location.search);
-      var activeTag  = params.get('tag') || '';
-      var activeType = 'all';
-      var activeSearch = '';
+      var tagParam = params.get('tag') || '';
+      activeTags = tagParam ? tagParam.split(',').filter(Boolean) : [];
 
-      buildTagCloud();
-      syncControls(activeType, activeTag, activeSearch);
+      syncControls();
 
       // Top filter bar buttons
       document.querySelectorAll('.media-filter-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           activeType = this.getAttribute('data-type');
-          syncControls(activeType, activeTag, activeSearch);
+          syncControls();
         });
       });
 
@@ -692,7 +766,7 @@
         link.addEventListener('click', function(e) {
           e.preventDefault();
           activeType = this.getAttribute('data-type');
-          syncControls(activeType, activeTag, activeSearch);
+          syncControls();
         });
       });
 
@@ -704,7 +778,7 @@
         searchInput.addEventListener('input', function() {
           activeSearch = this.value;
           clearBtn.style.display = activeSearch.trim() ? 'inline-block' : 'none';
-          syncControls(activeType, activeTag, activeSearch);
+          syncControls();
         });
       }
 
@@ -713,19 +787,42 @@
           searchInput.value = '';
           activeSearch = '';
           clearBtn.style.display = 'none';
-          syncControls(activeType, activeTag, activeSearch);
+          syncControls();
         });
       }
 
-      // "Clear" link in banner (for search-only banner)
+      // Entry tag pill clicks (delegated to resource-list)
+      document.getElementById('resource-list').addEventListener('click', function(e) {
+        var a = e.target.closest('.resource-tag');
+        if (a && a.getAttribute('data-tag')) {
+          e.preventDefault();
+          toggleTag(a.getAttribute('data-tag'));
+        }
+      });
+
+      // Banner link clicks (delegated — banner is re-rendered on each sync)
       document.getElementById('active-tag-banner').addEventListener('click', function(e) {
         var t = e.target;
-        if (t && t.id === 'res-clear-link') {
+        if (!t) return;
+        if (t.id === 'res-clear-tags-link') {
           e.preventDefault();
-          if (searchInput) { searchInput.value = ''; }
+          activeTags = [];
+          updateURL();
+          syncControls();
+        } else if (t.id === 'res-clear-all-link') {
+          e.preventDefault();
+          activeTags = [];
           activeSearch = '';
-          clearBtn.style.display = 'none';
-          syncControls(activeType, activeTag, activeSearch);
+          if (searchInput) searchInput.value = '';
+          if (clearBtn) clearBtn.style.display = 'none';
+          updateURL();
+          syncControls();
+        } else if (t.id === 'res-clear-search-link') {
+          e.preventDefault();
+          activeSearch = '';
+          if (searchInput) searchInput.value = '';
+          if (clearBtn) clearBtn.style.display = 'none';
+          syncControls();
         }
       });
 
