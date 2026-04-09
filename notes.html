@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes — Thomas Denny</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .entry-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 0 4px 0 0;
+      font-size: 10px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      text-decoration: none;
+      background: #eef2f8;
+    }
+    .entry-tag:hover {
+      color: #FF6600;
+      border-color: #FF6600;
+      text-decoration: none;
+    }
+    .tag-cloud-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      margin: 4px 6px 4px 0;
+      font-size: 12px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      text-decoration: none;
+      background: #eef2f8;
+    }
+    .tag-cloud-pill:hover {
+      color: #FF6600;
+      border-color: #FF6600;
+      text-decoration: none;
+    }
+    .tag-cloud-pill .tag-count {
+      color: #99AACC;
+      font-size: 10px;
+    }
+    .note-card-meta {
+      font-size: 11px;
+      color: #6688aa;
+      margin: 8px 0 6px;
+    }
+    .note-card-meta a {
+      color: #336699;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <nav class="main-nav">
+      <a href="index.html" class="nav-title">thomas denny</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="now.html"   class="nav-link">Now</a>
+      <a href="about.html" class="nav-link">About Me</a>
+      <a href="blog.html"  class="nav-link">Blog</a>
+      <a href="books.html" class="nav-link">Books</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="deepwork.html" class="nav-link">Deep Work</a>
+    </nav>
+
+    <div class="main-layout">
+
+      <aside class="col-left-sm">
+
+        <div class="profile-card-sm">
+          <img
+            src="https://www.iamthomasdenny.com/content/images/size/w400/2025/08/IMG_1828-2.jpeg"
+            alt="Thomas Denny"
+          />
+          <div class="pcm-name">Thomas Denny</div>
+          <div class="pcm-status">
+            <span class="online-dot"></span> Online Now
+          </div>
+          <div class="pcm-mood">Mood: <span>Focused</span></div>
+          <a href="index.html" class="btn-back-home">← Back to Profile</a>
+        </div>
+
+        <div class="sidebar-page-nav">
+          <div class="spn-title">Pages</div>
+          <a href="index.html">Home</a>
+          <a href="now.html">Now</a>
+          <a href="about.html">About Me</a>
+          <a href="blog.html">Blog</a>
+          <a href="books.html">Books</a>
+          <a href="notes.html" class="current">Notes</a>
+          <a href="projects.html">Projects</a>
+          <a href="deepwork.html">Deep Work</a>
+        </div>
+
+        <div class="details-box" style="margin-top:0;" id="sidebar-tags">
+          <div class="details-header">Browse by Tag</div>
+          <div style="padding:8px 10px;" id="sidebar-tag-list">
+            <!-- populated by JS -->
+          </div>
+        </div>
+
+      </aside>
+
+      <main class="col-right">
+
+        <div class="section-header" id="page-heading">Notes</div>
+
+        <div class="content-box inner-content">
+          <p style="font-size:12px; color:#6688aa; margin-bottom:16px;" id="page-subtitle"></p>
+          <div id="notes-output"></div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <footer class="site-footer">
+      Thomas Denny &copy; 2025 &nbsp;|&nbsp; Built with intention, not a template.
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+
+    // ============================================================
+    // DATA — add new entries here as you tag notes in other books
+    // ============================================================
+    const notes = [
+      {
+        quote: "AI works, in many ways, as a co-intelligence. It augments, or potentially replaces, human thinking to dramatic results.",
+        chapter: "Introduction",
+        page: "p. xvii",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI", "FutureOfWork"]
+      },
+      {
+        quote: "AI can also learn biases, errors, and falsehoods from data it sees.",
+        chapter: "Creating Alien Minds",
+        page: "p. 13",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI", "HumanNature"]
+      },
+      {
+        quote: "Workers who figure out how to make AI useful for their jobs will have a large impact.",
+        chapter: "Four Rules For Co-Intelligence",
+        page: "p. 48",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI", "FutureOfWork"]
+      },
+      {
+        quote: "The key is to give the LLM some guidance and direction on how to generate outputs that match your expectations and needs, to put it in the right \u2018headspace\u2019 to give you interesting and unique answers.",
+        chapter: "Four Rules For Co-Intelligence",
+        page: "p. 59",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI", "DeepWork"]
+      },
+      {
+        quote: "Whatever AI you are using right now is going to be the worst AI you will ever use.",
+        chapter: "Four Rules For Co-Intelligence",
+        page: "p. 61",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI"]
+      },
+      {
+        quote: "Soon, companies will start to deploy LLMs that are built specifically to optimize \u2018engagement\u2019 in the same way that social media timelines are fine-tuned to increase the amount of time you spend on your favorite site.",
+        chapter: "AI As A Person",
+        page: "p. 90",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI", "Attention"]
+      },
+      {
+        quote: "If we remember that AI is not human, but often works in the way that we would expect humans to act, it helps us avoid getting too bogged down in arguments about ill-defined concepts like sentience.",
+        chapter: "AI As A Person",
+        page: "p. 92",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI", "HumanNature"]
+      },
+      {
+        quote: "We need to be realistic about a major weakness which means AI cannot easily be used for mission-critical tasks requiring precision or accuracy.",
+        chapter: "AI As A Creative",
+        page: "p. 98",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI"]
+      },
+      {
+        quote: "The implications of having AI write our first drafts (even if we do the work ourselves, which is not a given) are huge. One consequence is that we could lose our creativity and originality.",
+        chapter: "AI As A Creative",
+        page: "p. 119",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI", "HumanNature"]
+      },
+      {
+        quote: "It will also remove the facade that previously disguised meaningless tasks.",
+        chapter: "AI As A Creative",
+        page: "p. 122",
+        book: "Co-Intelligence",
+        author: "Ethan Mollick",
+        url: "book-notes-co-intelligence.html",
+        tags: ["AI", "FutureOfWork"]
+      }
+    ];
+
+    // ============================================================
+    // RENDER HELPERS
+    // ============================================================
+    function tagPill(tag, active) {
+      var style = active
+        ? 'display:inline-block;padding:2px 8px;margin:0 4px 0 0;font-size:10px;border:1px solid #FF6600;border-radius:2px;color:#FF6600;text-decoration:none;background:#fff5ee;'
+        : 'display:inline-block;padding:2px 8px;margin:0 4px 0 0;font-size:10px;border:1px solid #99AACC;border-radius:2px;color:#336699;text-decoration:none;background:#eef2f8;';
+      return '<a href="notes.html?tag=' + tag + '" class="entry-tag" style="' + style + '">#' + tag + '</a>';
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderCard(note, activeTag) {
+      var tagPills = note.tags.map(function(t) { return tagPill(t, t === activeTag); }).join('');
+      return '<div class="details-box" style="margin-bottom:16px;">'
+        + '<div class="details-header">' + escHtml(note.chapter) + ' &nbsp;&middot;&nbsp; ' + escHtml(note.page) + '</div>'
+        + '<div style="padding:10px 12px;">'
+        + '<blockquote style="margin:0 0 0 0;padding:8px 12px;border-left:3px solid #336699;background:#f0f4fa;font-size:12px;color:#333;line-height:1.7;font-style:italic;">'
+        + '&ldquo;' + escHtml(note.quote) + '&rdquo;'
+        + '</blockquote>'
+        + '<div class="note-card-meta" style="font-size:11px;color:#6688aa;margin:8px 0 6px;">'
+        + '<a href="' + note.url + '" style="color:#336699;">' + escHtml(note.book) + '</a>'
+        + ' &mdash; ' + escHtml(note.author)
+        + '</div>'
+        + '<div>' + tagPills + '</div>'
+        + '</div>'
+        + '</div>';
+    }
+
+    function buildTagCounts() {
+      var counts = {};
+      notes.forEach(function(n) {
+        n.tags.forEach(function(t) {
+          counts[t] = (counts[t] || 0) + 1;
+        });
+      });
+      return counts;
+    }
+
+    function renderTagCloud() {
+      var counts = buildTagCounts();
+      var sorted = Object.keys(counts).sort(function(a, b) { return counts[b] - counts[a]; });
+      return sorted.map(function(tag) {
+        return '<a href="notes.html?tag=' + tag + '" class="tag-cloud-pill">'
+          + '#' + tag
+          + ' <span class="tag-count">(' + counts[tag] + ')</span>'
+          + '</a>';
+      }).join('');
+    }
+
+    function renderSidebarTags(activeTag) {
+      var counts = buildTagCounts();
+      var sorted = Object.keys(counts).sort(function(a, b) { return counts[b] - counts[a]; });
+      var html = sorted.map(function(tag) {
+        var isActive = tag === activeTag;
+        var style = isActive
+          ? 'display:block;padding:3px 0;font-size:11px;color:#FF6600;font-weight:bold;text-decoration:none;'
+          : 'display:block;padding:3px 0;font-size:11px;color:#336699;text-decoration:none;';
+        return '<a href="notes.html?tag=' + tag + '" style="' + style + '">#' + tag + ' <span style="color:#99AACC;">(' + counts[tag] + ')</span></a>';
+      }).join('');
+      document.getElementById('sidebar-tag-list').innerHTML = html;
+    }
+
+    // ============================================================
+    // MAIN
+    // ============================================================
+    window.addEventListener('DOMContentLoaded', function() {
+      var params = new URLSearchParams(window.location.search);
+      var tag = params.get('tag');
+      var heading = document.getElementById('page-heading');
+      var subtitle = document.getElementById('page-subtitle');
+      var output = document.getElementById('notes-output');
+
+      renderSidebarTags(tag);
+
+      if (tag) {
+        heading.textContent = 'Notes tagged #' + tag;
+        var filtered = notes.filter(function(n) { return n.tags.indexOf(tag) !== -1; });
+        subtitle.innerHTML = filtered.length + ' ' + (filtered.length === 1 ? 'entry' : 'entries')
+          + ' &nbsp;&middot;&nbsp; <a href="notes.html" style="color:#6688aa;font-size:11px;">← all tags</a>';
+        if (filtered.length === 0) {
+          output.innerHTML = '<p style="font-size:12px;color:#6688aa;padding:20px 0;">No notes found for #' + escHtml(tag) + '.</p>';
+        } else {
+          output.innerHTML = filtered.map(function(n) { return renderCard(n, tag); }).join('');
+        }
+      } else {
+        heading.textContent = 'Notes';
+        subtitle.textContent = 'Browse by tag — click any to filter.';
+        output.innerHTML = '<div style="padding:4px 0;">' + renderTagCloud() + '</div>';
+      }
+    });
+
+  </script>
+</body>
+</html>
