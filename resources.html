@@ -1,24 +1,23 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Knowledge Base — Thomas Denny</title>
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- Open Graph -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://iamthomasdenny.com/resources.html" />
-  <meta property="og:title"       content="Knowledge Base — Thomas Denny" />
-  <meta property="og:description" content="Articles, quotes, videos, and book notes from Thomas Denny — tagged and searchable." />
-  <meta property="og:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="Knowledge Base — Thomas Denny" />
-  <meta name="twitter:description" content="Articles, quotes, videos, and book notes from Thomas Denny — tagged and searchable." />
-  <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Knowledge Base — Thomas Denny</title>
+<link href="styles.css" rel="stylesheet"/>
+<!-- Open Graph -->
+<meta content="website" property="og:type"/>
+<meta content="https://iamthomasdenny.com/resources.html" property="og:url"/>
+<meta content="Knowledge Base — Thomas Denny" property="og:title"/>
+<meta content="Articles, quotes, videos, and book notes from Thomas Denny — tagged and searchable." property="og:description"/>
+<meta content="https://iamthomasdenny.com/jenny.jpeg" property="og:image"/>
+<!-- Twitter Card -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Knowledge Base — Thomas Denny" name="twitter:title"/>
+<meta content="Articles, quotes, videos, and book notes from Thomas Denny — tagged and searchable." name="twitter:description"/>
+<meta content="https://iamthomasdenny.com/jenny.jpeg" name="twitter:image"/>
+<style>
     /* ── Resource entry card ────────────────────────────── */
     .resource-list { list-style: none; padding: 0; margin: 0; }
 
@@ -319,6 +318,63 @@
       color: #ffddcc;
     }
 
+
+    /* ── Book group rows ─────────────────────────── */
+    .book-group-row {
+      list-style: none;
+      border-bottom: 1px solid #ddeeff;
+    }
+    .book-group-row:last-child { border-bottom: none; }
+    .book-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      cursor: pointer;
+    }
+    .book-group-header:hover .book-group-title { color: #FF6600; }
+    .book-group-title {
+      font-family: Georgia, serif;
+      font-size: 14px;
+      color: #003366;
+      text-decoration: none;
+    }
+    .book-group-title:hover { color: #FF6600; }
+    .book-group-meta {
+      font-size: 11px;
+      color: #6688aa;
+    }
+    .book-group-chevron {
+      font-size: 11px;
+      color: #99AACC;
+      flex-shrink: 0;
+      margin-left: 12px;
+      user-select: none;
+    }
+
+    /* ── Load more button ────────────────────────── */
+    .load-more-btn {
+      display: block;
+      width: 100%;
+      padding: 9px;
+      margin-top: 14px;
+      font-size: 11px;
+      font-family: Verdana, Arial, sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #336699;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .load-more-btn:hover {
+      background: linear-gradient(to bottom, #fff4ee, #ffe0cc);
+      border-color: #FF6600;
+      color: #CC4400;
+    }
     /* search highlight */
     mark.res-hit {
       background: #ffe066;
@@ -335,661 +391,591 @@
   </style>
 </head>
 <body>
-
-  <div class="page-wrapper">
-
-    <!-- ======================================================
+<div class="page-wrapper">
+<!-- ======================================================
          NAVIGATION BAR
     ====================================================== -->
-    <nav class="main-nav">
-      <a href="index.html" class="nav-title">thomas denny</a>
-      <a href="index.html"    class="nav-link">Home</a>
-      <a href="now.html"      class="nav-link">Now</a>
-      <a href="about.html"    class="nav-link">About Me</a>
-      <a href="blog.html"     class="nav-link">Blog</a>
-      <a href="books.html"    class="nav-link">Books</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="deepwork.html" class="nav-link">Deep Work</a>
-      <a href="resources.html" class="nav-link active">Knowledge Base</a>
-    </nav>
-
-    <!-- ======================================================
+<nav class="main-nav">
+<a class="nav-title" href="index.html">thomas denny</a>
+<a class="nav-link" href="index.html">Home</a>
+<a class="nav-link" href="now.html">Now</a>
+<a class="nav-link" href="about.html">About Me</a>
+<a class="nav-link" href="blog.html">Blog</a>
+<a class="nav-link" href="books.html">Books</a>
+<a class="nav-link" href="projects.html">Projects</a>
+<a class="nav-link" href="deepwork.html">Deep Work</a>
+<a class="nav-link active" href="resources.html">Knowledge Base</a>
+</nav>
+<!-- ======================================================
          MAIN LAYOUT
     ====================================================== -->
-    <div class="main-layout">
-
-      <!-- ====================================================
+<div class="main-layout">
+<!-- ====================================================
            LEFT COLUMN
       ==================================================== -->
-      <aside class="col-left-sm">
-
-        <div class="profile-card-sm">
-          <img
-            src="https://www.iamthomasdenny.com/content/images/size/w400/2025/08/IMG_1828-2.jpeg"
-            alt="Thomas Denny"
-          />
-          <div class="pcm-name">Thomas Denny</div>
-          <div class="pcm-status">
-            <span class="online-dot"></span> Online Now
+<aside class="col-left-sm">
+<div class="profile-card-sm">
+<img alt="Thomas Denny" src="https://www.iamthomasdenny.com/content/images/size/w400/2025/08/IMG_1828-2.jpeg"/>
+<div class="pcm-name">Thomas Denny</div>
+<div class="pcm-status">
+<span class="online-dot"></span> Online Now
           </div>
-          <div class="pcm-mood">Mood: <span>Curious</span></div>
-          <a href="index.html" class="btn-back-home">← Back to Profile</a>
-        </div>
-
-        <div class="sidebar-page-nav">
-          <div class="spn-title">Pages</div>
-          <a href="index.html">Home</a>
-          <a href="now.html">Now</a>
-          <a href="about.html">About Me</a>
-          <a href="blog.html">Blog</a>
-          <a href="books.html">Books</a>
-          <a href="projects.html">Projects</a>
-          <a href="deepwork.html">Deep Work</a>
-          <a href="resources.html" class="current">Knowledge Base</a>
-        </div>
-
-        <div class="sidebar-page-nav" style="margin-top:0;">
-          <div class="spn-title">Filter by Type</div>
-          <a href="#" class="genre-filter active" data-type="all">All</a>
-          <a href="#" class="genre-filter" data-type="article">Articles</a>
-          <a href="#" class="genre-filter" data-type="quote">Quotes</a>
-          <a href="#" class="genre-filter" data-type="video">Videos</a>
-          <a href="#" class="genre-filter" data-type="book">Books</a>
-        </div>
-
-        <div class="details-box" style="margin-top:0;">
-          <div class="details-header">In Here</div>
-          <table class="details-table">
-            <tr><td class="details-label">Articles:</td><td class="details-value" id="count-article">1</td></tr>
-            <tr><td class="details-label">Quotes:</td><td class="details-value" id="count-quote">1</td></tr>
-            <tr><td class="details-label">Videos:</td><td class="details-value" id="count-video">1</td></tr>
-            <tr><td class="details-label">Books:</td><td class="details-value" id="count-book">0</td></tr>
-          </table>
-        </div>
-
-
-        <div class="details-box" style="margin-top:0;" id="res-tag-sidebar">
-          <div class="details-header">Browse by Tag</div>
-          <div style="padding:6px 8px;" id="res-tag-list">
-            <!-- filled by JS -->
-          </div>
-        </div>
-
-      </aside>
-
-      <!-- ====================================================
+<div class="pcm-mood">Mood: <span>Curious</span></div>
+<a class="btn-back-home" href="index.html">← Back to Profile</a>
+</div>
+<div class="sidebar-page-nav">
+<div class="spn-title">Pages</div>
+<a href="index.html">Home</a>
+<a href="now.html">Now</a>
+<a href="about.html">About Me</a>
+<a href="blog.html">Blog</a>
+<a href="books.html">Books</a>
+<a href="projects.html">Projects</a>
+<a href="deepwork.html">Deep Work</a>
+<a class="current" href="resources.html">Knowledge Base</a>
+</div>
+<div class="sidebar-page-nav" style="margin-top:0;">
+<div class="spn-title">Filter by Type</div>
+<a class="genre-filter active" data-type="all" href="#">All</a>
+<a class="genre-filter" data-type="article" href="#">Articles</a>
+<a class="genre-filter" data-type="quote" href="#">Quotes</a>
+<a class="genre-filter" data-type="video" href="#">Videos</a>
+<a class="genre-filter" data-type="book" href="#">Books</a>
+</div>
+<div class="details-box" style="margin-top:0;">
+<div class="details-header">In Here</div>
+<table class="details-table">
+<tr><td class="details-label">Articles:</td><td class="details-value" id="count-article">1</td></tr>
+<tr><td class="details-label">Quotes:</td><td class="details-value" id="count-quote">1</td></tr>
+<tr><td class="details-label">Videos:</td><td class="details-value" id="count-video">1</td></tr>
+<tr><td class="details-label">Books:</td><td class="details-value" id="count-book">0</td></tr>
+</table>
+</div>
+<div class="details-box" id="res-tag-sidebar" style="margin-top:0;">
+<div class="details-header">Browse by Tag</div>
+<div id="res-tag-list" style="padding:6px 8px;">
+<!-- filled by JS -->
+</div>
+</div>
+</aside>
+<!-- ====================================================
            RIGHT COLUMN — Resources list
       ==================================================== -->
-      <main class="col-right">
-
-        <div class="section-header">Knowledge Base</div>
-
-        <div class="content-box inner-content">
-
-          <p style="font-size:12px; color:#6688aa; margin-bottom:14px;">
+<main class="col-right">
+<div class="section-header">Knowledge Base</div>
+<div class="content-box inner-content">
+<p style="font-size:12px; color:#6688aa; margin-bottom:14px;">
             Articles, quotes, and videos I've found worthwhile — with my take and tags on each.
             Filter by tag, type, or search to find what you're looking for.
           </p>
-
-          <!-- Search -->
-          <div class="res-search-wrap">
-            <input type="text" class="res-search-input" id="res-search"
-              placeholder="Search titles, authors, quotes..." autocomplete="off" />
-            <button class="res-search-clear" id="res-search-clear">✕ Clear</button>
-          </div>
-
-          <!-- Tag cloud (hidden when a tag or search is active) -->
-          <div class="res-tag-cloud-section" id="res-tag-cloud-section" style="display:none;">
-            <div class="res-tag-cloud" id="res-tag-cloud"></div>
-          </div>
-
-          <!-- Media type filter (top of page, mirrors sidebar) -->
-          <div class="media-filter-bar">
-            <button class="media-filter-btn active" data-type="all">All</button>
-            <span class="media-filter-sep">·</span>
-            <button class="media-filter-btn" data-type="article">Articles</button>
-            <span class="media-filter-sep">·</span>
-            <button class="media-filter-btn" data-type="quote">Quotes</button>
-            <span class="media-filter-sep">·</span>
-            <button class="media-filter-btn" data-type="video">Videos</button>
-            <span class="media-filter-sep">·</span>
-            <button class="media-filter-btn" data-type="book">Books</button>
-          </div>
-
-          <div class="active-tag-banner" id="active-tag-banner"></div>
-
-          <ul class="resource-list" id="resource-list">
-
-            <!-- ══════════════════════════════════════════
+<!-- Search -->
+<div class="res-search-wrap">
+<input autocomplete="off" class="res-search-input" id="res-search" placeholder="Search titles, authors, quotes..." type="text"/>
+<button class="res-search-clear" id="res-search-clear">✕ Clear</button>
+</div>
+<!-- Tag cloud (hidden when a tag or search is active) -->
+<div class="res-tag-cloud-section" id="res-tag-cloud-section" style="display:none;">
+<div class="res-tag-cloud" id="res-tag-cloud"></div>
+</div>
+<!-- Media type filter (top of page, mirrors sidebar) -->
+<div class="media-filter-bar">
+<button class="media-filter-btn active" data-type="all">All</button>
+<span class="media-filter-sep">·</span>
+<button class="media-filter-btn" data-type="article">Articles</button>
+<span class="media-filter-sep">·</span>
+<button class="media-filter-btn" data-type="quote">Quotes</button>
+<span class="media-filter-sep">·</span>
+<button class="media-filter-btn" data-type="video">Videos</button>
+<span class="media-filter-sep">·</span>
+<button class="media-filter-btn" data-type="book">Books</button>
+</div>
+<div class="active-tag-banner" id="active-tag-banner"></div>
+<ul class="resource-list" id="resource-list">
+<!-- ══════════════════════════════════════════
                  ARTICLE ENTRY
                  You Are Not a Parrot · April 2026
             ══════════════════════════════════════════ -->
-            <li class="resource-entry" data-type="article">
-              <span class="media-badge media-badge--article">Article</span>
-
-              <div class="resource-title">
-                <a href="https://nymag.com/intelligencer/article/ai-artificial-intelligence-chatbot-language-model.html" target="_blank" rel="noopener">
+<li class="resource-entry" data-type="article">
+<span class="media-badge media-badge--article">Article</span>
+<div class="resource-title">
+<a href="https://nymag.com/intelligencer/article/ai-artificial-intelligence-chatbot-language-model.html" rel="noopener" target="_blank">
                   You Are Not a Parrot
                 </a>
+</div>
+<div class="resource-meta">
+                New York Magazine  ·  Elizabeth Weil  ·  Read April 2026
               </div>
-              <div class="resource-meta">
-                New York Magazine &nbsp;·&nbsp; Elizabeth Weil &nbsp;·&nbsp; Read April 2026
-              </div>
-
-              <div class="my-take-wrap">
-                <div class="my-take-text collapsed" id="take-article-1">
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-article-1">
                   [Thomas fills in — what did this piece make you think? Did it change anything, confirm something you already believed, or frustrate you? Keep it honest and specific.]
                 </div>
-                <button class="my-take-toggle" data-target="take-article-1" data-state="collapsed" style="display:none;">read more ↓</button>
-              </div>
-
-              <blockquote class="resource-blockquote">
+<button class="my-take-toggle" data-state="collapsed" data-target="take-article-1" style="display:none;">read more ↓</button>
+</div>
+<blockquote class="resource-blockquote">
                 "The most interesting question about ChatGPT is not whether it can write a convincing essay, but whether it understands anything at all."
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-              </div>
-
-            </li>
-
-            <!-- ══════════════════════════════════════════
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══════════════════════════════════════════
                  QUOTE ENTRY
                  Kierkegaard
             ══════════════════════════════════════════ -->
-            <li class="resource-entry" data-type="quote">
-              <span class="media-badge media-badge--quote">Quote</span>
-
-              <blockquote class="resource-blockquote resource-blockquote--standalone">
+<li class="resource-entry" data-type="quote">
+<span class="media-badge media-badge--quote">Quote</span>
+<blockquote class="resource-blockquote resource-blockquote--standalone">
                 "The most common form of despair is not being who you are."
               </blockquote>
-              <div class="resource-attribution">
-                Søren Kierkegaard &nbsp;·&nbsp; <em>Either/Or</em>
-              </div>
-
-              <div class="resource-why">
+<div class="resource-attribution">
+                Søren Kierkegaard  ·  <em>Either/Or</em>
+</div>
+<div class="resource-why">
                 It's a short sentence that keeps coming back to me — especially in conversations about how we use AI to outsource thinking and writing we should be doing ourselves.
               </div>
-
-              <div class="resource-tags">
-                <a href="resources.html?tag=Identity" class="resource-tag" data-tag="Identity">#Identity</a>
-                <a href="resources.html?tag=Philosophy" class="resource-tag" data-tag="Philosophy">#Philosophy</a>
-              </div>
-            </li>
-
-            <!-- ══════════════════════════════════════════
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Identity" href="resources.html?tag=Identity">#Identity</a>
+<a class="resource-tag" data-tag="Philosophy" href="resources.html?tag=Philosophy">#Philosophy</a>
+</div>
+</li>
+<!-- ══════════════════════════════════════════
                  VIDEO ENTRY
                  Cal Newport on Deep Work · April 2026
             ══════════════════════════════════════════ -->
-            <li class="resource-entry" data-type="video">
-              <span class="media-badge media-badge--video">Video</span>
-
-              <div class="resource-title">
-                <a href="https://www.youtube.com/watch?v=doGo1-_6jT4" target="_blank" rel="noopener">
+<li class="resource-entry" data-type="video">
+<span class="media-badge media-badge--video">Video</span>
+<div class="resource-title">
+<a href="https://www.youtube.com/watch?v=doGo1-_6jT4" rel="noopener" target="_blank">
                   Cal Newport on Deep Work
                 </a>
+</div>
+<div class="resource-meta">
+                Cal Newport  ·  YouTube  ·  Watched April 2026
               </div>
-              <div class="resource-meta">
-                Cal Newport &nbsp;·&nbsp; YouTube &nbsp;·&nbsp; Watched April 2026
-              </div>
-
-              <div class="my-take-wrap">
-                <div class="my-take-text collapsed" id="take-video-1">
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-video-1">
                   [Thomas fills in — what made this worth your time? What landed differently on video vs. the book?]
                 </div>
-                <button class="my-take-toggle" data-target="take-video-1" data-state="collapsed" style="display:none;">read more ↓</button>
-              </div>
-
-              <blockquote class="resource-blockquote">
-                <span class="bq-timestamp">[12:34]</span> "The ability to perform deep work is becoming increasingly rare at exactly the same time it's becoming increasingly valuable."
+<button class="my-take-toggle" data-state="collapsed" data-target="take-video-1" style="display:none;">read more ↓</button>
+</div>
+<blockquote class="resource-blockquote">
+<span class="bq-timestamp">[12:34]</span> "The ability to perform deep work is becoming increasingly rare at exactly the same time it's becoming increasingly valuable."
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=DeepWork" class="resource-tag" data-tag="DeepWork">#DeepWork</a>
-                <a href="resources.html?tag=Attention" class="resource-tag" data-tag="Attention">#Attention</a>
-              </div>
-
-            </li>
-
-            <!-- ══ Co-Intelligence · p. xvii ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; Introduction &nbsp;·&nbsp; p. xvii</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;AI works, in many ways, as a co-intelligence. It augments, or potentially replaces, human thinking to dramatic results.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="DeepWork" href="resources.html?tag=DeepWork">#DeepWork</a>
+<a class="resource-tag" data-tag="Attention" href="resources.html?tag=Attention">#Attention</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. xvii ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Introduction  ·  p. xvii</div>
+<blockquote class="resource-blockquote">
+                “AI works, in many ways, as a co-intelligence. It augments, or potentially replaces, human thinking to dramatic results.”
               </blockquote>
-              <div class="my-take-wrap">
-                <div class="my-take-text collapsed" id="take-co-1">
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-co-1">
                   AI automates the boring, repetitive stuff and augments our creativity and ability to produce at scale. I do not like to believe that AI can or will ever replace human thought. There are certain things I believe should remain 100% human.
                 </div>
-                <button class="my-take-toggle" data-target="take-co-1" data-state="collapsed" style="display:none;">read more ↓</button>
-              </div>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=FutureOfWork" class="resource-tag" data-tag="FutureOfWork">#FutureOfWork</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 13 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; Creating Alien Minds &nbsp;·&nbsp; p. 13</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;AI can also learn biases, errors, and falsehoods from data it sees.&rdquo;
+<button class="my-take-toggle" data-state="collapsed" data-target="take-co-1" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="FutureOfWork" href="resources.html?tag=FutureOfWork">#FutureOfWork</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 13 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Creating Alien Minds  ·  p. 13</div>
+<blockquote class="resource-blockquote">
+                “AI can also learn biases, errors, and falsehoods from data it sees.”
               </blockquote>
-              <div class="my-take-wrap">
-                <div class="my-take-text collapsed" id="take-co-2">
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-co-2">
                   LLMs are <a href="https://www.parlant.io/blog/what-is-autoregression/">autoregressive</a>, next token prediction machines and respond based on their training data. This highlights the importance of having clean, accurate data for training - or else your model will provide incorrect information (<a href="https://www.ibm.com/think/topics/ai-hallucinations">hallucinations</a>).
                 </div>
-                <button class="my-take-toggle" data-target="take-co-2" data-state="collapsed" style="display:none;">read more ↓</button>
-              </div>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 48 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; Four Rules For Co-Intelligence &nbsp;·&nbsp; p. 48</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Workers who figure out how to make AI useful for their jobs will have a large impact.&rdquo;
+<button class="my-take-toggle" data-state="collapsed" data-target="take-co-2" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 48 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Four Rules For Co-Intelligence  ·  p. 48</div>
+<blockquote class="resource-blockquote">
+                “Workers who figure out how to make AI useful for their jobs will have a large impact.”
               </blockquote>
-              <div class="my-take-wrap">
-                <div class="my-take-text collapsed" id="take-co-3">
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-co-3">
                   I have personally experienced this over the last 2 years. I believe AI is here to stay and those who learn how to solve real business problems with it will have an advantage in the workplace.
                 </div>
-                <button class="my-take-toggle" data-target="take-co-3" data-state="collapsed" style="display:none;">read more ↓</button>
-              </div>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=FutureOfWork" class="resource-tag" data-tag="FutureOfWork">#FutureOfWork</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 59 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; Four Rules For Co-Intelligence &nbsp;·&nbsp; p. 59</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;The key is to give the LLM some guidance and direction on how to generate outputs that match your expectations and needs, to put it in the right ‘headspace’ to give you interesting and unique answers.&rdquo;
+<button class="my-take-toggle" data-state="collapsed" data-target="take-co-3" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="FutureOfWork" href="resources.html?tag=FutureOfWork">#FutureOfWork</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 59 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Four Rules For Co-Intelligence  ·  p. 59</div>
+<blockquote class="resource-blockquote">
+                “The key is to give the LLM some guidance and direction on how to generate outputs that match your expectations and needs, to put it in the right ‘headspace’ to give you interesting and unique answers.”
               </blockquote>
-              <div class="my-take-wrap">
-                <div class="my-take-text collapsed" id="take-co-4">
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-co-4">
                   There are various methods of <a href="https://www.ibm.com/think/topics/prompt-engineering-techniques">prompt engineering</a>. I've learned that garbage in = garbage out and that context is king (but not too much) due to the <a href="https://www.ibm.com/think/topics/context-window">context window</a>.
                 </div>
-                <button class="my-take-toggle" data-target="take-co-4" data-state="collapsed" style="display:none;">read more ↓</button>
-              </div>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=DeepWork" class="resource-tag" data-tag="DeepWork">#DeepWork</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 61 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; Four Rules For Co-Intelligence &nbsp;·&nbsp; p. 61</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Whatever AI you are using right now is going to be the worst AI you will ever use.&rdquo;
+<button class="my-take-toggle" data-state="collapsed" data-target="take-co-4" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="DeepWork" href="resources.html?tag=DeepWork">#DeepWork</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 61 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Four Rules For Co-Intelligence  ·  p. 61</div>
+<blockquote class="resource-blockquote">
+                “Whatever AI you are using right now is going to be the worst AI you will ever use.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 90 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; AI As A Person &nbsp;·&nbsp; p. 90</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Soon, companies will start to deploy LLMs that are built specifically to optimize ‘engagement’ in the same way that social media timelines are fine-tuned to increase the amount of time you spend on your favorite site.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 90 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Person  ·  p. 90</div>
+<blockquote class="resource-blockquote">
+                “Soon, companies will start to deploy LLMs that are built specifically to optimize ‘engagement’ in the same way that social media timelines are fine-tuned to increase the amount of time you spend on your favorite site.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=Attention" class="resource-tag" data-tag="Attention">#Attention</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 92 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; AI As A Person &nbsp;·&nbsp; p. 92</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;If we remember that AI is not human, but often works in the way that we would expect humans to act, it helps us avoid getting too bogged down in arguments about ill-defined concepts like sentience.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="Attention" href="resources.html?tag=Attention">#Attention</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 92 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Person  ·  p. 92</div>
+<blockquote class="resource-blockquote">
+                “If we remember that AI is not human, but often works in the way that we would expect humans to act, it helps us avoid getting too bogged down in arguments about ill-defined concepts like sentience.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 98 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; AI As A Creative &nbsp;·&nbsp; p. 98</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;We need to be realistic about a major weakness which means AI cannot easily be used for mission-critical tasks requiring precision or accuracy.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 98 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Creative  ·  p. 98</div>
+<blockquote class="resource-blockquote">
+                “We need to be realistic about a major weakness which means AI cannot easily be used for mission-critical tasks requiring precision or accuracy.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 119 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; AI As A Creative &nbsp;·&nbsp; p. 119</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;The implications of having AI write our first drafts (even if we do the work ourselves, which is not a given) are huge. One consequence is that we could lose our creativity and originality.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 119 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Creative  ·  p. 119</div>
+<blockquote class="resource-blockquote">
+                “The implications of having AI write our first drafts (even if we do the work ourselves, which is not a given) are huge. One consequence is that we could lose our creativity and originality.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-              </div>
-            </li>
-
-            <!-- ══ Co-Intelligence · p. 122 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-co-intelligence.html">Co-Intelligence</a>
-              </div>
-              <div class="resource-meta">Ethan Mollick &nbsp;·&nbsp; AI As A Creative &nbsp;·&nbsp; p. 122</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;It will also remove the facade that previously disguised meaningless tasks.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 122 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-co-intelligence.html">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Creative  ·  p. 122</div>
+<blockquote class="resource-blockquote">
+                “It will also remove the facade that previously disguised meaningless tasks.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=AI" class="resource-tag" data-tag="AI">#AI</a>
-                <a href="resources.html?tag=FutureOfWork" class="resource-tag" data-tag="FutureOfWork">#FutureOfWork</a>
-              </div>
-            </li>
-
-            <!-- ══ If This Is A Man · p. 79 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-if-this-is-a-man.html">If This Is A Man</a>
-              </div>
-              <div class="resource-meta">Primo Levi &nbsp;·&nbsp; A Good Day &nbsp;·&nbsp; p. 79</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;For human nature is such that grief and pain — even if simultaneously suffered — do not add up as a whole in our consciousness, but hide, the lesser behind the greater, according to the law of perspective.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="resources.html?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="FutureOfWork" href="resources.html?tag=FutureOfWork">#FutureOfWork</a>
+</div>
+</li>
+<!-- ══ If This Is A Man · p. 79 ══ -->
+<li class="resource-entry" data-book="If This Is A Man" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-if-this-is-a-man.html">If This Is A Man</a>
+</div>
+<div class="resource-meta">Primo Levi  ·  A Good Day  ·  p. 79</div>
+<blockquote class="resource-blockquote">
+                “For human nature is such that grief and pain — even if simultaneously suffered — do not add up as a whole in our consciousness, but hide, the lesser behind the greater, according to the law of perspective.”
               </blockquote>
-              <div class="my-take-wrap">
-                <div class="my-take-text collapsed" id="take-itian-1">
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-itian-1">
                   This has me reflecting on the idea of the <a href="https://www.psychologytoday.com/us/basics/hedonic-treadmill">hedonic treadmill</a>. The idea that individual's level of happiness, after rising or falling in response to positive or negative life events, ultimately tends to move back toward where it was prior to these experiences.
                 </div>
-                <button class="my-take-toggle" data-target="take-itian-1" data-state="collapsed" style="display:none;">read more ↓</button>
-              </div>
-              <div class="resource-tags">
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-                <a href="resources.html?tag=Psychology" class="resource-tag" data-tag="Psychology">#Psychology</a>
-              </div>
-            </li>
-
-            <!-- ══ Fahrenheit 451 · p. 52 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
-              </div>
-              <div class="resource-meta">Ray Bradbury &nbsp;·&nbsp; The Hearth and the Salamander &nbsp;·&nbsp; p. 52</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Whirl man’s mind around so fast under the pumping hands of publishers, exploiters, broadcasters that the centrifuge flings off all unnecessary, time-wasting thought!&rdquo;
+<button class="my-take-toggle" data-state="collapsed" data-target="take-itian-1" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+<a class="resource-tag" data-tag="Psychology" href="resources.html?tag=Psychology">#Psychology</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 52 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Hearth and the Salamander  ·  p. 52</div>
+<blockquote class="resource-blockquote">
+                “Whirl man’s mind around so fast under the pumping hands of publishers, exploiters, broadcasters that the centrifuge flings off all unnecessary, time-wasting thought!”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=Attention" class="resource-tag" data-tag="Attention">#Attention</a>
-                <a href="resources.html?tag=DeepWork" class="resource-tag" data-tag="DeepWork">#DeepWork</a>
-              </div>
-            </li>
-
-            <!-- ══ Fahrenheit 451 · p. 56 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
-              </div>
-              <div class="resource-meta">Ray Bradbury &nbsp;·&nbsp; The Hearth and the Salamander &nbsp;·&nbsp; p. 56</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Who knows who might be the target of the well-read man?&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Attention" href="resources.html?tag=Attention">#Attention</a>
+<a class="resource-tag" data-tag="DeepWork" href="resources.html?tag=DeepWork">#DeepWork</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 56 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Hearth and the Salamander  ·  p. 56</div>
+<blockquote class="resource-blockquote">
+                “Who knows who might be the target of the well-read man?”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=Reading" class="resource-tag" data-tag="Reading">#Reading</a>
-              </div>
-            </li>
-
-            <!-- ══ Fahrenheit 451 · p. 80 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
-              </div>
-              <div class="resource-meta">Ray Bradbury &nbsp;·&nbsp; The Sieve and the Sand &nbsp;·&nbsp; p. 80</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Off hours, yes. But time to think? If you’re not driving a hundred miles an hour, at a clip where you can’t think of anything else but the danger, then you’re playing some game or sitting in some room where you can’t argue with the four-wall televisor.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Reading" href="resources.html?tag=Reading">#Reading</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 80 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 80</div>
+<blockquote class="resource-blockquote">
+                “Off hours, yes. But time to think? If you’re not driving a hundred miles an hour, at a clip where you can’t think of anything else but the danger, then you’re playing some game or sitting in some room where you can’t argue with the four-wall televisor.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=Attention" class="resource-tag" data-tag="Attention">#Attention</a>
-                <a href="resources.html?tag=DeepWork" class="resource-tag" data-tag="DeepWork">#DeepWork</a>
-              </div>
-            </li>
-
-            <!-- ══ Fahrenheit 451 · p. 81 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
-              </div>
-              <div class="resource-meta">Ray Bradbury &nbsp;·&nbsp; The Sieve and the Sand &nbsp;·&nbsp; p. 81</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Only if the third necessary thing could be given to us. Number one, as I said, quality of information. Number two: leisure time to digest it. And number three: the right to carry out actions based on what we learn from the interaction of the first two.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Attention" href="resources.html?tag=Attention">#Attention</a>
+<a class="resource-tag" data-tag="DeepWork" href="resources.html?tag=DeepWork">#DeepWork</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 81 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 81</div>
+<blockquote class="resource-blockquote">
+                “Only if the third necessary thing could be given to us. Number one, as I said, quality of information. Number two: leisure time to digest it. And number three: the right to carry out actions based on what we learn from the interaction of the first two.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=DeepWork" class="resource-tag" data-tag="DeepWork">#DeepWork</a>
-                <a href="resources.html?tag=Reading" class="resource-tag" data-tag="Reading">#Reading</a>
-              </div>
-            </li>
-
-            <!-- ══ Fahrenheit 451 · p. 83 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
-              </div>
-              <div class="resource-meta">Ray Bradbury &nbsp;·&nbsp; The Sieve and the Sand &nbsp;·&nbsp; p. 83</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;The public itself stopped reading of its own accord.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="DeepWork" href="resources.html?tag=DeepWork">#DeepWork</a>
+<a class="resource-tag" data-tag="Reading" href="resources.html?tag=Reading">#Reading</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 83 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 83</div>
+<blockquote class="resource-blockquote">
+                “The public itself stopped reading of its own accord.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=Reading" class="resource-tag" data-tag="Reading">#Reading</a>
-              </div>
-            </li>
-
-            <!-- ══ Fahrenheit 451 · p. 104 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
-              </div>
-              <div class="resource-meta">Ray Bradbury &nbsp;·&nbsp; The Sieve and the Sand &nbsp;·&nbsp; p. 104</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;The most dangerous enemy to truth and freedom, the solid unmoving cattle of the majority.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Reading" href="resources.html?tag=Reading">#Reading</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 104 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 104</div>
+<blockquote class="resource-blockquote">
+                “The most dangerous enemy to truth and freedom, the solid unmoving cattle of the majority.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-              </div>
-            </li>
-
-            <!-- ══ Fahrenheit 451 · p. 144 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
-              </div>
-              <div class="resource-meta">Ray Bradbury &nbsp;·&nbsp; Burning Bright &nbsp;·&nbsp; p. 144</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;All of us have photographic memories, but spend a lifetime learning how to block off the things that are really in there.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 144 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  Burning Bright  ·  p. 144</div>
+<blockquote class="resource-blockquote">
+                “All of us have photographic memories, but spend a lifetime learning how to block off the things that are really in there.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-                <a href="resources.html?tag=Psychology" class="resource-tag" data-tag="Psychology">#Psychology</a>
-              </div>
-            </li>
-
-            <!-- ══ Fahrenheit 451 · p. 150 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
-              </div>
-              <div class="resource-meta">Ray Bradbury &nbsp;·&nbsp; Burning Bright &nbsp;·&nbsp; p. 150</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Ask no guarantees, ask for no security, there never was such an animal. And if there were, it would be related to the great sloth which hangs upside down in a tree all day everyday, sleeping its life away.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+<a class="resource-tag" data-tag="Psychology" href="resources.html?tag=Psychology">#Psychology</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 150 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-fahrenheit-451.html">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  Burning Bright  ·  p. 150</div>
+<blockquote class="resource-blockquote">
+                “Ask no guarantees, ask for no security, there never was such an animal. And if there were, it would be related to the great sloth which hangs upside down in a tree all day everyday, sleeping its life away.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-              </div>
-            </li>
-
-            <!-- ══ A Marriage at Sea · p. 116 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
-              </div>
-              <div class="resource-meta">Jonathan Raban &nbsp;·&nbsp; p. 116</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;It is possible to write yourself out of loneliness. Possible, too, to write yourself into being.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 116 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Jonathan Raban  ·  p. 116</div>
+<blockquote class="resource-blockquote">
+                “It is possible to write yourself out of loneliness. Possible, too, to write yourself into being.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=Writing" class="resource-tag" data-tag="Writing">#Writing</a>
-                <a href="resources.html?tag=Solitude" class="resource-tag" data-tag="Solitude">#Solitude</a>
-              </div>
-            </li>
-
-            <!-- ══ A Marriage at Sea · p. 167 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
-              </div>
-              <div class="resource-meta">Jonathan Raban &nbsp;·&nbsp; p. 167</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;I discover that men may be physically the stronger of the sexes but mentally women are tops.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Writing" href="resources.html?tag=Writing">#Writing</a>
+<a class="resource-tag" data-tag="Solitude" href="resources.html?tag=Solitude">#Solitude</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 167 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Jonathan Raban  ·  p. 167</div>
+<blockquote class="resource-blockquote">
+                “I discover that men may be physically the stronger of the sexes but mentally women are tops.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-              </div>
-            </li>
-
-            <!-- ══ A Marriage at Sea · p. 176 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
-              </div>
-              <div class="resource-meta">Jonathan Raban &nbsp;·&nbsp; p. 176</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Solitude, when chosen, can feel like such a gift.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 176 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Jonathan Raban  ·  p. 176</div>
+<blockquote class="resource-blockquote">
+                “Solitude, when chosen, can feel like such a gift.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=Solitude" class="resource-tag" data-tag="Solitude">#Solitude</a>
-                <a href="resources.html?tag=DeepWork" class="resource-tag" data-tag="DeepWork">#DeepWork</a>
-              </div>
-            </li>
-
-            <!-- ══ A Marriage at Sea · p. 196 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
-              </div>
-              <div class="resource-meta">Jonathan Raban &nbsp;·&nbsp; p. 196</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Fame had taught Maurice one of its many questionable lessons: that it is possible to perform life for the sake of a good photograph.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Solitude" href="resources.html?tag=Solitude">#Solitude</a>
+<a class="resource-tag" data-tag="DeepWork" href="resources.html?tag=DeepWork">#DeepWork</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 196 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Jonathan Raban  ·  p. 196</div>
+<blockquote class="resource-blockquote">
+                “Fame had taught Maurice one of its many questionable lessons: that it is possible to perform life for the sake of a good photograph.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-                <a href="resources.html?tag=Creativity" class="resource-tag" data-tag="Creativity">#Creativity</a>
-              </div>
-            </li>
-
-            <!-- ══ A Marriage at Sea · p. 235 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
-              </div>
-              <div class="resource-meta">Jonathan Raban &nbsp;·&nbsp; p. 235</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;It was work for its own sake. Not everything has to be seen.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+<a class="resource-tag" data-tag="Creativity" href="resources.html?tag=Creativity">#Creativity</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 235 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Jonathan Raban  ·  p. 235</div>
+<blockquote class="resource-blockquote">
+                “It was work for its own sake. Not everything has to be seen.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=DeepWork" class="resource-tag" data-tag="DeepWork">#DeepWork</a>
-                <a href="resources.html?tag=Creativity" class="resource-tag" data-tag="Creativity">#Creativity</a>
-              </div>
-            </li>
-
-            <!-- ══ A Marriage at Sea · p. 235 ══ -->
-            <li class="resource-entry" data-type="book">
-              <span class="media-badge media-badge--book">Book</span>
-              <div class="resource-title">
-                <a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
-              </div>
-              <div class="resource-meta">Jonathan Raban &nbsp;·&nbsp; p. 235</div>
-              <blockquote class="resource-blockquote">
-                &ldquo;Measure its success by the extent to which you have loved and been loved.&rdquo;
+<div class="resource-tags">
+<a class="resource-tag" data-tag="DeepWork" href="resources.html?tag=DeepWork">#DeepWork</a>
+<a class="resource-tag" data-tag="Creativity" href="resources.html?tag=Creativity">#Creativity</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 235 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="book-notes-a-marriage-at-sea.html">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Jonathan Raban  ·  p. 235</div>
+<blockquote class="resource-blockquote">
+                “Measure its success by the extent to which you have loved and been loved.”
               </blockquote>
-              <div class="resource-tags">
-                <a href="resources.html?tag=HumanNature" class="resource-tag" data-tag="HumanNature">#HumanNature</a>
-              </div>
-            </li>
-
-          </ul>
-
-        </div>
-
-      </main>
-
-    </div>
-    <!-- /main-layout -->
-
-    <footer class="site-footer">
-      Thomas Denny &copy; 2025 &nbsp;|&nbsp; Built with intention, not a template.
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="resources.html?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+</ul>
+</div>
+</main>
+</div>
+<!-- /main-layout -->
+<footer class="site-footer">
+      Thomas Denny © 2025  |  Built with intention, not a template.
     </footer>
-
-  </div>
-  <!-- /page-wrapper -->
-
-  <script src="script.js"></script>
-  <script>
+</div>
+<!-- /page-wrapper -->
+<script src="script.js"></script>
+<script>
     // ── State ──────────────────────────────────────────────
     var activeTags   = [];   // array — supports multi-select
     var activeTypes  = [];   // empty = all; otherwise array of selected types
@@ -1150,6 +1136,117 @@
       return visible;
     }
 
+
+    // ── Constants ─────────────────────────────────────────────
+    var LOAD_BATCH = 10;
+
+    // ── Book group rendering ───────────────────────────────────
+    function renderBookGroups() {
+      // Remove previous group headers
+      document.querySelectorAll('.book-group-row').forEach(function(el) {
+        el.parentNode.removeChild(el);
+      });
+
+      // Collect filter-passing book entries
+      var bookEntries = Array.from(document.querySelectorAll(
+        '#resource-list .resource-entry[data-type="book"]'
+      )).filter(function(e) { return e.style.display !== 'none'; });
+
+      if (bookEntries.length === 0) return;
+
+      // Group by data-book, preserving DOM order
+      var groups = {}, groupOrder = [];
+      bookEntries.forEach(function(entry) {
+        var book = entry.getAttribute('data-book');
+        if (!groups[book]) { groups[book] = []; groupOrder.push(book); }
+        groups[book].push(entry);
+      });
+
+      // Auto-expand when tag or search filters are active
+      var autoExpand = activeTags.length > 0 || activeSearch.trim().length > 0;
+
+      groupOrder.forEach(function(book) {
+        var entries = groups[book];
+        var first   = entries[0];
+        var titleA  = first.querySelector('.resource-title a');
+        var bookUrl = titleA ? titleA.getAttribute('href') : '#';
+        var metaEl  = first.querySelector('.resource-meta');
+        var author  = metaEl ? metaEl.textContent.split('\u00b7')[0].trim() : '';
+
+        // Build header LI
+        var header = document.createElement('li');
+        header.className = 'book-group-row';
+        header.setAttribute('data-book-group', book);
+        header.setAttribute('data-expanded', autoExpand ? 'true' : 'false');
+        header.innerHTML =
+          '<div class="book-group-header">' +
+            '<div>' +
+              '<a href="' + bookUrl + '" class="book-group-title" onclick="event.stopPropagation()">' + book + '</a>' +
+              '<span class="book-group-meta"> &nbsp;&middot;&nbsp; ' + author +
+                ' &nbsp;&middot;&nbsp; ' + entries.length + ' passage' + (entries.length !== 1 ? 's' : '') +
+              '</span>' +
+            '</div>' +
+            '<span class="book-group-chevron">' + (autoExpand ? '&#9650;' : '&#9660;') + '</span>' +
+          '</div>';
+
+        // Insert before first entry in this group
+        first.parentNode.insertBefore(header, first);
+
+        // Collapse individual entries unless auto-expanding
+        if (!autoExpand) {
+          entries.forEach(function(e) { e.style.display = 'none'; });
+        }
+
+        // Toggle on click
+        header.addEventListener('click', function() {
+          var isExpanded = this.getAttribute('data-expanded') === 'true';
+          var next = !isExpanded;
+          this.setAttribute('data-expanded', next ? 'true' : 'false');
+          this.querySelector('.book-group-chevron').innerHTML = next ? '&#9650;' : '&#9660;';
+          entries.forEach(function(e) { e.style.display = next ? '' : 'none'; });
+        });
+      });
+    }
+
+    // ── Load more for articles / quotes / videos ───────────────
+    function applyLoadMore() {
+      // Remove previous button
+      var old = document.getElementById('res-load-more');
+      if (old) old.parentNode.removeChild(old);
+
+      var nonBook = Array.from(document.querySelectorAll(
+        '#resource-list .resource-entry:not([data-type="book"])'
+      )).filter(function(e) { return e.style.display !== 'none'; });
+
+      if (nonBook.length <= LOAD_BATCH) return;
+
+      // Hide entries beyond first batch
+      nonBook.slice(LOAD_BATCH).forEach(function(e) { e.style.display = 'none'; });
+
+      var list = document.getElementById('resource-list');
+      var btn  = document.createElement('button');
+      btn.id = 'res-load-more';
+      btn.className = 'load-more-btn';
+
+      function updateBtn() {
+        var hidden = nonBook.filter(function(e) { return e.style.display === 'none'; });
+        if (hidden.length === 0) {
+          btn.parentNode.removeChild(btn);
+          return;
+        }
+        btn.textContent = 'Load more (' + hidden.length + ' remaining)';
+      }
+
+      btn.addEventListener('click', function() {
+        var hidden = nonBook.filter(function(e) { return e.style.display === 'none'; });
+        hidden.slice(0, LOAD_BATCH).forEach(function(e) { e.style.display = ''; });
+        updateBtn();
+      });
+
+      updateBtn();
+      list.parentNode.insertBefore(btn, list.nextSibling);
+    }
+
     // ── Sync everything ────────────────────────────────────
     function syncControls() {
       document.querySelectorAll('.media-filter-btn').forEach(function(b) {
@@ -1161,6 +1258,8 @@
         a.classList.toggle('active', t === 'all' ? activeTypes.length === 0 : activeTypes.indexOf(t) !== -1);
       });
       var visible = applyFilters();
+      renderBookGroups();
+      applyLoadMore();
       updateBanner(visible);
       buildTagCloud();
       buildTagSidebar();
