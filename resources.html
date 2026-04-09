@@ -279,12 +279,13 @@
     .res-tag-cloud {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
+      gap: 0;
     }
     .res-tag-cloud-pill {
       display: inline-block;
-      padding: 3px 9px;
-      font-size: 11px;
+      padding: 4px 12px;
+      margin: 4px 6px 4px 0;
+      font-size: 12px;
       border: 1px solid #99AACC;
       border-radius: 2px;
       color: #336699;
@@ -311,9 +312,8 @@
       color: #fff;
     }
     .res-tag-count {
-      font-size: 9px;
-      color: #8899bb;
-      margin-left: 3px;
+      font-size: 10px;
+      color: #99AACC;
       font-weight: normal;
     }
     .res-tag-cloud-pill.active-tag-pill .res-tag-count {
@@ -622,7 +622,7 @@
           + '" class="res-tag-cloud-pill' + (isActive ? ' active-tag-pill' : '')
           + '" data-tag="' + pair[0] + '">'
           + '#' + pair[0]
-          + '<span class="res-tag-count">' + pair[1] + '</span>'
+          + ' <span class="res-tag-count">(' + pair[1] + ')</span>'
           + '</a>';
       }).join('');
       cloud.querySelectorAll('.res-tag-cloud-pill').forEach(function(pill) {
@@ -674,7 +674,7 @@
       var hasFilters = activeTags.length > 0 || activeSearch;
 
       if (hasFilters) {
-        banner.style.display = '';
+        banner.style.display = 'block';
         if (cloudSection) cloudSection.style.display = 'none';
 
         var tagPills = activeTags.map(function(t) {
