@@ -567,7 +567,7 @@
   <script>
     // ── State ──────────────────────────────────────────────
     var activeTags   = [];   // array — supports multi-select
-    var activeType   = 'all';
+    var activeTypes  = [];   // empty = all; otherwise array of selected types
     var activeSearch = '';
 
     // ── Searchable text for each entry (read from DOM) ──────
@@ -706,7 +706,7 @@
       var entries = document.querySelectorAll('#resource-list .resource-entry');
       var visible = 0;
       entries.forEach(function(entry) {
-        var typeOk = (activeType === 'all') || (entry.getAttribute('data-type') === activeType);
+        var typeOk = activeTypes.length === 0 || activeTypes.indexOf(entry.getAttribute('data-type')) !== -1;
 
         var tagOk = activeTags.length === 0;
         if (!tagOk) {
@@ -728,10 +728,12 @@
     // ── Sync everything ────────────────────────────────────
     function syncControls() {
       document.querySelectorAll('.media-filter-btn').forEach(function(b) {
-        b.classList.toggle('active', b.getAttribute('data-type') === activeType);
+        var t = b.getAttribute('data-type');
+        b.classList.toggle('active', t === 'all' ? activeTypes.length === 0 : activeTypes.indexOf(t) !== -1);
       });
       document.querySelectorAll('.genre-filter').forEach(function(a) {
-        a.classList.toggle('active', a.getAttribute('data-type') === activeType);
+        var t = a.getAttribute('data-type');
+        a.classList.toggle('active', t === 'all' ? activeTypes.length === 0 : activeTypes.indexOf(t) !== -1);
       });
       var visible = applyFilters();
       updateBanner(visible);
@@ -755,7 +757,14 @@
       // Top filter bar buttons
       document.querySelectorAll('.media-filter-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
-          activeType = this.getAttribute('data-type');
+          var t = this.getAttribute('data-type');
+          if (t === 'all') {
+            activeTypes = [];
+          } else {
+            var idx = activeTypes.indexOf(t);
+            if (idx === -1) { activeTypes.push(t); }
+            else            { activeTypes.splice(idx, 1); }
+          }
           syncControls();
         });
       });
@@ -764,7 +773,14 @@
       document.querySelectorAll('.genre-filter').forEach(function(link) {
         link.addEventListener('click', function(e) {
           e.preventDefault();
-          activeType = this.getAttribute('data-type');
+          var t = this.getAttribute('data-type');
+          if (t === 'all') {
+            activeTypes = [];
+          } else {
+            var idx = activeTypes.indexOf(t);
+            if (idx === -1) { activeTypes.push(t); }
+            else            { activeTypes.splice(idx, 1); }
+          }
           syncControls();
         });
       });
