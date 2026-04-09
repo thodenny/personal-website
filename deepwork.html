@@ -313,6 +313,109 @@
     .dw-cat-badge.practice { background: #fdf4ff; color: #7e22ce; }
 
     .dw-note-empty { color: #ccc; font-style: italic; }
+
+    /* ── Daily Notes section ──────────────────────────────────── */
+    .dw-notes-section {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 2px solid #dde4ee;
+    }
+
+    .dw-notes-heading {
+      font-size: 11px;
+      font-weight: bold;
+      color: #003366;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      margin-bottom: 14px;
+    }
+
+    .dw-note-entry {
+      padding: 12px 0;
+      border-bottom: 1px solid #eef0f5;
+    }
+
+    .dw-note-entry:last-child { border-bottom: none; }
+
+    .dw-note-date-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .dw-note-date {
+      font-size: 11px;
+      font-weight: bold;
+      color: #003366;
+    }
+
+    .dw-note-dow {
+      font-size: 10px;
+      color: #99AACC;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .dw-note-text {
+      font-size: 12px;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 8px;
+      white-space: pre-wrap;
+    }
+
+    .dw-note-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .dw-note-link {
+      font-size: 10px;
+      color: #336699;
+      background: #f0f5ff;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 2px 7px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .dw-note-link::before { content: '↗ '; }
+
+    .dw-note-link:hover {
+      color: #FF6600;
+      border-color: #FF6600;
+      background: #fff8f0;
+      text-decoration: none;
+    }
+
+    .dw-notes-empty {
+      font-size: 12px;
+      color: #aabbcc;
+      font-style: italic;
+    }
+
+    /* Links inside the modal day table */
+    .dw-modal-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .dw-modal-link {
+      font-size: 9px;
+      color: #336699;
+      background: #f0f5ff;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 1px 5px;
+      text-decoration: none;
+    }
+
+    .dw-modal-link:hover { color: #FF6600; border-color: #FF6600; }
   </style>
 </head>
 <body>
@@ -401,6 +504,12 @@
           <!-- Monthly grids — filled by JS -->
           <div class="dw-months-grid" id="dw-months-grid"></div>
 
+          <!-- Daily Notes — filled by JS -->
+          <div class="dw-notes-section" id="dw-notes-section">
+            <div class="dw-notes-heading">Daily Notes</div>
+            <div id="dw-notes-list"></div>
+          </div>
+
         </div>
 
       </main>
@@ -482,6 +591,28 @@
         { h: 0.5, cat: 'study', note: 'Reading - If This Is A Man' },
 
       ],
+    };
+
+    // ── Daily Notes ───────────────────────────────────────────────────────────
+    //
+    // Add per-day notes and links here. Keys match the deepWork object.
+    // 'note' supports multiple lines (use \n).
+    // 'links' is an optional array of { label, url } objects.
+    //
+    // Example:
+    //   '2026-05-01': {
+    //     note: 'Got the auth flow working. Still need to sort the error states.',
+    //     links: [
+    //       { label: 'PR #42', url: 'https://github.com/...' },
+    //       { label: 'Relevant docs', url: 'https://...' }
+    //     ]
+    //   }
+    //
+    var dayNotes = {
+      '2026-04-08': {
+        note: 'Wrapped up the Books section — finally has the full reading list. Also made progress on a few work automations.',
+        links: []
+      },
     };
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -745,6 +876,21 @@
               tdNote.className = 'dw-note-empty';
               tdNote.textContent = 'no note';
             }
+            // If dayNotes has links for this date, show them on the first session row
+            if (idx === 0 && dayNotes[key] && dayNotes[key].links && dayNotes[key].links.length) {
+              var modalLinksDiv = document.createElement('div');
+              modalLinksDiv.className = 'dw-modal-links';
+              dayNotes[key].links.forEach(function(lnk) {
+                var a = document.createElement('a');
+                a.className = 'dw-modal-link';
+                a.href = lnk.url;
+                a.textContent = '↗ ' + lnk.label;
+                a.target = '_blank';
+                a.rel = 'noopener';
+                modalLinksDiv.appendChild(a);
+              });
+              tdNote.appendChild(modalLinksDiv);
+            }
             tr.appendChild(tdNote);
 
             tbody.appendChild(tr);
@@ -778,6 +924,72 @@
 
       document.getElementById('dw-modal-overlay').classList.add('open');
     }
+
+    // ── Render Daily Notes section ────────────────────────────────────────────
+    (function() {
+      var list = document.getElementById('dw-notes-list');
+
+      // Collect all note keys, sort newest first
+      var noteKeys = Object.keys(dayNotes).filter(function(k) {
+        return dayNotes[k] && (dayNotes[k].note || (dayNotes[k].links && dayNotes[k].links.length));
+      }).sort(function(a, b) { return b > a ? 1 : -1; });
+
+      if (noteKeys.length === 0) {
+        list.innerHTML = '<p class="dw-notes-empty">No notes logged yet. Add entries to the dayNotes object in the script.</p>';
+        return;
+      }
+
+      noteKeys.forEach(function(key) {
+        var entry = dayNotes[key];
+        var parts = key.split('-');
+        var date  = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+
+        var div = document.createElement('div');
+        div.className = 'dw-note-entry';
+
+        // Date row
+        var dateRow = document.createElement('div');
+        dateRow.className = 'dw-note-date-row';
+
+        var dateSpan = document.createElement('span');
+        dateSpan.className = 'dw-note-date';
+        dateSpan.textContent = pad(date.getMonth() + 1) + '/' + pad(date.getDate()) + '/' + date.getFullYear();
+
+        var dowSpan = document.createElement('span');
+        dowSpan.className = 'dw-note-dow';
+        dowSpan.textContent = DAY_NAMES[date.getDay()];
+
+        dateRow.appendChild(dateSpan);
+        dateRow.appendChild(dowSpan);
+        div.appendChild(dateRow);
+
+        // Note text
+        if (entry.note) {
+          var p = document.createElement('p');
+          p.className = 'dw-note-text';
+          p.textContent = entry.note;
+          div.appendChild(p);
+        }
+
+        // Links
+        if (entry.links && entry.links.length) {
+          var linksDiv = document.createElement('div');
+          linksDiv.className = 'dw-note-links';
+          entry.links.forEach(function(lnk) {
+            var a = document.createElement('a');
+            a.className = 'dw-note-link';
+            a.href = lnk.url;
+            a.textContent = lnk.label;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            linksDiv.appendChild(a);
+          });
+          div.appendChild(linksDiv);
+        }
+
+        list.appendChild(div);
+      });
+    })();
 
     document.getElementById('dw-modal-close').addEventListener('click', function() {
       document.getElementById('dw-modal-overlay').classList.remove('open');
