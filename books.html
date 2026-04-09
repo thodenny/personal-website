@@ -85,6 +85,15 @@
           <a href="#" class="genre-filter" data-genre="memoir">Memoir</a>
           <a href="#" class="genre-filter" data-genre="dystopian">Dystopian</a>
         </div>
+          <!-- Rating filter -->
+          <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:4px; align-items:center;">
+            <span style="font-size:11px; color:#6688aa; margin-right:4px;">Rating:</span>
+            <a href="#" class="rating-filter active" data-min="0">All</a>
+            <a href="#" class="rating-filter" data-min="6">6+</a>
+            <a href="#" class="rating-filter" data-min="7">7+</a>
+            <a href="#" class="rating-filter" data-min="8">8+</a>
+            <a href="#" class="rating-filter" data-min="9">9+</a>
+          </div>
 
         <!-- Reading stats -->
         <div class="details-box" style="margin-top:0;">
@@ -160,7 +169,7 @@
 
           <ul class="book-list" id="book-list-2026">
 
-            <li class="book-item" data-tags="fiction">
+            <li class="book-item" data-tags="fiction" data-rating="8">
               <div class="book-num">01</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
                 <img src="room.jpg" alt="Room" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
@@ -175,7 +184,7 @@
               <div class="book-stars">8/10</div>
             </li>
 
-            <li class="book-item" data-tags="nonfiction adventure">
+            <li class="book-item" data-tags="nonfiction adventure" data-rating="7">
               <div class="book-num">02</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
                 <img src="marriage.jpg" alt="A Marriage at Sea" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
@@ -190,7 +199,7 @@
               <div class="book-stars">7/10</div>
             </li>
 
-            <li class="book-item" data-tags="nonfiction true-crime adventure">
+            <li class="book-item" data-tags="nonfiction true-crime adventure" data-rating="8">
               <div class="book-num">03</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
                 <img src="the-tiger.jpg" alt="The Tiger" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
@@ -205,7 +214,7 @@
               <div class="book-stars">8/10</div>
             </li>
 
-            <li class="book-item" data-tags="nonfiction ai-tech">
+            <li class="book-item" data-tags="nonfiction ai-tech" data-rating="6">
               <div class="book-num">04</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
                 <img src="cointelligence.jpg" alt="Co-Intelligence" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
@@ -220,7 +229,7 @@
               <div class="book-stars">6/10</div>
             </li>
 
-            <li class="book-item" data-tags="nonfiction true-crime">
+            <li class="book-item" data-tags="nonfiction true-crime" data-rating="9">
               <div class="book-num">05</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
                 <img src="art-thief.jpg" alt="The Art Thief" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
@@ -235,7 +244,7 @@
               <div class="book-stars">9/10</div>
             </li>
 
-            <li class="book-item" data-tags="fiction dystopian">
+            <li class="book-item" data-tags="fiction dystopian" data-rating="7">
               <div class="book-num">06</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
                 <img src="faranheit-451.jpg" alt="Fahrenheit 451" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
@@ -251,7 +260,7 @@
               <div class="book-stars">7/10</div>
             </li>
 
-            <li class="book-item" data-tags="nonfiction philosophy">
+            <li class="book-item" data-tags="nonfiction philosophy" data-rating="8">
               <div class="book-num">07</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
                 <img src="mans-search-for-meaning.jpg" alt="Man's Search for Meaning" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
@@ -298,21 +307,39 @@
         .catch(function() { /* fail silently */ });
     });
 
+    // Shared filter state
+    var activeGenre = 'all';
+    var activeMinRating = 0;
+
+    function applyFilters() {
+      document.querySelectorAll('.book-item').forEach(function(item) {
+        var tags = (item.getAttribute('data-tags') || '').split(' ');
+        var rating = parseFloat(item.getAttribute('data-rating')) || 0;
+        var genreMatch = activeGenre === 'all' || tags.indexOf(activeGenre) !== -1;
+        var ratingMatch = rating >= activeMinRating || (activeMinRating === 0);
+        item.style.display = (genreMatch && ratingMatch) ? '' : 'none';
+      });
+    }
+
     // Genre filter
     document.querySelectorAll('.genre-filter').forEach(function(link) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
-        var genre = this.getAttribute('data-genre');
+        activeGenre = this.getAttribute('data-genre');
         document.querySelectorAll('.genre-filter').forEach(function(l) { l.classList.remove('active'); });
         this.classList.add('active');
-        document.querySelectorAll('#book-list-2026 .book-item, .book-item').forEach(function(item) {
-          if (genre === 'all') {
-            item.style.display = '';
-          } else {
-            var tags = (item.getAttribute('data-tags') || '').split(' ');
-            item.style.display = tags.indexOf(genre) !== -1 ? '' : 'none';
-          }
-        });
+        applyFilters();
+      });
+    });
+
+    // Rating filter
+    document.querySelectorAll('.rating-filter').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        activeMinRating = parseInt(this.getAttribute('data-min')) || 0;
+        document.querySelectorAll('.rating-filter').forEach(function(l) { l.classList.remove('active'); });
+        this.classList.add('active');
+        applyFilters();
       });
     });
 

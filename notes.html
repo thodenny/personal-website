@@ -138,7 +138,8 @@
         book: "Co-Intelligence",
         author: "Ethan Mollick",
         url: "book-notes-co-intelligence.html",
-        tags: ["AI", "FutureOfWork"]
+        tags: ["AI", "FutureOfWork"],
+        commentary: "AI automates the boring, repetitive stuff and augments our creativity and ability to produce at scale. I do not like to believe that AI can or will ever replace human thought. There are certain things I believe should remain 100% human."
       },
       {
         quote: "AI can also learn biases, errors, and falsehoods from data it sees.",
@@ -229,7 +230,8 @@
         book: "If This Is A Man",
         author: "Primo Levi",
         url: "book-notes-if-this-is-a-man.html",
-        tags: ["HumanNature", "Psychology"]
+        tags: ["HumanNature", "Psychology"],
+        commentary: "This has me reflecting on the idea of the hedonic treadmill — the idea that an individual's level of happiness, after rising or falling in response to positive or negative life events, ultimately tends to move back toward where it was prior to those experiences."
       },
       // Fahrenheit 451
       {
@@ -377,12 +379,19 @@
 
     function renderCard(note, activeTag) {
       var tagPills = note.tags.map(function(t) { return tagPill(t, t === activeTag); }).join('');
+      var commentaryHtml = note.commentary
+        ? '<p style="font-size:12px;color:#444;line-height:1.6;margin:8px 0 0;">' + escHtml(note.commentary) + '</p>'
+        : '';
+      var headerText = note.chapter
+        ? escHtml(note.chapter) + ' &nbsp;&middot;&nbsp; ' + escHtml(note.page)
+        : escHtml(note.page);
       return '<div class="details-box" style="margin-bottom:16px;">'
-        + '<div class="details-header">' + escHtml(note.chapter) + ' &nbsp;&middot;&nbsp; ' + escHtml(note.page) + '</div>'
+        + '<div class="details-header">' + headerText + '</div>'
         + '<div style="padding:10px 12px;">'
         + '<blockquote style="margin:0 0 0 0;padding:8px 12px;border-left:3px solid #336699;background:#f0f4fa;font-size:12px;color:#333;line-height:1.7;font-style:italic;">'
         + '&ldquo;' + escHtml(note.quote) + '&rdquo;'
         + '</blockquote>'
+        + commentaryHtml
         + '<div class="note-card-meta" style="font-size:11px;color:#6688aa;margin:8px 0 6px;">'
         + '<a href="' + note.url + '" style="color:#336699;">' + escHtml(note.book) + '</a>'
         + ' &mdash; ' + escHtml(note.author)
