@@ -111,6 +111,17 @@
         <div class="section-header" id="page-heading">Notes</div>
 
         <div class="content-box inner-content">
+
+          <div style="margin-bottom:14px;">
+            <input
+              id="notes-search"
+              type="text"
+              placeholder="Search quotes, books, authors…"
+              style="width:100%; box-sizing:border-box; padding:6px 10px; font-size:12px; font-family:inherit; border:1px solid #99AACC; border-radius:2px; background:#f7f9fc; color:#333; outline:none;"
+              autocomplete="off"
+            />
+          </div>
+
           <p style="font-size:12px; color:#6688aa; margin-bottom:16px;" id="page-subtitle"></p>
           <div id="notes-output"></div>
         </div>
@@ -436,6 +447,48 @@
       document.getElementById('sidebar-tag-list').innerHTML = html;
     }
 
+    function highlight(text, query) {
+      if (!query) return escHtml(text);
+      var escaped = escHtml(text);
+      var escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return escaped.replace(new RegExp('(' + escapedQuery + ')', 'gi'),
+        '<mark style="background:#fff3b0;color:#333;padding:0 1px;">$1</mark>');
+    }
+
+    function renderCardWithHighlight(note, activeTag, query) {
+      var tagPills = note.tags.map(function(t) { return tagPill(t, t === activeTag); }).join('');
+      var commentaryHtml = note.commentary
+        ? '<p style="font-size:12px;color:#444;line-height:1.6;margin:8px 0 0;">' + highlight(note.commentary, query) + '</p>'
+        : '';
+      var headerText = note.chapter
+        ? escHtml(note.chapter) + ' &nbsp;&middot;&nbsp; ' + escHtml(note.page)
+        : escHtml(note.page);
+      return '<div class="details-box" style="margin-bottom:16px;">'
+        + '<div class="details-header">' + headerText + '</div>'
+        + '<div style="padding:10px 12px;">'
+        + '<blockquote style="margin:0 0 0 0;padding:8px 12px;border-left:3px solid #336699;background:#f0f4fa;font-size:12px;color:#333;line-height:1.7;font-style:italic;">'
+        + '&ldquo;' + highlight(note.quote, query) + '&rdquo;'
+        + '</blockquote>'
+        + commentaryHtml
+        + '<div class="note-card-meta" style="font-size:11px;color:#6688aa;margin:8px 0 6px;">'
+        + '<a href="' + note.url + '" style="color:#336699;">' + highlight(note.book, query) + '</a>'
+        + ' &mdash; ' + highlight(note.author, query)
+        + '</div>'
+        + '<div>' + tagPills + '</div>'
+        + '</div>'
+        + '</div>';
+    }
+
+    function matchesQuery(note, query) {
+      if (!query) return true;
+      var q = query.toLowerCase();
+      return (note.quote && note.quote.toLowerCase().indexOf(q) !== -1)
+          || (note.commentary && note.commentary.toLowerCase().indexOf(q) !== -1)
+          || (note.book && note.book.toLowerCase().indexOf(q) !== -1)
+          || (note.author && note.author.toLowerCase().indexOf(q) !== -1)
+          || (note.chapter && note.chapter.toLowerCase().indexOf(q) !== -1);
+    }
+
     // ============================================================
     // MAIN
     // ============================================================
@@ -445,24 +498,47 @@
       var heading = document.getElementById('page-heading');
       var subtitle = document.getElementById('page-subtitle');
       var output = document.getElementById('notes-output');
+      var searchInput = document.getElementById('notes-search');
+
+      var tagPool = tag ? notes.filter(function(n) { return n.tags.indexOf(tag) !== -1; }) : notes;
 
       renderSidebarTags(tag);
 
-      if (tag) {
-        heading.textContent = 'Notes tagged #' + tag;
-        var filtered = notes.filter(function(n) { return n.tags.indexOf(tag) !== -1; });
-        subtitle.innerHTML = filtered.length + ' ' + (filtered.length === 1 ? 'entry' : 'entries')
-          + ' &nbsp;&middot;&nbsp; <a href="notes.html" style="color:#6688aa;font-size:11px;">← all tags</a>';
-        if (filtered.length === 0) {
-          output.innerHTML = '<p style="font-size:12px;color:#6688aa;padding:20px 0;">No notes found for #' + escHtml(tag) + '.</p>';
+      function render(query) {
+        var q = (query || '').trim();
+
+        if (tag) {
+          heading.textContent = 'Notes tagged #' + tag;
         } else {
-          output.innerHTML = filtered.map(function(n) { return renderCard(n, tag); }).join('');
+          heading.textContent = q ? 'Search results' : 'Notes';
         }
-      } else {
-        heading.textContent = 'Notes';
-        subtitle.textContent = 'Browse by tag — click any to filter.';
-        output.innerHTML = '<div style="padding:4px 0;">' + renderTagCloud() + '</div>';
+
+        if (!tag && !q) {
+          subtitle.textContent = 'Browse by tag — or search above.';
+          output.innerHTML = '<div style="padding:4px 0;">' + renderTagCloud() + '</div>';
+          return;
+        }
+
+        var results = tagPool.filter(function(n) { return matchesQuery(n, q); });
+
+        var countText = results.length + ' ' + (results.length === 1 ? 'entry' : 'entries');
+        var backLink = tag
+          ? ' &nbsp;&middot;&nbsp; <a href="notes.html" style="color:#6688aa;font-size:11px;">← all tags</a>'
+          : '';
+        subtitle.innerHTML = countText + backLink;
+
+        if (results.length === 0) {
+          output.innerHTML = '<p style="font-size:12px;color:#6688aa;padding:20px 0;">No results found.</p>';
+        } else {
+          output.innerHTML = results.map(function(n) { return renderCardWithHighlight(n, tag, q); }).join('');
+        }
       }
+
+      render('');
+
+      searchInput.addEventListener('input', function() {
+        render(this.value);
+      });
     });
 
   </script>
