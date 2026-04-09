@@ -153,7 +153,6 @@
       color: #336699;
       text-decoration: none;
       background: #eef2f8;
-      font-weight: bold;
     }
     .resource-tag:hover {
       color: #FF6600;
@@ -291,7 +290,6 @@
       color: #336699;
       text-decoration: none;
       background: #eef2f8;
-      font-weight: bold;
       transition: all 0.15s ease;
       cursor: pointer;
     }
@@ -673,9 +671,11 @@
       var cloudSection = document.getElementById('res-tag-cloud-section');
       var hasFilters = activeTags.length > 0 || activeSearch;
 
+      // Tag cloud always stays visible so users can keep selecting tags
+      if (cloudSection) cloudSection.style.display = '';
+
       if (hasFilters) {
         banner.style.display = 'block';
-        if (cloudSection) cloudSection.style.display = 'none';
 
         var tagPills = activeTags.map(function(t) {
           return '<strong>#' + t + '</strong>';
@@ -697,7 +697,6 @@
         }
       } else {
         banner.style.display = 'none';
-        if (cloudSection) cloudSection.style.display = '';
       }
     }
 
