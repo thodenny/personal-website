@@ -77,6 +77,43 @@
     /* Hidden project card */
     .project-card[style*="display: none"] { display: none !important; }
 
+    /* Search bar */
+    .proj-search-wrap {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .proj-search-input {
+      flex: 1;
+      font-family: Verdana, sans-serif;
+      font-size: 11px;
+      padding: 5px 8px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #333;
+      background: #fff;
+      outline: none;
+    }
+
+    .proj-search-input:focus {
+      border-color: #336699;
+    }
+
+    .proj-search-clear {
+      font-size: 11px;
+      padding: 5px 10px;
+      background: #f0f5ff;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      cursor: pointer;
+      font-family: Verdana, sans-serif;
+      display: none;
+    }
+
+    .proj-search-clear:hover { border-color: #FF6600; color: #FF6600; }
+
     /* Empty state message */
     #proj-empty-msg {
       display: none;
@@ -166,6 +203,12 @@
         <div class="content-box inner-content">
 
           <p style="margin: 0 0 14px 0;">Things I've built. A mix of personal projects and course work. You can filter by tag or conduct a search.</p>
+
+          <!-- Search bar -->
+          <div class="proj-search-wrap">
+            <input type="text" class="proj-search-input" id="proj-search" placeholder="Search projects…" autocomplete="off" />
+            <button class="proj-search-clear" id="proj-search-clear">✕ clear</button>
+          </div>
 
           <!-- Active tag banner -->
           <div id="proj-tag-banner">
@@ -289,6 +332,7 @@
     // ============================================================
     var activeFilter = 'all';   // category: all | personal | course
     var activeTags   = [];      // array of slugs, e.g. ['rag', 'nlp']
+    var activeSearch = '';      // search string
 
     // ============================================================
     // TAG SLUG / LABEL MAPS
@@ -367,26 +411,31 @@
     }
 
     // ============================================================
-    // APPLY FILTERS — category + tags
+    // APPLY FILTERS — category + tags + search
     // ============================================================
     function applyFilters() {
       var anyVisible = false;
+      var q = activeSearch.toLowerCase().trim();
 
       document.querySelectorAll('.project-card').forEach(function(card) {
-        var cat     = card.getAttribute('data-category');
-        var tagStr  = card.getAttribute('data-tags') || '';
+        var cat      = card.getAttribute('data-category');
+        var tagStr   = card.getAttribute('data-tags') || '';
         var cardTags = tagStr.split(',').map(function(s) { return s.trim(); });
 
         var catMatch = (activeFilter === 'all' || cat === activeFilter);
 
         var tagMatch = true;
         if (activeTags.length > 0) {
-          tagMatch = activeTags.every(function(t) {
-            return cardTags.indexOf(t) !== -1;
-          });
+          tagMatch = activeTags.every(function(t) { return cardTags.indexOf(t) !== -1; });
         }
 
-        var visible = catMatch && tagMatch;
+        var searchMatch = true;
+        if (q) {
+          var text = card.textContent.toLowerCase();
+          searchMatch = q.split(/\s+/).every(function(word) { return text.indexOf(word) !== -1; });
+        }
+
+        var visible = catMatch && tagMatch && searchMatch;
         card.style.display = visible ? '' : 'none';
         if (visible) anyVisible = true;
       });
@@ -467,6 +516,25 @@
 
         applyFilters();
       });
+    });
+
+    // ============================================================
+    // SEARCH INPUT
+    // ============================================================
+    var searchInput = document.getElementById('proj-search');
+    var searchClear = document.getElementById('proj-search-clear');
+
+    searchInput.addEventListener('input', function() {
+      activeSearch = this.value;
+      searchClear.style.display = activeSearch ? 'block' : 'none';
+      applyFilters();
+    });
+
+    searchClear.addEventListener('click', function() {
+      activeSearch = '';
+      searchInput.value = '';
+      this.style.display = 'none';
+      applyFilters();
     });
 
     // ============================================================

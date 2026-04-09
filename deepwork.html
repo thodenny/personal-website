@@ -397,25 +397,6 @@
       font-style: italic;
     }
 
-    /* Links inside the modal day table */
-    .dw-modal-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-    }
-
-    .dw-modal-link {
-      font-size: 9px;
-      color: #336699;
-      background: #f0f5ff;
-      border: 1px solid #99AACC;
-      border-radius: 2px;
-      padding: 1px 5px;
-      text-decoration: none;
-    }
-
-    .dw-modal-link:hover { color: #FF6600; border-color: #FF6600; }
   </style>
 </head>
 <body>
@@ -504,12 +485,6 @@
           <!-- Monthly grids — filled by JS -->
           <div class="dw-months-grid" id="dw-months-grid"></div>
 
-          <!-- Daily Notes — filled by JS -->
-          <div class="dw-notes-section" id="dw-notes-section">
-            <div class="dw-notes-heading">Daily Notes</div>
-            <div id="dw-notes-list"></div>
-          </div>
-
         </div>
 
       </main>
@@ -544,6 +519,11 @@
           </thead>
           <tbody id="dw-modal-body"></tbody>
         </table>
+        <!-- Notes for days that have dayNotes entries — filled by JS -->
+        <div id="dw-modal-notes" style="display:none; margin-top:16px; padding-top:14px; border-top:1px solid #dde4ee;">
+          <div style="font-size:10px; font-weight:bold; color:#003366; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px;">Notes</div>
+          <div id="dw-modal-notes-list"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -876,21 +856,6 @@
               tdNote.className = 'dw-note-empty';
               tdNote.textContent = 'no note';
             }
-            // If dayNotes has links for this date, show them on the first session row
-            if (idx === 0 && dayNotes[key] && dayNotes[key].links && dayNotes[key].links.length) {
-              var modalLinksDiv = document.createElement('div');
-              modalLinksDiv.className = 'dw-modal-links';
-              dayNotes[key].links.forEach(function(lnk) {
-                var a = document.createElement('a');
-                a.className = 'dw-modal-link';
-                a.href = lnk.url;
-                a.textContent = '↗ ' + lnk.label;
-                a.target = '_blank';
-                a.rel = 'noopener';
-                modalLinksDiv.appendChild(a);
-              });
-              tdNote.appendChild(modalLinksDiv);
-            }
             tr.appendChild(tdNote);
 
             tbody.appendChild(tr);
@@ -922,74 +887,76 @@
         catSummary.style.display = 'none';
       }
 
+      // ── Modal notes (dayNotes entries for this month) ──────────────────
+      var modalNotesWrap = document.getElementById('dw-modal-notes');
+      var modalNotesList = document.getElementById('dw-modal-notes-list');
+      modalNotesList.innerHTML = '';
+
+      // Collect dayNotes entries that fall in this month, sorted by date
+      var noteKeysThisMonth = Object.keys(dayNotes).filter(function(k) {
+        var parts = k.split('-');
+        return parseInt(parts[0]) === YEAR && parseInt(parts[1]) - 1 === m;
+      }).sort();
+
+      if (noteKeysThisMonth.length > 0) {
+        noteKeysThisMonth.forEach(function(key) {
+          var entry = dayNotes[key];
+          if (!entry || (!entry.note && !(entry.links && entry.links.length))) return;
+
+          var parts = key.split('-');
+          var d     = parseInt(parts[2]);
+          var dow   = new Date(YEAR, m, d).getDay();
+
+          var div = document.createElement('div');
+          div.className = 'dw-note-entry';
+
+          // Date row
+          var dateRow = document.createElement('div');
+          dateRow.className = 'dw-note-date-row';
+          var dateSpan = document.createElement('span');
+          dateSpan.className = 'dw-note-date';
+          dateSpan.textContent = pad(m + 1) + '/' + pad(d);
+          var dowSpan = document.createElement('span');
+          dowSpan.className = 'dw-note-dow';
+          dowSpan.textContent = DAY_NAMES[dow];
+          dateRow.appendChild(dateSpan);
+          dateRow.appendChild(dowSpan);
+          div.appendChild(dateRow);
+
+          // Note text
+          if (entry.note) {
+            var p = document.createElement('p');
+            p.className = 'dw-note-text';
+            p.textContent = entry.note;
+            div.appendChild(p);
+          }
+
+          // Links
+          if (entry.links && entry.links.length) {
+            var linksDiv = document.createElement('div');
+            linksDiv.className = 'dw-note-links';
+            entry.links.forEach(function(lnk) {
+              var a = document.createElement('a');
+              a.className = 'dw-note-link';
+              a.href = lnk.url;
+              a.textContent = lnk.label;
+              a.target = '_blank';
+              a.rel = 'noopener';
+              linksDiv.appendChild(a);
+            });
+            div.appendChild(linksDiv);
+          }
+
+          modalNotesList.appendChild(div);
+        });
+        modalNotesWrap.style.display = 'block';
+      } else {
+        modalNotesWrap.style.display = 'none';
+      }
+
       document.getElementById('dw-modal-overlay').classList.add('open');
     }
 
-    // ── Render Daily Notes section ────────────────────────────────────────────
-    (function() {
-      var list = document.getElementById('dw-notes-list');
-
-      // Collect all note keys, sort newest first
-      var noteKeys = Object.keys(dayNotes).filter(function(k) {
-        return dayNotes[k] && (dayNotes[k].note || (dayNotes[k].links && dayNotes[k].links.length));
-      }).sort(function(a, b) { return b > a ? 1 : -1; });
-
-      if (noteKeys.length === 0) {
-        list.innerHTML = '<p class="dw-notes-empty">No notes logged yet. Add entries to the dayNotes object in the script.</p>';
-        return;
-      }
-
-      noteKeys.forEach(function(key) {
-        var entry = dayNotes[key];
-        var parts = key.split('-');
-        var date  = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-
-        var div = document.createElement('div');
-        div.className = 'dw-note-entry';
-
-        // Date row
-        var dateRow = document.createElement('div');
-        dateRow.className = 'dw-note-date-row';
-
-        var dateSpan = document.createElement('span');
-        dateSpan.className = 'dw-note-date';
-        dateSpan.textContent = pad(date.getMonth() + 1) + '/' + pad(date.getDate()) + '/' + date.getFullYear();
-
-        var dowSpan = document.createElement('span');
-        dowSpan.className = 'dw-note-dow';
-        dowSpan.textContent = DAY_NAMES[date.getDay()];
-
-        dateRow.appendChild(dateSpan);
-        dateRow.appendChild(dowSpan);
-        div.appendChild(dateRow);
-
-        // Note text
-        if (entry.note) {
-          var p = document.createElement('p');
-          p.className = 'dw-note-text';
-          p.textContent = entry.note;
-          div.appendChild(p);
-        }
-
-        // Links
-        if (entry.links && entry.links.length) {
-          var linksDiv = document.createElement('div');
-          linksDiv.className = 'dw-note-links';
-          entry.links.forEach(function(lnk) {
-            var a = document.createElement('a');
-            a.className = 'dw-note-link';
-            a.href = lnk.url;
-            a.textContent = lnk.label;
-            a.target = '_blank';
-            a.rel = 'noopener';
-            linksDiv.appendChild(a);
-          });
-          div.appendChild(linksDiv);
-        }
-
-        list.appendChild(div);
-      });
-    })();
 
     document.getElementById('dw-modal-close').addEventListener('click', function() {
       document.getElementById('dw-modal-overlay').classList.remove('open');
