@@ -237,6 +237,27 @@
         </div>
 
         <!-- ================================================
+             SITE SEARCH
+        ================================================ -->
+        <div class="section-header">Search</div>
+        <div class="content-box" style="padding: 10px 14px;">
+          <div class="site-search-wrap">
+            <div class="site-search-input-row">
+              <input
+                type="text"
+                id="site-search-input"
+                class="site-search-input"
+                placeholder="Search pages, books, projects, notes…"
+                autocomplete="off"
+              />
+              <button class="site-search-clear" id="site-search-clear" style="display:none;">✕</button>
+            </div>
+            <div class="site-search-results" id="site-search-results" style="display:none;"></div>
+            <div class="site-search-empty" id="site-search-empty" style="display:none;">No results found.</div>
+          </div>
+        </div>
+
+        <!-- ================================================
              PHOTOS
         ================================================ -->
         <div class="section-header">Thomas's Top 3</div>
@@ -372,6 +393,250 @@
   <!-- /page-wrapper -->
 
   <script src="script.js"></script>
+
+  <!-- ── Site Search ───────────────────────────────────────────────────────── -->
+  <style>
+    .site-search-input-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .site-search-input {
+      flex: 1;
+      font-family: Verdana, sans-serif;
+      font-size: 12px;
+      padding: 6px 10px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #333;
+      background: #fff;
+      outline: none;
+    }
+    .site-search-input:focus { border-color: #336699; }
+    .site-search-clear {
+      font-size: 11px;
+      padding: 5px 10px;
+      background: #f0f5ff;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      cursor: pointer;
+      font-family: Verdana, sans-serif;
+    }
+    .site-search-clear:hover { border-color: #FF6600; color: #FF6600; }
+
+    .site-search-results {
+      margin-top: 10px;
+      border-top: 1px solid #dde4ee;
+      padding-top: 8px;
+    }
+    .site-search-result {
+      display: block;
+      padding: 7px 0;
+      border-bottom: 1px solid #f0f3f8;
+      text-decoration: none;
+      color: inherit;
+    }
+    .site-search-result:last-child { border-bottom: none; }
+    .site-search-result:hover .site-search-result-title { color: #FF6600; }
+
+    .site-search-result-top {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      margin-bottom: 2px;
+    }
+    .site-search-result-title {
+      font-size: 12px;
+      font-weight: bold;
+      color: #003366;
+      transition: color 0.15s;
+    }
+    .site-search-result-type {
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding: 1px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .srt-page     { background: #dbeafe; color: #1e40af; }
+    .srt-blog     { background: #fef9c3; color: #854d0e; }
+    .srt-book     { background: #dcfce7; color: #166534; }
+    .srt-project  { background: #fdf4ff; color: #7e22ce; }
+    .srt-kb       { background: #fff1e6; color: #c2410c; }
+
+    .site-search-result-desc {
+      font-size: 11px;
+      color: #6688aa;
+      line-height: 1.5;
+    }
+    .site-search-empty {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #aabbcc;
+      font-style: italic;
+    }
+  </style>
+
+  <script>
+  (function() {
+    // ── Search index ────────────────────────────────────────────────────────
+    // To add a new entry, copy any block below and fill in the fields.
+    // 'keywords' is extra searchable text (author, tags, topics, etc.)
+    var INDEX = [
+      // ── Pages ──────────────────────────────────────────────────────────
+      { title: 'Now',           type: 'page', desc: 'What I\'m currently working on, reading, and thinking about.',             url: 'now.html',          keywords: 'now current update' },
+      { title: 'About Me',      type: 'page', desc: 'Background, interests, and how I spend my time.',                         url: 'about.html',        keywords: 'about background austin texas operations ai running guitar' },
+      { title: 'Blog',          type: 'page', desc: 'Posts on running, AI, building things, and whatever else is on my mind.',  url: 'blog.html',         keywords: 'blog posts writing essays' },
+      { title: 'Books',         type: 'page', desc: 'Running list of books I\'ve read with ratings and notes.',                 url: 'books.html',        keywords: 'books reading list' },
+      { title: 'Projects',      type: 'page', desc: 'Things I\'ve built — personal projects and GenAI coursework.',             url: 'projects.html',     keywords: 'projects built portfolio' },
+      { title: 'Deep Work',     type: 'page', desc: 'Month-by-month log of focused work hours across Build, Study, Practice.',  url: 'deepwork.html',     keywords: 'deep work focus hours log heatmap cal newport' },
+      { title: 'Knowledge Base',type: 'page', desc: 'Articles, book notes, quotes, and videos I\'ve found worthwhile.',         url: 'resources.html',    keywords: 'knowledge base resources articles quotes videos notes' },
+
+      // ── Blog posts ─────────────────────────────────────────────────────
+      { title: 'Running Through Doubt — The 2026 Houston Marathon', type: 'blog', desc: '3:59:51. Just 9 seconds under 4 hours. The training was rough, injuries piled up, and I showed up full of doubt.', url: 'houston-marathon-2026.html', keywords: 'marathon running houston 2026 training injuries race doubt finish' },
+      { title: 'My 2025 Annual Review',                             type: 'blog', desc: 'The central theme of 2025 was "addition through subtraction." What worked, what didn\'t, what I\'m carrying forward.', url: 'annual-review-2025.html',   keywords: 'annual review 2025 reflection goals year' },
+      { title: 'Logging Off: Reclaiming Attention in a Distracted World', type: 'blog', desc: '56 days off social media. 1,345 hours reclaimed. Quiet, unshared, unseen — and somehow more meaningful.', url: 'logging-off.html', keywords: 'social media attention distracted logging off quit 56 days' },
+
+      // ── Books ──────────────────────────────────────────────────────────
+      { title: 'Room',                     type: 'book', desc: '8/10 · Fiction. Told entirely from the POV of a five-year-old who has never left the room he was born in. Emma Donoghue.',                           url: 'books.html',                          keywords: 'room emma donoghue fiction 8/10 captivity perspective' },
+      { title: 'A Marriage at Sea',         type: 'book', desc: '7/10 · Nonfiction / Adventure. A couple sails across the Pacific with no experience. Their boat sinks. 118 days on a raft. Sophie Elmhirst.',       url: 'book-notes-a-marriage-at-sea.html',   keywords: 'marriage sea sophie elmhirst sailing survival raft pacific nonfiction adventure 7/10' },
+      { title: 'The Tiger',                 type: 'book', desc: '8/10 · Nonfiction / True Crime. A tiger in Siberia decides to hunt humans, methodically, over days. John Vaillant.',                                url: 'books.html',                          keywords: 'tiger john vaillant siberia hunting nonfiction true crime adventure 8/10' },
+      { title: 'Co-Intelligence',           type: 'book', desc: '6/10 · Nonfiction / AI. One of the clearest thinkers writing about AI. Practical and genuinely interesting. Ethan Mollick.',                        url: 'book-notes-co-intelligence.html',     keywords: 'co-intelligence ethan mollick ai artificial intelligence llm future of work 6/10' },
+      { title: 'The Art Thief',             type: 'book', desc: '9/10 · Nonfiction / True Crime. The most successful art thief in history — doing it because he just loved the paintings. Michael Finkel.',           url: 'books.html',                          keywords: 'art thief michael finkel true crime nonfiction museum heist 9/10' },
+      { title: 'Fahrenheit 451',            type: 'book', desc: '7/10 · Fiction / Dystopian. Books are banned. Firemen burn them. Guy Montag starts to question his society. Ray Bradbury.',                          url: 'book-notes-fahrenheit-451.html',      keywords: 'fahrenheit 451 ray bradbury fiction dystopian books banned firemen montag 7/10' },
+      { title: "Man's Search for Meaning",  type: 'book', desc: '8/10 · Nonfiction / Philosophy. Surviving four Nazi concentration camps. Meaning — not pleasure or power — is the primary human drive. Viktor Frankl.', url: 'books.html',                       keywords: "man's search for meaning viktor frankl philosophy concentration camps logotherapy meaning 8/10" },
+      { title: 'If This Is A Man',          type: 'book', desc: 'Currently Reading · Nonfiction / History / Memoir. A firsthand account of survival in Auschwitz. Primo Levi.',                                       url: 'book-notes-if-this-is-a-man.html',    keywords: 'if this is a man primo levi auschwitz holocaust history memoir nonfiction currently reading' },
+
+      // ── Projects ───────────────────────────────────────────────────────
+      { title: 'ResumeIQ',                       type: 'project', desc: 'Paste a job description, get a tailored resume back. Rewrites bullets, scores fit, generates cover letter. Built on Claude\'s API.', url: 'https://resumeiq-gamma.vercel.app', keywords: 'resumeiq resume job description claude api productivity job search ats cover letter' },
+      { title: 'Your Guitar Roadmap',             type: 'project', desc: 'A full guitar learning environment — curriculum, metronome, chord library, scale library, practice log, placement quiz.',             url: 'guitar-roadmap.html',               keywords: 'guitar roadmap learning curriculum metronome chord scale web audio api practice' },
+      { title: 'Stock Market Sentiment Analysis', type: 'project', desc: '77.8% accuracy using Sentence Transformers. Automated sentiment classifier for financial news headlines.',                             url: 'projects.html',                     keywords: 'stock market sentiment analysis nlp sentence transformers finance machine learning classifier' },
+      { title: 'Medical Assistant (RAG)',         type: 'project', desc: 'RAG system on GPT-4o that ingests the Merck Manual and returns grounded, source-cited clinical answers.',                             url: 'projects.html',                     keywords: 'medical assistant rag gpt-4o healthcare merck manual retrieval augmented generation' },
+
+      // ── Knowledge Base ─────────────────────────────────────────────────
+      { title: 'You Are Not a Parrot',                                           type: 'kb', desc: 'Article · Elizabeth Weil · New York Magazine. On whether AI understands anything at all.',                                              url: 'resources.html',  keywords: 'you are not a parrot elizabeth weil new york magazine ai chatgpt language model understanding parrot' },
+      { title: '"The most common form of despair is not being who you are."',    type: 'kb', desc: 'Quote · Søren Kierkegaard · Either/Or. On identity, authenticity, and outsourcing thinking to AI.',                                    url: 'resources.html',  keywords: 'kierkegaard despair identity philosophy either or authenticity' },
+      { title: 'Cal Newport on Deep Work (video)',                               type: 'kb', desc: 'Video · YouTube. "The ability to perform deep work is becoming increasingly rare at exactly the same time it\'s becoming increasingly valuable."', url: 'resources.html', keywords: 'cal newport deep work video youtube attention focus rare valuable' },
+      { title: 'Co-Intelligence — book notes',                                  type: 'kb', desc: '10 passages from Ethan Mollick\'s Co-Intelligence, with personal takes. Topics: AI, FutureOfWork, Attention.',                         url: 'resources.html?tag=AI', keywords: 'co-intelligence ethan mollick ai future of work autoregressive hallucinations prompt engineering context window creativity' },
+      { title: 'Fahrenheit 451 — book notes',                                   type: 'kb', desc: '8 passages from Ray Bradbury\'s Fahrenheit 451. Topics: Attention, DeepWork, Reading, HumanNature.',                                   url: 'resources.html?tag=DeepWork', keywords: 'fahrenheit 451 bradbury attention deep work reading human nature centrifuge television distraction' },
+      { title: 'A Marriage at Sea — book notes',                                 type: 'kb', desc: '6 passages from Sophie Elmhirst\'s A Marriage at Sea. Topics: Writing, Solitude, DeepWork, Creativity.',                               url: 'resources.html?tag=Solitude', keywords: 'marriage sea elmhirst writing solitude creativity loneliness raft pacific' },
+      { title: 'If This Is A Man — book notes',                                  type: 'kb', desc: '1 passage from Primo Levi on grief, pain, and the hedonic treadmill. Topics: HumanNature, Psychology.',                                url: 'resources.html?tag=HumanNature', keywords: 'if this is a man primo levi grief pain hedonic treadmill psychology human nature consciousness' },
+    ];
+
+    // ── Type labels & CSS classes ────────────────────────────────────────
+    var TYPE_META = {
+      page:    { label: 'Page',         cls: 'srt-page'    },
+      blog:    { label: 'Blog Post',    cls: 'srt-blog'    },
+      book:    { label: 'Book',         cls: 'srt-book'    },
+      project: { label: 'Project',      cls: 'srt-project' },
+      kb:      { label: 'Knowledge Base', cls: 'srt-kb'   },
+    };
+
+    // ── DOM refs ─────────────────────────────────────────────────────────
+    var input   = document.getElementById('site-search-input');
+    var results = document.getElementById('site-search-results');
+    var empty   = document.getElementById('site-search-empty');
+    var clear   = document.getElementById('site-search-clear');
+
+    // ── Search logic ─────────────────────────────────────────────────────
+    function search(q) {
+      q = q.trim().toLowerCase();
+      if (!q) return [];
+      var words = q.split(/\s+/);
+      return INDEX.filter(function(entry) {
+        var hay = (entry.title + ' ' + entry.desc + ' ' + entry.keywords).toLowerCase();
+        return words.every(function(w) { return hay.indexOf(w) !== -1; });
+      }).slice(0, 8);
+    }
+
+    // ── Render results ───────────────────────────────────────────────────
+    function render(hits) {
+      results.innerHTML = '';
+      if (hits.length === 0) {
+        results.style.display = 'none';
+        empty.style.display   = 'block';
+        return;
+      }
+      empty.style.display   = 'none';
+      results.style.display = 'block';
+      hits.forEach(function(entry) {
+        var meta = TYPE_META[entry.type] || { label: entry.type, cls: '' };
+        var a = document.createElement('a');
+        a.href = entry.url;
+        a.className = 'site-search-result';
+        // external links open in new tab
+        if (entry.url.indexOf('http') === 0) { a.target = '_blank'; a.rel = 'noopener'; }
+
+        var top = document.createElement('div');
+        top.className = 'site-search-result-top';
+
+        var badge = document.createElement('span');
+        badge.className = 'site-search-result-type ' + meta.cls;
+        badge.textContent = meta.label;
+
+        var title = document.createElement('span');
+        title.className = 'site-search-result-title';
+        title.textContent = entry.title;
+
+        top.appendChild(badge);
+        top.appendChild(title);
+
+        var desc = document.createElement('div');
+        desc.className = 'site-search-result-desc';
+        desc.textContent = entry.desc;
+
+        a.appendChild(top);
+        a.appendChild(desc);
+        results.appendChild(a);
+      });
+    }
+
+    // ── Event listeners ──────────────────────────────────────────────────
+    input.addEventListener('input', function() {
+      var q = this.value;
+      clear.style.display = q ? 'block' : 'none';
+      if (!q.trim()) {
+        results.style.display = 'none';
+        empty.style.display   = 'none';
+        return;
+      }
+      render(search(q));
+    });
+
+    clear.addEventListener('click', function() {
+      input.value = '';
+      this.style.display    = 'none';
+      results.style.display = 'none';
+      empty.style.display   = 'none';
+      input.focus();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        input.value = '';
+        clear.style.display    = 'none';
+        results.style.display  = 'none';
+        empty.style.display    = 'none';
+      }
+    });
+
+    // Close results when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.site-search-wrap')) {
+        results.style.display = 'none';
+        empty.style.display   = 'none';
+      }
+    });
+    input.addEventListener('focus', function() {
+      if (input.value.trim()) render(search(input.value));
+    });
+  })();
+  </script>
+  <!-- ── /Site Search ────────────────────────────────────────────────────── -->
 
   <!-- ── Bru the French Bulldog ──────────────────────────────────────────── -->
   <style>
