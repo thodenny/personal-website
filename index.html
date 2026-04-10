@@ -208,6 +208,27 @@
           </table>
         </div>
 
+        <!-- Search -->
+        <div class="details-box" style="margin-top:0;">
+          <div class="details-header">Search</div>
+          <div style="padding: 8px;">
+            <div class="site-search-wrap">
+              <div class="site-search-input-row">
+                <input
+                  type="text"
+                  id="site-search-input"
+                  class="site-search-input"
+                  placeholder="Search the site…"
+                  autocomplete="off"
+                />
+                <button class="site-search-clear" id="site-search-clear" style="display:none;">✕</button>
+              </div>
+              <div class="site-search-results" id="site-search-results" style="display:none;"></div>
+              <div class="site-search-empty" id="site-search-empty" style="display:none;">No results.</div>
+            </div>
+          </div>
+        </div>
+
       </aside>
       <!-- /col-left -->
 
@@ -234,27 +255,6 @@
           <p>
             This site is where I think in public. It's my <a href="digital-garden.jpg">digital garden</a>. I write about building things, fitness, work, and whatever else is on my mind. <a href="about.html">More about me →</a>
           </p>
-        </div>
-
-        <!-- ================================================
-             SITE SEARCH
-        ================================================ -->
-        <div class="section-header">Search</div>
-        <div class="content-box" style="padding: 10px 14px;">
-          <div class="site-search-wrap">
-            <div class="site-search-input-row">
-              <input
-                type="text"
-                id="site-search-input"
-                class="site-search-input"
-                placeholder="Search pages, books, projects, notes…"
-                autocomplete="off"
-              />
-              <button class="site-search-clear" id="site-search-clear" style="display:none;">✕</button>
-            </div>
-            <div class="site-search-results" id="site-search-results" style="display:none;"></div>
-            <div class="site-search-empty" id="site-search-empty" style="display:none;">No results found.</div>
-          </div>
         </div>
 
         <!-- ================================================
@@ -398,41 +398,44 @@
   <style>
     .site-search-input-row {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       align-items: center;
     }
     .site-search-input {
       flex: 1;
       font-family: Verdana, sans-serif;
-      font-size: 12px;
-      padding: 6px 10px;
+      font-size: 11px;
+      padding: 5px 7px;
       border: 1px solid #99AACC;
       border-radius: 2px;
       color: #333;
       background: #fff;
       outline: none;
+      min-width: 0;
     }
     .site-search-input:focus { border-color: #336699; }
     .site-search-clear {
-      font-size: 11px;
-      padding: 5px 10px;
+      font-size: 10px;
+      padding: 4px 7px;
       background: #f0f5ff;
       border: 1px solid #99AACC;
       border-radius: 2px;
       color: #336699;
       cursor: pointer;
       font-family: Verdana, sans-serif;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .site-search-clear:hover { border-color: #FF6600; color: #FF6600; }
 
     .site-search-results {
-      margin-top: 10px;
+      margin-top: 8px;
       border-top: 1px solid #dde4ee;
-      padding-top: 8px;
+      padding-top: 6px;
     }
     .site-search-result {
       display: block;
-      padding: 7px 0;
+      padding: 6px 0;
       border-bottom: 1px solid #f0f3f8;
       text-decoration: none;
       color: inherit;
@@ -443,21 +446,22 @@
     .site-search-result-top {
       display: flex;
       align-items: baseline;
-      gap: 7px;
+      gap: 5px;
       margin-bottom: 2px;
+      flex-wrap: wrap;
     }
     .site-search-result-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
       color: #003366;
       transition: color 0.15s;
     }
     .site-search-result-type {
-      font-size: 9px;
+      font-size: 8px;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      padding: 1px 5px;
+      padding: 1px 4px;
       border-radius: 2px;
       white-space: nowrap;
       flex-shrink: 0;
@@ -469,13 +473,13 @@
     .srt-kb       { background: #fff1e6; color: #c2410c; }
 
     .site-search-result-desc {
-      font-size: 11px;
+      font-size: 10px;
       color: #6688aa;
-      line-height: 1.5;
+      line-height: 1.4;
     }
     .site-search-empty {
-      margin-top: 10px;
-      font-size: 12px;
+      margin-top: 6px;
+      font-size: 11px;
       color: #aabbcc;
       font-style: italic;
     }
@@ -518,13 +522,14 @@
       { title: 'Medical Assistant (RAG)',         type: 'project', desc: 'RAG system on GPT-4o that ingests the Merck Manual and returns grounded, source-cited clinical answers.',                             url: 'projects.html',                     keywords: 'medical assistant rag gpt-4o healthcare merck manual retrieval augmented generation' },
 
       // ── Knowledge Base ─────────────────────────────────────────────────
-      { title: 'You Are Not a Parrot',                                           type: 'kb', desc: 'Article · Elizabeth Weil · New York Magazine. On whether AI understands anything at all.',                                              url: 'resources.html',  keywords: 'you are not a parrot elizabeth weil new york magazine ai chatgpt language model understanding parrot' },
-      { title: '"The most common form of despair is not being who you are."',    type: 'kb', desc: 'Quote · Søren Kierkegaard · Either/Or. On identity, authenticity, and outsourcing thinking to AI.',                                    url: 'resources.html',  keywords: 'kierkegaard despair identity philosophy either or authenticity' },
-      { title: 'Cal Newport on Deep Work (video)',                               type: 'kb', desc: 'Video · YouTube. "The ability to perform deep work is becoming increasingly rare at exactly the same time it\'s becoming increasingly valuable."', url: 'resources.html', keywords: 'cal newport deep work video youtube attention focus rare valuable' },
-      { title: 'Co-Intelligence — book notes',                                  type: 'kb', desc: '10 passages from Ethan Mollick\'s Co-Intelligence, with personal takes. Topics: AI, FutureOfWork, Attention.',                         url: 'resources.html?tag=AI', keywords: 'co-intelligence ethan mollick ai future of work autoregressive hallucinations prompt engineering context window creativity' },
-      { title: 'Fahrenheit 451 — book notes',                                   type: 'kb', desc: '8 passages from Ray Bradbury\'s Fahrenheit 451. Topics: Attention, DeepWork, Reading, HumanNature.',                                   url: 'resources.html?tag=DeepWork', keywords: 'fahrenheit 451 bradbury attention deep work reading human nature centrifuge television distraction' },
-      { title: 'A Marriage at Sea — book notes',                                 type: 'kb', desc: '6 passages from Sophie Elmhirst\'s A Marriage at Sea. Topics: Writing, Solitude, DeepWork, Creativity.',                               url: 'resources.html?tag=Solitude', keywords: 'marriage sea elmhirst writing solitude creativity loneliness raft pacific' },
-      { title: 'If This Is A Man — book notes',                                  type: 'kb', desc: '1 passage from Primo Levi on grief, pain, and the hedonic treadmill. Topics: HumanNature, Psychology.',                                url: 'resources.html?tag=HumanNature', keywords: 'if this is a man primo levi grief pain hedonic treadmill psychology human nature consciousness' },
+      { title: 'Mark Zuckerberg Says Social Media Is Over',                   type: 'kb', desc: 'Article · Kyle Chayka · The New Yorker. Only 7% of time on Instagram is spent viewing friends\' content. The shift from social media to social marketing.',     url: 'resources.html',               keywords: 'zuckerberg social media instagram facebook new yorker kyle chayka meta attention economy friends marketing influencer' },
+      { title: '"The happiness of your life depends on the quality of your thoughts."', type: 'kb', desc: 'Quote · Marcus Aurelius · Roman Emperor & Philosopher. On self-talk, grace, and controlling what\'s in your power.',                                   url: 'resources.html?tag=Stoicism',  keywords: 'marcus aurelius stoicism philosophy happiness thoughts self talk grace control roman emperor' },
+      { title: '"The more we value things outside of our control, the less control we have."', type: 'kb', desc: 'Quote · Epictetus · Stoic Philosopher. On focusing internally and not wasting energy on what you can\'t control.',                              url: 'resources.html?tag=Stoicism',  keywords: 'epictetus stoicism philosophy control slave internal focus waste energy' },
+      { title: 'Alex Becker on quitting alcohol (video)',                      type: 'kb', desc: 'Video · YouTube. On rethinking your relationship with alcohol and why drinking became a habit in the first place.',                                             url: 'resources.html?tag=Alcohol',   keywords: 'alex becker alcohol quitting drinking health focus brain habit weekend sober' },
+      { title: 'Co-Intelligence — book notes',                                 type: 'kb', desc: '10 passages from Ethan Mollick\'s Co-Intelligence, with personal takes. Topics: AI, FutureOfWork, Attention, Creativity.',                                     url: 'resources.html?tag=AI',        keywords: 'co-intelligence ethan mollick ai future of work autoregressive hallucinations prompt engineering context window creativity' },
+      { title: 'Fahrenheit 451 — book notes',                                  type: 'kb', desc: '8 passages from Ray Bradbury\'s Fahrenheit 451. Topics: Attention, DeepWork, Reading, HumanNature.',                                                           url: 'resources.html?tag=DeepWork',  keywords: 'fahrenheit 451 bradbury attention deep work reading human nature centrifuge television distraction' },
+      { title: 'A Marriage at Sea — book notes',                               type: 'kb', desc: '6 passages from Sophie Elmhirst\'s A Marriage at Sea. Topics: Writing, Solitude, DeepWork, Creativity.',                                                        url: 'resources.html?tag=Solitude',  keywords: 'marriage sea elmhirst writing solitude creativity loneliness raft pacific' },
+      { title: 'If This Is A Man — book notes',                                type: 'kb', desc: '1 passage from Primo Levi on grief, pain, and the hedonic treadmill. Topics: HumanNature, Psychology.',                                                         url: 'resources.html?tag=HumanNature', keywords: 'if this is a man primo levi grief pain hedonic treadmill psychology human nature consciousness' },
     ];
 
     // ── Type labels & CSS classes ────────────────────────────────────────
