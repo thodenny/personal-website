@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repertoire — Thomas Denny</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://iamthomasdenny.com/repertoire.html" />
+  <meta property="og:title"       content="Repertoire — Thomas Denny" />
+  <meta property="og:description" content="Songs Thomas Denny enjoys playing on guitar." />
+  <meta property="og:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Repertoire — Thomas Denny" />
+  <meta name="twitter:description" content="Songs Thomas Denny enjoys playing on guitar." />
+  <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
+
+  <style>
+    /* ── Difficulty badges ───────────────────────────────────── */
+    .diff-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .diff-beginner     { background: #dcfce7; color: #166534; }
+    .diff-intermediate { background: #dbeafe; color: #1e40af; }
+    .diff-advanced     { background: #fee2e2; color: #991b1b; }
+
+    /* ── Status badges ───────────────────────────────────────── */
+    .status-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .status-working     { background: #fef9c3; color: #854d0e; }
+    .status-ready       { background: #d1fae5; color: #065f46; }
+    .status-revisiting  { background: #fdf4ff; color: #7e22ce; }
+
+    /* ── Genre pills ─────────────────────────────────────────── */
+    .rep-genre {
+      display: inline-block;
+      font-size: 9px;
+      color: #6688aa;
+      background: #f0f5ff;
+      border: 1px solid #dde6f5;
+      border-radius: 2px;
+      padding: 1px 5px;
+      margin-right: 3px;
+      white-space: nowrap;
+    }
+
+    /* ── Song cards ──────────────────────────────────────────── */
+    .rep-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .rep-card {
+      padding: 14px 0;
+      border-bottom: 1px solid #eef0f5;
+    }
+    .rep-card:last-child { border-bottom: none; }
+
+    .rep-card-top {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+
+    .rep-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #003366;
+    }
+    .rep-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .rep-title a:hover { color: #FF6600; }
+
+    .rep-artist {
+      font-size: 11px;
+      color: #6688aa;
+    }
+
+    .rep-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .rep-genres {
+      margin-bottom: 6px;
+    }
+
+    .rep-note {
+      font-size: 12px;
+      color: #555;
+      font-style: italic;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Filter row ──────────────────────────────────────────── */
+    .rep-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #dde4ee;
+    }
+
+    .rep-filter-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .rep-filter-label {
+      font-size: 10px;
+      font-weight: bold;
+      color: #6688aa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-width: 68px;
+      flex-shrink: 0;
+    }
+
+    .rep-filter-btn {
+      font-size: 11px;
+      font-family: Verdana, sans-serif;
+      color: #336699;
+      background: none;
+      border: none;
+      padding: 0 4px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .rep-filter-btn:hover { color: #FF6600; }
+    .rep-filter-btn.active {
+      color: #FF6600;
+      font-weight: bold;
+    }
+    .rep-filter-sep {
+      font-size: 11px;
+      color: #99AACC;
+    }
+
+    /* ── Empty state ─────────────────────────────────────────── */
+    #rep-empty {
+      display: none;
+      font-size: 12px;
+      color: #aabbcc;
+      font-style: italic;
+      padding: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- NAV -->
+    <nav class="main-nav">
+      <a href="index.html"       class="nav-title">thomas denny</a>
+      <a href="index.html"       class="nav-link">Home</a>
+      <a href="now.html"         class="nav-link">Now</a>
+      <a href="about.html"       class="nav-link">About Me</a>
+      <a href="blog.html"        class="nav-link">Blog</a>
+      <a href="books.html"       class="nav-link">Books</a>
+      <a href="projects.html"    class="nav-link">Projects</a>
+      <a href="deepwork.html"    class="nav-link">Deep Work</a>
+      <a href="resources.html"   class="nav-link">Knowledge Base</a>
+    </nav>
+
+    <div class="main-layout">
+
+      <!-- LEFT SIDEBAR -->
+      <aside class="col-left-sm">
+
+        <div class="profile-card-sm">
+          <img
+            src="https://www.iamthomasdenny.com/content/images/size/w400/2025/08/IMG_1828-2.jpeg"
+            alt="Thomas Denny"
+          />
+          <div class="pcm-name">Thomas Denny</div>
+          <div class="pcm-status">
+            <span class="online-dot"></span> Online Now
+          </div>
+          <div class="pcm-mood">Mood: <span>Focused</span></div>
+          <a href="index.html" class="btn-back-home">← Back to Profile</a>
+        </div>
+
+        <div class="sidebar-page-nav">
+          <div class="spn-title">Pages</div>
+          <a href="index.html">Home</a>
+          <a href="now.html">Now</a>
+          <a href="about.html">About Me</a>
+          <a href="blog.html">Blog</a>
+          <a href="books.html">Books</a>
+          <a href="projects.html">Projects</a>
+          <a href="deepwork.html">Deep Work</a>
+          <a href="resources.html">Knowledge Base</a>
+          <a href="repertoire.html" class="current">Repertoire</a>
+        </div>
+
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="col-right">
+
+        <div class="section-header">Guitar Repertoire</div>
+
+        <div class="content-box inner-content">
+
+          <p style="font-size:12px; color:#6688aa; margin-bottom:18px;">
+            Songs I actually play. Some I've had for years, some I'm still getting comfortable with. My guitar teacher <a href="https://howlinfish.com/">Mark</a> introduced me to a lot of these. All tabs sourced from <a href="https://www.ultimate-guitar.com" target="_blank" rel="noopener">Ultimate Guitar</a>.
+          </p>
+
+          <!-- ── Filter row ───────────────────────────────────── -->
+          <div class="rep-filters">
+
+            <div class="rep-filter-group">
+              <span class="rep-filter-label">Artist</span>
+              <button class="rep-filter-btn active" data-group="artist" data-val="all">All</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="artist" data-val="eric-clapton">Eric Clapton</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="artist" data-val="pink-floyd">Pink Floyd</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="artist" data-val="the-eagles">The Eagles</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="artist" data-val="metallica">Metallica</button>
+            </div>
+
+            <div class="rep-filter-group">
+              <span class="rep-filter-label">Difficulty</span>
+              <button class="rep-filter-btn active" data-group="difficulty" data-val="all">All</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="difficulty" data-val="beginner">Beginner</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="difficulty" data-val="intermediate">Intermediate</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="difficulty" data-val="advanced">Advanced</button>
+            </div>
+
+            <div class="rep-filter-group">
+              <span class="rep-filter-label">Status</span>
+              <button class="rep-filter-btn active" data-group="status" data-val="all">All</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="status" data-val="working-on">Working On</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="status" data-val="performance-ready">Performance Ready</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="status" data-val="revisiting">Revisiting</button>
+            </div>
+
+          </div>
+
+          <!-- ── Song list ────────────────────────────────────── -->
+          <ul class="rep-list" id="rep-list">
+
+            <li class="rep-card"
+                data-artist="eric-clapton"
+                data-difficulty="intermediate"
+                data-status="performance-ready">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=I+Shot+the+Sheriff" target="_blank" rel="noopener">I Shot the Sheriff</a>
+                </span>
+                <span class="rep-artist">Eric Clapton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+                <span class="status-badge status-ready">Performance Ready</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <p class="rep-note">"One of my favorites that my guitar teacher Mark and I love jamming on. Funky, groovy, and just fun to play."</p>
+            </li>
+
+            <li class="rep-card"
+                data-artist="pink-floyd"
+                data-difficulty="intermediate"
+                data-status="performance-ready">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Another+Brick+in+the+Wall" target="_blank" rel="noopener">Another Brick in the Wall, Pt. 2</a>
+                </span>
+                <span class="rep-artist">Pink Floyd</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+                <span class="status-badge status-ready">Performance Ready</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <p class="rep-note">"A classic that's straightforward to play — I use this as a warm-up before practice begins."</p>
+            </li>
+
+            <li class="rep-card"
+                data-artist="the-eagles"
+                data-difficulty="intermediate"
+                data-status="performance-ready">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=One+of+These+Nights" target="_blank" rel="noopener">One of These Nights</a>
+                </span>
+                <span class="rep-artist">The Eagles</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+                <span class="status-badge status-ready">Performance Ready</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <p class="rep-note">"Mark introduced this during a lesson on funk strumming and it's become a daily listen."</p>
+            </li>
+
+            <li class="rep-card"
+                data-artist="eric-clapton"
+                data-difficulty="intermediate"
+                data-status="performance-ready">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Bad+Love" target="_blank" rel="noopener">Bad Love</a>
+                </span>
+                <span class="rep-artist">Eric Clapton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+                <span class="status-badge status-ready">Performance Ready</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <p class="rep-note">"Over the last year, old Slow Hand has become one of my favorite artists. This version of EC was right after getting clean and has all the elements of 80s rock."</p>
+            </li>
+
+            <li class="rep-card"
+                data-artist="metallica"
+                data-difficulty="intermediate"
+                data-status="performance-ready">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Fade+to+Black" target="_blank" rel="noopener">Fade to Black</a>
+                </span>
+                <span class="rep-artist">Metallica</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+                <span class="status-badge status-ready">Performance Ready</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Metal</span>
+              </div>
+              <p class="rep-note">"The outro solo is without a doubt one of my favorite solos ever recorded. My mom introduced me to Metallica my freshman year of high school — this one moves me every time."</p>
+            </li>
+
+          </ul>
+
+          <p id="rep-empty">No songs match the current filters.</p>
+
+        </div>
+
+      </main>
+
+    </div>
+
+    <footer class="site-footer">
+      Thomas Denny &copy; 2025 &nbsp;|&nbsp; Built with intention, not a template.
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // ── Filter state ─────────────────────────────────────────────────────────
+    var activeFilters = {
+      artist:     'all',
+      difficulty: 'all',
+      status:     'all',
+    };
+
+    // ── Apply filters ────────────────────────────────────────────────────────
+    function applyFilters() {
+      var cards   = document.querySelectorAll('.rep-card');
+      var anyVis  = false;
+
+      cards.forEach(function(card) {
+        var artistMatch     = activeFilters.artist     === 'all' || card.getAttribute('data-artist')     === activeFilters.artist;
+        var difficultyMatch = activeFilters.difficulty === 'all' || card.getAttribute('data-difficulty') === activeFilters.difficulty;
+        var statusMatch     = activeFilters.status     === 'all' || card.getAttribute('data-status')     === activeFilters.status;
+
+        var visible = artistMatch && difficultyMatch && statusMatch;
+        card.style.display = visible ? '' : 'none';
+        if (visible) anyVis = true;
+      });
+
+      document.getElementById('rep-empty').style.display = anyVis ? 'none' : 'block';
+    }
+
+    // ── Filter button listeners ──────────────────────────────────────────────
+    document.querySelectorAll('.rep-filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var group = this.getAttribute('data-group');
+        var val   = this.getAttribute('data-val');
+
+        // Update active state within this group
+        document.querySelectorAll('.rep-filter-btn[data-group="' + group + '"]').forEach(function(b) {
+          b.classList.remove('active');
+        });
+        this.classList.add('active');
+
+        activeFilters[group] = val;
+        applyFilters();
+      });
+    });
+  </script>
+
+</body>
+</html>
