@@ -1040,7 +1040,7 @@
     // ── Build tag cloud ────────────────────────────────────
     function buildTagCloud() {
       var counts = getTagsFromDOM();
-      var sorted = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; });
+      var sorted = Object.entries(counts).sort(function(a,b){ return a[0].localeCompare(b[0]); });
       var cloud = document.getElementById('res-tag-cloud');
       if (!cloud) return;
       cloud.innerHTML = sorted.map(function(pair) {
