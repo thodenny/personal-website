@@ -1063,7 +1063,7 @@
     // ── Build "Browse by Tag" sidebar ──────────────────────
     function buildTagSidebar() {
       var counts = getTagsFromDOM();
-      var sorted = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; });
+      var sorted = Object.entries(counts).sort(function(a,b){ return a[0].localeCompare(b[0]); });
       var list = document.getElementById('res-tag-list');
       if (!list) return;
       list.innerHTML = sorted.map(function(pair) {
