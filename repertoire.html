@@ -272,6 +272,19 @@
               <button class="rep-filter-btn" data-group="status" data-val="revisiting">Revisiting</button>
             </div>
 
+            <div class="rep-filter-group">
+              <span class="rep-filter-label">Genre</span>
+              <button class="rep-filter-btn active" data-group="genre" data-val="all">All</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="genre" data-val="blues">Blues</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="genre" data-val="rock">Rock</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="genre" data-val="funk">Funk</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="genre" data-val="metal">Metal</button>
+            </div>
+
           </div>
 
           <!-- ── Song list ────────────────────────────────────── -->
@@ -280,7 +293,8 @@
             <li class="rep-card"
                 data-artist="eric-clapton"
                 data-difficulty="intermediate"
-                data-status="performance-ready">
+                data-status="performance-ready"
+                data-genres="blues,rock">
               <div class="rep-card-top">
                 <span class="rep-title">
                   <a href="https://tabs.ultimate-guitar.com/tab/bob-marley/i-shot-the-sheriff-chords-213453" target="_blank" rel="noopener">I Shot the Sheriff</a>
@@ -304,7 +318,8 @@
             <li class="rep-card"
                 data-artist="pink-floyd"
                 data-difficulty="intermediate"
-                data-status="performance-ready">
+                data-status="performance-ready"
+                data-genres="rock">
               <div class="rep-card-top">
                 <span class="rep-title">
                   <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Another+Brick+in+the+Wall" target="_blank" rel="noopener">Another Brick in the Wall, Pt. 2</a>
@@ -327,7 +342,8 @@
             <li class="rep-card"
                 data-artist="the-eagles"
                 data-difficulty="intermediate"
-                data-status="performance-ready">
+                data-status="performance-ready"
+                data-genres="rock,funk">
               <div class="rep-card-top">
                 <span class="rep-title">
                   <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=One+of+These+Nights" target="_blank" rel="noopener">One of These Nights</a>
@@ -351,7 +367,8 @@
             <li class="rep-card"
                 data-artist="eric-clapton"
                 data-difficulty="intermediate"
-                data-status="performance-ready">
+                data-status="performance-ready"
+                data-genres="blues,rock">
               <div class="rep-card-top">
                 <span class="rep-title">
                   <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Bad+Love" target="_blank" rel="noopener">Bad Love</a>
@@ -375,7 +392,8 @@
             <li class="rep-card"
                 data-artist="metallica"
                 data-difficulty="intermediate"
-                data-status="performance-ready">
+                data-status="performance-ready"
+                data-genres="metal">
               <div class="rep-card-top">
                 <span class="rep-title">
                   <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Fade+to+Black" target="_blank" rel="noopener">Fade to Black</a>
@@ -442,6 +460,7 @@
       artist:     'all',
       difficulty: 'all',
       status:     'all',
+      genre:      'all',
     };
 
     // ── Apply filters ────────────────────────────────────────────────────────
@@ -453,8 +472,9 @@
         var artistMatch     = activeFilters.artist     === 'all' || card.getAttribute('data-artist')     === activeFilters.artist;
         var difficultyMatch = activeFilters.difficulty === 'all' || card.getAttribute('data-difficulty') === activeFilters.difficulty;
         var statusMatch     = activeFilters.status     === 'all' || card.getAttribute('data-status')     === activeFilters.status;
+        var genreMatch      = activeFilters.genre      === 'all' || (card.getAttribute('data-genres') || '').split(',').indexOf(activeFilters.genre) !== -1;
 
-        var visible = artistMatch && difficultyMatch && statusMatch;
+        var visible = artistMatch && difficultyMatch && statusMatch && genreMatch;
         card.style.display = visible ? '' : 'none';
         if (visible) anyVis = true;
       });
