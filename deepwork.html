@@ -89,6 +89,8 @@
     .dw-cat-pill.study   { background: #dcfce7; color: #166534; }
     .dw-cat-pill.practice { background: #fdf4ff; color: #7e22ce; }
     .dw-cat-pill.read { background: #ffedd5; color: #9a3412; }
+    .dw-cat-pill.write { background: #ffe4e6; color: #9f1239; }
+
 
 
     /* ── Mini calendar grid ───────────────────────────────────── */
@@ -314,6 +316,8 @@
     .dw-cat-badge.study    { background: #dcfce7; color: #166534; }
     .dw-cat-badge.practice { background: #fdf4ff; color: #7e22ce; }
     .dw-cat-badge.read { background: #ffedd5; color: #9a3412; }
+    .dw-cat-badge.write { background: #ffe4e6; color: #9f1239; }
+
     .dw-note-empty { color: #ccc; font-style: italic; }
 
     /* Notes column inside the modal table */
@@ -468,10 +472,11 @@
         <div class="details-box" style="margin-top:0;">
           <div class="details-header">Categories</div>
           <table class="details-table">
-            <tr><td class="details-value"><strong>Build:</strong> Coding, AI, projects</td></tr>
+            <tr><td class="details-value"><strong>Build:</strong> Projects, coding, AI</td></tr>
             <tr><td class="details-value"><strong>Study:</strong> Research</td></tr>
-            <tr><td class="details-value"><strong>Practice:</strong> Guitar, skills</td></tr>
-            <tr><td class="details-value"><strong>Read:</strong> Reading</td></tr>
+            <tr><td class="details-value"><strong>Practice:</strong> Guitar, skills, etc</td></tr>
+            <tr><td class="details-value"><strong>Read:</strong> Books, articles, etc</td></tr>
+            <tr><td class="details-value"><strong>Write:</strong> Articles, blog posts, etc</td></tr>
           </table>
         </div>
 
@@ -496,7 +501,7 @@
         <div class="content-box inner-content">
 
           <p style="font-size:12px; color:#6688aa; margin-bottom:16px;">
-            A running log of focused hours across three areas: Build, Study, Practice, Read. Each square is one day. Click any past month to see the full breakdown.
+            A running log of focused hours across three areas: Build, Study, Practice, Read, Write. Each square is one day. Click any past month to see the full breakdown.
           </p>
 
           <!-- YTD banner — filled by JS -->
@@ -655,7 +660,9 @@
       build:    { label: 'Build',    icon: '', pill: 'build' },
       study:    { label: 'Study',    icon: '', pill: 'study' },
       practice: { label: 'Practice', icon: '', pill: 'practice' },
-      read: { label: 'Read', icon: '', pill: 'read' }
+      read: { label: 'Read', icon: '', pill: 'read' },
+      write: { label: 'Write', icon: '', pill: 'write' }
+
 
     };
 
@@ -700,7 +707,7 @@
       var numDays   = daysInMonth(YEAR, m);
       var isFuture  = new Date(YEAR, m, 1) > TODAY;
       var monthTotal = 0;
-      var catTotals  = { build: 0, study: 0, practice: 0, read: 0 };
+      var catTotals  = { build: 0, study: 0, practice: 0, read: 0, write: 0 };
 
       for (var d = 1; d <= numDays; d++) {
         var val = deepWork[dateKey(YEAR, m, d)];
@@ -822,7 +829,7 @@
       var numDays    = daysInMonth(YEAR, m);
       var monthTotal = 0;
       var activeDays = 0;
-      var catTotals  = { build: 0, study: 0, practice: 0, read: 0};
+      var catTotals  = { build: 0, study: 0, practice: 0, read: 0, write: 0};
 
       document.getElementById('dw-modal-title').textContent = MONTH_NAMES[m] + ' ' + YEAR;
 
