@@ -635,10 +635,25 @@ nav.main-nav a.nav-link.active {
 .blog-post-card {
   padding: 16px 0;
   border-bottom: 1px solid #ddeeff;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
 }
 
 .blog-post-card:first-child { padding-top: 0; }
 .blog-post-card:last-child  { border-bottom: none; }
+
+.blog-post-thumb {
+  flex-shrink: 0;
+  width: 90px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid #99AACC;
+  display: block;
+}
+
+.blog-post-body { flex: 1; min-width: 0; }
 
 .blog-post-card h3 { font-family: Georgia, serif; font-size: 17px; margin-bottom: 4px; }
 .blog-post-card h3 a { color: #336699; }
