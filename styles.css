@@ -651,6 +651,7 @@ nav.main-nav a.nav-link.active {
   border-radius: 3px;
   border: 1px solid #99AACC;
   display: block;
+  margin-top: 4px;
 }
 
 .blog-post-body { flex: 1; min-width: 0; }
