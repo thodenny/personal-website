@@ -146,6 +146,25 @@
       border-color: #FF6600;
     }
 
+    .rep-search {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 12px;
+      font-family: Verdana, sans-serif;
+      color: #336699;
+      background: #fff;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 5px 8px;
+      margin-bottom: 10px;
+    }
+    .rep-search:hover { border-color: #FF6600; }
+    .rep-search:focus {
+      outline: none;
+      border-color: #FF6600;
+    }
+    .rep-search::placeholder { color: #aabbcc; }
+
     /* ── Empty state ─────────────────────────────────────────── */
     #rep-empty {
       display: none;
@@ -216,6 +235,9 @@
           <p style="font-size:12px; color:#6688aa; margin-bottom:18px;">
             A running list of songs I enjoy playing! My guitar teacher <a href="https://howlinfish.com/"><b>Mark</b></a> introduced me to a lot of these. Check him out if you're in the Austin area. All tabs sourced from <a href="https://www.ultimate-guitar.com" target="_blank" rel="noopener">Ultimate Guitar</a>.
           </p>
+
+          <!-- ── Search ───────────────────────────────────────── -->
+          <input type="text" id="rep-search" class="rep-search" placeholder="Search by song or artist…" />
 
           <!-- ── Filter row ───────────────────────────────────── -->
           <div class="rep-filters">
@@ -1021,17 +1043,27 @@
       genre:      'all',
     };
 
+    var searchQuery = '';
+
     // ── Apply filters ────────────────────────────────────────────────────────
     function applyFilters() {
       var cards   = document.querySelectorAll('.rep-card');
       var anyVis  = false;
+      var q       = searchQuery.trim().toLowerCase();
 
       cards.forEach(function(card) {
         var artistMatch     = activeFilters.artist     === 'all' || card.getAttribute('data-artist')     === activeFilters.artist;
         var difficultyMatch = activeFilters.difficulty === 'all' || card.getAttribute('data-difficulty') === activeFilters.difficulty;
         var genreMatch      = activeFilters.genre      === 'all' || (card.getAttribute('data-genres') || '').split(',').indexOf(activeFilters.genre) !== -1;
 
-        var visible = artistMatch && difficultyMatch && genreMatch;
+        var searchMatch = true;
+        if (q) {
+          var title  = (card.querySelector('.rep-title')  || {}).textContent || '';
+          var artist = (card.querySelector('.rep-artist') || {}).textContent || '';
+          searchMatch = (title + ' ' + artist).toLowerCase().indexOf(q) !== -1;
+        }
+
+        var visible = artistMatch && difficultyMatch && genreMatch && searchMatch;
         card.style.display = visible ? '' : 'none';
         if (visible) anyVis = true;
       });
@@ -1045,6 +1077,12 @@
         activeFilters[this.getAttribute('data-group')] = this.value;
         applyFilters();
       });
+    });
+
+    // ── Search input listener ────────────────────────────────────────────────
+    document.getElementById('rep-search').addEventListener('input', function() {
+      searchQuery = this.value;
+      applyFilters();
     });
   </script>
 
