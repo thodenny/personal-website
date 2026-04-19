@@ -130,24 +130,20 @@
       flex-shrink: 0;
     }
 
-    .rep-filter-btn {
+    .rep-select {
       font-size: 11px;
       font-family: Verdana, sans-serif;
       color: #336699;
-      background: none;
-      border: none;
-      padding: 0 4px;
+      background: #fff;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 3px 6px;
       cursor: pointer;
-      text-decoration: none;
     }
-    .rep-filter-btn:hover { color: #FF6600; }
-    .rep-filter-btn.active {
-      color: #FF6600;
-      font-weight: bold;
-    }
-    .rep-filter-sep {
-      font-size: 11px;
-      color: #99AACC;
+    .rep-select:hover { border-color: #FF6600; }
+    .rep-select:focus {
+      outline: none;
+      border-color: #FF6600;
     }
 
     /* ── Empty state ─────────────────────────────────────────── */
@@ -226,41 +222,70 @@
 
             <div class="rep-filter-group">
               <span class="rep-filter-label">Artist</span>
-              <button class="rep-filter-btn active" data-group="artist" data-val="all">All</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="artist" data-val="eric-clapton">Eric Clapton</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="artist" data-val="pink-floyd">Pink Floyd</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="artist" data-val="the-eagles">The Eagles</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="artist" data-val="metallica">Metallica</button>
+              <select class="rep-select" data-group="artist">
+                <option value="all">All</option>
+                <option value="al-green">Al Green</option>
+                <option value="al-stewart">Al Stewart</option>
+                <option value="albert-king">Albert King</option>
+                <option value="allman-brothers-band">Allman Brothers Band</option>
+                <option value="america">America</option>
+                <option value="bb-king">B.B. King</option>
+                <option value="bobby-bland">Bobby Bland</option>
+                <option value="chris-stapleton">Chris Stapleton</option>
+                <option value="dire-straits">Dire Straits</option>
+                <option value="don-nix">Don Nix</option>
+                <option value="dusty-springfield">Dusty Springfield</option>
+                <option value="eric-clapton">Eric Clapton</option>
+                <option value="fleetwood-mac">Fleetwood Mac</option>
+                <option value="goose">Goose</option>
+                <option value="grover-washington">Grover Washington</option>
+                <option value="guns-n-roses">Guns N Roses</option>
+                <option value="howlin-wolf">Howlin' Wolf</option>
+                <option value="jimi-hendrix">Jimi Hendrix</option>
+                <option value="john-mayer">John Mayer</option>
+                <option value="justin-bieber">Justin Bieber</option>
+                <option value="metallica">Metallica</option>
+                <option value="otis-redding">Otis Redding</option>
+                <option value="pink-floyd">Pink Floyd</option>
+                <option value="prince">Prince</option>
+                <option value="robert-cray">Robert Cray</option>
+                <option value="santana">Santana</option>
+                <option value="seals-and-crofts">Seals and Crofts</option>
+                <option value="steely-dan">Steely Dan</option>
+                <option value="stevie-wonder">Stevie Wonder</option>
+                <option value="the-doobie-brothers">The Doobie Brothers</option>
+                <option value="the-eagles">The Eagles</option>
+                <option value="the-ojays">The O'Jays</option>
+                <option value="the-temptations">The Temptations</option>
+                <option value="van-morrison">Van Morrison</option>
+                <option value="wilson-pickett">Wilson Pickett</option>
+              </select>
             </div>
 
             <div class="rep-filter-group">
               <span class="rep-filter-label">Difficulty</span>
-              <button class="rep-filter-btn active" data-group="difficulty" data-val="all">All</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="difficulty" data-val="beginner">Beginner</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="difficulty" data-val="intermediate">Intermediate</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="difficulty" data-val="advanced">Advanced</button>
+              <select class="rep-select" data-group="difficulty">
+                <option value="all">All</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
             </div>
 
             <div class="rep-filter-group">
               <span class="rep-filter-label">Genre</span>
-              <button class="rep-filter-btn active" data-group="genre" data-val="all">All</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="genre" data-val="blues">Blues</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="genre" data-val="rock">Rock</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="genre" data-val="funk">Funk</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="genre" data-val="metal">Metal</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="genre" data-val="soul">Soul</button>
+              <select class="rep-select" data-group="genre">
+                <option value="all">All</option>
+                <option value="blues">Blues</option>
+                <option value="country">Country</option>
+                <option value="folk">Folk</option>
+                <option value="funk">Funk</option>
+                <option value="jazz">Jazz</option>
+                <option value="metal">Metal</option>
+                <option value="pop">Pop</option>
+                <option value="rock">Rock</option>
+                <option value="soul">Soul</option>
+              </select>
             </div>
 
           </div>
@@ -458,7 +483,7 @@
               </div>
             </li>
 
-            <li class="rep-card" data-artist="al-stewart" data-difficulty="intermediate" data-genres="rock">
+            <li class="rep-card" data-artist="al-stewart" data-difficulty="intermediate" data-genres="rock,folk">
               <div class="rep-card-top">
                 <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Year+of+the+Cat" target="_blank" rel="noopener">Year of The Cat</a></span>
                 <span class="rep-artist">Al Stewart</span>
@@ -468,6 +493,7 @@
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Folk</span>
               </div>
             </li>
 
@@ -484,7 +510,7 @@
               </div>
             </li>
 
-            <li class="rep-card" data-artist="grover-washington" data-difficulty="intermediate" data-genres="funk">
+            <li class="rep-card" data-artist="grover-washington" data-difficulty="intermediate" data-genres="funk,jazz">
               <div class="rep-card-top">
                 <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Just+the+Two+of+Us" target="_blank" rel="noopener">Just The Two Of Us</a></span>
                 <span class="rep-artist">Grover Washington</span>
@@ -494,6 +520,7 @@
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Funk</span>
+                <span class="rep-genre">Jazz</span>
               </div>
             </li>
 
@@ -510,7 +537,7 @@
               </div>
             </li>
 
-            <li class="rep-card" data-artist="justin-bieber" data-difficulty="beginner" data-genres="rock">
+            <li class="rep-card" data-artist="justin-bieber" data-difficulty="beginner" data-genres="rock,pop">
               <div class="rep-card-top">
                 <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Yukon" target="_blank" rel="noopener">Yukon</a></span>
                 <span class="rep-artist">Justin Bieber</span>
@@ -520,10 +547,11 @@
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Pop</span>
               </div>
             </li>
 
-            <li class="rep-card" data-artist="chris-stapleton" data-difficulty="intermediate" data-genres="blues,rock">
+            <li class="rep-card" data-artist="chris-stapleton" data-difficulty="intermediate" data-genres="blues,rock,country">
               <div class="rep-card-top">
                 <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=I+Was+Wrong" target="_blank" rel="noopener">I Was Wrong</a></span>
                 <span class="rep-artist">Chris Stapleton</span>
@@ -534,6 +562,7 @@
               <div class="rep-genres">
                 <span class="rep-genre">Blues</span>
                 <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Country</span>
               </div>
             </li>
 
@@ -590,7 +619,7 @@
               </div>
             </li>
 
-            <li class="rep-card" data-artist="john-mayer" data-difficulty="intermediate" data-genres="rock">
+            <li class="rep-card" data-artist="john-mayer" data-difficulty="intermediate" data-genres="rock,pop">
               <div class="rep-card-top">
                 <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=New+Light" target="_blank" rel="noopener">New Light</a></span>
                 <span class="rep-artist">John Mayer</span>
@@ -600,6 +629,7 @@
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Pop</span>
               </div>
             </li>
 
@@ -938,7 +968,7 @@
               </div>
             </li>
 
-            <li class="rep-card" data-artist="seals-and-crofts" data-difficulty="intermediate" data-genres="rock">
+            <li class="rep-card" data-artist="seals-and-crofts" data-difficulty="intermediate" data-genres="rock,folk">
               <div class="rep-card-top">
                 <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Summer+Breeze" target="_blank" rel="noopener">Summer Breeze</a></span>
                 <span class="rep-artist">Seals and Crofts</span>
@@ -948,6 +978,7 @@
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Folk</span>
               </div>
             </li>
 
@@ -1008,19 +1039,10 @@
       document.getElementById('rep-empty').style.display = anyVis ? 'none' : 'block';
     }
 
-    // ── Filter button listeners ──────────────────────────────────────────────
-    document.querySelectorAll('.rep-filter-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var group = this.getAttribute('data-group');
-        var val   = this.getAttribute('data-val');
-
-        // Update active state within this group
-        document.querySelectorAll('.rep-filter-btn[data-group="' + group + '"]').forEach(function(b) {
-          b.classList.remove('active');
-        });
-        this.classList.add('active');
-
-        activeFilters[group] = val;
+    // ── Filter dropdown listeners ────────────────────────────────────────────
+    document.querySelectorAll('.rep-select').forEach(function(sel) {
+      sel.addEventListener('change', function() {
+        activeFilters[this.getAttribute('data-group')] = this.value;
         applyFilters();
       });
     });
