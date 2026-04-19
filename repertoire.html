@@ -33,19 +33,6 @@
     .diff-intermediate { background: #dbeafe; color: #1e40af; }
     .diff-advanced     { background: #fee2e2; color: #991b1b; }
 
-    /* ── Status badges ───────────────────────────────────────── */
-    .status-badge {
-      display: inline-block;
-      font-size: 9px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 2px 6px;
-      border-radius: 2px;
-    }
-    .status-working     { background: #fef9c3; color: #854d0e; }
-    .status-ready       { background: #d1fae5; color: #065f46; }
-    .status-revisiting  { background: #fdf4ff; color: #7e22ce; }
 
     /* ── Genre pills ─────────────────────────────────────────── */
     .rep-genre {
@@ -262,17 +249,6 @@
             </div>
 
             <div class="rep-filter-group">
-              <span class="rep-filter-label">Status</span>
-              <button class="rep-filter-btn active" data-group="status" data-val="all">All</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="status" data-val="working-on">Working On</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="status" data-val="performance-ready">Performance Ready</button>
-              <span class="rep-filter-sep">·</span>
-              <button class="rep-filter-btn" data-group="status" data-val="revisiting">Revisiting</button>
-            </div>
-
-            <div class="rep-filter-group">
               <span class="rep-filter-label">Genre</span>
               <button class="rep-filter-btn active" data-group="genre" data-val="all">All</button>
               <span class="rep-filter-sep">·</span>
@@ -283,6 +259,8 @@
               <button class="rep-filter-btn" data-group="genre" data-val="funk">Funk</button>
               <span class="rep-filter-sep">·</span>
               <button class="rep-filter-btn" data-group="genre" data-val="metal">Metal</button>
+              <span class="rep-filter-sep">·</span>
+              <button class="rep-filter-btn" data-group="genre" data-val="soul">Soul</button>
             </div>
 
           </div>
@@ -293,7 +271,6 @@
             <li class="rep-card"
                 data-artist="eric-clapton"
                 data-difficulty="intermediate"
-                data-status="performance-ready"
                 data-genres="blues,rock">
               <div class="rep-card-top">
                 <span class="rep-title">
@@ -303,7 +280,6 @@
               </div>
               <div class="rep-badges">
                 <span class="diff-badge diff-intermediate">Intermediate</span>
-                <span class="status-badge status-ready">Performance Ready</span>
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Blues</span>
@@ -318,7 +294,6 @@
             <li class="rep-card"
                 data-artist="pink-floyd"
                 data-difficulty="intermediate"
-                data-status="performance-ready"
                 data-genres="rock">
               <div class="rep-card-top">
                 <span class="rep-title">
@@ -328,7 +303,6 @@
               </div>
               <div class="rep-badges">
                 <span class="diff-badge diff-intermediate">Intermediate</span>
-                <span class="status-badge status-ready">Performance Ready</span>
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Rock</span>
@@ -342,7 +316,6 @@
             <li class="rep-card"
                 data-artist="the-eagles"
                 data-difficulty="intermediate"
-                data-status="performance-ready"
                 data-genres="rock,funk">
               <div class="rep-card-top">
                 <span class="rep-title">
@@ -352,7 +325,6 @@
               </div>
               <div class="rep-badges">
                 <span class="diff-badge diff-intermediate">Intermediate</span>
-                <span class="status-badge status-ready">Performance Ready</span>
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Rock</span>
@@ -367,7 +339,6 @@
             <li class="rep-card"
                 data-artist="eric-clapton"
                 data-difficulty="intermediate"
-                data-status="performance-ready"
                 data-genres="blues,rock">
               <div class="rep-card-top">
                 <span class="rep-title">
@@ -377,7 +348,6 @@
               </div>
               <div class="rep-badges">
                 <span class="diff-badge diff-intermediate">Intermediate</span>
-                <span class="status-badge status-ready">Performance Ready</span>
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Blues</span>
@@ -392,7 +362,6 @@
             <li class="rep-card"
                 data-artist="metallica"
                 data-difficulty="intermediate"
-                data-status="performance-ready"
                 data-genres="metal">
               <div class="rep-card-top">
                 <span class="rep-title">
@@ -402,7 +371,6 @@
               </div>
               <div class="rep-badges">
                 <span class="diff-badge diff-intermediate">Intermediate</span>
-                <span class="status-badge status-ready">Performance Ready</span>
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Metal</span>
@@ -416,7 +384,7 @@
              <li class="rep-card"
                 data-artist="eric-clapton"
                 data-difficulty="intermediate"
-                data-status="performance-ready">
+               >
               <div class="rep-card-top">
                 <span class="rep-title">
                   <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=layla" target="_blank" rel="noopener">Layla</a>
@@ -425,7 +393,6 @@
               </div>
               <div class="rep-badges">
                 <span class="diff-badge diff-intermediate">Intermediate</span>
-                <span class="status-badge status-ready">Performance Ready</span>
               </div>
               <div class="rep-genres">
                 <span class="rep-genre">Blues</span>
@@ -434,6 +401,567 @@
               <p>I love the <a href="https://www.youtube.com/watch?v=pW9gU8ud17Y&t=68s">history</a> behind this song. The song was written by Eric Clapton for Pattie Boyd, who at the time was the wife of his close friend, George Harrison of The Beatles. Clapton had fallen deeply in love with her and was struggling with the emotional weight of his feelings for his best friend's wife.</p>
              <div style="margin-top: 6px;">
                 <a href="https://www.youtube.com/watch?v=-KG2O5PSCSs" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="allman-brothers-band" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Just+Ain%27t+Easy" target="_blank" rel="noopener">Just Ain't Easy</a></span>
+                <span class="rep-artist">Allman Brothers Band</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="bb-king" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=The+Thrill+is+Gone" target="_blank" rel="noopener">The Thrill is Gone</a></span>
+                <span class="rep-artist">B.B. King</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="fleetwood-mac" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=I+Need+Your+Love+So+Bad" target="_blank" rel="noopener">I Need Your Love So Bad</a></span>
+                <span class="rep-artist">Fleetwood Mac</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="don-nix" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Going+Down" target="_blank" rel="noopener">Going Down</a></span>
+                <span class="rep-artist">Don Nix</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="al-stewart" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Year+of+the+Cat" target="_blank" rel="noopener">Year of The Cat</a></span>
+                <span class="rep-artist">Al Stewart</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-doobie-brothers" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Listen+to+the+Music" target="_blank" rel="noopener">Listen To The Music</a></span>
+                <span class="rep-artist">The Doobie Brothers</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="grover-washington" data-difficulty="intermediate" data-genres="funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Just+the+Two+of+Us" target="_blank" rel="noopener">Just The Two Of Us</a></span>
+                <span class="rep-artist">Grover Washington</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Funk</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="pink-floyd" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Time" target="_blank" rel="noopener">Time</a></span>
+                <span class="rep-artist">Pink Floyd</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="justin-bieber" data-difficulty="beginner" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Yukon" target="_blank" rel="noopener">Yukon</a></span>
+                <span class="rep-artist">Justin Bieber</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-beginner">Beginner</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="chris-stapleton" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=I+Was+Wrong" target="_blank" rel="noopener">I Was Wrong</a></span>
+                <span class="rep-artist">Chris Stapleton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="van-morrison" data-difficulty="beginner" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Brown+Eyed+Girl" target="_blank" rel="noopener">Brown Eyed Girl</a></span>
+                <span class="rep-artist">Van Morrison</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-beginner">Beginner</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="howlin-wolf" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Killing+Floor" target="_blank" rel="noopener">Killin' Floor</a></span>
+                <span class="rep-artist">Howlin' Wolf</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="jimi-hendrix" data-difficulty="advanced" data-genres="rock,blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Little+Wing" target="_blank" rel="noopener">Little Wing</a></span>
+                <span class="rep-artist">Jimi Hendrix</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Blues</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="prince" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Purple+Rain" target="_blank" rel="noopener">Purple Rain</a></span>
+                <span class="rep-artist">Prince</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="john-mayer" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=New+Light" target="_blank" rel="noopener">New Light</a></span>
+                <span class="rep-artist">John Mayer</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="guns-n-roses" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Sweet+Child+O+Mine" target="_blank" rel="noopener">Sweet Child O' Mine</a></span>
+                <span class="rep-artist">Guns N Roses</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="dusty-springfield" data-difficulty="intermediate" data-genres="soul">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Son+of+a+Preacher+Man" target="_blank" rel="noopener">Son Of A Preacher Man</a></span>
+                <span class="rep-artist">Dusty Springfield</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="albert-king" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Breaking+Up+Somebodys+Home" target="_blank" rel="noopener">Breaking Up Somebody's Home</a></span>
+                <span class="rep-artist">Albert King</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="america" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=You+Can+Do+Magic" target="_blank" rel="noopener">You Can Do Magic</a></span>
+                <span class="rep-artist">America</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="albert-king" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Ill+Play+the+Blues+for+You" target="_blank" rel="noopener">I'll Play the Blues for You</a></span>
+                <span class="rep-artist">Albert King</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="al-green" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Take+Me+to+the+River" target="_blank" rel="noopener">Take Me to the River</a></span>
+                <span class="rep-artist">Al Green</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="al-green" data-difficulty="intermediate" data-genres="soul">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=So+Tired+of+Being+Alone" target="_blank" rel="noopener">So Tired of Being Alone</a></span>
+                <span class="rep-artist">Al Green</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="wilson-pickett" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=In+the+Midnight+Hour" target="_blank" rel="noopener">In The Midnight Hour</a></span>
+                <span class="rep-artist">Wilson Pickett</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="robert-cray" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Smoking+Gun" target="_blank" rel="noopener">Smokin' Gun</a></span>
+                <span class="rep-artist">Robert Cray</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-temptations" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Papa+Was+a+Rolling+Stone" target="_blank" rel="noopener">Papa Was A Rolling Stone</a></span>
+                <span class="rep-artist">The Temptations</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="stevie-wonder" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=You+Are+the+Sunshine+of+My+Life" target="_blank" rel="noopener">You Are The Sunshine of My Life</a></span>
+                <span class="rep-artist">Stevie Wonder</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="bobby-bland" data-difficulty="intermediate" data-genres="blues,soul">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Aint+No+Love+in+the+Heart+of+the+City" target="_blank" rel="noopener">Ain't No Love In The Heart of The City</a></span>
+                <span class="rep-artist">Bobby Bland</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Soul</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="allman-brothers-band" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Jelly+Jelly" target="_blank" rel="noopener">Jelly, Jelly</a></span>
+                <span class="rep-artist">Allman Brothers Band</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="dire-straits" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Money+for+Nothing" target="_blank" rel="noopener">Money For Nothing</a></span>
+                <span class="rep-artist">Dire Straits</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="steely-dan" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Reelin+in+the+Years" target="_blank" rel="noopener">Reeling In The Years</a></span>
+                <span class="rep-artist">Steely Dan</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="santana" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Hold+On" target="_blank" rel="noopener">Hold On</a></span>
+                <span class="rep-artist">Santana</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="otis-redding" data-difficulty="beginner" data-genres="soul">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Sittin+on+the+Dock+of+the+Bay" target="_blank" rel="noopener">Sittin' on the Dock of the Bay</a></span>
+                <span class="rep-artist">Otis Redding</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-beginner">Beginner</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-doobie-brothers" data-difficulty="intermediate" data-genres="rock,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Long+Train+Runnin" target="_blank" rel="noopener">Long Train Runnin</a></span>
+                <span class="rep-artist">The Doobie Brothers</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="goose" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Slow+Ready" target="_blank" rel="noopener">Slow Ready</a></span>
+                <span class="rep-artist">Goose</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="jimi-hendrix" data-difficulty="intermediate" data-genres="rock,blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Angel" target="_blank" rel="noopener">Angel</a></span>
+                <span class="rep-artist">Jimi Hendrix</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Blues</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="pink-floyd" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Brain+Damage" target="_blank" rel="noopener">Brain Damage</a></span>
+                <span class="rep-artist">Pink Floyd</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="eric-clapton" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Tears+in+Heaven" target="_blank" rel="noopener">Tears In Heaven</a></span>
+                <span class="rep-artist">Eric Clapton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-ojays" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Love+Train" target="_blank" rel="noopener">Love Train</a></span>
+                <span class="rep-artist">The O'Jays</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-ojays" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Backstabbers" target="_blank" rel="noopener">Backstabbers</a></span>
+                <span class="rep-artist">The O'Jays</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="john-mayer" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Wild+Blue" target="_blank" rel="noopener">Wild Blue</a></span>
+                <span class="rep-artist">John Mayer</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="seals-and-crofts" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Summer+Breeze" target="_blank" rel="noopener">Summer Breeze</a></span>
+                <span class="rep-artist">Seals and Crofts</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="john-mayer" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Slow+Dancing+in+a+Burning+Room" target="_blank" rel="noopener">Slow Dancing in a Burning Room</a></span>
+                <span class="rep-artist">John Mayer</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
               </div>
             </li>
 
@@ -459,7 +987,6 @@
     var activeFilters = {
       artist:     'all',
       difficulty: 'all',
-      status:     'all',
       genre:      'all',
     };
 
@@ -471,10 +998,9 @@
       cards.forEach(function(card) {
         var artistMatch     = activeFilters.artist     === 'all' || card.getAttribute('data-artist')     === activeFilters.artist;
         var difficultyMatch = activeFilters.difficulty === 'all' || card.getAttribute('data-difficulty') === activeFilters.difficulty;
-        var statusMatch     = activeFilters.status     === 'all' || card.getAttribute('data-status')     === activeFilters.status;
         var genreMatch      = activeFilters.genre      === 'all' || (card.getAttribute('data-genres') || '').split(',').indexOf(activeFilters.genre) !== -1;
 
-        var visible = artistMatch && difficultyMatch && statusMatch && genreMatch;
+        var visible = artistMatch && difficultyMatch && genreMatch;
         card.style.display = visible ? '' : 'none';
         if (visible) anyVis = true;
       });
