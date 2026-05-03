@@ -55,13 +55,14 @@
       border-radius: 2px;
     }
 
-    .wk-cell.family  { background: #d4a574; }
-    .wk-cell.work    { background: #5a8f6f; }
-    .wk-cell.sleep   { background: #2d3f5c; }
-    .wk-cell.guitar  { background: #a87ba0; }
-    .wk-cell.date    { background: #a85a6a; }
-    .wk-cell.study   { background: #6e8c9c; }
-    .wk-cell.reading { background: #8b6f47; }
+    .wk-cell.family   { background: #d4a574; }
+    .wk-cell.work     { background: #5a8f6f; }
+    .wk-cell.sleep    { background: #2d3f5c; }
+    .wk-cell.guitar   { background: #a87ba0; }
+    .wk-cell.date     { background: #a85a6a; }
+    .wk-cell.study    { background: #6e8c9c; }
+    .wk-cell.reading  { background: #8b6f47; }
+    .wk-cell.exercise { background: #4a90c8; }
 
     .week-legend {
       display: flex;
@@ -88,13 +89,14 @@
       vertical-align: middle;
     }
 
-    .wk-swatch.family  { background: #d4a574; }
-    .wk-swatch.work    { background: #5a8f6f; }
-    .wk-swatch.sleep   { background: #2d3f5c; }
-    .wk-swatch.guitar  { background: #a87ba0; }
-    .wk-swatch.date    { background: #a85a6a; }
-    .wk-swatch.study   { background: #6e8c9c; }
-    .wk-swatch.reading { background: #8b6f47; }
+    .wk-swatch.family   { background: #d4a574; }
+    .wk-swatch.work     { background: #5a8f6f; }
+    .wk-swatch.sleep    { background: #2d3f5c; }
+    .wk-swatch.guitar   { background: #a87ba0; }
+    .wk-swatch.date     { background: #a85a6a; }
+    .wk-swatch.study    { background: #6e8c9c; }
+    .wk-swatch.reading  { background: #8b6f47; }
+    .wk-swatch.exercise { background: #4a90c8; }
   </style>
 </head>
 <body>
@@ -189,7 +191,7 @@
 
           <h3>One week in my life (168 hours)</h3>
           <p>
-            A rough map of how a typical week breaks down. Family takes the largest share — mornings, evenings, and weekends. Work fills the weekday middle. Sleep is the rest.
+            A rough map of how a typical week breaks down. It's fluid as priorities shift.
           </p>
 
           <div class="week-chart">
@@ -251,7 +253,10 @@
       // Mon–Thu: study 5p–7p (indices 11–12)
       var monThu = weekday.slice();
       monThu[11] = monThu[12] = 'study';
-      var schedule = [monThu, monThu, monThu, monThu, friday, saturday, weekend];
+      // Monday: exercise 7a–9a (indices 1–2)
+      var monday = monThu.slice();
+      monday[1] = monday[2] = 'exercise';
+      var schedule = [monday, monThu, monThu, monThu, friday, saturday, weekend];
 
       var grid = document.getElementById('week-grid');
       if (!grid) return;
@@ -264,7 +269,7 @@
         grid.appendChild(el);
       });
 
-      var totals = { family: 0, reading: 0, work: 0, study: 0, date: 0, guitar: 0, sleep: 0 };
+      var totals = { family: 0, reading: 0, exercise: 0, work: 0, study: 0, date: 0, guitar: 0, sleep: 0 };
 
       days.forEach(function(d, i) {
         var dl = document.createElement('div');
@@ -282,13 +287,14 @@
 
       var legend = document.getElementById('week-legend');
       var order = [
-        ['family',  'Family'],
-        ['reading', 'Reading'],
-        ['work',    'Work'],
-        ['study',   'Study'],
-        ['date',    'Date Night'],
-        ['guitar',  'Guitar'],
-        ['sleep',   'Sleep']
+        ['family',   'Family'],
+        ['reading',  'Reading'],
+        ['exercise', 'Exercise'],
+        ['work',     'Work'],
+        ['study',    'Study'],
+        ['date',     'Date Night'],
+        ['guitar',   'Guitar'],
+        ['sleep',    'Sleep']
       ];
       order.forEach(function(pair) {
         var key = pair[0], label = pair[1];
