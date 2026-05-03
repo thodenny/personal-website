@@ -18,6 +18,84 @@
   <meta name="twitter:description" content="Grew up in New Jersey, ended up in Austin. Married to Jenny. Running marathons, playing guitar, building things." />
   <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <style>
+    .week-chart {
+      margin: 14px 0 22px;
+    }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: 22px repeat(24, 1fr);
+      gap: 2px;
+      max-width: 620px;
+    }
+
+    .wk-hr {
+      font-size: 8px;
+      color: #99AACC;
+      text-align: center;
+      align-self: end;
+      padding-bottom: 3px;
+      letter-spacing: -0.2px;
+    }
+
+    .wk-day {
+      font-size: 9px;
+      color: #6688aa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: right;
+      padding-right: 5px;
+      align-self: center;
+    }
+
+    .wk-cell {
+      aspect-ratio: 1;
+      border-radius: 2px;
+    }
+
+    .wk-cell.family  { background: #d4a574; }
+    .wk-cell.work    { background: #5a8f6f; }
+    .wk-cell.sleep   { background: #2d3f5c; }
+    .wk-cell.guitar  { background: #a87ba0; }
+    .wk-cell.date    { background: #a85a6a; }
+    .wk-cell.study   { background: #6e8c9c; }
+    .wk-cell.reading { background: #8b6f47; }
+
+    .week-legend {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #6688aa;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    .week-legend strong {
+      color: #003366;
+      font-weight: bold;
+      margin-right: 3px;
+    }
+
+    .wk-swatch {
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    .wk-swatch.family  { background: #d4a574; }
+    .wk-swatch.work    { background: #5a8f6f; }
+    .wk-swatch.sleep   { background: #2d3f5c; }
+    .wk-swatch.guitar  { background: #a87ba0; }
+    .wk-swatch.date    { background: #a85a6a; }
+    .wk-swatch.study   { background: #6e8c9c; }
+    .wk-swatch.reading { background: #8b6f47; }
+  </style>
 </head>
 <body>
 
@@ -108,7 +186,17 @@
           <p>
             I'm always building things: tools, small <a href = "projects.html">projects</a> (this website), you name it. I find much fulfillment in the building and creation process.
           </p>
-       
+
+          <h3>One week in my life (168 hours)</h3>
+          <p>
+            A rough map of how a typical week breaks down. Family takes the largest share — mornings, evenings, and weekends. Work fills the weekday middle. Sleep is the rest.
+          </p>
+
+          <div class="week-chart">
+            <div class="week-grid" id="week-grid"></div>
+            <div class="week-legend" id="week-legend"></div>
+          </div>
+
           <h3>What this site is</h3>
           <p>
             A space on the internet that I own. I use it as a digital workbench to document what I’m learning and capture thoughts on what matters. While platforms come and go, this remains my permanent home for building, thinking, and documenting a life well-lived.
@@ -137,5 +225,79 @@
   <!-- /page-wrapper -->
 
   <script src="script.js"></script>
+  <script>
+    (function() {
+      var hours = ['6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p','10p','11p','12a','1a','2a','3a','4a','5a'];
+      var days  = ['Mo','Tu','We','Th','Fr','Sa','Su'];
+
+      // 24 entries per row — one per hour starting at 6a; sleep runs 9p–6a
+      var weekday = [
+        'reading','family','family',
+        'work','work','work','work','work','work','work','work',
+        'family','family','family','family',
+        'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
+      ];
+      var weekend = [
+        'family','family','family','family','family','family','family','family',
+        'family','family','family','family','family','family','family',
+        'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
+      ];
+      // Saturday: guitar 4–5p (index 10)
+      var saturday = weekend.slice();
+      saturday[10] = 'guitar';
+      // Friday: date night 5p–9p (indices 11–14)
+      var friday = weekday.slice();
+      friday[11] = friday[12] = friday[13] = friday[14] = 'date';
+      // Mon–Thu: study 5p–7p (indices 11–12)
+      var monThu = weekday.slice();
+      monThu[11] = monThu[12] = 'study';
+      var schedule = [monThu, monThu, monThu, monThu, friday, saturday, weekend];
+
+      var grid = document.getElementById('week-grid');
+      if (!grid) return;
+
+      grid.appendChild(document.createElement('div'));
+      hours.forEach(function(h) {
+        var el = document.createElement('div');
+        el.className = 'wk-hr';
+        el.textContent = h;
+        grid.appendChild(el);
+      });
+
+      var totals = { family: 0, reading: 0, work: 0, study: 0, date: 0, guitar: 0, sleep: 0 };
+
+      days.forEach(function(d, i) {
+        var dl = document.createElement('div');
+        dl.className = 'wk-day';
+        dl.textContent = d;
+        grid.appendChild(dl);
+        schedule[i].forEach(function(cat, hIdx) {
+          var c = document.createElement('div');
+          c.className = 'wk-cell ' + cat;
+          c.title = d + ' ' + hours[hIdx] + ' · ' + cat;
+          grid.appendChild(c);
+          if (totals[cat] !== undefined) totals[cat]++;
+        });
+      });
+
+      var legend = document.getElementById('week-legend');
+      var order = [
+        ['family',  'Family'],
+        ['reading', 'Reading'],
+        ['work',    'Work'],
+        ['study',   'Study'],
+        ['date',    'Date Night'],
+        ['guitar',  'Guitar'],
+        ['sleep',   'Sleep']
+      ];
+      order.forEach(function(pair) {
+        var key = pair[0], label = pair[1];
+        var item = document.createElement('span');
+        item.innerHTML = '<span class="wk-swatch ' + key + '"></span>' +
+                         '<strong>' + totals[key] + 'h</strong>' + label;
+        legend.appendChild(item);
+      });
+    })();
+  </script>
 </body>
 </html>
