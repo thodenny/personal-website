@@ -252,9 +252,9 @@
       // Sunday: white space — unplanned awake hours
       var sunday = weekend.slice();
       for (var i = 0; i < 15; i++) sunday[i] = 'whitespace';
-      // Saturday: guitar 4–5p (index 10)
+      // Saturday: guitar 2–5p (indices 8–10)
       var saturday = weekend.slice();
-      saturday[10] = 'guitar';
+      saturday[8] = saturday[9] = saturday[10] = 'guitar';
       // Friday: date night 5p–9p (indices 11–14)
       var friday = weekday.slice();
       friday[11] = friday[12] = friday[13] = friday[14] = 'date';
