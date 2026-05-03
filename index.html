@@ -18,6 +18,57 @@
   <meta name="twitter:description" content="Personal site of Thomas Denny — operations, AI, marathons, and building things in Austin, TX." />
   <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <style>
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      padding: 0 !important;
+    }
+    .stat-tile {
+      text-align: center;
+      padding: 16px 8px;
+      border-right: 1px solid #dde4ee;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+    }
+    .stat-tile:last-child { border-right: none; }
+    .stat-tile:hover { background: #f7f4ee; }
+    .stat-tile strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1.1;
+      color: #003366;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .stat-tile .stat-label {
+      display: block;
+      font-size: 10px;
+      color: #6688aa;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      line-height: 1.3;
+    }
+    .stat-tile .stat-sub {
+      display: block;
+      font-size: 9px;
+      color: #99AACC;
+      margin-top: 2px;
+      letter-spacing: 0.3px;
+    }
+    .stat-tile:hover strong { color: #c8930a; }
+
+    @media (max-width: 540px) {
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .stat-tile:nth-child(2) { border-right: none; }
+      .stat-tile:nth-child(1), .stat-tile:nth-child(2) {
+        border-bottom: 1px solid #dde4ee;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -264,6 +315,33 @@
         </div>
 
         <!-- ================================================
+             BY THE NUMBERS
+        ================================================ -->
+        <div class="section-header">By the Numbers</div>
+        <div class="content-box stats-strip">
+          <a href="deepwork.html" class="stat-tile">
+            <strong id="stat-hours">—</strong>
+            <span class="stat-label">Deep Work Hours</span>
+            <span class="stat-sub">2026 YTD</span>
+          </a>
+          <a href="books.html" class="stat-tile">
+            <strong>7</strong>
+            <span class="stat-label">Books Read</span>
+            <span class="stat-sub">2026</span>
+          </a>
+          <a href="repertoire.html" class="stat-tile">
+            <strong>48</strong>
+            <span class="stat-label">Songs</span>
+            <span class="stat-sub">guitar repertoire</span>
+          </a>
+          <a href="blog.html" class="stat-tile">
+            <strong>6</strong>
+            <span class="stat-label">Blog Posts</span>
+            <span class="stat-sub">all time</span>
+          </a>
+        </div>
+
+        <!-- ================================================
              PHOTOS
         ================================================ -->
         <div class="section-header">Thomas's Top 3</div>
@@ -399,6 +477,23 @@
   <!-- /page-wrapper -->
 
   <script src="script.js"></script>
+
+  <!-- ── Live deep work hours for the By the Numbers strip ──────────────── -->
+  <script src="deepwork-data.js"></script>
+  <script>
+    (function() {
+      if (typeof deepWork === 'undefined') return;
+      var ytd = 0;
+      Object.keys(deepWork).forEach(function(key) {
+        if (key.indexOf('2026') !== 0) return;
+        var val = deepWork[key];
+        var sessions = Array.isArray(val) ? val : [val];
+        sessions.forEach(function(s) { ytd += (s.h || 0); });
+      });
+      var el = document.getElementById('stat-hours');
+      if (el) el.textContent = (ytd % 1 === 0 ? ytd : ytd.toFixed(1));
+    })();
+  </script>
 
   <!-- ── Site Search ───────────────────────────────────────────────────────── -->
   <style>

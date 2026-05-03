@@ -62,7 +62,8 @@
     .wk-cell.date     { background: #a85a6a; }
     .wk-cell.study    { background: #6e8c9c; }
     .wk-cell.reading  { background: #8b6f47; }
-    .wk-cell.exercise { background: #4a90c8; }
+    .wk-cell.exercise   { background: #4a90c8; }
+    .wk-cell.whitespace { background: #ebe6dc; }
 
     .week-legend {
       display: flex;
@@ -96,7 +97,8 @@
     .wk-swatch.date     { background: #a85a6a; }
     .wk-swatch.study    { background: #6e8c9c; }
     .wk-swatch.reading  { background: #8b6f47; }
-    .wk-swatch.exercise { background: #4a90c8; }
+    .wk-swatch.exercise   { background: #4a90c8; }
+    .wk-swatch.whitespace { background: #ebe6dc; border: 1px solid #d8d2c4; }
   </style>
 </head>
 <body>
@@ -197,6 +199,9 @@
           <div class="week-chart">
             <div class="week-grid" id="week-grid"></div>
             <div class="week-legend" id="week-legend"></div>
+            <p style="font-size:11px; color:#6688aa; margin-top:10px; font-style:italic;">
+              Sunday is a White Space Day — no commitments, no plans. Whatever happens, happens.
+            </p>
           </div>
 
           <h3>What this site is</h3>
@@ -244,6 +249,9 @@
         'family','family','family','family','family','family','family',
         'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
       ];
+      // Sunday: white space — unplanned awake hours
+      var sunday = weekend.slice();
+      for (var i = 0; i < 15; i++) sunday[i] = 'whitespace';
       // Saturday: guitar 4–5p (index 10)
       var saturday = weekend.slice();
       saturday[10] = 'guitar';
@@ -256,7 +264,7 @@
       // Monday: exercise 7a–9a (indices 1–2)
       var monday = monThu.slice();
       monday[1] = monday[2] = 'exercise';
-      var schedule = [monday, monThu, monThu, monThu, friday, saturday, weekend];
+      var schedule = [monday, monThu, monThu, monThu, friday, saturday, sunday];
 
       var grid = document.getElementById('week-grid');
       if (!grid) return;
@@ -269,7 +277,7 @@
         grid.appendChild(el);
       });
 
-      var totals = { family: 0, reading: 0, exercise: 0, work: 0, study: 0, date: 0, guitar: 0, sleep: 0 };
+      var totals = { family: 0, reading: 0, exercise: 0, work: 0, study: 0, date: 0, guitar: 0, whitespace: 0, sleep: 0 };
 
       days.forEach(function(d, i) {
         var dl = document.createElement('div');
@@ -287,14 +295,15 @@
 
       var legend = document.getElementById('week-legend');
       var order = [
-        ['family',   'Family'],
-        ['reading',  'Reading'],
-        ['exercise', 'Exercise'],
-        ['work',     'Work'],
-        ['study',    'Study'],
-        ['date',     'Date Night'],
-        ['guitar',   'Guitar'],
-        ['sleep',    'Sleep']
+        ['family',     'Family'],
+        ['reading',    'Reading'],
+        ['exercise',   'Exercise'],
+        ['work',       'Work'],
+        ['study',      'Study'],
+        ['date',       'Date Night'],
+        ['guitar',     'Guitar'],
+        ['whitespace', 'White Space'],
+        ['sleep',      'Sleep']
       ];
       order.forEach(function(pair) {
         var key = pair[0], label = pair[1];
