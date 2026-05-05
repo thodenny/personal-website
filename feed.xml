@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Thomas Denny</title>
+    <link>https://iamthomasdenny.com/</link>
+    <description>Writing on intention, AI, building, running, music, and the work of living a quiet, deliberate life.</description>
+    <language>en-us</language>
+    <atom:link href="https://iamthomasdenny.com/feed.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>93.thomasdenny@gmail.com (Thomas Denny)</managingEditor>
+
+    <!--
+      To add a new post: copy an <item> block, update fields, place at top.
+      pubDate must be RFC 822 format, e.g.:
+        Mon, 04 May 2026 12:00:00 -0500
+    -->
+
+    <item>
+      <title>Eight Months Later</title>
+      <link>https://iamthomasdenny.com/eight-months-later.html</link>
+      <guid>https://iamthomasdenny.com/eight-months-later.html</guid>
+      <pubDate>Fri, 04 Apr 2026 12:00:00 -0500</pubDate>
+      <description><![CDATA[The hacks work. The Brick works. Grayscale works. But none of them ask why you needed them in the first place. They're bandages — they treat the symptom, not the cause. Eight months after logging off, here's what I actually found underneath.]]></description>
+    </item>
+
+    <item>
+      <title>Running Through Doubt — The 2026 Houston Marathon</title>
+      <link>https://iamthomasdenny.com/houston-marathon-2026.html</link>
+      <guid>https://iamthomasdenny.com/houston-marathon-2026.html</guid>
+      <pubDate>Mon, 19 Jan 2026 12:00:00 -0600</pubDate>
+      <description><![CDATA[8 days ago I crossed the finish line of the 2026 Houston Marathon with a time of 3:59:51 — just 9 seconds under 4 hours. The training was rough. Injuries piled up. I showed up to the starting line full of doubt. What the lead-up taught me about character, integrity, and friendship.]]></description>
+    </item>
+
+    <item>
+      <title>My 2025 Annual Review</title>
+      <link>https://iamthomasdenny.com/annual-review-2025.html</link>
+      <guid>https://iamthomasdenny.com/annual-review-2025.html</guid>
+      <pubDate>Wed, 31 Dec 2025 12:00:00 -0600</pubDate>
+      <description><![CDATA[The central theme of 2025 was "addition through subtraction." I tend to overcommit. This year I intentionally stripped back superfluous consumption to allow more focus and white space. A personal look at what worked, what didn't, and what I'm carrying forward.]]></description>
+    </item>
+
+    <item>
+      <title>Unraveling: The Work Before the Work</title>
+      <link>https://iamthomasdenny.com/unraveling.html</link>
+      <guid>https://iamthomasdenny.com/unraveling.html</guid>
+      <pubDate>Mon, 03 Nov 2025 12:00:00 -0600</pubDate>
+      <description><![CDATA[Before you can stay consistent, you have to decide what deserves your consistency. Most people think consistency is about willpower. I think it's about honesty. The unglamorous process of questioning everything you've been told to want.]]></description>
+    </item>
+
+    <item>
+      <title>Logging Off: Reclaiming Attention in a Distracted World</title>
+      <link>https://iamthomasdenny.com/logging-off.html</link>
+      <guid>https://iamthomasdenny.com/logging-off.html</guid>
+      <pubDate>Mon, 04 Aug 2025 12:00:00 -0500</pubDate>
+      <description><![CDATA[~56 days off social media and counting. 1,345 hours off reminded me: if it matters to you, that's enough. It was quiet, unshared, unseen — and somehow, more meaningful. This isn't an anti-social-media essay. It's about presence, and what you find when you stop performing.]]></description>
+    </item>
+
+  </channel>
+</rss>
