@@ -74,6 +74,10 @@ var deepWork = {
   ],
    '2026-05-03': [
     { h: 2, cat: 'build', note: 'Professional website update (thomasdenny.co)' }
+  ],
+   '2026-05-04': [
+    { h: 3, cat: 'build', note: 'Building AI Agents for work' },
+    { h: 1, cat: 'study', note: 'Claude Code Masterclass' }
   ]
 };
 

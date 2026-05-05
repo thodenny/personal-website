@@ -18,6 +18,110 @@
   <meta name="twitter:description" content="What Thomas Denny is reading — ratings, notes, and a running list." />
   <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <style>
+    /* Reading log heatmap */
+    .rl-stats {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #dde4ee;
+    }
+    .rl-stat strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1.2;
+      color: #003366;
+    }
+    .rl-stat span {
+      font-size: 11px;
+      color: #6688aa;
+    }
+
+    .rl-heatmap-wrap {
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .rl-heatmap {
+      display: flex;
+      gap: 4px;
+      min-width: max-content;
+    }
+    .rl-day-labels {
+      display: grid;
+      grid-template-rows: repeat(7, 11px);
+      gap: 2px;
+      padding-top: 14px;
+    }
+    .rl-day-label {
+      font-size: 8px;
+      color: #99AACC;
+      line-height: 11px;
+      width: 18px;
+    }
+    .rl-grid-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .rl-month-row {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 11px;
+      gap: 2px;
+      height: 12px;
+      font-size: 9px;
+      color: #6688aa;
+      margin-bottom: 2px;
+    }
+    .rl-month-label {
+      grid-row: 1;
+      white-space: nowrap;
+    }
+    .rl-grid {
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(7, 11px);
+      grid-auto-columns: 11px;
+      gap: 2px;
+    }
+    .rl-cell {
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+      background: #ebe6dc;
+      cursor: default;
+    }
+    .rl-cell.l1 { background: #e0c89e; }
+    .rl-cell.l2 { background: #c9a26b; }
+    .rl-cell.l3 { background: #8b6f47; }
+    .rl-cell.l4 { background: #5e4a2f; }
+    .rl-cell.future { background: transparent; }
+
+    .rl-legend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: #99AACC;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+    .rl-legend-cell {
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .rl-empty {
+      font-size: 11px;
+      color: #aabbcc;
+      font-style: italic;
+      margin-top: 8px;
+    }
+  </style>
 </head>
 <body>
 
@@ -115,6 +219,48 @@
            RIGHT COLUMN — Books List
       ==================================================== -->
       <main class="col-right">
+
+        <!-- ================================================
+             READING LOG HEATMAP
+        ================================================ -->
+        <div class="section-header">Reading in 2026</div>
+        <div class="content-box inner-content">
+
+          <p style="font-size:12px; color:#6688aa; margin-bottom:14px;">
+            Pages read per day. Hover any square to see the date and book.
+          </p>
+
+          <div class="rl-stats" id="rl-stats"></div>
+
+          <div class="rl-heatmap-wrap">
+            <div class="rl-heatmap">
+              <div class="rl-day-labels">
+                <div class="rl-day-label"></div>
+                <div class="rl-day-label">Mon</div>
+                <div class="rl-day-label"></div>
+                <div class="rl-day-label">Wed</div>
+                <div class="rl-day-label"></div>
+                <div class="rl-day-label">Fri</div>
+                <div class="rl-day-label"></div>
+              </div>
+              <div class="rl-grid-wrap">
+                <div class="rl-month-row" id="rl-months"></div>
+                <div class="rl-grid" id="rl-grid"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rl-legend">
+            <span>Less</span>
+            <span class="rl-legend-cell"></span>
+            <span class="rl-legend-cell" style="background:#e0c89e;"></span>
+            <span class="rl-legend-cell" style="background:#c9a26b;"></span>
+            <span class="rl-legend-cell" style="background:#8b6f47;"></span>
+            <span class="rl-legend-cell" style="background:#5e4a2f;"></span>
+            <span>More</span>
+          </div>
+
+        </div>
 
         <div class="section-header">Books</div>
 
@@ -295,6 +441,146 @@
   <!-- /page-wrapper -->
 
   <script src="script.js"></script>
+  <script src="reading-data.js"></script>
+  <script>
+    // ── Reading log heatmap ─────────────────────────────────────────────────
+    (function() {
+      if (typeof reading === 'undefined') return;
+      var YEAR = 2026;
+      var MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var TODAY = new Date(); TODAY.setHours(0,0,0,0);
+
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+      function dateKey(y, m, d) { return y + '-' + pad(m+1) + '-' + pad(d); }
+
+      function getSessions(val) {
+        if (!val) return [];
+        return Array.isArray(val) ? val : [val];
+      }
+      function getDayPages(val) {
+        return getSessions(val).reduce(function(s, x) { return s + (x.pages || 0); }, 0);
+      }
+
+      function pagesLevel(p) {
+        if (!p) return '';
+        if (p <= 15) return 'l1';
+        if (p <= 30) return 'l2';
+        if (p <= 50) return 'l3';
+        return 'l4';
+      }
+
+      var grid    = document.getElementById('rl-grid');
+      var months  = document.getElementById('rl-months');
+      var statsEl = document.getElementById('rl-stats');
+
+      // ── Build the grid ─────────────────────────────────────────────────
+      // Pad with blanks so Jan 1 lands on its actual day-of-week row.
+      var jan1Dow = new Date(YEAR, 0, 1).getDay();
+      for (var b = 0; b < jan1Dow; b++) {
+        var blank = document.createElement('div');
+        blank.style.background = 'transparent';
+        blank.className = 'rl-cell future';
+        grid.appendChild(blank);
+      }
+
+      var totals = { pages: 0, days: 0, books: {}, streak: 0, longestStreak: 0 };
+      var monthFirstCol = {}; // month index → grid column (1-based) of first day
+      var col = 0;
+
+      for (var m = 0; m < 12; m++) {
+        var dim = new Date(YEAR, m + 1, 0).getDate();
+        for (var d = 1; d <= dim; d++) {
+          var key  = dateKey(YEAR, m, d);
+          var pages = getDayPages(reading[key]);
+          var dt    = new Date(YEAR, m, d);
+          var isFuture = dt > TODAY;
+
+          var cell = document.createElement('div');
+          cell.className = 'rl-cell ' + pagesLevel(pages) + (isFuture ? ' future' : '');
+
+          // Tooltip
+          var label = MONTH_NAMES[m] + ' ' + d + ', ' + YEAR;
+          if (pages > 0) {
+            var sessions = getSessions(reading[key]);
+            var bookList = sessions.map(function(s) {
+              return s.pages + 'p — ' + (s.book || 'unknown');
+            }).join('\n');
+            cell.title = label + ' · ' + pages + ' pages\n' + bookList;
+          } else if (!isFuture) {
+            cell.title = label + ' · no reading';
+          } else {
+            cell.title = label;
+          }
+          grid.appendChild(cell);
+
+          // Track totals (only for past/today)
+          if (!isFuture && pages > 0) {
+            totals.pages += pages;
+            totals.days  += 1;
+            getSessions(reading[key]).forEach(function(s) {
+              if (s.book) totals.books[s.book] = true;
+            });
+          }
+
+          // Compute column for first day of each month
+          var dow = dt.getDay();
+          var idx = jan1Dow + (dt - new Date(YEAR, 0, 1)) / 86400000;
+          var thisCol = Math.floor(idx / 7) + 1;
+          if (d === 1) monthFirstCol[m] = thisCol;
+        }
+      }
+
+      // ── Streak (current + longest, ending today or earlier) ──────────────
+      var cur = 0, longest = 0;
+      var msDay = 86400000;
+      var startDate = new Date(YEAR, 0, 1);
+      var iter = new Date(startDate);
+      while (iter <= TODAY) {
+        var k = dateKey(iter.getFullYear(), iter.getMonth(), iter.getDate());
+        if (getDayPages(reading[k]) > 0) {
+          cur++;
+          if (cur > longest) longest = cur;
+        } else {
+          cur = 0;
+        }
+        iter = new Date(iter.getTime() + msDay);
+      }
+      // current streak = whether today (or yesterday) was the last entry
+      var currentStreak = 0;
+      var probe = new Date(TODAY);
+      while (true) {
+        var pk = dateKey(probe.getFullYear(), probe.getMonth(), probe.getDate());
+        if (getDayPages(reading[pk]) > 0) {
+          currentStreak++;
+          probe = new Date(probe.getTime() - msDay);
+        } else break;
+      }
+
+      // ── Month labels ───────────────────────────────────────────────────
+      Object.keys(monthFirstCol).forEach(function(mIdx) {
+        var lbl = document.createElement('div');
+        lbl.className = 'rl-month-label';
+        lbl.textContent = MONTH_NAMES[mIdx];
+        lbl.style.gridColumn = monthFirstCol[mIdx];
+        months.appendChild(lbl);
+      });
+
+      // ── Stats ──────────────────────────────────────────────────────────
+      var bookCount = Object.keys(totals.books).length;
+      if (totals.pages > 0) {
+        var avg = (totals.pages / totals.days).toFixed(0);
+        statsEl.innerHTML =
+          '<div class="rl-stat"><strong>' + totals.pages + '</strong><span>pages YTD</span></div>' +
+          '<div class="rl-stat"><strong>' + totals.days  + '</strong><span>days read</span></div>' +
+          '<div class="rl-stat"><strong>' + avg          + '</strong><span>avg pages / day</span></div>' +
+          '<div class="rl-stat"><strong>' + currentStreak + '</strong><span>day streak</span></div>' +
+          '<div class="rl-stat"><strong>' + longest      + '</strong><span>longest streak</span></div>';
+      } else {
+        statsEl.innerHTML = '<div class="rl-empty">No reading logged yet for ' + YEAR + '.</div>';
+      }
+    })();
+  </script>
+
   <script>
     // Dynamic note counts
     document.querySelectorAll('a[data-notes-url]').forEach(function(link) {
