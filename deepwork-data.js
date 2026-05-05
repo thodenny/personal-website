@@ -72,6 +72,9 @@ var deepWork = {
     { h: 0.5, cat: 'build', note: 'AI Demo video' },
     { h: 2,   cat: 'build', note: 'Agent building' }
   ],
+   '2026-05-02': [
+    { h: 1.5, cat: 'practice', note: 'Guitar practice' }
+  ],
    '2026-05-03': [
     { h: 2, cat: 'build', note: 'Professional website update (thomasdenny.co)' }
   ],
@@ -115,6 +118,11 @@ var dayNotes = {
       {label: 'ReAct prompt', url: 'https://www.geeksforgeeks.org/artificial-intelligence/react-reasoning-acting-prompting/'},
       {label: 'MCP servers', url: 'https://modelcontextprotocol.io/docs/getting-started/intro'}
     ]
+   },
+
+  '2026-05-02': {
+    note: 'Worked on "Misled" by Kool & the Gang.',
+    links: []
    },
 
   '2026-05-03': {

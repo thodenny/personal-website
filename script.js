@@ -6,6 +6,13 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   /* ----------------------------------------------------------
+     FOOTER YEAR — fill <span class="footer-year"></span>
+  ---------------------------------------------------------- */
+  document.querySelectorAll('.footer-year').forEach(function (el) {
+    el.textContent = new Date().getFullYear();
+  });
+
+  /* ----------------------------------------------------------
      VISITOR COUNTER
      Counts up to a target from a start value, animates
      in a Courier/digital-clock style. Purely decorative.
