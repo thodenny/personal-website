@@ -1444,6 +1444,29 @@ hr.divider { border: none; border-top: 1px solid #ddeeff; margin: 12px 0; }
   .main-layout { flex-direction: column; }
   .col-left, .col-left-sm { width: 100%; }
   .photos-grid { grid-template-columns: repeat(2, 1fr); }
-  nav.main-nav { flex-wrap: wrap; gap: 4px; }
-  .nav-title { width: 100%; margin-bottom: 4px; }
+
+  /* Mobile nav: title row + clean 4-col grid of buttons */
+  nav.main-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 8px;
+    align-items: stretch;
+  }
+  .nav-title {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin: 0 0 4px 0;
+    font-size: 15px;
+  }
+  nav.main-nav a.nav-link {
+    padding: 6px 4px;
+    font-size: 11px;
+    letter-spacing: 0.2px;
+    text-align: center;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
