@@ -366,7 +366,8 @@
         return a.date.localeCompare(c.date);
       });
       ordered.forEach(function(b) {
-        var dt = new Date(b.date);
+        var parts = b.date.split('-');
+        var dt = new Date(+parts[0], +parts[1] - 1, +parts[2]);
         var dateLabel = MONTH_NAMES[dt.getMonth()] + ' ' + dt.getDate();
         var item = document.createElement('a');
         item.className = 'bf-tl-item';
