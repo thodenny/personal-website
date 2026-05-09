@@ -23,11 +23,44 @@
 
   <style>
     /* Books-finished timeline */
+    .bf-timeline-wrap {
+      position: relative;
+    }
     .bf-timeline {
       display: flex;
       gap: 14px;
       overflow-x: auto;
       padding: 4px 2px 10px;
+      scroll-behavior: smooth;
+    }
+    .bf-tl-scroll-btn {
+      position: absolute;
+      top: 0;
+      bottom: 10px;
+      right: 0;
+      width: 56px;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, #ffffff 70%);
+      border: none;
+      color: #6688aa;
+      font-size: 20px;
+      font-weight: normal;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 6px 0 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, color 0.15s ease;
+      z-index: 2;
+    }
+    .bf-tl-scroll-btn.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .bf-tl-scroll-btn:hover {
+      color: #FF6600;
     }
     .bf-tl-item {
       flex: 0 0 auto;
@@ -176,7 +209,10 @@
             Books finished in order. Click a cover to see my notes.
           </p>
 
-          <div class="bf-timeline" id="bf-timeline"></div>
+          <div class="bf-timeline-wrap">
+            <div class="bf-timeline" id="bf-timeline"></div>
+            <button type="button" class="bf-tl-scroll-btn" id="bf-tl-scroll-btn" aria-label="Scroll books right">›</button>
+          </div>
 
         </div>
 
@@ -420,6 +456,22 @@
           (b.dnf ? '<div class="dnf-badge-tl">DNF</div>' : '');
         timeline.appendChild(item);
       });
+
+      var btn = document.getElementById('bf-tl-scroll-btn');
+      if (!btn) return;
+
+      function updateBtn() {
+        var hasOverflow = timeline.scrollWidth - timeline.clientWidth > 4;
+        var atEnd = timeline.scrollLeft + timeline.clientWidth >= timeline.scrollWidth - 4;
+        btn.classList.toggle('is-visible', hasOverflow && !atEnd);
+      }
+
+      btn.addEventListener('click', function() {
+        timeline.scrollBy({ left: timeline.clientWidth * 0.8, behavior: 'smooth' });
+      });
+      timeline.addEventListener('scroll', updateBtn);
+      window.addEventListener('resize', updateBtn);
+      updateBtn();
     })();
   </script>
 
