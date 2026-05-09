@@ -154,7 +154,7 @@
           <table class="details-table">
             <tr>
               <td class="details-label">2026:</td>
-              <td class="details-value">8</td>
+              <td class="details-value">9</td>
             </tr>
           </table>
         </div>
@@ -186,16 +186,16 @@
 
           <ul class="book-list">
 
-            <li class="book-item" data-tags="nonfiction productivity">
+            <li class="book-item" data-tags="nonfiction ai-tech">
               <div class="book-num">→</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="i-didnt-do-the-thing-today.jpg" alt="I Didn't Do the Thing Today" style="width:120px; border:1px solid #99AACC; border-radius:2px;" />
+                <img src="ai-snake-oil.png" alt="AI Snake Oil" style="width:80px; border:1px solid #99AACC; border-radius:2px;" />
               </div>
               <div class="book-info">
-                <h4 style="color:#003366;">I Didn't Do the Thing Today <a href="https://www.goodreads.com/book/show/58210932-i-didn-t-do-the-thing-today" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Madeleine Dore &nbsp;·&nbsp; Started May 5, 2026</div>
-                <div class="book-note">Letting go of productivity guilt.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">Productivity</span></div>
+                <h4><a href="https://www.goodreads.com/book/show/210319458-ai-snake-oil?ref=nav_sb_ss_1_12" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">AI Snake Oil</a></h4>
+                <div class="book-author">Arvind Narayanan &amp; Sayash Kapoor &nbsp;·&nbsp; Started May 9, 2026</div>
+                <div class="book-note">What AI can do, what it can't, and how to tell the difference.</div>
+                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">AI &amp; Tech</span></div>
               </div>
               <div class="book-stars" style="font-size:11px; white-space:nowrap;">In Progress</div>
             </li>
@@ -361,6 +361,21 @@
               <div class="book-stars">8/10</div>
             </li>
 
+            <li class="book-item" id="book-09" data-tags="nonfiction productivity" data-rating="5">
+              <div class="book-num">09</div>
+              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
+                <img src="i-didnt-do-the-thing-today.jpg" alt="I Didn't Do the Thing Today" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
+              </div>
+              <div class="book-info">
+                <span class="dnf-badge" title="Did Not Finish">DNF · Did Not Finish</span>
+                <h4><a href="https://www.goodreads.com/book/show/58210932-i-didn-t-do-the-thing-today" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">I Didn't Do the Thing Today</a></h4>
+                <div class="book-author">Madeleine Dore &nbsp;·&nbsp; May 2026</div>
+                <div class="book-note">Some decent ideas to sit with, but none of it felt new. A 5 for me because I'd already heard most of these conversations elsewhere — if it's your first pass through the productivity-guilt space, you'd probably get more out of it.</div>
+                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">Productivity</span></div>
+              </div>
+              <div class="book-stars">5/10</div>
+            </li>
+
           </ul>
 
         </div>
@@ -401,7 +416,8 @@
           (b.cover ? '<img src="' + b.cover + '" alt="' + b.title + '">' : '') +
           '<div class="bf-tl-title">' + b.title + '</div>' +
           '<div class="bf-tl-date">' + dateLabel + '</div>' +
-          '<div class="bf-tl-rating">' + b.rating + '/10</div>';
+          '<div class="bf-tl-rating">' + b.rating + '/10</div>' +
+          (b.dnf ? '<div class="dnf-badge-tl">DNF</div>' : '');
         timeline.appendChild(item);
       });
     })();

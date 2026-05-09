@@ -81,6 +81,18 @@ var deepWork = {
    '2026-05-04': [
     { h: 3, cat: 'build', note: 'Building AI Agents for work' },
     { h: 1, cat: 'study', note: 'Claude Code Masterclass' }
+  ],
+   '2026-05-05': [
+    { h: 4, cat: 'build', note: 'Building and training AI agents at work' }
+  ],
+   '2026-05-06': [
+    { h: 4, cat: 'build', note: 'Building and training AI agents at work' }
+  ],
+   '2026-05-07': [
+    { h: 4, cat: 'build', note: 'Building and training AI agents at work' }
+  ],
+   '2026-05-08': [
+    { h: 4, cat: 'build', note: 'Building and training AI agents at work' }
   ]
 };
 
