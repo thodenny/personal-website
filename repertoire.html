@@ -374,6 +374,45 @@
       display: block;
       filter: drop-shadow(2px 5px 8px rgba(0, 30, 70, 0.28));
     }
+
+    /* signal chain — guitar to amp flow */
+    .chain {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px 5px;
+      padding: 8px 0 4px;
+    }
+    .chain-node {
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.4px;
+      color: #336699;
+      background: #f0f5ff;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      padding: 4px 9px;
+      box-shadow: 1px 1px 0 #ccddee;
+      animation: chain-pulse 2.6s ease-in-out infinite;
+    }
+    .chain-node-end {
+      color: #ffffff;
+      background: linear-gradient(to bottom, #4477aa, #1a4d8a);
+      border-color: #003366;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    }
+    .chain-arrow {
+      color: #99AACC;
+      font-size: 11px;
+    }
+    @keyframes chain-pulse {
+      0%, 100% { box-shadow: 1px 1px 0 #ccddee; }
+      50%      { box-shadow: 0 0 8px rgba(68, 119, 170, 0.65), 1px 1px 0 #ccddee; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .chain-node { animation: none; }
+    }
   </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -631,6 +670,29 @@
             </div>
           </div>
           <button type="button" class="gear-scroll-btn" id="pedal-scroll-btn" aria-label="Scroll pedals right">&rsaquo;</button>
+          </div>
+
+          <div class="gear-cat">Signal Chain</div>
+          <div class="chain" id="signal-chain">
+            <span class="chain-node chain-node-end">Guitar</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Wah</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Tuner</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Compressor</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Overdrive</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Distortion</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Phaser</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Delay</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Looper</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node chain-node-end">Amp</span>
           </div>
 
         </div>
@@ -1675,6 +1737,14 @@
         window.addEventListener('resize', update);
         window.addEventListener('load', update);
         update();
+      });
+    })();
+
+    // ── Signal-chain flow: stagger the pulse so it travels guitar→amp ───
+    (function() {
+      var nodes = document.querySelectorAll('#signal-chain .chain-node');
+      nodes.forEach(function(node, i) {
+        node.style.animationDelay = (i * 0.16) + 's';
       });
     })();
 
