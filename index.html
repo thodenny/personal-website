@@ -70,6 +70,201 @@
         border-bottom: 1px solid #dde4ee;
       }
     }
+
+    /* ── Now Spinning card ──────────────────────────────────────────────── */
+    .hs-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px !important;
+      color: inherit;
+    }
+    .hs-platter {
+      position: relative;
+      flex: 0 0 124px;
+      width: 124px;
+      height: 92px;
+    }
+    .hs-vinyl {
+      position: absolute;
+      top: 0;
+      left: 32px;
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 0deg,
+          rgba(255,255,255,0)    0deg,
+          rgba(255,255,255,0.22) 26deg,
+          rgba(255,255,255,0)    64deg,
+          rgba(255,255,255,0)    150deg,
+          rgba(255,255,255,0.14) 186deg,
+          rgba(255,255,255,0)    224deg,
+          rgba(255,255,255,0)    360deg),
+        radial-gradient(circle at center,
+          #d8b24a 0 17%,
+          #11131a 17% 19%,
+          #20242c 19% 100%);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+      animation: hs-spin 3.4s linear infinite;
+    }
+    /* spins up when the track is playing */
+    .hs-card.is-playing .hs-vinyl { animation-duration: 1.25s; }
+    .hs-vinyl::before {
+      content: '';
+      position: absolute;
+      inset: 19%;
+      border-radius: 50%;
+      background: repeating-radial-gradient(
+        circle at center,
+        rgba(255,255,255,0.05) 0 1px,
+        rgba(0,0,0,0) 1px 4px);
+    }
+    .hs-vinyl::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      margin: -2.5px 0 0 -2.5px;
+      border-radius: 50%;
+      background: #2d3340;
+    }
+    @keyframes hs-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .hs-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 92px;
+      height: 92px;
+      border: 1px solid #000000;
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 2px 7px rgba(0,0,0,0.4);
+      z-index: 2;
+      background: #11131a;
+    }
+    .hs-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hs-label {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at center,
+          #e4edf8 0 30%,
+          #11131a 30% 33%,
+          #20242c 33% 100%);
+    }
+    .hs-label-disc {
+      width: 54%;
+      height: 54%;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a4d8a 0%, #6699cc 100%);
+      color: #ffffff;
+      font-family: Georgia, serif;
+      font-weight: bold;
+      font-style: italic;
+      font-size: 15px;
+      box-shadow: 0 0 0 2px #11131a;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+    .hs-body { flex: 1; min-width: 0; }
+    .hs-eyebrow {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #c8930a;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .hs-pip {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #6ec96e;
+      box-shadow: 0 0 4px rgba(110,201,110,0.9);
+      margin-right: 5px;
+      vertical-align: middle;
+      animation: hs-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes hs-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(110,201,110,0.7); }
+      50%      { box-shadow: 0 0 0 4px rgba(110,201,110,0); }
+    }
+    .hs-title {
+      font-family: Georgia, serif;
+      font-size: 16px;
+      font-weight: bold;
+      color: #003366;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .hs-artist {
+      font-size: 11px;
+      color: #6688aa;
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+    .hs-note {
+      font-size: 11px;
+      color: #555566;
+      line-height: 1.45;
+      margin: 0 0 6px;
+    }
+    /* play button — sits on the album cover */
+    .hs-play {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid #001a33;
+      background: linear-gradient(to bottom, #4477aa 0%, #1a4d8a 100%);
+      color: #ffffff;
+      font-size: 11px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.3);
+      transition: background 0.15s, transform 0.12s;
+    }
+    .hs-play:hover { background: linear-gradient(to bottom, #e0b84a 0%, #c8930a 100%); }
+    .hs-play:active { transform: scale(0.92); }
+    .hs-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px 10px;
+      font-size: 10px;
+      color: #99AACC;
+    }
+    .hs-track { color: #6688aa; }
+    .hs-track strong { color: #003366; }
+    .hs-meta a { color: #336699; text-decoration: none; letter-spacing: 0.3px; }
+    .hs-meta a:hover { color: #c8930a; text-decoration: underline; }
+    .hs-meta .hs-sep { color: #cdd9e8; }
+    @media (prefers-reduced-motion: reduce) {
+      .hs-vinyl { animation: none; }
+    }
+    @media (max-width: 540px) {
+      .hs-card { flex-direction: column; text-align: center; }
+      .hs-platter { left: -16px; }
+    }
   </style>
 </head>
 <body>
@@ -122,8 +317,7 @@
             View My:
             <a href="blog.html">Blog</a> |
             <a href="books.html">Books</a> |
-            <a href="projects.html">Projects</a> |
-            <a href="resources.html">Knowledge Base</a>
+            <a href="projects.html">Projects</a>
           </div>
 
           <!-- Online status -->
@@ -188,43 +382,6 @@
             </a>
           </div>
         </div>
-
-        <!-- ================================================
-             MUSIC PLAYER
-             MySpace-style horizontal bar player
-             Click the play button to expand the YouTube embed
-        ================================================ -->
-        <div class="ms-player-card">
-          <div class="np-titlebar">Now Playing</div>
-
-          <!-- The player bar: play button + song info + equalizer -->
-          <div class="ms-player-bar">
-            <button class="ms-play-btn" id="ms-play-btn" title="Play on YouTube">▶</button>
-            <div class="ms-player-center">
-              <div class="ms-song-name">Only You - J.Cole</div>
-              <!-- Animated equalizer bars -->
-              <div class="ms-equalizer" id="ms-equalizer">
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-                <span class="eq-bar"></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Footer bar — "add song" style row -->
-          <div class="ms-player-footer">
-            <span class="ms-album-info">The Fall Off · 2026</span>
-            <a href="https://www.youtube.com/watch?v=wjAckFWVkSo"
-               class="ms-yt-link">▶ YouTube</a>
-          </div>
-
-          <!-- Hidden HTML5 audio player — controlled by the play button via JS -->
-          <audio id="ms-audio" src="only-you-official-audio.mp3" preload="auto"></audio>
-        </div>
-        <!-- /ms-player-card -->
 
         <!-- ================================================
              DETAILS BOX
@@ -314,6 +471,16 @@
           <p>
            <a href="about.html">More about me →</a>
           </p>
+        </div>
+
+        <!-- ================================================
+             NOW SPINNING
+        ================================================ -->
+        <div class="section-header">Now Spinning</div>
+        <div class="content-box" style="padding:0;">
+          <div class="hs-card" id="home-now-spinning">
+            <div class="hs-body"><div class="hs-note">Loading the turntable…</div></div>
+          </div>
         </div>
 
         <!-- ================================================
@@ -447,7 +614,10 @@
             </tr>
             <tr>
               <td class="interests-label">Music</td>
-              <td class="interests-value">Eric Clapton, Santana, Metallica, John Mayer, Linkin Park, Daft Punk&hellip; way too many</td>
+              <td class="interests-value">
+                Eric Clapton, Santana, Metallica, John Mayer, Linkin Park, Daft Punk&hellip; way too many
+                &nbsp;&mdash;&nbsp;<a href="records.html">see the shelf &rsaquo;</a>
+              </td>
             </tr>
             <tr>
               <td class="interests-label">Books</td>
@@ -494,6 +664,103 @@
       });
       var el = document.getElementById('stat-hours');
       if (el) el.textContent = (ytd % 1 === 0 ? ytd : ytd.toFixed(1));
+    })();
+  </script>
+
+  <!-- ── Now Spinning card ─────────────────────────────────────────────── -->
+  <script src="records-data.js"></script>
+  <script>
+    (function() {
+      var card = document.getElementById('home-now-spinning');
+      if (!card || typeof recordCollection === 'undefined') return;
+
+      var rec = recordCollection.filter(function(r) {
+        return r.id === (typeof nowSpinningId !== 'undefined' ? nowSpinningId : null);
+      })[0];
+      if (!rec) {
+        var box = card.parentNode;
+        var header = box.previousElementSibling;
+        if (header && header.className === 'section-header') {
+          header.parentNode.removeChild(header);
+        }
+        box.parentNode.removeChild(box);
+        return;
+      }
+
+      function escapeHTML(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+          return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+        });
+      }
+      function initials(name) {
+        var parts = String(name || '').trim().split(/\s+/);
+        var s = parts[0] ? parts[0].charAt(0) : '';
+        if (parts.length > 1) s += parts[parts.length - 1].charAt(0);
+        return s.toUpperCase() || '?';
+      }
+      var cover = rec.cover
+        ? '<img src="' + escapeHTML(rec.cover) + '" alt="' +
+            escapeHTML(rec.artist + ' — ' + rec.title) + '">'
+        : '<div class="hs-label"><div class="hs-label-disc">' +
+            escapeHTML(initials(rec.artist)) + '</div></div>';
+
+      var hasAudio = !!rec.audio;
+      var playBtn = hasAudio
+        ? '<button class="hs-play" id="hs-play" type="button" ' +
+            'aria-label="Play ' + escapeHTML(rec.track || rec.title) + '">&#9654;</button>'
+        : '';
+
+      var meta = '';
+      if (rec.track) {
+        meta += '<span class="hs-track">&#9656; <strong>' +
+          escapeHTML(rec.track) + '</strong></span><span class="hs-sep">&middot;</span>';
+      }
+      if (rec.youtube) {
+        meta += '<a href="' + escapeHTML(rec.youtube) + '" target="_blank" ' +
+          'rel="noopener noreferrer">YouTube &#8599;</a><span class="hs-sep">&middot;</span>';
+      }
+      meta += '<a href="records.html">See the full shelf &#8594;</a>';
+
+      card.innerHTML =
+        '<div class="hs-platter">' +
+          '<div class="hs-vinyl"></div>' +
+          '<div class="hs-cover">' + cover + '</div>' +
+          playBtn +
+        '</div>' +
+        '<div class="hs-body">' +
+          '<div class="hs-eyebrow"><span class="hs-pip"></span>Now Spinning</div>' +
+          '<div class="hs-title">' + escapeHTML(rec.title) + '</div>' +
+          '<div class="hs-artist">' + escapeHTML(rec.artist) +
+            ' &middot; ' + escapeHTML(rec.year) + '</div>' +
+          '<div class="hs-note">' + escapeHTML(rec.note || '') + '</div>' +
+          '<div class="hs-meta">' + meta + '</div>' +
+        '</div>' +
+        (hasAudio
+          ? '<audio id="hs-audio" src="' + escapeHTML(rec.audio) + '" preload="none"></audio>'
+          : '');
+
+      // ── Wire the play button to the audio element ─────────────────────
+      if (!hasAudio) return;
+      var btn = document.getElementById('hs-play');
+      var audio = document.getElementById('hs-audio');
+      if (!btn || !audio) return;
+
+      btn.addEventListener('click', function() {
+        if (audio.paused) { audio.play(); } else { audio.pause(); }
+      });
+      audio.addEventListener('play', function() {
+        btn.innerHTML = '&#10073;&#10073;';
+        card.classList.add('is-playing');
+      });
+      audio.addEventListener('pause', function() {
+        btn.innerHTML = '&#9654;';
+        card.classList.remove('is-playing');
+      });
+      audio.addEventListener('ended', function() {
+        btn.innerHTML = '&#9654;';
+        card.classList.remove('is-playing');
+        audio.currentTime = 0;
+      });
     })();
   </script>
 

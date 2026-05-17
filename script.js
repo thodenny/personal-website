@@ -80,56 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /* ----------------------------------------------------------
-     MYSPACE-STYLE PLAYER
-     Play button toggles the YouTube iframe open/closed.
-     Equalizer speeds up when playing (via CSS class on card).
-  ---------------------------------------------------------- */
-  /* ----------------------------------------------------------
-     MUSIC PLAYER — wired to local MP3 via HTML5 Audio API
-     Play/pause button controls the audio element directly.
-     Equalizer speeds up when playing, idles when paused.
-     Song resets to beginning when it ends.
-  ---------------------------------------------------------- */
-  const playBtn    = document.getElementById('ms-play-btn');
-  const playerCard = playBtn ? playBtn.closest('.ms-player-card') : null;
-  const audio      = document.getElementById('ms-audio');
-
-  if (playBtn && playerCard && audio) {
-
-    // Play button click — toggle play/pause
-    playBtn.addEventListener('click', function () {
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    });
-
-    // Audio started playing
-    audio.addEventListener('play', function () {
-      playBtn.textContent = '⏸';
-      playBtn.classList.add('playing');
-      playerCard.classList.add('is-playing');
-    });
-
-    // Audio paused
-    audio.addEventListener('pause', function () {
-      playBtn.textContent = '▶';
-      playBtn.classList.remove('playing');
-      playerCard.classList.remove('is-playing');
-    });
-
-    // Song finished — reset to beginning
-    audio.addEventListener('ended', function () {
-      playBtn.textContent = '▶';
-      playBtn.classList.remove('playing');
-      playerCard.classList.remove('is-playing');
-      audio.currentTime = 0;
-    });
-
-  }
-
-  /* ----------------------------------------------------------
      PROFILE PHOTO — subtle click easter egg
      Three clicks reveals a console message. Classic.
   ---------------------------------------------------------- */

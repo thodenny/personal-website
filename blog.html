@@ -20,6 +20,54 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="alternate" type="application/rss+xml" title="Thomas Denny" href="/feed.xml" />
+
+  <style>
+    .topic-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #ddeeff;
+    }
+    .topic-filter-label {
+      font-size: 11px;
+      color: #6688aa;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .topic-filter-select {
+      font-size: 11px;
+      font-family: Arial, sans-serif;
+      color: #336699;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 4px 28px 4px 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image:
+        linear-gradient(to bottom, #f0f5ff, #e4edf8),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M0 0l5 6 5-6z' fill='%23336699'/></svg>");
+      background-repeat: no-repeat, no-repeat;
+      background-position: 0 0, right 8px center;
+      background-size: 100% 100%, 10px 6px;
+    }
+    .topic-filter-select:hover {
+      border-color: #FF6600;
+      color: #CC4400;
+    }
+    .topic-filter-select:focus {
+      outline: none;
+      border-color: #003366;
+    }
+  </style>
 </head>
 <body>
 
@@ -74,18 +122,7 @@
           <a href="deepwork.html">Deep Work</a>
           <a href="resources.html">Knowledge Base</a>
           <a href="repertoire.html">Repertoire</a>
-        </div>
-
-        <div class="sidebar-page-nav">
-          <div class="spn-title">Topics</div>
-          <a href="#" class="topic-filter active" data-topic="all">All</a>
-          <a href="#" class="topic-filter" data-topic="ai-work">AI & Work</a>
-          <a href="#" class="topic-filter" data-topic="life">Life</a>
-          <a href="#" class="topic-filter" data-topic="mindset">Mindset</a>
-          <a href="#" class="topic-filter" data-topic="reflection">Reflection</a>
-          <a href="#" class="topic-filter" data-topic="running">Running</a>
-          <a href="#" class="topic-filter" data-topic="social-media">Social Media</a>
-          <a href="#" class="topic-filter" data-topic="screen-time">Screen Time</a>
+          <a href="records.html">Records</a>
         </div>
 
       </aside>
@@ -103,6 +140,21 @@
             <span>Thinking in public. Some of this will age badly. That's fine.</span>
             <a href="/feed.xml" style="font-size:11px; color:#FF6600; text-decoration:none; font-weight:bold; white-space:nowrap;" title="RSS feed">Subscribe via RSS →</a>
           </p>
+
+          <!-- Top filter bar -->
+          <div class="topic-filter-bar">
+            <label for="topic-filter-select" class="topic-filter-label">Topic:</label>
+            <select id="topic-filter-select" class="topic-filter-select">
+              <option value="all">All posts</option>
+              <option value="ai-work">AI &amp; Work</option>
+              <option value="life">Life</option>
+              <option value="mindset">Mindset</option>
+              <option value="reflection">Reflection</option>
+              <option value="running">Running</option>
+              <option value="social-media">Social Media</option>
+              <option value="screen-time">Screen Time</option>
+            </select>
+          </div>
 
           <!-- POST 1 -->
           <div class="blog-post-card" data-topics="social-media life screen-time">
@@ -221,12 +273,10 @@
 
   <script src="script.js"></script>
   <script>
-    document.querySelectorAll('.topic-filter').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        var topic = this.getAttribute('data-topic');
-        document.querySelectorAll('.topic-filter').forEach(function(l) { l.classList.remove('active'); });
-        this.classList.add('active');
+    var topicSelect = document.getElementById('topic-filter-select');
+    if (topicSelect) {
+      topicSelect.addEventListener('change', function() {
+        var topic = this.value;
         document.querySelectorAll('.blog-post-card').forEach(function(card) {
           if (topic === 'all') {
             card.style.display = '';
@@ -236,7 +286,7 @@
           }
         });
       });
-    });
+    }
   </script>
 </body>
 </html>
