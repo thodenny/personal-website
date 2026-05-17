@@ -93,6 +93,19 @@ var deepWork = {
   ],
    '2026-05-08': [
     { h: 4, cat: 'build', note: 'Building and training AI agents at work' }
+  ],
+   '2026-05-11': { h: 3, cat: 'build', note: 'Agent building for work' },
+   '2026-05-12': { h: 3, cat: 'build', note: 'Agent building for work' },
+   '2026-05-13': { h: 3, cat: 'build', note: 'Agent building for work' },
+   '2026-05-14': { h: 3, cat: 'build', note: 'Agent building for work' },
+   '2026-05-15': { h: 3, cat: 'build', note: 'Agent building for work' },
+   '2026-05-16': [
+    { h: 1.5, cat: 'practice', note: 'Guitar practice' },
+    { h: 0.5, cat: 'read',     note: 'Reading' }
+  ],
+   '2026-05-17': [
+    { h: 3, cat: 'build',    note: 'Personal website updates' },
+    { h: 1, cat: 'practice', note: 'Guitar practice' }
   ]
 };
 
