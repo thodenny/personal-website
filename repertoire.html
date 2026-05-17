@@ -173,6 +173,207 @@
       font-style: italic;
       padding: 12px 0;
     }
+
+    /* tab toggle — the active tab is styled like the section-header bar */
+    .gear-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+    .gear-tab {
+      flex: 1;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 6px 12px;
+      border: none;
+      border-left: 4px solid #003366;
+      border-radius: 0 3px 3px 0;
+      cursor: pointer;
+      background: linear-gradient(to right, #8794a4, #9fadbc);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      transition: background 0.15s, color 0.15s;
+    }
+    .gear-tab:hover { color: #ffffff; }
+    .gear-tab.is-active {
+      background: linear-gradient(to right, #1a4d8a, #4477aa);
+      color: #ffffff;
+    }
+
+    /* ── The Rig — guitar gear section ──────────────────────────────────── */
+    .gear-intro {
+      font-size: 12px;
+      color: #6688aa;
+      margin-bottom: 6px;
+    }
+    .gear-cat {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: bold;
+      color: #003366;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin: 18px 0 9px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed #cdd9e8;
+    }
+    .gear-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 600px) {
+      .gear-grid { grid-template-columns: 1fr; }
+    }
+    .gear-card {
+      background: #f7f9fc;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      padding: 9px 11px;
+      box-shadow: 1px 1px 0 #99AACC;
+    }
+    .gear-name {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: bold;
+      color: #003366;
+    }
+    .gear-spec {
+      font-size: 10px;
+      color: #6688aa;
+      margin: 1px 0 5px;
+    }
+    .gear-why {
+      font-size: 11px;
+      color: #555566;
+      line-height: 1.45;
+    }
+
+    /* guitars lined up — 3D tilt on hover */
+    .guitar-row-wrap { position: relative; }
+    .guitar-row {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 38px 2px 34px;
+    }
+    .guitar-3d {
+      flex: 0 0 auto;
+      width: 150px;
+      text-align: center;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    /* fade-and-chevron scroll affordance (matches the books timeline) */
+    .gear-scroll-btn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 62px;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, #ffffff 72%);
+      border: none;
+      color: #6688aa;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 8px 0 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, color 0.15s ease;
+      z-index: 3;
+    }
+    .gear-scroll-btn.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .gear-scroll-btn:hover { color: #FF6600; }
+    .guitar-img-wrap {
+      position: relative;
+      display: inline-block;
+      height: 250px;
+      margin-bottom: 8px;
+    }
+    .guitar-img {
+      height: 100%;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 6px 9px rgba(0, 30, 70, 0.28));
+    }
+    .gear-sheen {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .guitar-cap .gear-name { font-size: 12px; }
+    .guitar-cap .gear-spec { margin-top: 1px; }
+    .guitar-cap .gear-why { margin-top: 4px; font-style: italic; }
+
+    /* amps — same 3D tilt, sized by height */
+    .amp-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 14px 0 4px;
+    }
+    .amp-3d {
+      width: 200px;
+      text-align: center;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .amp-img-wrap {
+      position: relative;
+      display: inline-block;
+      height: 140px;
+      margin-bottom: 8px;
+    }
+    .amp-img {
+      height: 100%;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 6px 9px rgba(0, 30, 70, 0.28));
+    }
+
+    /* pedals — scrolling row, same 3D tilt */
+    .pedal-row-wrap { position: relative; }
+    .pedal-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 30px 2px 26px;
+    }
+    .pedal-3d {
+      flex: 0 0 auto;
+      width: 132px;
+      text-align: center;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .pedal-img-wrap {
+      position: relative;
+      display: inline-block;
+      height: 120px;
+      margin-bottom: 8px;
+    }
+    .pedal-img {
+      height: 100%;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 5px 8px rgba(0, 30, 70, 0.28));
+    }
   </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -232,8 +433,210 @@
       <!-- MAIN CONTENT -->
       <main class="col-right">
 
-        <div class="section-header">Guitar Repertoire</div>
+        <div class="gear-tabs">
+          <button type="button" class="gear-tab is-active" data-tab="rig">The Rig</button>
+          <button type="button" class="gear-tab" data-tab="repertoire">Repertoire</button>
+        </div>
 
+        <!-- ============================================
+             THE RIG — current guitar gear
+        ============================================ -->
+        <div class="gear-panel" id="panel-rig">
+        <div class="content-box inner-content">
+
+          <p class="gear-intro">
+            My gear - guitars, amps, and pedals!
+          </p>
+
+          <!-- ░░ EXAMPLE GEAR — replace with your real rig ░░ -->
+
+          <div class="gear-cat">Guitars</div>
+          <div class="guitar-row-wrap">
+          <div class="guitar-row" id="guitar-row">
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="guitar-strat.png" alt="Fender Player Stratocaster in Polar White" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Fender Player Stratocaster</div>
+                <div class="gear-spec">Polar White &middot; Maple fingerboard</div>
+                <div class="gear-why">Jimi Hendrix and John Mayer inspired me to get this one.</div>
+              </div>
+            </div>
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="guitar-prs.png" alt="PRS SE Custom 24 in Quilted Violet" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">PRS SE Custom 24</div>
+                <div class="gear-spec">Quilted Violet</div>
+                <div class="gear-why">I fell in love as soon as I saw the color.</div>
+              </div>
+            </div>
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="guitar-lespaul.png" alt="Gibson Les Paul Standard '60s in Heritage Cherry Sunburst" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Gibson Les Paul Standard '60s</div>
+                <div class="gear-spec">Heritage Cherry Sunburst</div>
+                <div class="gear-why">Slash inspired this one.</div>
+              </div>
+            </div>
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="guitar-esp.png" alt="ESP LTD KH-202 in Black" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">ESP LTD KH-202</div>
+                <div class="gear-spec">Kirk Hammett signature &middot; Black</div>
+                <div class="gear-why">Metallica inspired this one.</div>
+              </div>
+            </div>
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="guitar-taylor.png" alt="Taylor 110 dreadnought acoustic guitar" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Taylor 110</div>
+                <div class="gear-spec">Dreadnought acoustic</div>
+                <div class="gear-why">The acoustic — for songwriting and quiet evenings.</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="gear-scroll-btn" id="guitar-scroll-btn" aria-label="Scroll guitars right">&rsaquo;</button>
+          </div>
+
+          <div class="gear-cat">Amps</div>
+          <div class="amp-row">
+            <div class="amp-3d">
+              <div class="amp-img-wrap">
+                <img class="amp-img" src="amp-deluxe-reverb.png" alt="Fender Deluxe Reverb amplifier" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Fender Deluxe Reverb</div>
+                <div class="gear-spec">22-watt tube combo</div>
+                <div class="gear-why">My go-to amp.</div>
+              </div>
+            </div>
+            <div class="amp-3d">
+              <div class="amp-img-wrap">
+                <img class="amp-img" src="amp-katana.png" alt="Boss Katana amplifier" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Boss Katana</div>
+                <div class="gear-spec">Modeling combo</div>
+                <div class="gear-why">When I need something heavier.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gear-cat">Pedalboard</div>
+          <div class="pedal-row-wrap">
+          <div class="pedal-row" id="pedal-row">
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="pedal-wah.png" alt="Dunlop Cry Baby Classic wah pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Dunlop Cry Baby Classic</div>
+                <div class="gear-spec">Wah</div>
+                <div class="gear-why">A classic pedal.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="pedal-tuner.png" alt="Boss TU-3 tuner pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Boss TU-3</div>
+                <div class="gear-spec">Chromatic tuner</div>
+                <div class="gear-why">Just the tuner.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="pedal-compressor.png" alt="JHS Pulp 'N Peel compressor pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">JHS Pulp 'N Peel</div>
+                <div class="gear-spec">Compressor</div>
+                <div class="gear-why">Evens out the dynamics.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="pedal-tubescreamer.png" alt="Ibanez Tube Screamer overdrive pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Ibanez Tube Screamer</div>
+                <div class="gear-spec">Overdrive</div>
+                <div class="gear-why">Always on a little.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="pedal-distortion.png" alt="Boss DS-1 distortion pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Boss DS-1</div>
+                <div class="gear-spec">Distortion</div>
+                <div class="gear-why">When a song needs some real teeth.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="pedal-phaser.png" alt="MXR Phase 90 phaser pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">MXR Phase 90</div>
+                <div class="gear-spec">Phaser</div>
+                <div class="gear-why">That swirly, swooshy shimmer.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="pedal-delay.png" alt="MXR Carbon Copy analog delay pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">MXR Carbon Copy</div>
+                <div class="gear-spec">Analog delay</div>
+                <div class="gear-why">Warm analog repeats.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="pedal-looper.png" alt="Boss RC-3 Loop Station pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Boss RC-3 Loop Station</div>
+                <div class="gear-spec">Looper</div>
+                <div class="gear-why">For building parts and practicing over myself.</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="gear-scroll-btn" id="pedal-scroll-btn" aria-label="Scroll pedals right">&rsaquo;</button>
+          </div>
+
+        </div>
+        </div>
+
+        <div class="gear-panel" id="panel-repertoire" hidden>
         <div class="content-box inner-content">
 
           <p style="font-size:12px; color:#6688aa; margin-bottom:18px;">
@@ -1153,6 +1556,7 @@
           <p id="rep-empty">No songs match the current filters.</p>
 
         </div>
+        </div>
 
       </main>
 
@@ -1214,6 +1618,88 @@
       searchQuery = this.value;
       applyFilters();
     });
+  </script>
+
+  <script>
+    // ── 3D hover tilt for the guitar cards ──────────────────────────────
+    (function() {
+      if (window.matchMedia &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var MAX = 14; // peak tilt, degrees
+      document.querySelectorAll('.guitar-3d, .amp-3d, .pedal-3d').forEach(function(card) {
+        var sheen = card.querySelector('.gear-sheen');
+        card.addEventListener('mouseenter', function() {
+          card.style.transition = 'transform 0.08s ease-out';
+        });
+        card.addEventListener('mousemove', function(e) {
+          var r = card.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width;
+          var py = (e.clientY - r.top) / r.height;
+          card.style.transform =
+            'perspective(700px) rotateX(' + ((0.5 - py) * 2 * MAX).toFixed(2) +
+            'deg) rotateY(' + ((px - 0.5) * 2 * MAX).toFixed(2) + 'deg) scale(1.04)';
+          if (sheen) {
+            sheen.style.background =
+              'radial-gradient(circle at ' + (px * 100).toFixed(1) + '% ' +
+              (py * 100).toFixed(1) +
+              '%, rgba(255,255,255,0.55), rgba(255,255,255,0) 55%)';
+          }
+        });
+        card.addEventListener('mouseleave', function() {
+          card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+          card.style.transform = '';
+          if (sheen) sheen.style.background = '';
+        });
+      });
+    })();
+
+    // ── Fade-and-chevron scroll affordance for the gear rows ────────────
+    (function() {
+      var rows = [
+        ['guitar-row', 'guitar-scroll-btn'],
+        ['pedal-row',  'pedal-scroll-btn']
+      ];
+      rows.forEach(function(pair) {
+        var row = document.getElementById(pair[0]);
+        var btn = document.getElementById(pair[1]);
+        if (!row || !btn) return;
+        function update() {
+          var overflow = row.scrollWidth - row.clientWidth > 4;
+          var atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4;
+          btn.classList.toggle('is-visible', overflow && !atEnd);
+        }
+        btn.addEventListener('click', function() {
+          row.scrollBy({ left: row.clientWidth * 0.7, behavior: 'smooth' });
+        });
+        row.addEventListener('scroll', update);
+        window.addEventListener('resize', update);
+        window.addEventListener('load', update);
+        update();
+      });
+    })();
+
+    // ── Tab toggle: The Rig / Repertoire ────────────────────────────────
+    (function() {
+      var tabs = document.querySelectorAll('.gear-tab');
+      if (!tabs.length) return;
+      var panels = {
+        rig: document.getElementById('panel-rig'),
+        repertoire: document.getElementById('panel-repertoire')
+      };
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var which = tab.getAttribute('data-tab');
+          tabs.forEach(function(t) {
+            t.classList.toggle('is-active', t === tab);
+          });
+          Object.keys(panels).forEach(function(k) {
+            if (panels[k]) panels[k].hidden = (k !== which);
+          });
+          // recompute the scroll affordances now the rows have layout
+          window.dispatchEvent(new Event('resize'));
+        });
+      });
+    })();
   </script>
 
 </body>
