@@ -226,15 +226,15 @@
             <li class="book-item" data-tags="nonfiction ai-tech">
               <div class="book-num">→</div>
               <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="ai-snake-oil.png" alt="AI Snake Oil" style="width:80px; border:1px solid #99AACC; border-radius:2px;" />
+                <img src="age-of-invisible-machines.png" alt="Age of Invisible Machines" style="width:80px; border:1px solid #99AACC; border-radius:2px;" />
               </div>
               <div class="book-info">
-                <h4><a href="https://www.goodreads.com/book/show/210319458-ai-snake-oil?ref=nav_sb_ss_1_12" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">AI Snake Oil</a></h4>
-                <div class="book-author">Arvind Narayanan &amp; Sayash Kapoor &nbsp;·&nbsp; Started May 9, 2026</div>
-                <div class="book-note">What AI can do, what it can't, and how to tell the difference.</div>
+                <h4><a href="https://www.goodreads.com/book/show/55359366-age-of-invisible-machines" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">Age of Invisible Machines</a></h4>
+                <div class="book-author">Robb Wilson with Josh Tyson &nbsp;·&nbsp; Started June 5, 2026</div>
+                <div class="book-note">A guide to orchestrating AI agents and making organizations more self-driving.</div>
                 <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">AI &amp; Tech</span></div>
               </div>
-              <div class="book-stars" style="font-size:11px; white-space:nowrap;">Completed</div>
+              <div class="book-stars" style="font-size:11px; white-space:nowrap;">In Progress</div>
             </li>
 
           </ul>
@@ -427,6 +427,21 @@
               <div class="book-stars">7/10</div>
             </li>
 
+            <li class="book-item" id="book-11" data-tags="nonfiction ai-tech">
+              <div class="book-num">11</div>
+              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
+                <img src="age-of-invisible-machines.png" alt="Age of Invisible Machines" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
+              </div>
+              <div class="book-info">
+                <span class="dnf-badge" style="background:#e8f0ff; color:#336699; border-color:#99AACC;">In Progress</span>
+                <h4><a href="https://www.goodreads.com/book/show/55359366-age-of-invisible-machines" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">Age of Invisible Machines</a> <a href="https://www.goodreads.com/book/show/55359366-age-of-invisible-machines" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
+                <div class="book-author">Robb Wilson with Josh Tyson &nbsp;·&nbsp; Started Jun 5, 2026</div>
+                <div class="book-note">A guide to orchestrating AI agents and making organizations more self-driving.</div>
+                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">AI &amp; Tech</span></div>
+              </div>
+              <div class="book-stars" style="font-size:11px; color:#FF6600; white-space:nowrap;">Reading</div>
+            </li>
+
           </ul>
 
         </div>
@@ -467,7 +482,7 @@
           (b.cover ? '<img src="' + b.cover + '" alt="' + b.title + '">' : '') +
           '<div class="bf-tl-title">' + b.title + '</div>' +
           '<div class="bf-tl-date">' + dateLabel + '</div>' +
-          '<div class="bf-tl-rating">' + b.rating + '/10</div>' +
+          (b.inProgress ? '<div class="bf-tl-rating" style="color:#FF6600;">Reading</div>' : '<div class="bf-tl-rating">' + b.rating + '/10</div>') +
           (b.dnf ? '<div class="dnf-badge-tl">DNF</div>' : '');
         timeline.appendChild(item);
       });

@@ -15,5 +15,6 @@ var booksFinished = [
   { date: '2026-03-25', title: "Man's Search for Meaning", author: 'Viktor E. Frankl', rating: 8, slug: 'book-notes-mans-search-for-meaning.html', cover: 'mans-search-for-meaning.jpg' },
   { date: '2026-05-04', title: 'If This Is A Man',         author: 'Primo Levi',       rating: 8, slug: 'book-notes-if-this-is-a-man.html',     cover: 'if-this-is-a-man.jpg' },
   { date: '2026-05-09', title: "I Didn't Do the Thing Today", author: 'Madeleine Dore', rating: 5, slug: '#book-09', cover: 'i-didnt-do-the-thing-today.jpg', dnf: true },
-  { date: '2026-06-04', title: 'AI Snake Oil',               author: 'Arvind Narayanan & Sayash Kapoor', rating: 7, slug: '#book-10', cover: 'ai-snake-oil.png' }
+  { date: '2026-06-04', title: 'AI Snake Oil',               author: 'Arvind Narayanan & Sayash Kapoor', rating: 7, slug: '#book-10', cover: 'ai-snake-oil.png' },
+  { date: '2026-06-05', title: 'Age of Invisible Machines',  author: 'Robb Wilson',                      slug: '#book-11', cover: 'age-of-invisible-machines.png', inProgress: true }
 ];
