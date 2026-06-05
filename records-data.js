@@ -102,6 +102,17 @@ var recordCollection = [
     acquired: null
   },
   {
+    id:       'shango',
+    artist:   'Santana',
+    title:    'Shango',
+    year:     1982,
+    cover:    'shango.png',
+    genre:    'rock',
+    note:     'Santana in his early-eighties run. Latin rock and funk locked together.',
+    youtube:  'https://www.youtube.com/watch?v=MBemfKbjZYw&list=PLQvL6GLJiX930jbIvHdDQt4J_SocCZMzd',
+    acquired: null
+  },
+  {
     id:       'supernatural',
     artist:   'Santana',
     title:    'Supernatural',
