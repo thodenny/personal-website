@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Knowledge Base — Thomas Denny</title>
+<link href="../styles.css" rel="stylesheet"/>
+<!-- Open Graph -->
+<meta content="website" property="og:type"/>
+<meta content="https://iamthomasdenny.com/resources/" property="og:url"/>
+<meta content="Knowledge Base — Thomas Denny" property="og:title"/>
+<meta content="Articles, quotes, videos, and book notes from Thomas Denny — tagged and searchable." property="og:description"/>
+<meta content="https://iamthomasdenny.com/jenny.jpeg" property="og:image"/>
+<!-- Twitter Card -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Knowledge Base — Thomas Denny" name="twitter:title"/>
+<meta content="Articles, quotes, videos, and book notes from Thomas Denny — tagged and searchable." name="twitter:description"/>
+<meta content="https://iamthomasdenny.com/jenny.jpeg" name="twitter:image"/>
+<style>
+    /* ── Resource entry card ────────────────────────────── */
+    .resource-list { list-style: none; padding: 0; margin: 0; }
+
+    .resource-entry {
+      position: relative;
+      padding: 16px 0 16px 0;
+      border-bottom: 1px solid #ddeeff;
+    }
+    .resource-entry:last-child { border-bottom: none; }
+
+    /* Media type badge */
+    .media-badge {
+      position: absolute;
+      top: 16px;
+      right: 0;
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8899bb;
+      background: #eef2f8;
+      border: 1px solid #c8d8ec;
+      border-radius: 2px;
+      padding: 2px 6px;
+    }
+    .media-badge--article { color: #336699; background: #eef4ff; border-color: #99AACC; }
+    .media-badge--quote   { color: #6655aa; background: #f0eeff; border-color: #bbaadd; }
+    .media-badge--video   { color: #aa4400; background: #fff3ee; border-color: #ddbb99; }
+    .media-badge--book    { color: #2a6636; background: #eef6f0; border-color: #99ccaa; }
+
+    /* Entry title / meta */
+    .resource-title {
+      font-family: Georgia, serif;
+      font-size: 14px;
+      color: #003366;
+      margin-bottom: 3px;
+      padding-right: 70px; /* clear the badge */
+    }
+    .resource-title a { color: #003366; text-decoration: none; }
+    .resource-title a:hover { color: #FF6600; text-decoration: underline; }
+
+    .resource-meta {
+      font-size: 11px;
+      color: #6688aa;
+      margin-bottom: 10px;
+    }
+
+    /* My take — collapsible */
+    .my-take-wrap {
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .my-take-text {
+      font-size: 12px;
+      color: #444466;
+      line-height: 1.65;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+    }
+    .my-take-text.collapsed {
+      /* roughly 4 lines at 12px / 1.65 line-height ≈ 79px */
+      max-height: 79px;
+    }
+    .my-take-text.expanded {
+      max-height: 1000px;
+    }
+    .my-take-toggle {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 10px;
+      color: #336699;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .my-take-toggle:hover { color: #FF6600; }
+
+    /* Blockquotes inside entries */
+    .resource-blockquote {
+      margin: 10px 0 6px 0;
+      padding: 8px 12px;
+      border-left: 3px solid #336699;
+      background: #f0f4fa;
+      font-size: 12px;
+      color: #333;
+      line-height: 1.7;
+      font-style: italic;
+    }
+    .resource-blockquote .bq-timestamp {
+      font-style: normal;
+      font-weight: bold;
+      color: #6688aa;
+      font-size: 10px;
+      margin-right: 6px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Standalone quote style (bigger, more prominent) */
+    .resource-blockquote--standalone {
+      border-left: 3px solid #6655aa;
+      background: #f6f4ff;
+      font-size: 13px;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+    .resource-attribution {
+      font-size: 11px;
+      color: #6688aa;
+      margin-bottom: 8px;
+    }
+    .resource-attribution em { font-style: normal; color: #8877bb; }
+
+    /* Why-it's-here note */
+    .resource-why {
+      font-size: 12px;
+      color: #555566;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    /* Tag pills */
+    .resource-tags { margin-top: 8px; }
+    .resource-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      margin: 0 4px 4px 0;
+      font-size: 10px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      text-decoration: none;
+      background: #eef2f8;
+    }
+    .resource-tag:hover {
+      color: #FF6600;
+      border-color: #FF6600;
+      background: #fff3ee;
+      text-decoration: none;
+    }
+    .resource-tag.active-tag-pill {
+      background: #FF6600;
+      border-color: #CC4400;
+      color: #fff;
+    }
+    .resource-tag.active-tag-pill:hover {
+      background: #CC4400;
+      border-color: #993300;
+      color: #fff;
+    }
+
+    /* Media type filter row */
+    .media-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .media-filter-btn {
+      font-size: 11px;
+      font-family: Verdana, Arial, sans-serif;
+      color: #336699;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 4px 12px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.15s ease;
+    }
+    .media-filter-btn:hover {
+      background: linear-gradient(to bottom, #fff4ee, #ffe0cc);
+      border-color: #FF6600;
+      color: #CC4400;
+    }
+    .media-filter-btn.active {
+      background: linear-gradient(to right, #1a4d8a, #4477aa);
+      border-color: #003366;
+      color: #ffffff;
+    }
+    /* Active tag banner */
+    .active-tag-banner {
+      background: #fff8ee;
+      border: 1px solid #ffcc88;
+      border-left: 3px solid #FF6600;
+      border-radius: 0 3px 3px 0;
+      padding: 7px 12px;
+      font-size: 12px;
+      color: #664400;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .active-tag-banner a { color: #FF6600; font-weight: bold; }
+    .active-tag-banner a:hover { color: #CC4400; }
+
+    /* "Browse by Tag" sidebar section */
+    .sidebar-tag-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+      font-size: 11px;
+      color: #336699;
+      text-decoration: none;
+      border-bottom: 1px solid #ddeeff;
+      transition: color 0.15s;
+    }
+    .sidebar-tag-link:last-child { border-bottom: none; }
+    .sidebar-tag-link:hover { color: #FF6600; text-decoration: none; }
+    .sidebar-tag-link.tag-active { color: #FF6600; font-weight: bold; }
+    .sidebar-tag-count { font-size: 10px; color: #aabbcc; }
+
+
+    /* ── Search bar ──────────────────────────── */
+    .res-search-wrap {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .res-search-input {
+      flex: 1;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      background: #fff;
+      color: #333;
+      outline: none;
+    }
+    .res-search-input:focus {
+      border-color: #336699;
+      box-shadow: 0 0 0 2px rgba(51,102,153,0.15);
+    }
+    .res-search-clear {
+      padding: 7px 12px;
+      font-size: 11px;
+      font-family: inherit;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      cursor: pointer;
+      color: #6688aa;
+      display: none;
+    }
+    .res-search-clear:hover { color: #FF6600; border-color: #FF6600; }
+
+    /* ── Tag cloud ───────────────────────────── */
+    .res-tag-cloud-section { margin-bottom: 14px; }
+    .res-tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    .res-tag-cloud-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      margin: 4px 6px 4px 0;
+      font-size: 12px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      text-decoration: none;
+      background: #eef2f8;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .res-tag-cloud-pill:hover {
+      color: #FF6600;
+      border-color: #FF6600;
+      background: #fff3ee;
+      text-decoration: none;
+    }
+    .res-tag-cloud-pill.active-tag-pill {
+      background: #FF6600;
+      border-color: #CC4400;
+      color: #fff;
+    }
+    .res-tag-cloud-pill.active-tag-pill:hover {
+      background: #CC4400;
+      border-color: #993300;
+      color: #fff;
+    }
+    .res-tag-count {
+      font-size: 10px;
+      color: #99AACC;
+      font-weight: normal;
+    }
+    .res-tag-cloud-pill.active-tag-pill .res-tag-count {
+      color: #ffddcc;
+    }
+
+
+    /* ── Book group rows ─────────────────────────── */
+    .book-group-row {
+      list-style: none;
+      border-bottom: 1px solid #ddeeff;
+    }
+    .book-group-row:last-child { border-bottom: none; }
+    .book-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      cursor: pointer;
+    }
+    .book-group-header:hover .book-group-title { color: #FF6600; }
+    .book-group-title {
+      font-family: Georgia, serif;
+      font-size: 14px;
+      color: #003366;
+      text-decoration: none;
+    }
+    .book-group-title:hover { color: #FF6600; }
+    .book-group-meta {
+      font-size: 11px;
+      color: #6688aa;
+    }
+    .book-group-chevron {
+      font-size: 11px;
+      color: #99AACC;
+      flex-shrink: 0;
+      margin-left: 12px;
+      user-select: none;
+    }
+
+    /* ── Load more button ────────────────────────── */
+    .load-more-btn {
+      display: block;
+      width: 100%;
+      padding: 9px;
+      margin-top: 14px;
+      font-size: 11px;
+      font-family: Verdana, Arial, sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #336699;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .load-more-btn:hover {
+      background: linear-gradient(to bottom, #fff4ee, #ffe0cc);
+      border-color: #FF6600;
+      color: #CC4400;
+    }
+    /* search highlight */
+    mark.res-hit {
+      background: #ffe066;
+      color: #333;
+      padding: 0 1px;
+      border-radius: 1px;
+    }
+
+    .media-filter-sep {
+      color: #aabbcc;
+      font-size: 11px;
+      padding: 0 2px;
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="alternate" type="application/rss+xml" title="Thomas Denny" href="/feed.xml" />
+</head>
+<body>
+<div class="page-wrapper">
+<!-- ======================================================
+         NAVIGATION BAR
+    ====================================================== -->
+<nav class="main-nav">
+<a class="nav-title" href="/">thomas denny</a>
+<a class="nav-link" href="/">Home</a>
+<a class="nav-link" href="/now">Now</a>
+<a class="nav-link" href="/about">About Me</a>
+<a class="nav-link" href="/blog">Blog</a>
+<a class="nav-link" href="/books">Books</a>
+<a class="nav-link" href="/projects">Projects</a>
+<a class="nav-link" href="/deepwork">Deep Work</a>
+<a class="nav-link active" href="/resources">Knowledge Base</a>
+</nav>
+<!-- ======================================================
+         MAIN LAYOUT
+    ====================================================== -->
+<div class="main-layout">
+<!-- ====================================================
+           LEFT COLUMN
+      ==================================================== -->
+<aside class="col-left-sm">
+<div class="profile-card-sm">
+<img alt="Thomas Denny" src="../me.jpg"/>
+<div class="pcm-name">Thomas Denny</div>
+<div class="pcm-status">
+<span class="online-dot"></span> Online Now
+          </div>
+<div class="pcm-mood">Mood: <span>Curious</span></div>
+<a class="btn-back-home" href="/">← Back to Profile</a>
+</div>
+<div class="sidebar-page-nav">
+<div class="spn-title">Pages</div>
+<a href="/">Home</a>
+<a href="/now">Now</a>
+<a href="/about">About Me</a>
+<a href="/blog">Blog</a>
+<a href="/books">Books</a>
+<a href="/projects">Projects</a>
+<a href="/deepwork">Deep Work</a>
+<a class="current" href="/resources">Knowledge Base</a>
+<a href="/repertoire">Repertoire</a>
+<a href="/records">Records</a>
+</div>
+<div class="sidebar-page-nav" style="margin-top:0;">
+<div class="spn-title">Filter by Type</div>
+<a class="genre-filter active" data-type="all" href="#">All</a>
+<a class="genre-filter" data-type="article" href="#">Articles</a>
+<a class="genre-filter" data-type="quote" href="#">Quotes</a>
+<a class="genre-filter" data-type="video" href="#">Videos</a>
+<a class="genre-filter" data-type="book" href="#">Books</a>
+</div>
+<div class="details-box" style="margin-top:0;">
+<div class="details-header">In Here</div>
+<table class="details-table">
+<tr><td class="details-label">Articles:</td><td class="details-value" id="count-article">1</td></tr>
+<tr><td class="details-label">Quotes:</td><td class="details-value" id="count-quote">1</td></tr>
+<tr><td class="details-label">Videos:</td><td class="details-value" id="count-video">1</td></tr>
+<tr><td class="details-label">Books:</td><td class="details-value" id="count-book">0</td></tr>
+</table>
+</div>
+<div class="details-box" id="res-tag-sidebar" style="margin-top:0;">
+<div class="details-header">Browse by Tag</div>
+<div id="res-tag-list" style="padding:6px 8px;">
+<!-- filled by JS -->
+</div>
+</div>
+</aside>
+<!-- ====================================================
+           RIGHT COLUMN — Resources list
+      ==================================================== -->
+<main class="col-right">
+<div class="section-header">Knowledge Base</div>
+<div class="content-box inner-content">
+<p style="font-size:12px; color:#6688aa; margin-bottom:14px;">
+            Articles, notes from books, quotes, and videos I've found worthwhile. This is my personalized knowledge database. Filter by tag, type, or search to find what you're looking for.
+          </p>
+<!-- Search -->
+<div class="res-search-wrap">
+<input autocomplete="off" class="res-search-input" id="res-search" placeholder="Search titles, authors, quotes..." type="text"/>
+<button class="res-search-clear" id="res-search-clear">✕ Clear</button>
+</div>
+<!-- Tag cloud (hidden when a tag or search is active) -->
+<div class="res-tag-cloud-section" id="res-tag-cloud-section" style="display:none;">
+<div class="res-tag-cloud" id="res-tag-cloud"></div>
+</div>
+<!-- Media type filter (top of page, mirrors sidebar) -->
+<div class="media-filter-bar">
+<button class="media-filter-btn active" data-type="all">All</button>
+<span class="media-filter-sep">·</span>
+<button class="media-filter-btn" data-type="article">Articles</button>
+<span class="media-filter-sep">·</span>
+<button class="media-filter-btn" data-type="quote">Quotes</button>
+<span class="media-filter-sep">·</span>
+<button class="media-filter-btn" data-type="video">Videos</button>
+<span class="media-filter-sep">·</span>
+<button class="media-filter-btn" data-type="book">Books</button>
+</div>
+<div class="active-tag-banner" id="active-tag-banner"></div>
+<ul class="resource-list" id="resource-list">
+<!-- ══════════════════════════════════════════
+                 ARTICLE ENTRY
+            ══════════════════════════════════════════ -->
+<li class="resource-entry" data-type="article">
+<span class="media-badge media-badge--article">Article</span>
+<div class="resource-title">
+<a href="https://www.newyorker.com/culture/infinite-scroll/mark-zuckerberg-says-social-media-is-over" rel="noopener" target="_blank">
+                  Mark Zuckerberg Says Social Media Is Over
+                </a>
+</div>
+<div class="resource-meta">
+                The New Yorker  ·  Kyle Chayka  ·  Read April 2025
+              </div>
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-article-1">
+                  What really stood out to me was that only 7% on the time spent on Instagram was used viewing content by 'friends'. This clearly explains and indicates the shift social media has made in the last decase - the platforms have transformed from, in my opinion, social media to social marketing. It is now a place to market yourself, become an influencer of sorts, and sell consumer goods. This has me thinking deeper about the larger macroeconomic environment that rewards and incentives this. I ran a test and 14 out of the first 20 posts in my IG newsfeed were either sponsored content or someone I did not know (and this was after unfollowing and being meticulous about who and what I subscribed to). I personally miss the old school social media sites where it was about connection.
+                </div>
+<button class="my-take-toggle" data-state="collapsed" data-target="take-article-1" style="display:none;">read more ↓</button>
+</div>
+<blockquote class="resource-blockquote">
+                "Meta displayed a chart showing that the “percent of time spent viewing content posted by ‘friends’ ” has declined in the past two years, from 22% cent to 17% on Facebook, and from 11% to 7% on Instagram"
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Social Media" href="/resources?tag=Social Media">#Social Media</a>
+<a class="resource-tag" data-tag="AttentionEconomy" href="/resources?tag=AttentionEconomy">#AttentionEconomy</a>
+</div>
+</li>
+<!-- ══════════════════════════════════════════
+                 QUOTE ENTRY
+            ══════════════════════════════════════════ -->
+<li class="resource-entry" data-type="quote">
+<span class="media-badge media-badge--quote">Quote</span>
+<blockquote class="resource-blockquote resource-blockquote--standalone">
+                "The happiness of your life depends on the quality of your thoughts"
+              </blockquote>
+<div class="resource-attribution">
+                <a href="https://en.wikipedia.org/wiki/Marcus_Aurelius">Marcus Aurelius</a>  ·  <em>Roman Emperor & Philosopher</em>
+</div>
+<div class="resource-why">
+                You would never talk to others the way you talk to yourself. Give yourself grace and focus on what's directly in your control. Release the rest.
+              </div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Stoicism" href="/resources?tag=Stoicism">#Stoicism</a>
+<a class="resource-tag" data-tag="Philosophy" href="/resources?tag=Philosophy">#Philosophy</a>
+</div>
+</li>
+<!-- ══════════════════════════════════════════
+                 VIDEO ENTRY
+            ══════════════════════════════════════════ -->
+<li class="resource-entry" data-type="video">
+<span class="media-badge media-badge--video">Video</span>
+<div class="resource-title">
+<a href="https://www.youtube.com/watch?v=tEWweaj_Zyo&t=346s" rel="noopener" target="_blank">
+                  Alex Becker on quitting alcohol
+                </a>
+</div>
+<div class="resource-meta">
+                Alex Becker  ·  YouTube  ·  Watched circa 2023
+              </div>
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-video-1">
+                  I watched this videos years ago and it really made me rethink my own relationship with alcohol. It made me realize and question the deeper reasons as to why and how a weekend drink became commonplace. I am not a teetotaler, but my relationship with alcohol is now vastly different.
+                </div>
+<button class="my-take-toggle" data-state="collapsed" data-target="take-video-1" style="display:none;">read more ↓</button>
+</div>
+<blockquote class="resource-blockquote">
+<span class="bq-timestamp">[11:42]</span> "You're destroying your brain so much that a boring experience or a person that you don't have anything in common with and wouldn't normally like becomes extremely entertaining with you."
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Alcohol" href="/resources?tag=Alcohol">#Alcohol</a>
+<a class="resource-tag" data-tag="Health" href="/resources?tag=Health">#Health</a>
+<a class="resource-tag" data-tag="Focus" href="/resources?tag=Focus">#Focus</a>
+</div>
+</li>
+
+<!-- ══════════════════════════════════════════
+                 QUOTE ENTRY
+            ══════════════════════════════════════════ -->
+<li class="resource-entry" data-type="quote">
+<span class="media-badge media-badge--quote">Quote</span>
+<blockquote class="resource-blockquote resource-blockquote--standalone">
+                "The more we value things outside of our control, the less control we have."
+              </blockquote>
+<div class="resource-attribution">
+                <a href="https://en.wikipedia.org/wiki/Epictetus">Epictetus</a>  ·  <em>Stoic Philosopher</em>
+</div>
+<div class="resource-why">
+                Epictetus was born a slave. In those conditions, there's no choice but to focus internally and on the things that you can directly impact. Everything else is a waste - any additional effort will yield no results.
+              </div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Stoicism" href="/resources?tag=Stoicism">#Stoicism</a>
+<a class="resource-tag" data-tag="Philosophy" href="/resources?tag=Philosophy">#Philosophy</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. xvii ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Introduction  ·  p. xvii</div>
+<blockquote class="resource-blockquote">
+                “AI works, in many ways, as a co-intelligence. It augments, or potentially replaces, human thinking to dramatic results.”
+              </blockquote>
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-co-1">
+                  AI automates the boring, repetitive stuff and augments our creativity and ability to produce at scale. I do not like to believe that AI can or will ever replace human thought. There are certain things I believe should remain 100% human.
+                </div>
+<button class="my-take-toggle" data-state="collapsed" data-target="take-co-1" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="FutureOfWork" href="/resources?tag=FutureOfWork">#FutureOfWork</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 13 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Creating Alien Minds  ·  p. 13</div>
+<blockquote class="resource-blockquote">
+                “AI can also learn biases, errors, and falsehoods from data it sees.”
+              </blockquote>
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-co-2">
+                  LLMs are <a href="https://www.parlant.io/blog/what-is-autoregression/">autoregressive</a>, next token prediction machines and respond based on their training data. This highlights the importance of having clean, accurate data for training - or else your model will provide incorrect information (<a href="https://www.ibm.com/think/topics/ai-hallucinations">hallucinations</a>).
+                </div>
+<button class="my-take-toggle" data-state="collapsed" data-target="take-co-2" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 48 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Four Rules For Co-Intelligence  ·  p. 48</div>
+<blockquote class="resource-blockquote">
+                “Workers who figure out how to make AI useful for their jobs will have a large impact.”
+              </blockquote>
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-co-3">
+                  I have personally experienced this over the last 2 years. I believe AI is here to stay and those who learn how to solve real business problems with it will have an advantage in the workplace.
+                </div>
+<button class="my-take-toggle" data-state="collapsed" data-target="take-co-3" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="FutureOfWork" href="/resources?tag=FutureOfWork">#FutureOfWork</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 59 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Four Rules For Co-Intelligence  ·  p. 59</div>
+<blockquote class="resource-blockquote">
+                “The key is to give the LLM some guidance and direction on how to generate outputs that match your expectations and needs, to put it in the right ‘headspace’ to give you interesting and unique answers.”
+              </blockquote>
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-co-4">
+                  There are various methods of <a href="https://www.ibm.com/think/topics/prompt-engineering-techniques">prompt engineering</a>. I've learned that garbage in = garbage out and that context is king (but not too much) due to the <a href="https://www.ibm.com/think/topics/context-window">context window</a>.
+                </div>
+<button class="my-take-toggle" data-state="collapsed" data-target="take-co-4" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="DeepWork" href="/resources?tag=DeepWork">#DeepWork</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 61 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  Four Rules For Co-Intelligence  ·  p. 61</div>
+<blockquote class="resource-blockquote">
+                “Whatever AI you are using right now is going to be the worst AI you will ever use.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 90 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Person  ·  p. 90</div>
+<blockquote class="resource-blockquote">
+                “Soon, companies will start to deploy LLMs that are built specifically to optimize ‘engagement’ in the same way that social media timelines are fine-tuned to increase the amount of time you spend on your favorite site.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="Attention" href="/resources?tag=Attention">#Attention</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 92 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Person  ·  p. 92</div>
+<blockquote class="resource-blockquote">
+                “If we remember that AI is not human, but often works in the way that we would expect humans to act, it helps us avoid getting too bogged down in arguments about ill-defined concepts like sentience.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 98 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Creative  ·  p. 98</div>
+<blockquote class="resource-blockquote">
+                “We need to be realistic about a major weakness which means AI cannot easily be used for mission-critical tasks requiring precision or accuracy.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 119 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Creative  ·  p. 119</div>
+<blockquote class="resource-blockquote">
+                “The implications of having AI write our first drafts (even if we do the work ourselves, which is not a given) are huge. One consequence is that we could lose our creativity and originality.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ Co-Intelligence · p. 122 ══ -->
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-co-intelligence">Co-Intelligence</a>
+</div>
+<div class="resource-meta">Ethan Mollick  ·  AI As A Creative  ·  p. 122</div>
+<blockquote class="resource-blockquote">
+                “It will also remove the facade that previously disguised meaningless tasks.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
+<a class="resource-tag" data-tag="FutureOfWork" href="/resources?tag=FutureOfWork">#FutureOfWork</a>
+</div>
+</li>
+<!-- ══ If This Is A Man · p. 79 ══ -->
+<li class="resource-entry" data-book="If This Is A Man" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-if-this-is-a-man">If This Is A Man</a>
+</div>
+<div class="resource-meta">Primo Levi  ·  A Good Day  ·  p. 79</div>
+<blockquote class="resource-blockquote">
+                “For human nature is such that grief and pain — even if simultaneously suffered — do not add up as a whole in our consciousness, but hide, the lesser behind the greater, according to the law of perspective.”
+              </blockquote>
+<div class="my-take-wrap">
+<div class="my-take-text collapsed" id="take-itian-1">
+                  This has me reflecting on the idea of the <a href="https://www.psychologytoday.com/us/basics/hedonic-treadmill">hedonic treadmill</a>. The idea that individual's level of happiness, after rising or falling in response to positive or negative life events, ultimately tends to move back toward where it was prior to these experiences.
+                </div>
+<button class="my-take-toggle" data-state="collapsed" data-target="take-itian-1" style="display:none;">read more ↓</button>
+</div>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+<a class="resource-tag" data-tag="Psychology" href="/resources?tag=Psychology">#Psychology</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 52 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Hearth and the Salamander  ·  p. 52</div>
+<blockquote class="resource-blockquote">
+                “Whirl man’s mind around so fast under the pumping hands of publishers, exploiters, broadcasters that the centrifuge flings off all unnecessary, time-wasting thought!”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Attention" href="/resources?tag=Attention">#Attention</a>
+<a class="resource-tag" data-tag="DeepWork" href="/resources?tag=DeepWork">#DeepWork</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 56 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Hearth and the Salamander  ·  p. 56</div>
+<blockquote class="resource-blockquote">
+                “Who knows who might be the target of the well-read man?”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Reading" href="/resources?tag=Reading">#Reading</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 80 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 80</div>
+<blockquote class="resource-blockquote">
+                “Off hours, yes. But time to think? If you’re not driving a hundred miles an hour, at a clip where you can’t think of anything else but the danger, then you’re playing some game or sitting in some room where you can’t argue with the four-wall televisor.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Attention" href="/resources?tag=Attention">#Attention</a>
+<a class="resource-tag" data-tag="DeepWork" href="/resources?tag=DeepWork">#DeepWork</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 81 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 81</div>
+<blockquote class="resource-blockquote">
+                “Only if the third necessary thing could be given to us. Number one, as I said, quality of information. Number two: leisure time to digest it. And number three: the right to carry out actions based on what we learn from the interaction of the first two.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="DeepWork" href="/resources?tag=DeepWork">#DeepWork</a>
+<a class="resource-tag" data-tag="Reading" href="/resources?tag=Reading">#Reading</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 83 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 83</div>
+<blockquote class="resource-blockquote">
+                “The public itself stopped reading of its own accord.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Reading" href="/resources?tag=Reading">#Reading</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 104 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 104</div>
+<blockquote class="resource-blockquote">
+                “The most dangerous enemy to truth and freedom, the solid unmoving cattle of the majority.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 144 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  Burning Bright  ·  p. 144</div>
+<blockquote class="resource-blockquote">
+                “All of us have photographic memories, but spend a lifetime learning how to block off the things that are really in there.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+<a class="resource-tag" data-tag="Psychology" href="/resources?tag=Psychology">#Psychology</a>
+</div>
+</li>
+<!-- ══ Fahrenheit 451 · p. 150 ══ -->
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
+</div>
+<div class="resource-meta">Ray Bradbury  ·  Burning Bright  ·  p. 150</div>
+<blockquote class="resource-blockquote">
+                “Ask no guarantees, ask for no security, there never was such an animal. And if there were, it would be related to the great sloth which hangs upside down in a tree all day everyday, sleeping its life away.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 116 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-a-marriage-at-sea">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Sophie Elmhirst  ·  p. 116</div>
+<blockquote class="resource-blockquote">
+                “It is possible to write yourself out of loneliness. Possible, too, to write yourself into being.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Writing" href="/resources?tag=Writing">#Writing</a>
+<a class="resource-tag" data-tag="Solitude" href="/resources?tag=Solitude">#Solitude</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 167 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-a-marriage-at-sea">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Sophie Elmhirst  ·  p. 167</div>
+<blockquote class="resource-blockquote">
+                “I discover that men may be physically the stronger of the sexes but mentally women are tops.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 176 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-a-marriage-at-sea">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Sophie Elmhirst  ·  p. 176</div>
+<blockquote class="resource-blockquote">
+                “Solitude, when chosen, can feel like such a gift.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="Solitude" href="/resources?tag=Solitude">#Solitude</a>
+<a class="resource-tag" data-tag="DeepWork" href="/resources?tag=DeepWork">#DeepWork</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 196 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-a-marriage-at-sea">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Sophie Elmhirst  ·  p. 196</div>
+<blockquote class="resource-blockquote">
+                “Fame had taught Maurice one of its many questionable lessons: that it is possible to perform life for the sake of a good photograph.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+<a class="resource-tag" data-tag="Creativity" href="/resources?tag=Creativity">#Creativity</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 235 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-a-marriage-at-sea">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Sophie Elmhirst  ·  p. 235</div>
+<blockquote class="resource-blockquote">
+                “It was work for its own sake. Not everything has to be seen.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="DeepWork" href="/resources?tag=DeepWork">#DeepWork</a>
+<a class="resource-tag" data-tag="Creativity" href="/resources?tag=Creativity">#Creativity</a>
+</div>
+</li>
+<!-- ══ A Marriage at Sea · p. 235 ══ -->
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<span class="media-badge media-badge--book">Book</span>
+<div class="resource-title">
+<a href="/book-notes-a-marriage-at-sea">A Marriage at Sea</a>
+</div>
+<div class="resource-meta">Sophie Elmhirst  ·  p. 235</div>
+<blockquote class="resource-blockquote">
+                “Measure its success by the extent to which you have loved and been loved.”
+              </blockquote>
+<div class="resource-tags">
+<a class="resource-tag" data-tag="HumanNature" href="/resources?tag=HumanNature">#HumanNature</a>
+</div>
+</li>
+</ul>
+</div>
+</main>
+</div>
+<!-- /main-layout -->
+<footer class="site-footer">
+      Thomas Denny © <span class="footer-year"></span>  |  Built with intention, not a template.
+    </footer>
+</div>
+<!-- /page-wrapper -->
+<script src="../script.js"></script>
+<script>
+    // ── State ──────────────────────────────────────────────
+    var activeTags   = [];   // array — supports multi-select
+    var activeTypes  = [];   // empty = all; otherwise array of selected types
+    var activeSearch = '';
+
+    // ── Searchable text for each entry (read from DOM) ──────
+    function getEntryText(entry) {
+      return [
+        entry.querySelector('.resource-title')      ? entry.querySelector('.resource-title').textContent      : '',
+        entry.querySelector('.resource-meta')       ? entry.querySelector('.resource-meta').textContent       : '',
+        entry.querySelector('.resource-blockquote') ? entry.querySelector('.resource-blockquote').textContent : '',
+        entry.querySelector('.resource-attribution')? entry.querySelector('.resource-attribution').textContent: '',
+        entry.querySelector('.resource-why')        ? entry.querySelector('.resource-why').textContent        : '',
+        entry.querySelector('.my-take-text')        ? entry.querySelector('.my-take-text').textContent        : ''
+      ].join(' ').toLowerCase();
+    }
+
+    // ── Tag counts: read from DOM data-tag attributes ───────
+    function getTagsFromDOM() {
+      var counts = {};
+      document.querySelectorAll('#resource-list .resource-tag').forEach(function(a) {
+        var tag = a.getAttribute('data-tag');
+        if (tag) counts[tag] = (counts[tag] || 0) + 1;
+      });
+      return counts;
+    }
+
+    // ── Update URL (pushState) ─────────────────────────────
+    function updateURL() {
+      var url = '/resources';
+      if (activeTags.length > 0) url += '?tag=' + activeTags.join(',');
+      history.pushState(null, '', url);
+    }
+
+    // ── Toggle a tag on/off ────────────────────────────────
+    function toggleTag(tag) {
+      var idx = activeTags.indexOf(tag);
+      if (idx === -1) { activeTags.push(tag); }
+      else            { activeTags.splice(idx, 1); }
+      updateURL();
+      syncControls();
+    }
+
+    // ── Build tag cloud ────────────────────────────────────
+    function buildTagCloud() {
+      var counts = getTagsFromDOM();
+      var sorted = Object.entries(counts).sort(function(a,b){ return a[0].localeCompare(b[0]); });
+      var cloud = document.getElementById('res-tag-cloud');
+      if (!cloud) return;
+      cloud.innerHTML = sorted.map(function(pair) {
+        var isActive = activeTags.indexOf(pair[0]) !== -1;
+        return '<a href="/resources?tag=' + pair[0]
+          + '" class="res-tag-cloud-pill' + (isActive ? ' active-tag-pill' : '')
+          + '" data-tag="' + pair[0] + '">'
+          + '#' + pair[0]
+          + ' <span class="res-tag-count">(' + pair[1] + ')</span>'
+          + '</a>';
+      }).join('');
+      cloud.querySelectorAll('.res-tag-cloud-pill').forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          toggleTag(this.getAttribute('data-tag'));
+        });
+      });
+    }
+
+    // ── Build "Browse by Tag" sidebar ──────────────────────
+    function buildTagSidebar() {
+      var counts = getTagsFromDOM();
+      var sorted = Object.entries(counts).sort(function(a,b){ return a[0].localeCompare(b[0]); });
+      var list = document.getElementById('res-tag-list');
+      if (!list) return;
+      list.innerHTML = sorted.map(function(pair) {
+        var tag = pair[0], count = pair[1];
+        var isActive = activeTags.indexOf(tag) !== -1;
+        var style = isActive
+          ? 'display:block;padding:3px 0;font-size:11px;color:#FF6600;font-weight:bold;text-decoration:none;'
+          : 'display:block;padding:3px 0;font-size:11px;color:#336699;text-decoration:none;';
+        return '<a href="/resources?tag=' + tag + '" style="' + style + '" data-tag="' + tag + '">'
+          + '#' + tag
+          + ' <span style="color:#99AACC;font-size:10px;">(' + count + ')</span></a>';
+      }).join('');
+      list.querySelectorAll('a[data-tag]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          toggleTag(this.getAttribute('data-tag'));
+        });
+      });
+    }
+
+    // ── Update active state on entry tag pills ─────────────
+    function updateEntryTagPills() {
+      document.querySelectorAll('#resource-list .resource-tag').forEach(function(a) {
+        var tag = a.getAttribute('data-tag');
+        a.classList.toggle('active-tag-pill', tag !== null && activeTags.indexOf(tag) !== -1);
+      });
+      // entry tag pill clicks — delegated once at init; toggling happens via data-tag
+    }
+
+    // ── Banner: show active tags + back button ─────────────
+    function updateBanner(visibleCount) {
+      var banner = document.getElementById('active-tag-banner');
+      if (!banner) return;
+      var cloudSection = document.getElementById('res-tag-cloud-section');
+      var hasFilters = activeTags.length > 0 || activeSearch;
+
+      // Tag cloud always stays visible so users can keep selecting tags
+      if (cloudSection) cloudSection.style.display = '';
+
+      if (hasFilters) {
+        banner.style.display = 'block';
+
+        var tagPills = activeTags.map(function(t) {
+          return '<strong>#' + t + '</strong>';
+        }).join(', ');
+
+        if (activeTags.length > 0 && activeSearch) {
+          banner.innerHTML = '<strong>' + visibleCount + ' result' + (visibleCount !== 1 ? 's' : '')
+            + '</strong> for &ldquo;' + activeSearch + '&rdquo; in ' + tagPills
+            + ' &nbsp;&middot;&nbsp; <a href="#" id="res-clear-tags-link">← clear tags</a>'
+            + ' &nbsp;/&nbsp; <a href="#" id="res-clear-all-link">clear all</a>';
+        } else if (activeTags.length > 0) {
+          banner.innerHTML = 'Showing <strong>' + visibleCount + ' resource' + (visibleCount !== 1 ? 's' : '')
+            + '</strong> tagged ' + tagPills
+            + ' &nbsp;&middot;&nbsp; <a href="#" id="res-clear-tags-link">← all tags</a>';
+        } else {
+          banner.innerHTML = '<strong>' + visibleCount + ' result' + (visibleCount !== 1 ? 's' : '')
+            + '</strong> for &ldquo;' + activeSearch + '&rdquo;'
+            + ' &nbsp;&middot;&nbsp; <a href="#" id="res-clear-search-link">← clear</a>';
+        }
+      } else {
+        banner.style.display = 'none';
+      }
+    }
+
+    // ── Filter entries (type + tags + search) ─────────────
+    function applyFilters() {
+      var q = (activeSearch || '').trim().toLowerCase();
+      var entries = document.querySelectorAll('#resource-list .resource-entry');
+      var visible = 0;
+      entries.forEach(function(entry) {
+        var typeOk = activeTypes.length === 0 || activeTypes.indexOf(entry.getAttribute('data-type')) !== -1;
+
+        var tagOk = activeTags.length === 0;
+        if (!tagOk) {
+          entry.querySelectorAll('.resource-tag').forEach(function(a) {
+            var t = a.getAttribute('data-tag');
+            if (t && activeTags.indexOf(t) !== -1) tagOk = true;
+          });
+        }
+
+        var searchOk = !q || getEntryText(entry).indexOf(q) !== -1;
+
+        var show = typeOk && tagOk && searchOk;
+        entry.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      return visible;
+    }
+
+
+    // ── Constants ─────────────────────────────────────────────
+    var LOAD_BATCH = 10;
+
+    // ── Book group rendering ───────────────────────────────────
+    function renderBookGroups() {
+      // Remove previous group headers
+      document.querySelectorAll('.book-group-row').forEach(function(el) {
+        el.parentNode.removeChild(el);
+      });
+
+      // Collect filter-passing book entries
+      var bookEntries = Array.from(document.querySelectorAll(
+        '#resource-list .resource-entry[data-type="book"]'
+      )).filter(function(e) { return e.style.display !== 'none'; });
+
+      if (bookEntries.length === 0) return;
+
+      // Group by data-book, preserving DOM order
+      var groups = {}, groupOrder = [];
+      bookEntries.forEach(function(entry) {
+        var book = entry.getAttribute('data-book');
+        if (!groups[book]) { groups[book] = []; groupOrder.push(book); }
+        groups[book].push(entry);
+      });
+
+      // Auto-expand when tag or search filters are active
+      var autoExpand = activeTags.length > 0 || activeSearch.trim().length > 0;
+
+      groupOrder.forEach(function(book) {
+        var entries = groups[book];
+        var first   = entries[0];
+        var titleA  = first.querySelector('.resource-title a');
+        var bookUrl = titleA ? titleA.getAttribute('href') : '#';
+        var metaEl  = first.querySelector('.resource-meta');
+        var author  = metaEl ? metaEl.textContent.split('\u00b7')[0].trim() : '';
+
+        // Build header LI
+        var header = document.createElement('li');
+        header.className = 'book-group-row';
+        header.setAttribute('data-book-group', book);
+        header.setAttribute('data-expanded', autoExpand ? 'true' : 'false');
+        header.innerHTML =
+          '<div class="book-group-header">' +
+            '<div>' +
+              '<a href="../' + bookUrl + '" class="book-group-title" onclick="event.stopPropagation()">' + book + '</a>' +
+              '<span class="book-group-meta"> &nbsp;&middot;&nbsp; ' + author +
+                ' &nbsp;&middot;&nbsp; ' + entries.length + ' passage' + (entries.length !== 1 ? 's' : '') +
+              '</span>' +
+            '</div>' +
+            '<span class="book-group-chevron">' + (autoExpand ? '&#9650;' : '&#9660;') + '</span>' +
+          '</div>';
+
+        // Insert before first entry in this group
+        first.parentNode.insertBefore(header, first);
+
+        // Collapse individual entries unless auto-expanding
+        if (!autoExpand) {
+          entries.forEach(function(e) { e.style.display = 'none'; });
+        }
+
+        // Toggle on click
+        header.addEventListener('click', function() {
+          var isExpanded = this.getAttribute('data-expanded') === 'true';
+          var next = !isExpanded;
+          this.setAttribute('data-expanded', next ? 'true' : 'false');
+          this.querySelector('.book-group-chevron').innerHTML = next ? '&#9650;' : '&#9660;';
+          entries.forEach(function(e) { e.style.display = next ? '' : 'none'; });
+        });
+      });
+    }
+
+    // ── Load more for articles / quotes / videos ───────────────
+    function applyLoadMore() {
+      // Remove previous button
+      var old = document.getElementById('res-load-more');
+      if (old) old.parentNode.removeChild(old);
+
+      var nonBook = Array.from(document.querySelectorAll(
+        '#resource-list .resource-entry:not([data-type="book"])'
+      )).filter(function(e) { return e.style.display !== 'none'; });
+
+      if (nonBook.length <= LOAD_BATCH) return;
+
+      // Hide entries beyond first batch
+      nonBook.slice(LOAD_BATCH).forEach(function(e) { e.style.display = 'none'; });
+
+      var list = document.getElementById('resource-list');
+      var btn  = document.createElement('button');
+      btn.id = 'res-load-more';
+      btn.className = 'load-more-btn';
+
+      function updateBtn() {
+        var hidden = nonBook.filter(function(e) { return e.style.display === 'none'; });
+        if (hidden.length === 0) {
+          btn.parentNode.removeChild(btn);
+          return;
+        }
+        btn.textContent = 'Load more (' + hidden.length + ' remaining)';
+      }
+
+      btn.addEventListener('click', function() {
+        var hidden = nonBook.filter(function(e) { return e.style.display === 'none'; });
+        hidden.slice(0, LOAD_BATCH).forEach(function(e) { e.style.display = ''; });
+        updateBtn();
+      });
+
+      updateBtn();
+      list.parentNode.insertBefore(btn, list.nextSibling);
+    }
+
+    // ── Sync everything ────────────────────────────────────
+    function syncControls() {
+      document.querySelectorAll('.media-filter-btn').forEach(function(b) {
+        var t = b.getAttribute('data-type');
+        b.classList.toggle('active', t === 'all' ? activeTypes.length === 0 : activeTypes.indexOf(t) !== -1);
+      });
+      document.querySelectorAll('.genre-filter').forEach(function(a) {
+        var t = a.getAttribute('data-type');
+        a.classList.toggle('active', t === 'all' ? activeTypes.length === 0 : activeTypes.indexOf(t) !== -1);
+      });
+      var visible = applyFilters();
+      renderBookGroups();
+      applyLoadMore();
+      updateBanner(visible);
+      buildTagCloud();
+      buildTagSidebar();
+      updateEntryTagPills();
+      ['article', 'quote', 'video', 'book'].forEach(function(t) {
+        var el = document.getElementById('count-' + t);
+        if (el) el.textContent = document.querySelectorAll('#resource-list [data-type="' + t + '"]').length;
+      });
+    }
+
+    // ── Init ───────────────────────────────────────────────
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var tagParam = params.get('tag') || '';
+      activeTags = tagParam ? tagParam.split(',').filter(Boolean) : [];
+
+      syncControls();
+
+      // Top filter bar buttons
+      document.querySelectorAll('.media-filter-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var t = this.getAttribute('data-type');
+          if (t === 'all') {
+            activeTypes = [];
+          } else {
+            var idx = activeTypes.indexOf(t);
+            if (idx === -1) { activeTypes.push(t); }
+            else            { activeTypes.splice(idx, 1); }
+          }
+          syncControls();
+        });
+      });
+
+      // Sidebar type filter links
+      document.querySelectorAll('.genre-filter').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var t = this.getAttribute('data-type');
+          if (t === 'all') {
+            activeTypes = [];
+          } else {
+            var idx = activeTypes.indexOf(t);
+            if (idx === -1) { activeTypes.push(t); }
+            else            { activeTypes.splice(idx, 1); }
+          }
+          syncControls();
+        });
+      });
+
+      // Search input
+      var searchInput = document.getElementById('res-search');
+      var clearBtn    = document.getElementById('res-search-clear');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', function() {
+          activeSearch = this.value;
+          clearBtn.style.display = activeSearch.trim() ? 'inline-block' : 'none';
+          syncControls();
+        });
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+          searchInput.value = '';
+          activeSearch = '';
+          clearBtn.style.display = 'none';
+          syncControls();
+        });
+      }
+
+      // Entry tag pill clicks (delegated to resource-list)
+      document.getElementById('resource-list').addEventListener('click', function(e) {
+        var a = e.target.closest('.resource-tag');
+        if (a && a.getAttribute('data-tag')) {
+          e.preventDefault();
+          toggleTag(a.getAttribute('data-tag'));
+        }
+      });
+
+      // Banner link clicks (delegated — banner is re-rendered on each sync)
+      document.getElementById('active-tag-banner').addEventListener('click', function(e) {
+        var t = e.target;
+        if (!t) return;
+        if (t.id === 'res-clear-tags-link') {
+          e.preventDefault();
+          activeTags = [];
+          updateURL();
+          syncControls();
+        } else if (t.id === 'res-clear-all-link') {
+          e.preventDefault();
+          activeTags = [];
+          activeSearch = '';
+          if (searchInput) searchInput.value = '';
+          if (clearBtn) clearBtn.style.display = 'none';
+          updateURL();
+          syncControls();
+        } else if (t.id === 'res-clear-search-link') {
+          e.preventDefault();
+          activeSearch = '';
+          if (searchInput) searchInput.value = '';
+          if (clearBtn) clearBtn.style.display = 'none';
+          syncControls();
+        }
+      });
+
+      // Read more / read less toggle
+      var LINE_HEIGHT = 12 * 1.65;
+      var MAX_HEIGHT  = Math.round(LINE_HEIGHT * 4);
+
+      document.querySelectorAll('.my-take-text').forEach(function(el) {
+        el.classList.remove('collapsed');
+        el.style.maxHeight = 'none';
+        var naturalHeight = el.scrollHeight;
+        el.classList.add('collapsed');
+        el.style.maxHeight = '';
+        var btn = el.nextElementSibling;
+        if (naturalHeight > MAX_HEIGHT + 4) { btn.style.display = 'inline-block'; }
+      });
+
+      document.querySelectorAll('.my-take-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var el = document.getElementById(this.getAttribute('data-target'));
+          var state = this.getAttribute('data-state');
+          if (state === 'collapsed') {
+            el.classList.remove('collapsed'); el.classList.add('expanded');
+            this.setAttribute('data-state', 'expanded');
+            this.textContent = 'read less ↑';
+          } else {
+            el.classList.remove('expanded'); el.classList.add('collapsed');
+            this.setAttribute('data-state', 'collapsed');
+            this.textContent = 'read more ↓';
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

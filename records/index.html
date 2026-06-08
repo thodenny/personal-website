@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Record Collection — Thomas Denny</title>
+  <link rel="stylesheet" href="../styles.css" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://iamthomasdenny.com/records/" />
+  <meta property="og:title"       content="Record Collection — Thomas Denny" />
+  <meta property="og:description" content="The vinyl on my shelf, and whatever is on the platter right now." />
+  <meta property="og:image"       content="https://iamthomasdenny.com/me.jpg" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Record Collection — Thomas Denny" />
+  <meta name="twitter:description" content="The vinyl on my shelf, and whatever is on the platter right now." />
+  <meta name="twitter:image"       content="https://iamthomasdenny.com/me.jpg" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="alternate" type="application/rss+xml" title="Thomas Denny" href="/feed.xml" />
+
+  <style>
+    /* ── Record collection page ───────────────────────────────────────── */
+
+    .rec-subtitle {
+      font-size: 11px;
+      color: #6688aa;
+      font-style: italic;
+      letter-spacing: 0.3px;
+      margin: 0 0 6px;
+    }
+
+    /* ── Now Spinning featured card ───────────────────────────────────── */
+    .rec-now {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin: 16px 0 4px;
+      padding: 18px 20px;
+      background: linear-gradient(135deg, #20242b 0%, #2d3340 60%, #1b1f26 100%);
+      border: 1px solid #003366;
+      border-radius: 3px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.10),
+        1px 1px 0 #99AACC;
+    }
+
+    /* turntable: vinyl disc slides out from behind the cover and spins */
+    .rec-platter {
+      position: relative;
+      flex: 0 0 178px;
+      width: 178px;
+      height: 132px;
+    }
+    .rec-vinyl {
+      position: absolute;
+      top: 0;
+      left: 46px;
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 0deg,
+          rgba(255,255,255,0)    0deg,
+          rgba(255,255,255,0.22) 26deg,
+          rgba(255,255,255,0)    64deg,
+          rgba(255,255,255,0)    150deg,
+          rgba(255,255,255,0.14) 186deg,
+          rgba(255,255,255,0)    224deg,
+          rgba(255,255,255,0)    360deg),
+        radial-gradient(circle at center,
+          #d8b24a 0 17%,
+          #11131a 17% 19%,
+          #20242c 19% 100%);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.55);
+      animation: rec-spin 3.4s linear infinite;
+    }
+    /* grooves */
+    .rec-vinyl::before {
+      content: '';
+      position: absolute;
+      inset: 19%;
+      border-radius: 50%;
+      background: repeating-radial-gradient(
+        circle at center,
+        rgba(255,255,255,0.05) 0 1px,
+        rgba(0,0,0,0) 1px 4px);
+    }
+    /* spindle hole */
+    .rec-vinyl::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      margin: -3px 0 0 -3px;
+      border-radius: 50%;
+      background: #2d3340;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.6);
+    }
+    @keyframes rec-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .rec-now-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 132px;
+      height: 132px;
+      border: 1px solid #000000;
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+      z-index: 2;
+      background: #11131a;
+    }
+    .rec-now-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .rec-now-body { flex: 1; min-width: 0; color: #e8ebf0; }
+    .rec-now-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: #ffd966;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .rec-now-pip {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #6ec96e;
+      box-shadow: 0 0 4px rgba(110, 201, 110, 0.9);
+      margin-right: 5px;
+      vertical-align: middle;
+      animation: rec-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes rec-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(110, 201, 110, 0.7); }
+      50%      { box-shadow: 0 0 0 5px rgba(110, 201, 110, 0); }
+    }
+    .rec-now-title {
+      font-family: Georgia, serif;
+      font-size: 19px;
+      font-weight: bold;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 2px;
+    }
+    .rec-now-artist {
+      font-size: 12px;
+      color: #9fb4cc;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .rec-now-artist .rec-now-year { color: #6f829a; font-style: normal; }
+    .rec-now-note {
+      font-size: 12px;
+      color: #c6cedb;
+      line-height: 1.5;
+      margin: 0 0 8px;
+    }
+    .rec-now-since {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #7f8da0;
+      padding-top: 7px;
+      border-top: 1px dotted rgba(255,255,255,0.14);
+    }
+    .rec-now-since strong { color: #cdd9e8; }
+
+    /* play control on the Now Spinning card */
+    .rec-now.is-playing .rec-vinyl { animation-duration: 1.25s; }
+    .rec-play {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 10px;
+      padding: 4px 13px 4px 4px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 16px;
+      color: #c6cedb;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .rec-play:hover { background: rgba(255, 255, 255, 0.14); }
+    .rec-play-icon {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, #4477aa 0%, #1a4d8a 100%);
+      border: 1px solid #001a33;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #ffffff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    .rec-play-track strong { color: #ffffff; }
+
+    /* ── Meta bar ─────────────────────────────────────────────────────── */
+    .rec-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 12px 4px 14px;
+      font-size: 11px;
+      color: #6688aa;
+      border-bottom: 1px dashed #cdd9e8;
+      margin-bottom: 16px;
+    }
+    .rec-stats strong { color: #003366; }
+    .rec-needle-btn {
+      font-family: Verdana, sans-serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.4px;
+      color: #ffffff;
+      background: linear-gradient(to bottom, #4477aa 0%, #1a4d8a 100%);
+      border: 1px solid #003366;
+      border-radius: 3px;
+      padding: 4px 11px;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 1px 1px 0 #99AACC;
+      transition: background 0.15s;
+    }
+    .rec-needle-btn:hover { background: linear-gradient(to bottom, #c8930a 0%, #8a6500 100%); }
+    .rec-needle-btn:active { transform: translateY(1px); }
+
+    /* drop-the-needle highlight on the chosen tile */
+    @keyframes rec-needle-flash {
+      0%, 100% { box-shadow: 1px 1px 0 #99AACC; border-color: #99AACC; }
+      25%, 75% {
+        box-shadow: 0 0 0 3px rgba(200,147,10,0.55), 2px 5px 0 #99AACC;
+        border-color: #c8930a;
+      }
+    }
+    .rec-tile.is-needled { animation: rec-needle-flash 1.7s ease-in-out; }
+    /* quick highlight as the roulette hops cover to cover */
+    .rec-tile.is-shuffling {
+      transition: none;
+      border-color: #c8930a;
+      box-shadow: 0 0 0 2px rgba(200, 147, 10, 0.65), 2px 4px 0 #99AACC;
+    }
+
+    /* ── Drop-the-needle reveal overlay ────────────────────────────────── */
+    .rec-reveal {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(8, 12, 20, 0.74);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    .rec-reveal.is-open { opacity: 1; pointer-events: auto; }
+    .rec-reveal-card {
+      position: relative;
+      width: 360px;
+      max-width: 100%;
+      background: linear-gradient(135deg, #20242b 0%, #2d3340 60%, #1b1f26 100%);
+      border: 1px solid #003366;
+      border-radius: 4px;
+      box-shadow: 0 14px 44px rgba(0, 0, 0, 0.65);
+      padding: 20px 22px;
+      text-align: center;
+      color: #e8ebf0;
+      transform: scale(0.78) translateY(12px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .rec-reveal.is-open .rec-reveal-card { transform: scale(1) translateY(0); }
+    .rev-close {
+      position: absolute;
+      top: 6px;
+      right: 9px;
+      width: 22px;
+      height: 22px;
+      border: none;
+      background: transparent;
+      color: #7f8da0;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .rev-close:hover { color: #ffffff; }
+    .rev-eyebrow {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      color: #ffd966;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+    .rev-platter {
+      position: relative;
+      width: 188px;
+      height: 150px;
+      margin: 0 auto 14px;
+    }
+    .rev-vinyl {
+      position: absolute;
+      top: 0;
+      left: 38px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 0deg,
+          rgba(255,255,255,0) 0deg, rgba(255,255,255,0.22) 26deg,
+          rgba(255,255,255,0) 64deg, rgba(255,255,255,0) 150deg,
+          rgba(255,255,255,0.14) 186deg, rgba(255,255,255,0) 224deg,
+          rgba(255,255,255,0) 360deg),
+        radial-gradient(circle at center,
+          #d8b24a 0 17%, #11131a 17% 19%, #20242c 19% 100%);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+      animation: rec-spin 2.6s linear infinite;
+    }
+    .rev-vinyl::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      margin: -3px 0 0 -3px;
+      border-radius: 50%;
+      background: #2d3340;
+    }
+    .rev-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 150px;
+      height: 150px;
+      border: 1px solid #000000;
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.55);
+      z-index: 2;
+      background: #11131a;
+    }
+    .rev-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .rev-title {
+      font-family: Georgia, serif;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      line-height: 1.25;
+    }
+    .rev-artist {
+      font-size: 12px;
+      color: #9fb4cc;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .rev-note {
+      font-size: 12px;
+      color: #c6cedb;
+      line-height: 1.5;
+      margin: 0 0 14px;
+    }
+    .rev-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .rev-btn {
+      font-family: Verdana, sans-serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.4px;
+      padding: 6px 13px;
+      border-radius: 3px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid #003366;
+      transition: background 0.15s;
+    }
+    .rev-btn-primary {
+      color: #ffffff;
+      background: linear-gradient(to bottom, #4477aa 0%, #1a4d8a 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    .rev-btn-primary:hover { background: linear-gradient(to bottom, #c8930a 0%, #8a6500 100%); }
+    .rev-btn-ghost {
+      color: #c6cedb;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .rev-btn-ghost:hover { background: rgba(255, 255, 255, 0.14); color: #ffffff; }
+    @media (prefers-reduced-motion: reduce) {
+      .rev-vinyl { animation: none; }
+      .rec-reveal-card { transition: opacity 0.2s ease; transform: none; }
+    }
+
+    /* ── Cover wall ───────────────────────────────────────────────────── */
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 760px) {
+      .rec-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .rec-tile {
+      position: relative;
+      background: #ffffff;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      padding: 8px 8px 10px;
+      text-align: center;
+      box-shadow: 1px 1px 0 #99AACC;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .rec-tile:hover {
+      transform: translateY(-3px) rotate(-0.4deg);
+      box-shadow: 2px 5px 0 #99AACC;
+      border-color: #336699;
+    }
+
+    .rec-cover-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      margin-bottom: 8px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f0f5ff 0%, #e4edf8 100%);
+    }
+    .rec-cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* label-style fallback when there is no cover image */
+    .rec-label {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at center,
+          #e4edf8 0 30%,
+          #11131a 30% 33%,
+          #20242c 33% 100%);
+    }
+    .rec-label-disc {
+      width: 56%;
+      height: 56%;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a4d8a 0%, #4477aa 60%, #6699cc 100%);
+      color: #ffffff;
+      font-family: Georgia, serif;
+      font-weight: bold;
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 0 3px #11131a, inset 0 0 0 1px rgba(255,255,255,0.2);
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+
+    .rec-genre {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(0, 18, 40, 0.78);
+      color: #ffd966;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 2px;
+      z-index: 3;
+    }
+
+    /* clickable cover → opens the full album on YouTube */
+    .rec-cover-link { display: block; cursor: pointer; }
+    .rec-cover-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      margin: -20px 0 0 -20px;
+      border-radius: 50%;
+      background: rgba(10, 16, 28, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      color: #ffffff;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 3px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .rec-cover-link:hover .rec-cover-play {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .rec-tile-title {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: bold;
+      color: #003366;
+      line-height: 1.2;
+      margin-bottom: 1px;
+    }
+    .rec-tile:hover .rec-tile-title { color: #FF6600; }
+    .rec-tile-artist {
+      font-size: 10px;
+      color: #6688aa;
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+    .rec-tile-artist .rec-tile-year { color: #99AACC; font-style: normal; }
+    .rec-tile-note {
+      font-size: 11px;
+      color: #555566;
+      line-height: 1.45;
+      margin: 0;
+      flex-grow: 1;
+    }
+    .rec-tile-acquired {
+      font-size: 9px;
+      color: #99AACC;
+      letter-spacing: 0.3px;
+      padding-top: 6px;
+      margin-top: 6px;
+      border-top: 1px dotted #cdd9e8;
+    }
+
+    @media (max-width: 560px) {
+      .rec-now { flex-direction: column; text-align: center; }
+      .rec-platter { left: -23px; }
+      .rec-now-since { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .rec-vinyl { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ======================================================
+         NAVIGATION BAR
+    ====================================================== -->
+    <nav class="main-nav">
+      <a href="/" class="nav-title">thomas denny</a>
+      <a href="/" class="nav-link">Home</a>
+      <a href="/now"   class="nav-link">Now</a>
+      <a href="/about" class="nav-link">About Me</a>
+      <a href="/blog"  class="nav-link">Blog</a>
+      <a href="/books" class="nav-link">Books</a>
+      <a href="/projects" class="nav-link">Projects</a>
+      <a href="/deepwork" class="nav-link">Deep Work</a>
+      <a href="/resources" class="nav-link">Knowledge Base</a>
+    </nav>
+
+    <!-- ======================================================
+         MAIN LAYOUT
+    ====================================================== -->
+    <div class="main-layout">
+
+      <!-- ====================================================
+           LEFT COLUMN — Compact Profile Card
+      ==================================================== -->
+      <aside class="col-left-sm">
+
+        <div class="profile-card-sm">
+          <img src="../me.jpg" alt="Thomas Denny" />
+          <div class="pcm-name">Thomas Denny</div>
+          <div class="pcm-status">
+            <span class="online-dot"></span> Online Now
+          </div>
+          <div class="pcm-mood">Mood: <span>Crate-digging</span></div>
+          <a href="/" class="btn-back-home">← Back to Profile</a>
+        </div>
+
+        <div class="sidebar-page-nav">
+          <div class="spn-title">Pages</div>
+          <a href="/">Home</a>
+          <a href="/now">Now</a>
+          <a href="/about">About Me</a>
+          <a href="/blog">Blog</a>
+          <a href="/books">Books</a>
+          <a href="/projects">Projects</a>
+          <a href="/deepwork">Deep Work</a>
+          <a href="/resources">Knowledge Base</a>
+          <a href="/repertoire">Repertoire</a>
+          <a href="/records" class="current">Records</a>
+        </div>
+
+        <div class="sidebar-page-nav" id="rec-genre-nav" style="margin-top:0;">
+          <div class="spn-title">Filter by Genre</div>
+        </div>
+
+      </aside>
+
+      <!-- ====================================================
+           RIGHT COLUMN — Records
+      ==================================================== -->
+      <main class="col-right">
+
+        <div class="section-header">The Record Shelf</div>
+        <div class="content-box inner-content" style="padding:14px;">
+
+          <div class="rec-subtitle">Only records I own — hit &ldquo;Drop the needle&rdquo; to land on one at random.</div>
+
+          <div class="rec-now" id="rec-now"></div>
+
+          <div class="rec-meta-bar">
+            <span class="rec-stats" id="rec-stats">&mdash;</span>
+            <button class="rec-needle-btn" id="rec-needle" type="button">&#10022; Drop the needle</button>
+          </div>
+
+          <div class="rec-grid" id="rec-grid"></div>
+
+        </div>
+
+      </main>
+
+    </div>
+    <!-- /main-layout -->
+
+    <footer class="site-footer">
+      Thomas Denny &copy; <span class="footer-year"></span> &nbsp;|&nbsp; Built with intention, not a template.
+    </footer>
+
+  </div>
+  <!-- /page-wrapper -->
+
+  <!-- Drop-the-needle reveal -->
+  <div class="rec-reveal" id="rec-reveal" aria-hidden="true">
+    <div class="rec-reveal-card" id="rec-reveal-card" role="dialog" aria-label="Random record pick"></div>
+  </div>
+
+  <script src="../script.js"></script>
+  <script src="../records-data.js"></script>
+  <script>
+    (function() {
+      if (typeof recordCollection === 'undefined') return;
+      var grid = document.getElementById('rec-grid');
+      if (!grid) return;
+
+      function escapeHTML(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+          return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+        });
+      }
+
+      function initials(name) {
+        var parts = String(name || '').trim().split(/\s+/);
+        var s = parts[0] ? parts[0].charAt(0) : '';
+        if (parts.length > 1) s += parts[parts.length - 1].charAt(0);
+        return s.toUpperCase() || '?';
+      }
+
+      function coverMarkup(rec) {
+        if (rec.cover) {
+          return '<img src="../' + escapeHTML(rec.cover) + '" alt="' +
+                 escapeHTML(rec.artist + ' — ' + rec.title) + '">';
+        }
+        return '<div class="rec-label"><div class="rec-label-disc">' +
+               escapeHTML(initials(rec.artist)) + '</div></div>';
+      }
+
+      // Wraps the cover in a YouTube link (full-album video) when one exists.
+      function coverBlock(rec, baseClass, inner) {
+        if (rec.youtube) {
+          return '<a class="' + baseClass + ' rec-cover-link" href="../' +
+            escapeHTML(rec.youtube) + '" target="_blank" rel="noopener noreferrer" ' +
+            'title="Watch ' + escapeHTML(rec.title) + ' on YouTube">' + inner +
+            '<span class="rec-cover-play" aria-hidden="true">&#9654;</span></a>';
+        }
+        return '<div class="' + baseClass + '">' + inner + '</div>';
+      }
+
+      // ── Now Spinning ──────────────────────────────────────────────────
+      var now = recordCollection.filter(function(r) {
+        return r.id === (typeof nowSpinningId !== 'undefined' ? nowSpinningId : null);
+      })[0];
+
+      var nowEl = document.getElementById('rec-now');
+      if (now && nowEl) {
+        var since = (typeof nowSpinningSince !== 'undefined' && nowSpinningSince)
+          ? nowSpinningSince : 'lately';
+
+        var playControl = '';
+        var audioEl = '';
+        if (now.audio) {
+          playControl =
+            '<button class="rec-play" id="rec-play" type="button" ' +
+              'aria-label="Play ' + escapeHTML(now.track || now.title) + '">' +
+              '<span class="rec-play-icon" id="rec-play-icon">&#9654;</span>' +
+              '<span class="rec-play-track">' +
+                escapeHTML(now.track || now.title) + '</span>' +
+            '</button>';
+          audioEl = '<audio id="rec-audio" src="../' + escapeHTML(now.audio) +
+            '" preload="none"></audio>';
+        }
+
+        nowEl.innerHTML =
+          '<div class="rec-platter">' +
+            '<div class="rec-vinyl"></div>' +
+            coverBlock(now, 'rec-now-cover', coverMarkup(now)) +
+          '</div>' +
+          '<div class="rec-now-body">' +
+            '<div class="rec-now-label"><span class="rec-now-pip"></span>Now Spinning</div>' +
+            '<div class="rec-now-title">' + escapeHTML(now.title) + '</div>' +
+            '<div class="rec-now-artist">' + escapeHTML(now.artist) +
+              ' <span class="rec-now-year">· ' + escapeHTML(now.year) + '</span></div>' +
+            '<div class="rec-now-note">' + escapeHTML(now.note || '') + '</div>' +
+            playControl +
+            '<div class="rec-now-since">On the platter since <strong>' +
+              escapeHTML(since) + '</strong></div>' +
+          '</div>' +
+          audioEl;
+
+        // ── Wire the play button to the audio element ───────────────────
+        var rb = document.getElementById('rec-play');
+        var ra = document.getElementById('rec-audio');
+        var ri = document.getElementById('rec-play-icon');
+        if (rb && ra && ri) {
+          rb.addEventListener('click', function() {
+            if (ra.paused) { ra.play(); } else { ra.pause(); }
+          });
+          ra.addEventListener('play', function() {
+            ri.innerHTML = '&#10073;&#10073;';
+            nowEl.classList.add('is-playing');
+          });
+          ra.addEventListener('pause', function() {
+            ri.innerHTML = '&#9654;';
+            nowEl.classList.remove('is-playing');
+          });
+          ra.addEventListener('ended', function() {
+            ri.innerHTML = '&#9654;';
+            nowEl.classList.remove('is-playing');
+            ra.currentTime = 0;
+          });
+        }
+      } else if (nowEl) {
+        nowEl.style.display = 'none';
+      }
+
+      // ── Cover wall ────────────────────────────────────────────────────
+      recordCollection.forEach(function(rec, idx) {
+        var genre = rec.genre
+          ? '<div class="rec-genre">' + escapeHTML(rec.genre) + '</div>' : '';
+        var acquired = rec.acquired
+          ? '<div class="rec-tile-acquired">↪ ' + escapeHTML(rec.acquired) + '</div>' : '';
+
+        var html =
+          '<div class="rec-tile" data-genre="' + escapeHTML(rec.genre || '') +
+            '" data-rec-index="' + idx + '">' +
+            coverBlock(rec, 'rec-cover-wrap', genre + coverMarkup(rec)) +
+            '<div class="rec-tile-title">' + escapeHTML(rec.title) + '</div>' +
+            '<div class="rec-tile-artist">' + escapeHTML(rec.artist) +
+              ' <span class="rec-tile-year">· ' + escapeHTML(rec.year) + '</span></div>' +
+            '<div class="rec-tile-note">' + escapeHTML(rec.note || '') + '</div>' +
+            acquired +
+          '</div>';
+        grid.insertAdjacentHTML('beforeend', html);
+      });
+
+      // ── Collection stats line ─────────────────────────────────────────
+      var statsEl = document.getElementById('rec-stats');
+      if (statsEl) {
+        var years = recordCollection
+          .map(function(r) { return r.year; })
+          .filter(function(y) { return typeof y === 'number'; });
+        var decades = {};
+        years.forEach(function(y) {
+          var d = Math.floor(y / 10) * 10;
+          decades[d] = (decades[d] || 0) + 1;
+        });
+        var topDecade = Object.keys(decades).sort(function(a, b) {
+          return decades[b] - decades[a];
+        })[0];
+        var bits = ['<strong>' + recordCollection.length + '</strong> records'];
+        if (years.length) {
+          bits.push(Math.min.apply(null, years) + '–' + Math.max.apply(null, years));
+        }
+        if (topDecade) {
+          bits.push("heaviest on the '" + String(topDecade).slice(2) + 's');
+        }
+        statsEl.innerHTML = bits.join(' · ');
+      }
+
+      // ── Genre filter ──────────────────────────────────────────────────
+      function titleCase(s) {
+        return String(s).replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+      }
+      var genreNav = document.getElementById('rec-genre-nav');
+      if (genreNav) {
+        var seen = {};
+        recordCollection.forEach(function(r) { if (r.genre) seen[r.genre] = true; });
+
+        function addFilter(value, label, isActive) {
+          var a = document.createElement('a');
+          a.href = '#';
+          a.className = 'rec-genre-filter' + (isActive ? ' current' : '');
+          a.setAttribute('data-genre', value);
+          a.textContent = label;
+          genreNav.appendChild(a);
+        }
+        addFilter('all', 'All', true);
+        Object.keys(seen).sort().forEach(function(g) { addFilter(g, titleCase(g), false); });
+
+        genreNav.addEventListener('click', function(e) {
+          var link = e.target.closest('.rec-genre-filter');
+          if (!link) return;
+          e.preventDefault();
+          var g = link.getAttribute('data-genre');
+          genreNav.querySelectorAll('.rec-genre-filter').forEach(function(l) {
+            l.classList.toggle('current', l === link);
+          });
+          document.querySelectorAll('.rec-tile').forEach(function(t) {
+            t.style.display =
+              (g === 'all' || t.getAttribute('data-genre') === g) ? '' : 'none';
+          });
+        });
+      }
+
+      // ── Drop the needle: roulette shuffle → reveal card ────────────────
+      var needleBtn  = document.getElementById('rec-needle');
+      var revealEl   = document.getElementById('rec-reveal');
+      var revealCard = document.getElementById('rec-reveal-card');
+
+      if (needleBtn && revealEl && revealCard) {
+        var audioCtx = null;
+        function getCtx() {
+          if (!audioCtx) {
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (AC) audioCtx = new AC();
+          }
+          return audioCtx;
+        }
+
+        // A buffer of vinyl crackle — soft hiss with random pops.
+        function crackleBuffer(ctx, seconds) {
+          var len = Math.floor(ctx.sampleRate * seconds);
+          var buf = ctx.createBuffer(1, len, ctx.sampleRate);
+          var data = buf.getChannelData(0);
+          var i;
+          for (i = 0; i < len; i++) {
+            data[i] = (Math.random() * 2 - 1) * 0.015;
+          }
+          var pops = Math.floor(seconds * 55);
+          for (var p = 0; p < pops; p++) {
+            var idx = Math.floor(Math.random() * len);
+            var amp = (Math.random() * 0.45 + 0.2) * (Math.random() < 0.5 ? -1 : 1);
+            for (var k = 0; k < 40 && idx + k < len; k++) {
+              data[idx + k] += amp * Math.exp(-k / 7);
+            }
+          }
+          return buf;
+        }
+
+        // The needle hitting the groove: a low thud + a sweep of crackle.
+        function playNeedleDrop(seconds) {
+          var ctx = getCtx();
+          if (!ctx) return;
+          if (ctx.state === 'suspended') ctx.resume();
+          var t = ctx.currentTime;
+
+          var thud = ctx.createOscillator();
+          thud.type = 'sine';
+          thud.frequency.setValueAtTime(70, t);
+          thud.frequency.exponentialRampToValueAtTime(38, t + 0.22);
+          var thudGain = ctx.createGain();
+          thudGain.gain.setValueAtTime(0.0001, t);
+          thudGain.gain.exponentialRampToValueAtTime(0.4, t + 0.015);
+          thudGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
+          thud.connect(thudGain).connect(ctx.destination);
+          thud.start(t);
+          thud.stop(t + 0.32);
+
+          var src = ctx.createBufferSource();
+          src.buffer = crackleBuffer(ctx, seconds + 0.4);
+          var hp = ctx.createBiquadFilter();
+          hp.type = 'highpass';
+          hp.frequency.value = 1400;
+          var cGain = ctx.createGain();
+          cGain.gain.setValueAtTime(0.0001, t);
+          cGain.gain.exponentialRampToValueAtTime(0.4, t + 0.05);
+          cGain.gain.setValueAtTime(0.4, t + seconds * 0.6);
+          cGain.gain.exponentialRampToValueAtTime(0.0001, t + seconds + 0.3);
+          src.connect(hp).connect(cGain).connect(ctx.destination);
+          src.start(t);
+          src.stop(t + seconds + 0.4);
+        }
+
+        // A short click — the needle catching the groove as the card lands.
+        function playCatch() {
+          var ctx = getCtx();
+          if (!ctx) return;
+          if (ctx.state === 'suspended') ctx.resume();
+          var t = ctx.currentTime;
+          var src = ctx.createBufferSource();
+          src.buffer = crackleBuffer(ctx, 0.12);
+          var bp = ctx.createBiquadFilter();
+          bp.type = 'bandpass';
+          bp.frequency.value = 1800;
+          var g = ctx.createGain();
+          g.gain.setValueAtTime(0.55, t);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 0.13);
+          src.connect(bp).connect(g).connect(ctx.destination);
+          src.start(t);
+          src.stop(t + 0.16);
+        }
+
+        function reducedMotion() {
+          return !!(window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        }
+
+        // ── Reveal card ───────────────────────────────────────────────────
+        function closeReveal() {
+          revealEl.classList.remove('is-open');
+          revealEl.setAttribute('aria-hidden', 'true');
+        }
+
+        function openReveal(rec) {
+          var listen = rec.youtube
+            ? '<a class="rev-btn rev-btn-primary" href="../' + escapeHTML(rec.youtube) +
+              '" target="_blank" rel="noopener noreferrer">&#9654; Listen on YouTube</a>'
+            : '';
+          revealCard.innerHTML =
+            '<button class="rev-close" id="rev-close" type="button" aria-label="Close">&times;</button>' +
+            '<div class="rev-eyebrow">&#10022; The needle landed on</div>' +
+            '<div class="rev-platter">' +
+              '<div class="rev-vinyl"></div>' +
+              '<div class="rev-cover">' + coverMarkup(rec) + '</div>' +
+            '</div>' +
+            '<div class="rev-title">' + escapeHTML(rec.title) + '</div>' +
+            '<div class="rev-artist">' + escapeHTML(rec.artist) +
+              ' &middot; ' + escapeHTML(rec.year) + '</div>' +
+            '<div class="rev-note">' + escapeHTML(rec.note || '') + '</div>' +
+            '<div class="rev-actions">' + listen +
+              '<button class="rev-btn rev-btn-ghost" id="rev-again" type="button">' +
+              '&#10022; Spin again</button>' +
+            '</div>';
+          revealEl.classList.add('is-open');
+          revealEl.setAttribute('aria-hidden', 'false');
+          playCatch();
+          document.getElementById('rev-close').addEventListener('click', closeReveal);
+          document.getElementById('rev-again').addEventListener('click', function() {
+            closeReveal();
+            setTimeout(dropTheNeedle, 200);
+          });
+        }
+
+        revealEl.addEventListener('click', function(e) {
+          if (e.target === revealEl) closeReveal();
+        });
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && revealEl.classList.contains('is-open')) {
+            closeReveal();
+          }
+        });
+
+        // ── The roulette ──────────────────────────────────────────────────
+        function recordForTile(tile) {
+          return recordCollection[parseInt(tile.getAttribute('data-rec-index'), 10)];
+        }
+
+        function dropTheNeedle() {
+          if (needleBtn.disabled) return;
+          var tiles = Array.prototype.slice
+            .call(document.querySelectorAll('.rec-tile'))
+            .filter(function(t) { return t.style.display !== 'none'; });
+          if (!tiles.length) return;
+
+          document.querySelectorAll('.rec-tile.is-needled, .rec-tile.is-shuffling')
+            .forEach(function(t) {
+              t.classList.remove('is-needled');
+              t.classList.remove('is-shuffling');
+            });
+
+          var winner = tiles[Math.floor(Math.random() * tiles.length)];
+
+          function finish(tile) {
+            tile.classList.remove('is-shuffling');
+            void tile.offsetWidth; // restart the flash animation
+            tile.classList.add('is-needled');
+            needleBtn.disabled = false;
+            openReveal(recordForTile(tile));
+          }
+
+          // reduced motion or a tiny shelf — skip the roulette
+          if (reducedMotion() || tiles.length < 3) {
+            playNeedleDrop(0.4);
+            finish(winner);
+            return;
+          }
+
+          // decelerating delay schedule for the cover-to-cover hop
+          var steps = [];
+          var d = 55;
+          while (d < 380) { steps.push(Math.round(d)); d *= 1.2; }
+          var total = steps.reduce(function(a, b) { return a + b; }, 0);
+
+          needleBtn.disabled = true;
+          playNeedleDrop(total / 1000);
+
+          var prev = null;
+          var i = 0;
+          function hop() {
+            if (prev) prev.classList.remove('is-shuffling');
+            var last = (i === steps.length - 1);
+            var tile = last
+              ? winner
+              : tiles[Math.floor(Math.random() * tiles.length)];
+            tile.classList.add('is-shuffling');
+            prev = tile;
+            if (last) {
+              setTimeout(function() { finish(tile); }, 300);
+              return;
+            }
+            i++;
+            setTimeout(hop, steps[i]);
+          }
+          hop();
+        }
+
+        needleBtn.addEventListener('click', dropTheNeedle);
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repertoire — Thomas Denny</title>
+  <link rel="stylesheet" href="../styles.css" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://iamthomasdenny.com/repertoire/" />
+  <meta property="og:title"       content="Repertoire — Thomas Denny" />
+  <meta property="og:description" content="Songs Thomas Denny enjoys playing on guitar." />
+  <meta property="og:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Repertoire — Thomas Denny" />
+  <meta name="twitter:description" content="Songs Thomas Denny enjoys playing on guitar." />
+  <meta name="twitter:image"       content="https://iamthomasdenny.com/jenny.jpeg" />
+
+  <style>
+    /* ── Difficulty badges ───────────────────────────────────── */
+    .diff-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .diff-beginner     { background: #dcfce7; color: #166534; }
+    .diff-intermediate { background: #dbeafe; color: #1e40af; }
+    .diff-advanced     { background: #fee2e2; color: #991b1b; }
+
+
+    /* ── Genre pills ─────────────────────────────────────────── */
+    .rep-genre {
+      display: inline-block;
+      font-size: 9px;
+      color: #6688aa;
+      background: #f0f5ff;
+      border: 1px solid #dde6f5;
+      border-radius: 2px;
+      padding: 1px 5px;
+      margin-right: 3px;
+      white-space: nowrap;
+    }
+
+    /* ── Song cards ──────────────────────────────────────────── */
+    .rep-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .rep-card {
+      padding: 14px 0;
+      border-bottom: 1px solid #eef0f5;
+    }
+    .rep-card:last-child { border-bottom: none; }
+
+    .rep-card-top {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+
+    .rep-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #003366;
+    }
+    .rep-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .rep-title a:hover { color: #FF6600; }
+
+    .rep-artist {
+      font-size: 11px;
+      color: #6688aa;
+    }
+
+    .rep-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+
+    .rep-genres {
+      margin-bottom: 6px;
+    }
+
+    .rep-note {
+      font-size: 12px;
+      color: #555;
+      font-style: italic;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ── Filter row ──────────────────────────────────────────── */
+    .rep-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #dde4ee;
+    }
+
+    .rep-filter-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .rep-filter-label {
+      font-size: 10px;
+      font-weight: bold;
+      color: #6688aa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-width: 68px;
+      flex-shrink: 0;
+    }
+
+    .rep-select {
+      font-size: 11px;
+      font-family: Verdana, sans-serif;
+      color: #336699;
+      background: #fff;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 3px 6px;
+      cursor: pointer;
+    }
+    .rep-select:hover { border-color: #FF6600; }
+    .rep-select:focus {
+      outline: none;
+      border-color: #FF6600;
+    }
+
+    .rep-search {
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 12px;
+      font-family: Verdana, sans-serif;
+      color: #336699;
+      background: #fff;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 5px 8px;
+      margin-bottom: 10px;
+    }
+    .rep-search:hover { border-color: #FF6600; }
+    .rep-search:focus {
+      outline: none;
+      border-color: #FF6600;
+    }
+    .rep-search::placeholder { color: #aabbcc; }
+
+    /* ── Empty state ─────────────────────────────────────────── */
+    #rep-empty {
+      display: none;
+      font-size: 12px;
+      color: #aabbcc;
+      font-style: italic;
+      padding: 12px 0;
+    }
+
+    /* tab toggle — the active tab is styled like the section-header bar */
+    .gear-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+    .gear-tab {
+      flex: 1;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 6px 12px;
+      border: none;
+      border-left: 4px solid #003366;
+      border-radius: 0 3px 3px 0;
+      cursor: pointer;
+      background: linear-gradient(to right, #8794a4, #9fadbc);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      transition: background 0.15s, color 0.15s;
+    }
+    .gear-tab:hover { color: #ffffff; }
+    .gear-tab.is-active {
+      background: linear-gradient(to right, #1a4d8a, #4477aa);
+      color: #ffffff;
+    }
+
+    /* ── The Rig — guitar gear section ──────────────────────────────────── */
+    .gear-intro {
+      font-size: 12px;
+      color: #6688aa;
+      margin-bottom: 6px;
+    }
+    .gear-cat {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: bold;
+      color: #003366;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin: 18px 0 9px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed #cdd9e8;
+    }
+    .gear-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 600px) {
+      .gear-grid { grid-template-columns: 1fr; }
+    }
+    .gear-card {
+      background: #f7f9fc;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      padding: 9px 11px;
+      box-shadow: 1px 1px 0 #99AACC;
+    }
+    .gear-name {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: bold;
+      color: #003366;
+    }
+    .gear-spec {
+      font-size: 10px;
+      color: #6688aa;
+      margin: 1px 0 5px;
+    }
+    .gear-why {
+      font-size: 11px;
+      color: #555566;
+      line-height: 1.45;
+    }
+
+    /* guitars lined up — 3D tilt on hover */
+    .guitar-row-wrap { position: relative; }
+    .guitar-row {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 38px 2px 34px;
+    }
+    .guitar-3d {
+      flex: 0 0 auto;
+      width: 150px;
+      text-align: center;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    /* fade-and-chevron scroll affordance (matches the books timeline) */
+    .gear-scroll-btn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 62px;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, #ffffff 72%);
+      border: none;
+      color: #6688aa;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 8px 0 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, color 0.15s ease;
+      z-index: 3;
+    }
+    .gear-scroll-btn.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .gear-scroll-btn:hover { color: #FF6600; }
+    .guitar-img-wrap {
+      position: relative;
+      display: inline-block;
+      height: 250px;
+      margin-bottom: 8px;
+    }
+    .guitar-img {
+      height: 100%;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 6px 9px rgba(0, 30, 70, 0.28));
+    }
+    .gear-sheen {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .guitar-cap .gear-name { font-size: 12px; }
+    .guitar-cap .gear-spec { margin-top: 1px; }
+    .guitar-cap .gear-why { margin-top: 4px; font-style: italic; }
+
+    /* amps — same 3D tilt, sized by height */
+    .amp-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 14px 0 4px;
+    }
+    .amp-3d {
+      width: 200px;
+      text-align: center;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .amp-img-wrap {
+      position: relative;
+      display: inline-block;
+      height: 140px;
+      margin-bottom: 8px;
+    }
+    .amp-img {
+      height: 100%;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 6px 9px rgba(0, 30, 70, 0.28));
+    }
+
+    /* pedals — scrolling row, same 3D tilt */
+    .pedal-row-wrap { position: relative; }
+    .pedal-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 30px 2px 26px;
+    }
+    .pedal-3d {
+      flex: 0 0 auto;
+      width: 132px;
+      text-align: center;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .pedal-img-wrap {
+      position: relative;
+      display: inline-block;
+      height: 120px;
+      margin-bottom: 8px;
+    }
+    .pedal-img {
+      height: 100%;
+      width: auto;
+      display: block;
+      filter: drop-shadow(2px 5px 8px rgba(0, 30, 70, 0.28));
+    }
+
+    /* signal chain — guitar to amp flow */
+    .chain {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px 5px;
+      padding: 8px 0 4px;
+    }
+    .chain-node {
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.4px;
+      color: #336699;
+      background: #f0f5ff;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      padding: 4px 9px;
+      box-shadow: 1px 1px 0 #ccddee;
+      animation: chain-pulse 2.6s ease-in-out infinite;
+    }
+    .chain-node-end {
+      color: #ffffff;
+      background: linear-gradient(to bottom, #4477aa, #1a4d8a);
+      border-color: #003366;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    }
+    .chain-arrow {
+      color: #99AACC;
+      font-size: 11px;
+    }
+    @keyframes chain-pulse {
+      0%, 100% { box-shadow: 1px 1px 0 #ccddee; }
+      50%      { box-shadow: 0 0 8px rgba(68, 119, 170, 0.65), 1px 1px 0 #ccddee; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .chain-node { animation: none; }
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="alternate" type="application/rss+xml" title="Thomas Denny" href="/feed.xml" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- NAV -->
+    <nav class="main-nav">
+      <a href="/"       class="nav-title">thomas denny</a>
+      <a href="/"       class="nav-link">Home</a>
+      <a href="/now"         class="nav-link">Now</a>
+      <a href="/about"       class="nav-link">About Me</a>
+      <a href="/blog"        class="nav-link">Blog</a>
+      <a href="/books"       class="nav-link">Books</a>
+      <a href="/projects"    class="nav-link">Projects</a>
+      <a href="/deepwork"    class="nav-link">Deep Work</a>
+      <a href="/resources"   class="nav-link">Knowledge Base</a>
+    </nav>
+
+    <div class="main-layout">
+
+      <!-- LEFT SIDEBAR -->
+      <aside class="col-left-sm">
+
+        <div class="profile-card-sm">
+          <img
+            src="../me.jpg"
+            alt="Thomas Denny"
+          />
+          <div class="pcm-name">Thomas Denny</div>
+          <div class="pcm-status">
+            <span class="online-dot"></span> Online Now
+          </div>
+          <div class="pcm-mood">Mood: <span>Jamming!</span></div>
+          <a href="/" class="btn-back-home">← Back to Profile</a>
+        </div>
+
+        <div class="sidebar-page-nav">
+          <div class="spn-title">Pages</div>
+          <a href="/">Home</a>
+          <a href="/now">Now</a>
+          <a href="/about">About Me</a>
+          <a href="/blog">Blog</a>
+          <a href="/books">Books</a>
+          <a href="/projects">Projects</a>
+          <a href="/deepwork">Deep Work</a>
+          <a href="/resources">Knowledge Base</a>
+          <a href="/repertoire" class="current">Repertoire</a>
+          <a href="/records">Records</a>
+        </div>
+
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="col-right">
+
+        <div class="gear-tabs">
+          <button type="button" class="gear-tab is-active" data-tab="rig">The Rig</button>
+          <button type="button" class="gear-tab" data-tab="repertoire">Repertoire</button>
+        </div>
+
+        <!-- ============================================
+             THE RIG — current guitar gear
+        ============================================ -->
+        <div class="gear-panel" id="panel-rig">
+        <div class="content-box inner-content">
+
+          <p class="gear-intro">
+            My gear - guitars, amps, and pedals!
+          </p>
+
+          <!-- ░░ EXAMPLE GEAR — replace with your real rig ░░ -->
+
+          <div class="gear-cat">Guitars</div>
+          <div class="guitar-row-wrap">
+          <div class="guitar-row" id="guitar-row">
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="../guitar-strat.png" alt="Fender Player Stratocaster in Polar White" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Fender Player Stratocaster</div>
+                <div class="gear-spec">Polar White &middot; Maple fingerboard</div>
+                <div class="gear-why">Jimi Hendrix and John Mayer inspired me to get this one.</div>
+              </div>
+            </div>
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="../guitar-prs.png" alt="PRS SE Custom 24 in Quilted Violet" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">PRS SE Custom 24</div>
+                <div class="gear-spec">Quilted Violet</div>
+                <div class="gear-why">I fell in love as soon as I saw the color.</div>
+              </div>
+            </div>
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="../guitar-lespaul.png" alt="Gibson Les Paul Standard '60s in Heritage Cherry Sunburst" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Gibson Les Paul Standard '60s</div>
+                <div class="gear-spec">Heritage Cherry Sunburst</div>
+                <div class="gear-why">Slash inspired this one.</div>
+              </div>
+            </div>
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="../guitar-esp.png" alt="ESP LTD KH-202 in Black" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">ESP LTD KH-202</div>
+                <div class="gear-spec">Kirk Hammett signature &middot; Black</div>
+                <div class="gear-why">Metallica inspired this one.</div>
+              </div>
+            </div>
+            <div class="guitar-3d">
+              <div class="guitar-img-wrap">
+                <img class="guitar-img" src="../guitar-taylor.png" alt="Taylor 110 dreadnought acoustic guitar" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Taylor 110</div>
+                <div class="gear-spec">Dreadnought acoustic</div>
+                <div class="gear-why">The acoustic — for songwriting and quiet evenings.</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="gear-scroll-btn" id="guitar-scroll-btn" aria-label="Scroll guitars right">&rsaquo;</button>
+          </div>
+
+          <div class="gear-cat">Amps</div>
+          <div class="amp-row">
+            <div class="amp-3d">
+              <div class="amp-img-wrap">
+                <img class="amp-img" src="../amp-deluxe-reverb.png" alt="Fender Deluxe Reverb amplifier" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Fender Deluxe Reverb</div>
+                <div class="gear-spec">22-watt tube combo</div>
+                <div class="gear-why">My go-to amp.</div>
+              </div>
+            </div>
+            <div class="amp-3d">
+              <div class="amp-img-wrap">
+                <img class="amp-img" src="../amp-katana.png" alt="Boss Katana amplifier" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Boss Katana</div>
+                <div class="gear-spec">Modeling combo</div>
+                <div class="gear-why">When I need something heavier.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gear-cat">Pedalboard</div>
+          <div class="pedal-row-wrap">
+          <div class="pedal-row" id="pedal-row">
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="../pedal-wah.png" alt="Dunlop Cry Baby Classic wah pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Dunlop Cry Baby Classic</div>
+                <div class="gear-spec">Wah</div>
+                <div class="gear-why">A classic pedal.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="../pedal-tuner.png" alt="Boss TU-3 tuner pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Boss TU-3</div>
+                <div class="gear-spec">Chromatic tuner</div>
+                <div class="gear-why">Just the tuner.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="../pedal-compressor.png" alt="JHS Pulp 'N Peel compressor pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">JHS Pulp 'N Peel</div>
+                <div class="gear-spec">Compressor</div>
+                <div class="gear-why">Evens out the dynamics.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="../pedal-tubescreamer.png" alt="Ibanez Tube Screamer overdrive pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Ibanez Tube Screamer</div>
+                <div class="gear-spec">Overdrive</div>
+                <div class="gear-why">Always on a little.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="../pedal-distortion.png" alt="Boss DS-1 distortion pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Boss DS-1</div>
+                <div class="gear-spec">Distortion</div>
+                <div class="gear-why">When a song needs some real teeth.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="../pedal-phaser.png" alt="MXR Phase 90 phaser pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">MXR Phase 90</div>
+                <div class="gear-spec">Phaser</div>
+                <div class="gear-why">That swirly, swooshy shimmer.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="../pedal-delay.png" alt="MXR Carbon Copy analog delay pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">MXR Carbon Copy</div>
+                <div class="gear-spec">Analog delay</div>
+                <div class="gear-why">Warm analog repeats.</div>
+              </div>
+            </div>
+            <div class="pedal-3d">
+              <div class="pedal-img-wrap">
+                <img class="pedal-img" src="../pedal-looper.png" alt="Boss RC-3 Loop Station pedal" />
+                <div class="gear-sheen"></div>
+              </div>
+              <div class="guitar-cap">
+                <div class="gear-name">Boss RC-3 Loop Station</div>
+                <div class="gear-spec">Looper</div>
+                <div class="gear-why">For building parts and practicing over myself.</div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="gear-scroll-btn" id="pedal-scroll-btn" aria-label="Scroll pedals right">&rsaquo;</button>
+          </div>
+
+          <div class="gear-cat">Signal Chain</div>
+          <div class="chain" id="signal-chain">
+            <span class="chain-node chain-node-end">Guitar</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Wah</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Tuner</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Compressor</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Overdrive</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Distortion</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Phaser</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Delay</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node">Looper</span>
+            <span class="chain-arrow">&rarr;</span>
+            <span class="chain-node chain-node-end">Amp</span>
+          </div>
+
+        </div>
+        </div>
+
+        <div class="gear-panel" id="panel-repertoire" hidden>
+        <div class="content-box inner-content">
+
+          <p style="font-size:12px; color:#6688aa; margin-bottom:18px;">
+            A running list of songs I enjoy playing! My guitar teacher <a href="https://howlinfish.com/"><b>Mark</b></a> introduced me to a lot of these. Check him out if you're in the Austin area. All tabs sourced from <a href="https://www.ultimate-guitar.com" target="_blank" rel="noopener">Ultimate Guitar</a>. Listen to the full <a href="https://open.spotify.com/playlist/1s1ZarcxD1ze91jUSBXXbA" target="_blank" rel="noopener"><b>playlist on Spotify</b></a>.
+          </p>
+
+          <!-- ── Search ───────────────────────────────────────── -->
+          <input type="text" id="rep-search" class="rep-search" placeholder="Search by song or artist…" />
+
+          <!-- ── Filter row ───────────────────────────────────── -->
+          <div class="rep-filters">
+
+            <div class="rep-filter-group">
+              <span class="rep-filter-label">Artist</span>
+              <select class="rep-select" data-group="artist">
+                <option value="all">All</option>
+                <option value="al-green">Al Green</option>
+                <option value="al-stewart">Al Stewart</option>
+                <option value="albert-king">Albert King</option>
+                <option value="allman-brothers-band">Allman Brothers Band</option>
+                <option value="america">America</option>
+                <option value="bb-king">B.B. King</option>
+                <option value="bobby-bland">Bobby Bland</option>
+                <option value="chris-stapleton">Chris Stapleton</option>
+                <option value="dire-straits">Dire Straits</option>
+                <option value="don-nix">Don Nix</option>
+                <option value="dusty-springfield">Dusty Springfield</option>
+                <option value="eric-clapton">Eric Clapton</option>
+                <option value="fleetwood-mac">Fleetwood Mac</option>
+                <option value="goose">Goose</option>
+                <option value="grover-washington">Grover Washington</option>
+                <option value="guns-n-roses">Guns N Roses</option>
+                <option value="howlin-wolf">Howlin' Wolf</option>
+                <option value="jimi-hendrix">Jimi Hendrix</option>
+                <option value="john-mayer">John Mayer</option>
+                <option value="justin-bieber">Justin Bieber</option>
+                <option value="metallica">Metallica</option>
+                <option value="otis-redding">Otis Redding</option>
+                <option value="pink-floyd">Pink Floyd</option>
+                <option value="prince">Prince</option>
+                <option value="robert-cray">Robert Cray</option>
+                <option value="santana">Santana</option>
+                <option value="seals-and-crofts">Seals and Crofts</option>
+                <option value="steely-dan">Steely Dan</option>
+                <option value="stevie-wonder">Stevie Wonder</option>
+                <option value="the-doobie-brothers">The Doobie Brothers</option>
+                <option value="the-eagles">The Eagles</option>
+                <option value="the-ojays">The O'Jays</option>
+                <option value="the-temptations">The Temptations</option>
+                <option value="van-morrison">Van Morrison</option>
+                <option value="wilson-pickett">Wilson Pickett</option>
+              </select>
+            </div>
+
+            <div class="rep-filter-group">
+              <span class="rep-filter-label">Difficulty</span>
+              <select class="rep-select" data-group="difficulty">
+                <option value="all">All</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
+
+            <div class="rep-filter-group">
+              <span class="rep-filter-label">Genre</span>
+              <select class="rep-select" data-group="genre">
+                <option value="all">All</option>
+                <option value="blues">Blues</option>
+                <option value="country">Country</option>
+                <option value="folk">Folk</option>
+                <option value="funk">Funk</option>
+                <option value="jazz">Jazz</option>
+                <option value="metal">Metal</option>
+                <option value="pop">Pop</option>
+                <option value="rock">Rock</option>
+                <option value="soul">Soul</option>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- ── Song list ────────────────────────────────────── -->
+          <ul class="rep-list" id="rep-list">
+
+            <li class="rep-card"
+                data-artist="eric-clapton"
+                data-difficulty="intermediate"
+                data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://tabs.ultimate-guitar.com/tab/bob-marley/i-shot-the-sheriff-chords-213453" target="_blank" rel="noopener">I Shot the Sheriff</a>
+                </span>
+                <span class="rep-artist">Eric Clapton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <p>One of my favorites that my guitar teacher Mark and I love jamming on. Funky, groovy, and just fun to play.</p>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=APWhx97QvxE" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card"
+                data-artist="pink-floyd"
+                data-difficulty="intermediate"
+                data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Another+Brick+in+the+Wall" target="_blank" rel="noopener">Another Brick in the Wall, Pt. 2</a>
+                </span>
+                <span class="rep-artist">Pink Floyd</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <p>A classic that's straightforward to play. I use this as a warm-up before practice begins.</p>
+               <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=HrxX9TBj2zY" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card"
+                data-artist="the-eagles"
+                data-difficulty="intermediate"
+                data-genres="rock,funk">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=One+of+These+Nights" target="_blank" rel="noopener">One of These Nights</a>
+                </span>
+                <span class="rep-artist">The Eagles</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <p>Mark introduced this during a lesson on funk strumming and it's become a daily listen.</p>
+               <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=Tszq-LVyuN8" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card"
+                data-artist="eric-clapton"
+                data-difficulty="intermediate"
+                data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Bad+Love" target="_blank" rel="noopener">Bad Love</a>
+                </span>
+                <span class="rep-artist">Eric Clapton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <p>Over the last year, old Slow Hand has become one of my favorite artists. This version of EC was right after getting clean and has all the elements of 80s rock.</p>
+             <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=9vUpZFRPFIY" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card"
+                data-artist="metallica"
+                data-difficulty="intermediate"
+                data-genres="metal">
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Fade+to+Black" target="_blank" rel="noopener">Fade to Black</a>
+                </span>
+                <span class="rep-artist">Metallica</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Metal</span>
+              </div>
+              <p>The outro solo is without a doubt one of my favorite solos ever recorded. My mom introduced me to Metallica my freshman year of high school. This one moves me every time.</p>
+             <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=WEQnzs8wl6E" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+             <li class="rep-card"
+                data-artist="eric-clapton"
+                data-difficulty="intermediate"
+               >
+              <div class="rep-card-top">
+                <span class="rep-title">
+                  <a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=layla" target="_blank" rel="noopener">Layla</a>
+                </span>
+                <span class="rep-artist">Eric Clapton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <p>I love the <a href="https://www.youtube.com/watch?v=pW9gU8ud17Y&t=68s">history</a> behind this song. The song was written by Eric Clapton for Pattie Boyd, who at the time was the wife of his close friend, George Harrison of The Beatles. Clapton had fallen deeply in love with her and was struggling with the emotional weight of his feelings for his best friend's wife.</p>
+             <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=-KG2O5PSCSs" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="allman-brothers-band" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Just+Ain%27t+Easy" target="_blank" rel="noopener">Just Ain't Easy</a></span>
+                <span class="rep-artist">Allman Brothers Band</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=wWzrXCbzXKo" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="bb-king" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=The+Thrill+is+Gone" target="_blank" rel="noopener">The Thrill is Gone</a></span>
+                <span class="rep-artist">B.B. King</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=oica5jG7FpU" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="fleetwood-mac" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=I+Need+Your+Love+So+Bad" target="_blank" rel="noopener">I Need Your Love So Bad</a></span>
+                <span class="rep-artist">Fleetwood Mac</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=knb05OFl5bU" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="don-nix" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Going+Down" target="_blank" rel="noopener">Going Down</a></span>
+                <span class="rep-artist">Don Nix</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=0Lh1ujSeQ1s" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="al-stewart" data-difficulty="intermediate" data-genres="rock,folk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Year+of+the+Cat" target="_blank" rel="noopener">Year of The Cat</a></span>
+                <span class="rep-artist">Al Stewart</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Folk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=Ak_MTXQALa0" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-doobie-brothers" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Listen+to+the+Music" target="_blank" rel="noopener">Listen To The Music</a></span>
+                <span class="rep-artist">The Doobie Brothers</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=nbVE-1rHyVY" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="grover-washington" data-difficulty="intermediate" data-genres="funk,jazz">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Just+the+Two+of+Us" target="_blank" rel="noopener">Just The Two Of Us</a></span>
+                <span class="rep-artist">Grover Washington</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Funk</span>
+                <span class="rep-genre">Jazz</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=PJ0u5c9EF1E" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="pink-floyd" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Time" target="_blank" rel="noopener">Time</a></span>
+                <span class="rep-artist">Pink Floyd</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=Qr0-7Ds79zo" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="justin-bieber" data-difficulty="beginner" data-genres="rock,pop">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Yukon" target="_blank" rel="noopener">Yukon</a></span>
+                <span class="rep-artist">Justin Bieber</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-beginner">Beginner</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Pop</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=fXivMSJm_kA" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="chris-stapleton" data-difficulty="intermediate" data-genres="blues,rock,country">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=I+Was+Wrong" target="_blank" rel="noopener">I Was Wrong</a></span>
+                <span class="rep-artist">Chris Stapleton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Country</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=7IhQrVeXn2M" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="van-morrison" data-difficulty="beginner" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Brown+Eyed+Girl" target="_blank" rel="noopener">Brown Eyed Girl</a></span>
+                <span class="rep-artist">Van Morrison</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-beginner">Beginner</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=UfmkgQRmmeE" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="howlin-wolf" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Killing+Floor" target="_blank" rel="noopener">Killin' Floor</a></span>
+                <span class="rep-artist">Howlin' Wolf</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=EGIE28q3fEA" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="jimi-hendrix" data-difficulty="advanced" data-genres="rock,blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Little+Wing" target="_blank" rel="noopener">Little Wing</a></span>
+                <span class="rep-artist">Jimi Hendrix</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Blues</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=35luFxHO5E0" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="prince" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Purple+Rain" target="_blank" rel="noopener">Purple Rain</a></span>
+                <span class="rep-artist">Prince</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=TvnYmWpD_T8" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="john-mayer" data-difficulty="intermediate" data-genres="rock,pop">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=New+Light" target="_blank" rel="noopener">New Light</a></span>
+                <span class="rep-artist">John Mayer</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Pop</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=mQ055hHdxbE" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="guns-n-roses" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Sweet+Child+O+Mine" target="_blank" rel="noopener">Sweet Child O' Mine</a></span>
+                <span class="rep-artist">Guns N Roses</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=1w7OgIMMRc4" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="dusty-springfield" data-difficulty="intermediate" data-genres="soul">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Son+of+a+Preacher+Man" target="_blank" rel="noopener">Son Of A Preacher Man</a></span>
+                <span class="rep-artist">Dusty Springfield</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=oAZLgsDRUv4" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="albert-king" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Breaking+Up+Somebodys+Home" target="_blank" rel="noopener">Breaking Up Somebody's Home</a></span>
+                <span class="rep-artist">Albert King</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=dNtZkOHYj3o" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="america" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=You+Can+Do+Magic" target="_blank" rel="noopener">You Can Do Magic</a></span>
+                <span class="rep-artist">America</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=tt4cR9szMS8" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="albert-king" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Ill+Play+the+Blues+for+You" target="_blank" rel="noopener">I'll Play the Blues for You</a></span>
+                <span class="rep-artist">Albert King</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=WydRZHhVb00" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="al-green" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Take+Me+to+the+River" target="_blank" rel="noopener">Take Me to the River</a></span>
+                <span class="rep-artist">Al Green</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=9FBUgdhxe9M" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="al-green" data-difficulty="intermediate" data-genres="soul">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=So+Tired+of+Being+Alone" target="_blank" rel="noopener">So Tired of Being Alone</a></span>
+                <span class="rep-artist">Al Green</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=7ll7ocQbH_k" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="wilson-pickett" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=In+the+Midnight+Hour" target="_blank" rel="noopener">In The Midnight Hour</a></span>
+                <span class="rep-artist">Wilson Pickett</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=FGVGFfj7POA" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="robert-cray" data-difficulty="intermediate" data-genres="blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Smoking+Gun" target="_blank" rel="noopener">Smokin' Gun</a></span>
+                <span class="rep-artist">Robert Cray</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=2gQEDwjhaDE" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-temptations" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Papa+Was+a+Rolling+Stone" target="_blank" rel="noopener">Papa Was A Rolling Stone</a></span>
+                <span class="rep-artist">The Temptations</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=pJV2pWFyfn4" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="stevie-wonder" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=You+Are+the+Sunshine+of+My+Life" target="_blank" rel="noopener">You Are The Sunshine of My Life</a></span>
+                <span class="rep-artist">Stevie Wonder</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=sp6hzycBsTI" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="bobby-bland" data-difficulty="intermediate" data-genres="blues,soul">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Aint+No+Love+in+the+Heart+of+the+City" target="_blank" rel="noopener">Ain't No Love In The Heart of The City</a></span>
+                <span class="rep-artist">Bobby Bland</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Soul</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=38OOUDTsqM0" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="allman-brothers-band" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Jelly+Jelly" target="_blank" rel="noopener">Jelly, Jelly</a></span>
+                <span class="rep-artist">Allman Brothers Band</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=VEOCxYyHxhs" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="dire-straits" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Money+for+Nothing" target="_blank" rel="noopener">Money For Nothing</a></span>
+                <span class="rep-artist">Dire Straits</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=wTP2RUD_cL0" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="steely-dan" data-difficulty="advanced" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Reelin+in+the+Years" target="_blank" rel="noopener">Reeling In The Years</a></span>
+                <span class="rep-artist">Steely Dan</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-advanced">Advanced</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=91XTZ92zs2w" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="santana" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Hold+On" target="_blank" rel="noopener">Hold On</a></span>
+                <span class="rep-artist">Santana</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=e3PZ-Mju5Hk" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="otis-redding" data-difficulty="beginner" data-genres="soul">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Sittin+on+the+Dock+of+the+Bay" target="_blank" rel="noopener">Sittin' on the Dock of the Bay</a></span>
+                <span class="rep-artist">Otis Redding</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-beginner">Beginner</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=rTVjnBo96Ug" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-doobie-brothers" data-difficulty="intermediate" data-genres="rock,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Long+Train+Runnin" target="_blank" rel="noopener">Long Train Runnin</a></span>
+                <span class="rep-artist">The Doobie Brothers</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=qKlvXKUCguI" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="goose" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Slow+Ready" target="_blank" rel="noopener">Slow Ready</a></span>
+                <span class="rep-artist">Goose</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=VbPQizhkvdc" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="jimi-hendrix" data-difficulty="intermediate" data-genres="rock,blues">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Angel" target="_blank" rel="noopener">Angel</a></span>
+                <span class="rep-artist">Jimi Hendrix</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Blues</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=U2Jm2HoE6rw" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="pink-floyd" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Brain+Damage" target="_blank" rel="noopener">Brain Damage</a></span>
+                <span class="rep-artist">Pink Floyd</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=QFdkM40KOhE" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="eric-clapton" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Tears+in+Heaven" target="_blank" rel="noopener">Tears In Heaven</a></span>
+                <span class="rep-artist">Eric Clapton</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=JxPj3GAYYZ0" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-ojays" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Love+Train" target="_blank" rel="noopener">Love Train</a></span>
+                <span class="rep-artist">The O'Jays</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=SsYOAIR4L_w" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="the-ojays" data-difficulty="intermediate" data-genres="soul,funk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Backstabbers" target="_blank" rel="noopener">Backstabbers</a></span>
+                <span class="rep-artist">The O'Jays</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Soul</span>
+                <span class="rep-genre">Funk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=RmXRQ3vfzcA" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="john-mayer" data-difficulty="intermediate" data-genres="rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Wild+Blue" target="_blank" rel="noopener">Wild Blue</a></span>
+                <span class="rep-artist">John Mayer</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=EUwynJ-WHGo" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="seals-and-crofts" data-difficulty="intermediate" data-genres="rock,folk">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Summer+Breeze" target="_blank" rel="noopener">Summer Breeze</a></span>
+                <span class="rep-artist">Seals and Crofts</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Rock</span>
+                <span class="rep-genre">Folk</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=GQQbjpomexo" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+            <li class="rep-card" data-artist="john-mayer" data-difficulty="intermediate" data-genres="blues,rock">
+              <div class="rep-card-top">
+                <span class="rep-title"><a href="https://www.ultimate-guitar.com/search.php?search_type=title&value=Slow+Dancing+in+a+Burning+Room" target="_blank" rel="noopener">Slow Dancing in a Burning Room</a></span>
+                <span class="rep-artist">John Mayer</span>
+              </div>
+              <div class="rep-badges">
+                <span class="diff-badge diff-intermediate">Intermediate</span>
+              </div>
+              <div class="rep-genres">
+                <span class="rep-genre">Blues</span>
+                <span class="rep-genre">Rock</span>
+              </div>
+              <div style="margin-top: 6px;">
+                <a href="https://www.youtube.com/watch?v=IfFi4Q7ueA8" target="_blank" rel="noopener" style="font-size: 10px; color: #336699; background: #f0f5ff; border: 1px solid #99AACC; border-radius: 2px; padding: 2px 7px; text-decoration: none;">▶ Watch on YouTube</a>
+              </div>
+            </li>
+
+          </ul>
+
+          <p id="rep-empty">No songs match the current filters.</p>
+
+        </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <footer class="site-footer">
+      Thomas Denny &copy; <span class="footer-year"></span> &nbsp;|&nbsp; Built with intention, not a template.
+    </footer>
+
+  </div>
+
+  <script src="../script.js"></script>
+  <script>
+    // ── Filter state ─────────────────────────────────────────────────────────
+    var activeFilters = {
+      artist:     'all',
+      difficulty: 'all',
+      genre:      'all',
+    };
+
+    var searchQuery = '';
+
+    // ── Apply filters ────────────────────────────────────────────────────────
+    function applyFilters() {
+      var cards   = document.querySelectorAll('.rep-card');
+      var anyVis  = false;
+      var q       = searchQuery.trim().toLowerCase();
+
+      cards.forEach(function(card) {
+        var artistMatch     = activeFilters.artist     === 'all' || card.getAttribute('data-artist')     === activeFilters.artist;
+        var difficultyMatch = activeFilters.difficulty === 'all' || card.getAttribute('data-difficulty') === activeFilters.difficulty;
+        var genreMatch      = activeFilters.genre      === 'all' || (card.getAttribute('data-genres') || '').split(',').indexOf(activeFilters.genre) !== -1;
+
+        var searchMatch = true;
+        if (q) {
+          var title  = (card.querySelector('.rep-title')  || {}).textContent || '';
+          var artist = (card.querySelector('.rep-artist') || {}).textContent || '';
+          searchMatch = (title + ' ' + artist).toLowerCase().indexOf(q) !== -1;
+        }
+
+        var visible = artistMatch && difficultyMatch && genreMatch && searchMatch;
+        card.style.display = visible ? '' : 'none';
+        if (visible) anyVis = true;
+      });
+
+      document.getElementById('rep-empty').style.display = anyVis ? 'none' : 'block';
+    }
+
+    // ── Filter dropdown listeners ────────────────────────────────────────────
+    document.querySelectorAll('.rep-select').forEach(function(sel) {
+      sel.addEventListener('change', function() {
+        activeFilters[this.getAttribute('data-group')] = this.value;
+        applyFilters();
+      });
+    });
+
+    // ── Search input listener ────────────────────────────────────────────────
+    document.getElementById('rep-search').addEventListener('input', function() {
+      searchQuery = this.value;
+      applyFilters();
+    });
+  </script>
+
+  <script>
+    // ── 3D hover tilt for the guitar cards ──────────────────────────────
+    (function() {
+      if (window.matchMedia &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var MAX = 14; // peak tilt, degrees
+      document.querySelectorAll('.guitar-3d, .amp-3d, .pedal-3d').forEach(function(card) {
+        var sheen = card.querySelector('.gear-sheen');
+        card.addEventListener('mouseenter', function() {
+          card.style.transition = 'transform 0.08s ease-out';
+        });
+        card.addEventListener('mousemove', function(e) {
+          var r = card.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width;
+          var py = (e.clientY - r.top) / r.height;
+          card.style.transform =
+            'perspective(700px) rotateX(' + ((0.5 - py) * 2 * MAX).toFixed(2) +
+            'deg) rotateY(' + ((px - 0.5) * 2 * MAX).toFixed(2) + 'deg) scale(1.04)';
+          if (sheen) {
+            sheen.style.background =
+              'radial-gradient(circle at ' + (px * 100).toFixed(1) + '% ' +
+              (py * 100).toFixed(1) +
+              '%, rgba(255,255,255,0.55), rgba(255,255,255,0) 55%)';
+          }
+        });
+        card.addEventListener('mouseleave', function() {
+          card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+          card.style.transform = '';
+          if (sheen) sheen.style.background = '';
+        });
+      });
+    })();
+
+    // ── Fade-and-chevron scroll affordance for the gear rows ────────────
+    (function() {
+      var rows = [
+        ['guitar-row', 'guitar-scroll-btn'],
+        ['pedal-row',  'pedal-scroll-btn']
+      ];
+      rows.forEach(function(pair) {
+        var row = document.getElementById(pair[0]);
+        var btn = document.getElementById(pair[1]);
+        if (!row || !btn) return;
+        function update() {
+          var overflow = row.scrollWidth - row.clientWidth > 4;
+          var atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4;
+          btn.classList.toggle('is-visible', overflow && !atEnd);
+        }
+        btn.addEventListener('click', function() {
+          row.scrollBy({ left: row.clientWidth * 0.7, behavior: 'smooth' });
+        });
+        row.addEventListener('scroll', update);
+        window.addEventListener('resize', update);
+        window.addEventListener('load', update);
+        update();
+      });
+    })();
+
+    // ── Signal-chain flow: stagger the pulse so it travels guitar→amp ───
+    (function() {
+      var nodes = document.querySelectorAll('#signal-chain .chain-node');
+      nodes.forEach(function(node, i) {
+        node.style.animationDelay = (i * 0.16) + 's';
+      });
+    })();
+
+    // ── Tab toggle: The Rig / Repertoire ────────────────────────────────
+    (function() {
+      var tabs = document.querySelectorAll('.gear-tab');
+      if (!tabs.length) return;
+      var panels = {
+        rig: document.getElementById('panel-rig'),
+        repertoire: document.getElementById('panel-repertoire')
+      };
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var which = tab.getAttribute('data-tab');
+          tabs.forEach(function(t) {
+            t.classList.toggle('is-active', t === tab);
+          });
+          Object.keys(panels).forEach(function(k) {
+            if (panels[k]) panels[k].hidden = (k !== which);
+          });
+          // recompute the scroll affordances now the rows have layout
+          window.dispatchEvent(new Event('resize'));
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
