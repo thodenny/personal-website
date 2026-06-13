@@ -2106,8 +2106,15 @@
     kgLoop();
   };
 
+  var kgResizeTimer;
   window.addEventListener('resize',function(){
-    if(document.getElementById('kg-view').style.display!=='none'){kgResize();kgFrame=0;}
+    if(document.getElementById('kg-view').style.display!=='none'){
+      clearTimeout(kgResizeTimer);
+      kgResizeTimer=setTimeout(function(){
+        var newW=Math.round(kgCw.getBoundingClientRect().width);
+        if(Math.abs(newW-KG_W)>5){kgResize();kgFrame=0;}
+      },150);
+    }
   });
 
   if(document.readyState==='complete') setTimeout(window.kgInit,80);
