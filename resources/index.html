@@ -694,7 +694,7 @@
 
 <!-- ── Graph view ──────────────────────────────────── -->
 <div id="kg-view">
-  <p class="kg-intro">A force-directed map of this knowledge base. Each node is a book, article, quote, or video — connected through shared tags. Click any node to explore it. Use the tag filter to follow a thread of ideas across sources.</p>
+  <p class="kg-intro">A force-directed map of this knowledge base. Each node is a book, article, quote, video, or concept — connected through shared tags. Click any node to explore it. Use the tag filter to follow a thread of ideas across sources.</p>
   <div id="kg-wrap">
     <div id="kg-toolbar">
       <input id="kg-search" type="text" placeholder="Search nodes…"/>
@@ -706,6 +706,7 @@
         <label class="kg-leg" data-kgtype="quote"><span class="kg-dot" style="background:#6655aa"></span>Quotes</label>
         <label class="kg-leg" data-kgtype="video"><span class="kg-dot" style="background:#aa4400"></span>Videos</label>
         <label class="kg-leg" data-kgtype="tag"><span class="kg-dot" style="background:#6688aa"></span>Tags</label>
+        <label class="kg-leg" data-kgtype="concept"><span class="kg-dot" style="background:#996600"></span>Concepts</label>
       </div>
     </div>
     <div id="kg-tag-bar"><span class="kg-tag-bar-label">Filter:</span></div>
@@ -1690,7 +1691,8 @@
     article: {f:'#d4e4f7',s:'#336699',t:'#002255',b:'#336699',bt:'#eef4ff'},
     quote:   {f:'#e8e4f5',s:'#6655aa',t:'#332277',b:'#6655aa',bt:'#f0eeff'},
     video:   {f:'#f7e0d4',s:'#aa4400',t:'#772200',b:'#aa4400',bt:'#fff3ee'},
-    tag:     {f:'#eef2f8',s:'#6688aa',t:'#336699',b:'#6688aa',bt:'#f0f4fa'}
+    tag:     {f:'#eef2f8',s:'#6688aa',t:'#336699',b:'#6688aa',bt:'#f0f4fa'},
+    concept: {f:'#fdf0d0',s:'#996600',t:'#664400',b:'#996600',bt:'#fffbe8'}
   };
   var KG_BG = '#ffffff';
   var KG_EDGE = 'rgba(153,170,204,0.35)';
@@ -1706,6 +1708,9 @@
     {id:'marcus-aurelius',    label:'Marcus Aurelius',        type:'quote',   info:'Roman Emperor & Philosopher', tags:['tag-stoicism','tag-philosophy'],                                                quote:'”The happiness of your life depends on the quality of your thoughts.”',                                                                ann:'You would never talk to others the way you talk to yourself. Give yourself grace and focus on what\'s directly in your control.',                                                                                                                                                                          listId:'list-marcus-aurelius'},
     {id:'epictetus',          label:'Epictetus',              type:'quote',   info:'Stoic Philosopher',           tags:['tag-stoicism','tag-philosophy'],                                                quote:'”The more we value things outside of our control, the less control we have.”',                                                        ann:'Epictetus was born a slave. In those conditions there\'s no choice but to focus internally.',                                                                                                                                                                                                             listId:'list-epictetus'},
     {id:'alex-becker',        label:'Alex Becker on Alcohol', type:'video',  info:'YouTube · 2023',         tags:['tag-alcohol','tag-health','tag-focus'],                                         quote:'”You\'re destroying your brain so much that a boring experience becomes extremely entertaining.”',                                  ann:'Made me rethink my relationship with alcohol entirely. My weekend drink had become automatic.',                                                         link:'https://www.youtube.com/watch?v=tEWweaj_Zyo',                                                                                                     listId:'list-alex-becker'},
+    {id:'concept-stoicism',  label:'Stoicism',            type:'concept', info:'Ancient Greek Philosophy',   tags:['tag-stoicism','tag-philosophy'],                                               ann:'A practical philosophy: we control our judgments and responses, not external events. The goal is virtue and equanimity through reason — not detachment, but the right relationship with what you can and cannot change.'},
+    {id:'concept-attention', label:'The Attention Crisis', type:'concept', info:'Distraction by Design',     tags:['tag-attention','tag-attentioneconomy','tag-deepwork'],                         ann:'The platforms are optimized for engagement, not for us. Dopamine loops, algorithmic feeds, and always-on connectivity have normalized a level of distraction that would have seemed pathological a generation ago. Reclaiming attention is the defining personal challenge of this era.'},
+    {id:'concept-innerlife', label:'Inner Life',           type:'concept', info:'The Inward Turn',            tags:['tag-solitude','tag-philosophy','tag-deepwork'],                                ann:'The quality of your inner life is the one thing that remains yours. Circumstances vary; the capacity to respond to them with intention is cultivable. Solitude, chosen work, philosophical practice — all routes to the same place.'},
     {id:'tag-ai',               label:'#AI',               type:'tag'},
     {id:'tag-futurework',       label:'#FutureOfWork',     type:'tag'},
     {id:'tag-humannature',      label:'#HumanNature',      type:'tag'},
@@ -1739,7 +1744,13 @@
     ['zuckerberg-art','tag-socialmedia'],['zuckerberg-art','tag-attentioneconomy'],
     ['marcus-aurelius','tag-stoicism'],['marcus-aurelius','tag-philosophy'],
     ['epictetus','tag-stoicism'],['epictetus','tag-philosophy'],
-    ['alex-becker','tag-alcohol'],['alex-becker','tag-health'],['alex-becker','tag-focus']
+    ['alex-becker','tag-alcohol'],['alex-becker','tag-health'],['alex-becker','tag-focus'],
+    ['concept-stoicism','marcus-aurelius'],['concept-stoicism','epictetus'],['concept-stoicism','if-this-is-a-man'],
+    ['concept-stoicism','tag-stoicism'],['concept-stoicism','tag-philosophy'],
+    ['concept-attention','fahrenheit-451'],['concept-attention','zuckerberg-art'],['concept-attention','alex-becker'],['concept-attention','co-intelligence'],
+    ['concept-attention','tag-attention'],['concept-attention','tag-attentioneconomy'],['concept-attention','tag-deepwork'],
+    ['concept-innerlife','marcus-aurelius'],['concept-innerlife','epictetus'],['concept-innerlife','a-marriage-at-sea'],['concept-innerlife','if-this-is-a-man'],
+    ['concept-innerlife','tag-solitude'],['concept-innerlife','tag-philosophy'],['concept-innerlife','tag-deepwork']
   ];
 
   var kgNodeMap = {};
