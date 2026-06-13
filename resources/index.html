@@ -694,7 +694,7 @@
 
 <!-- ── Graph view ──────────────────────────────────── -->
 <div id="kg-view">
-  <p class="kg-intro">A force-directed map of this knowledge base. Each node is a book, article, quote, video, or concept — connected through shared tags. Click any node to explore it. Use the tag filter to follow a thread of ideas across sources.</p>
+  <p class="kg-intro">A force-directed map of this knowledge base. Each node is a book, article, quote, video, concept, or post — connected through shared tags. Click any node to explore it. Use the tag filter to follow a thread of ideas across sources.</p>
   <div id="kg-wrap">
     <div id="kg-toolbar">
       <input id="kg-search" type="text" placeholder="Search nodes…"/>
@@ -707,6 +707,7 @@
         <label class="kg-leg" data-kgtype="video"><span class="kg-dot" style="background:#aa4400"></span>Videos</label>
         <label class="kg-leg" data-kgtype="tag"><span class="kg-dot" style="background:#6688aa"></span>Tags</label>
         <label class="kg-leg" data-kgtype="concept"><span class="kg-dot" style="background:#996600"></span>Concepts</label>
+        <label class="kg-leg" data-kgtype="post"><span class="kg-dot" style="background:#883366"></span>Posts</label>
       </div>
     </div>
     <div id="kg-tag-bar"><span class="kg-tag-bar-label">Filter:</span></div>
@@ -1692,7 +1693,8 @@
     quote:   {f:'#e8e4f5',s:'#6655aa',t:'#332277',b:'#6655aa',bt:'#f0eeff'},
     video:   {f:'#f7e0d4',s:'#aa4400',t:'#772200',b:'#aa4400',bt:'#fff3ee'},
     tag:     {f:'#eef2f8',s:'#6688aa',t:'#336699',b:'#6688aa',bt:'#f0f4fa'},
-    concept: {f:'#fdf0d0',s:'#996600',t:'#664400',b:'#996600',bt:'#fffbe8'}
+    concept: {f:'#fdf0d0',s:'#996600',t:'#664400',b:'#996600',bt:'#fffbe8'},
+    post:    {f:'#f5d4e8',s:'#883366',t:'#551144',b:'#883366',bt:'#fceef7'}
   };
   var KG_BG = '#ffffff';
   var KG_EDGE = 'rgba(153,170,204,0.35)';
@@ -1708,6 +1710,11 @@
     {id:'marcus-aurelius',    label:'Marcus Aurelius',        type:'quote',   info:'Roman Emperor & Philosopher', tags:['tag-stoicism','tag-philosophy'],                                                quote:'”The happiness of your life depends on the quality of your thoughts.”',                                                                ann:'You would never talk to others the way you talk to yourself. Give yourself grace and focus on what\'s directly in your control.',                                                                                                                                                                          listId:'list-marcus-aurelius'},
     {id:'epictetus',          label:'Epictetus',              type:'quote',   info:'Stoic Philosopher',           tags:['tag-stoicism','tag-philosophy'],                                                quote:'”The more we value things outside of our control, the less control we have.”',                                                        ann:'Epictetus was born a slave. In those conditions there\'s no choice but to focus internally.',                                                                                                                                                                                                             listId:'list-epictetus'},
     {id:'alex-becker',        label:'Alex Becker on Alcohol', type:'video',  info:'YouTube · 2023',         tags:['tag-alcohol','tag-health','tag-focus'],                                         quote:'”You\'re destroying your brain so much that a boring experience becomes extremely entertaining.”',                                  ann:'Made me rethink my relationship with alcohol entirely. My weekend drink had become automatic.',                                                         link:'https://www.youtube.com/watch?v=tEWweaj_Zyo',                                                                                                     listId:'list-alex-becker'},
+    {id:'post-logging-off',         label:'Logging Off',          type:'post', info:'August 2025',    tags:['tag-attention','tag-attentioneconomy','tag-socialmedia','tag-humannature'],           quote:'"Presence is worth protecting. Not everything needs an audience to matter."',           ann:'Eight months off social media revealed a core truth: most of us are performing, not connecting. The platforms are designed to hold attention indefinitely — logging off is an act of reclaiming what you actually are when no one is watching.',                                                                          link:'/logging-off'},
+    {id:'post-eight-months-later',  label:'Eight Months Later',   type:'post', info:'April 2026',     tags:['tag-attention','tag-attentioneconomy','tag-socialmedia','tag-psychology'],            quote:'"The compulsion to reach for the phone is the product of billions of dollars of research into human psychology."',                                                                      ann:'A follow-up on the social media detox. The bigger realization: the habit was masking something. Sitting with the discomfort — instead of scrolling past it — led to genuine contentment.',                                                                                                link:'/eight-months-later'},
+    {id:'post-unraveling',          label:'Unraveling',           type:'post', info:'2025',           tags:['tag-philosophy','tag-deepwork','tag-psychology','tag-humannature'],                   quote:'"Consistency is about clarity, not discipline."',                                       ann:'Before building any system, you have to be honest about what actually matters to you. Most people are chasing borrowed goals. The work before the work is unraveling inherited beliefs to find what\'s genuinely yours.',                                                                    link:'/unraveling'},
+    {id:'post-houston-marathon',    label:'Running Through Doubt', type:'post', info:'January 2026',  tags:['tag-humannature','tag-psychology','tag-resilience'],                                  quote:'"Reframing in real-time is invaluable."',                                               ann:'Finished the Houston Marathon with an adductor injury and five weeks of broken training. What it revealed: character shows when the plan falls apart, shared hardship creates real bonds, and adapting is worth more than hitting a target time.',                                            link:'/houston-marathon-2026'},
+    {id:'post-annual-review',       label:'2025 Annual Review',   type:'post', info:'December 2025', tags:['tag-attention','tag-deepwork','tag-ai','tag-philosophy','tag-reflection'],             quote:'"Addition through subtraction."',                                                        ann:'The year\'s central theme: strip back to focus. Screen time down from 4 hours to under 1 hour/day, daily reading scheduled, self-worth decoupled from productivity. The idea of the year: structurally misaligned incentives.',                                                            link:'/annual-review-2025'},
     {id:'concept-stoicism',  label:'Stoicism',            type:'concept', info:'Ancient Greek Philosophy',   tags:['tag-stoicism','tag-philosophy'],                                               ann:'A practical philosophy: we control our judgments and responses, not external events. The goal is virtue and equanimity through reason — not detachment, but the right relationship with what you can and cannot change.'},
     {id:'concept-attention', label:'The Attention Crisis', type:'concept', info:'Distraction by Design',     tags:['tag-attention','tag-attentioneconomy','tag-deepwork'],                         ann:'The platforms are optimized for engagement, not for us. Dopamine loops, algorithmic feeds, and always-on connectivity have normalized a level of distraction that would have seemed pathological a generation ago. Reclaiming attention is the defining personal challenge of this era.'},
     {id:'concept-innerlife', label:'Inner Life',           type:'concept', info:'The Inward Turn',            tags:['tag-solitude','tag-philosophy','tag-deepwork'],                                ann:'The quality of your inner life is the one thing that remains yours. Circumstances vary; the capacity to respond to them with intention is cultivable. Solitude, chosen work, philosophical practice — all routes to the same place.'},
@@ -1727,7 +1734,9 @@
     {id:'tag-health',           label:'#Health',           type:'tag'},
     {id:'tag-focus',            label:'#Focus',            type:'tag'},
     {id:'tag-writing',          label:'#Writing',          type:'tag'},
-    {id:'tag-alcohol',          label:'#Alcohol',          type:'tag'}
+    {id:'tag-alcohol',          label:'#Alcohol',          type:'tag'},
+    {id:'tag-resilience',       label:'#Resilience',       type:'tag'},
+    {id:'tag-reflection',       label:'#Reflection',       type:'tag'}
   ];
 
   var KG_RE = [
@@ -1745,6 +1754,16 @@
     ['marcus-aurelius','tag-stoicism'],['marcus-aurelius','tag-philosophy'],
     ['epictetus','tag-stoicism'],['epictetus','tag-philosophy'],
     ['alex-becker','tag-alcohol'],['alex-becker','tag-health'],['alex-becker','tag-focus'],
+    ['post-logging-off','tag-attention'],['post-logging-off','tag-attentioneconomy'],['post-logging-off','tag-socialmedia'],['post-logging-off','tag-humannature'],
+    ['post-logging-off','concept-attention'],['post-logging-off','zuckerberg-art'],['post-logging-off','concept-innerlife'],
+    ['post-eight-months-later','tag-attention'],['post-eight-months-later','tag-attentioneconomy'],['post-eight-months-later','tag-socialmedia'],['post-eight-months-later','tag-psychology'],
+    ['post-eight-months-later','concept-attention'],['post-eight-months-later','post-logging-off'],['post-eight-months-later','alex-becker'],['post-eight-months-later','concept-innerlife'],
+    ['post-unraveling','tag-philosophy'],['post-unraveling','tag-deepwork'],['post-unraveling','tag-psychology'],['post-unraveling','tag-humannature'],
+    ['post-unraveling','concept-innerlife'],['post-unraveling','concept-stoicism'],['post-unraveling','epictetus'],
+    ['post-houston-marathon','tag-humannature'],['post-houston-marathon','tag-psychology'],['post-houston-marathon','tag-resilience'],
+    ['post-houston-marathon','concept-stoicism'],['post-houston-marathon','if-this-is-a-man'],['post-houston-marathon','concept-innerlife'],
+    ['post-annual-review','tag-attention'],['post-annual-review','tag-deepwork'],['post-annual-review','tag-ai'],['post-annual-review','tag-philosophy'],['post-annual-review','tag-reflection'],
+    ['post-annual-review','concept-attention'],['post-annual-review','co-intelligence'],['post-annual-review','fahrenheit-451'],['post-annual-review','concept-innerlife'],['post-annual-review','post-unraveling'],
     ['concept-stoicism','marcus-aurelius'],['concept-stoicism','epictetus'],['concept-stoicism','if-this-is-a-man'],
     ['concept-stoicism','tag-stoicism'],['concept-stoicism','tag-philosophy'],
     ['concept-attention','fahrenheit-451'],['concept-attention','zuckerberg-art'],['concept-attention','alex-becker'],['concept-attention','co-intelligence'],
