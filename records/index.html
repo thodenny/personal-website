@@ -706,7 +706,7 @@
       // Wraps the cover in a YouTube link (full-album video) when one exists.
       function coverBlock(rec, baseClass, inner) {
         if (rec.youtube) {
-          return '<a class="' + baseClass + ' rec-cover-link" href="../' +
+          return '<a class="' + baseClass + ' rec-cover-link" href="' +
             escapeHTML(rec.youtube) + '" target="_blank" rel="noopener noreferrer" ' +
             'title="Watch ' + escapeHTML(rec.title) + ' on YouTube">' + inner +
             '<span class="rec-cover-play" aria-hidden="true">&#9654;</span></a>';
@@ -961,7 +961,7 @@
 
         function openReveal(rec) {
           var listen = rec.youtube
-            ? '<a class="rev-btn rev-btn-primary" href="../' + escapeHTML(rec.youtube) +
+            ? '<a class="rev-btn rev-btn-primary" href="' + escapeHTML(rec.youtube) +
               '" target="_blank" rel="noopener noreferrer">&#9654; Listen on YouTube</a>'
             : '';
           revealCard.innerHTML =
