@@ -388,6 +388,225 @@
       font-size: 11px;
       padding: 0 2px;
     }
+
+    /* ── Knowledge Graph toggle ─────────────────────────── */
+    .kb-toggle-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .kb-toggle-btn {
+      font-size: 11px;
+      font-family: Verdana, Arial, sans-serif;
+      color: #336699;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      padding: 4px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.15s ease;
+    }
+    .kb-toggle-btn:hover {
+      background: linear-gradient(to bottom, #fff4ee, #ffe0cc);
+      border-color: #FF6600;
+      color: #CC4400;
+    }
+    .kb-toggle-btn.active {
+      background: linear-gradient(to right, #1a4d8a, #4477aa);
+      border-color: #003366;
+      color: #fff;
+    }
+
+    /* ── Knowledge Graph widget ─────────────────────────── */
+    #kg-wrap {
+      width: 100%;
+      background: #fff;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    #kg-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-bottom: 1px solid #ddeeff;
+      background: #f0f4fa;
+      flex-wrap: wrap;
+    }
+    #kg-search {
+      flex: 1;
+      min-width: 100px;
+      height: 28px;
+      padding: 0 8px;
+      font-size: 12px;
+      font-family: Verdana, Arial, sans-serif;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      background: #fff;
+      color: #333;
+      outline: none;
+    }
+    #kg-search:focus { border-color: #336699; }
+    #kg-sg-btn {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 11px;
+      font-family: Verdana, Arial, sans-serif;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8);
+      color: #336699;
+      cursor: pointer;
+      white-space: nowrap;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    #kg-sg-btn.active {
+      background: linear-gradient(to right, #1a4d8a, #4477aa);
+      color: #fff;
+      border-color: #003366;
+    }
+    #kg-surprise-btn {
+      height: 28px;
+      padding: 0 12px;
+      font-size: 11px;
+      font-family: Verdana, Arial, sans-serif;
+      border: 1px solid #cc4400;
+      border-radius: 2px;
+      background: linear-gradient(to bottom, #FF7722, #FF6600);
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    #kg-surprise-btn:hover {
+      background: linear-gradient(to bottom, #ff8833, #ff7711);
+    }
+    .kg-leg-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .kg-leg { display: flex; align-items: center; gap: 4px; cursor: pointer; user-select: none; font-size: 11px; color: #6688aa; font-family: Verdana, Arial, sans-serif; }
+    .kg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    #kg-main { display: flex; position: relative; }
+    #kg-cw { flex: 1; position: relative; height: 520px; overflow: hidden; }
+    #kg-canvas { position: absolute; top: 0; left: 0; }
+    #kg-tip {
+      position: absolute;
+      pointer-events: none;
+      background: #fff;
+      border: 1px solid #99AACC;
+      border-radius: 3px;
+      padding: 6px 10px;
+      font-size: 11px;
+      color: #333;
+      max-width: 200px;
+      display: none;
+      z-index: 20;
+      line-height: 1.5;
+      font-family: Verdana, Arial, sans-serif;
+    }
+    #kg-zc { position: absolute; bottom: 10px; left: 10px; display: flex; flex-direction: column; gap: 3px; z-index: 10; }
+    .kg-zb {
+      width: 26px; height: 26px;
+      border-radius: 2px;
+      border: 1px solid #99AACC;
+      background: #f0f4fa;
+      color: #336699;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kg-zb:hover { background: #fff4ee; border-color: #FF6600; color: #CC4400; }
+    #kg-hint {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 10px;
+      color: #aabbcc;
+      pointer-events: none;
+      text-align: right;
+      line-height: 1.6;
+      font-family: Verdana, Arial, sans-serif;
+    }
+    #kg-dp {
+      width: 0;
+      overflow: hidden;
+      transition: width 0.2s;
+      border-left: 1px solid #ddeeff;
+      background: #fff;
+      flex-shrink: 0;
+      position: relative;
+    }
+    #kg-dp.open { width: 230px; }
+    #kg-dh {
+      padding: 10px 12px 8px;
+      border-bottom: 1px solid #ddeeff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #kg-dh span { font-size: 10px; font-weight: bold; color: #6688aa; text-transform: uppercase; letter-spacing: 0.06em; font-family: Verdana, Arial, sans-serif; }
+    #kg-dc { font-size: 14px; cursor: pointer; color: #99AACC; background: none; border: none; line-height: 1; padding: 0; }
+    #kg-dc:hover { color: #FF6600; }
+    #kg-di { padding: 12px; overflow-y: auto; max-height: 480px; font-family: Verdana, Arial, sans-serif; }
+    #kg-di h3 { font-family: Georgia, serif; font-size: 13px; font-weight: normal; margin-bottom: 6px; line-height: 1.4; color: #003366; }
+    .kg-dtype { display: inline-block; font-size: 9px; padding: 2px 7px; border-radius: 2px; margin-bottom: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.7px; }
+    .kg-dmeta { font-size: 11px; color: #6688aa; margin-bottom: 10px; line-height: 1.5; }
+    .kg-dquote { font-size: 11px; font-style: italic; border-left: 3px solid #99AACC; padding-left: 8px; color: #555; margin-bottom: 10px; line-height: 1.6; }
+    .kg-dann { font-size: 11px; line-height: 1.65; margin-bottom: 12px; color: #444466; }
+    .kg-dtags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .kg-dtag { font-size: 10px; padding: 2px 7px; border-radius: 2px; background: #eef2f8; border: 1px solid #99AACC; color: #336699; cursor: pointer; text-decoration: none; display: inline-block; }
+    .kg-dtag:hover { background: #fff4ee; border-color: #FF6600; color: #CC4400; }
+    .kg-dlink { display: block; font-size: 11px; color: #336699; text-decoration: none; margin-top: 4px; }
+    .kg-dlink:hover { color: #FF6600; text-decoration: underline; }
+    .kg-dsec { font-size: 10px; font-weight: bold; color: #99AACC; text-transform: uppercase; letter-spacing: 0.06em; margin: 12px 0 6px; }
+    .kg-rel-card { padding: 8px 10px; border-radius: 2px; border: 1px solid #ddeeff; margin-bottom: 6px; cursor: pointer; }
+    .kg-rel-card:hover { background: #f0f4fa; }
+    .kg-rel-card .kg-rc-label { font-size: 11px; font-weight: bold; color: #003366; margin-bottom: 3px; }
+    .kg-rel-card .kg-rc-why { font-size: 10px; color: #6688aa; line-height: 1.4; }
+    .kg-rc-shared { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 2px; background: #eef2f8; color: #6688aa; border: 1px solid #ddeeff; margin-right: 3px; margin-top: 2px; }
+    .kg-intro { font-size: 12px; color: #6688aa; line-height: 1.65; margin-bottom: 10px; }
+    #kg-tag-bar {
+      padding: 6px 12px 8px;
+      border-bottom: 1px solid #ddeeff;
+      background: #f8f9fc;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+    .kg-tag-bar-label {
+      font-size: 10px;
+      color: #99AACC;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-family: Verdana, Arial, sans-serif;
+      margin-right: 2px;
+      flex-shrink: 0;
+    }
+    .kg-tag-pill {
+      font-size: 10px;
+      padding: 2px 8px;
+      border: 1px solid #99AACC;
+      border-radius: 2px;
+      color: #336699;
+      background: #eef2f8;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Verdana, Arial, sans-serif;
+      user-select: none;
+    }
+    .kg-tag-pill:hover { background: #fff4ee; border-color: #FF6600; color: #CC4400; }
+    .kg-tag-pill.kg-tag-active { background: #FF6600; border-color: #CC4400; color: #fff; }
   </style>
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
@@ -468,6 +687,49 @@
       ==================================================== -->
 <main class="col-right">
 <div class="section-header">Knowledge Base</div>
+<div class="kb-toggle-bar">
+  <button class="kb-toggle-btn" id="kb-list-btn">List</button>
+  <button class="kb-toggle-btn active" id="kb-graph-btn">Graph</button>
+</div>
+
+<!-- ── Graph view ──────────────────────────────────── -->
+<div id="kg-view">
+  <p class="kg-intro">A force-directed map of this knowledge base. Each node is a book, article, quote, or video — connected through shared tags. Click any node to explore it. Use the tag filter to follow a thread of ideas across sources.</p>
+  <div id="kg-wrap">
+    <div id="kg-toolbar">
+      <input id="kg-search" type="text" placeholder="Search nodes…"/>
+      <button id="kg-sg-btn">Connected only</button>
+      <button id="kg-surprise-btn">Surprise me</button>
+      <div class="kg-leg-row">
+        <label class="kg-leg" data-kgtype="book"><span class="kg-dot" style="background:#2a6636"></span>Books</label>
+        <label class="kg-leg" data-kgtype="article"><span class="kg-dot" style="background:#336699"></span>Articles</label>
+        <label class="kg-leg" data-kgtype="quote"><span class="kg-dot" style="background:#6655aa"></span>Quotes</label>
+        <label class="kg-leg" data-kgtype="video"><span class="kg-dot" style="background:#aa4400"></span>Videos</label>
+        <label class="kg-leg" data-kgtype="tag"><span class="kg-dot" style="background:#6688aa"></span>Tags</label>
+      </div>
+    </div>
+    <div id="kg-tag-bar"><span class="kg-tag-bar-label">Filter:</span></div>
+    <div id="kg-main">
+      <div id="kg-cw">
+        <canvas id="kg-canvas"></canvas>
+        <div id="kg-tip"></div>
+        <div id="kg-zc">
+          <button class="kg-zb" id="kg-z-in">+</button>
+          <button class="kg-zb" id="kg-z-out">&minus;</button>
+          <button class="kg-zb" id="kg-z-fit" style="font-size:11px">&#8862;</button>
+        </div>
+        <div id="kg-hint">Scroll to zoom &middot; Drag to pan<br>Click node for details &middot; Double-click to unpin</div>
+      </div>
+      <div id="kg-dp">
+        <div id="kg-dh"><span>Details</span><button id="kg-dc">&times;</button></div>
+        <div id="kg-di"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── List view ──────────────────────────────────── -->
+<div id="list-view" style="display:none;">
 <div class="content-box inner-content">
 <p style="font-size:12px; color:#6688aa; margin-bottom:14px;">
             Articles, notes from books, quotes, and videos I've found worthwhile. This is my personalized knowledge database. Filter by tag, type, or search to find what you're looking for.
@@ -498,7 +760,7 @@
 <!-- ══════════════════════════════════════════
                  ARTICLE ENTRY
             ══════════════════════════════════════════ -->
-<li class="resource-entry" data-type="article">
+<li class="resource-entry" data-type="article" id="list-zuckerberg-art">
 <span class="media-badge media-badge--article">Article</span>
 <div class="resource-title">
 <a href="https://www.newyorker.com/culture/infinite-scroll/mark-zuckerberg-says-social-media-is-over" rel="noopener" target="_blank">
@@ -515,7 +777,7 @@
 <button class="my-take-toggle" data-state="collapsed" data-target="take-article-1" style="display:none;">read more ↓</button>
 </div>
 <blockquote class="resource-blockquote">
-                "Meta displayed a chart showing that the “percent of time spent viewing content posted by ‘friends’ ” has declined in the past two years, from 22% cent to 17% on Facebook, and from 11% to 7% on Instagram"
+                "Meta displayed a chart showing that the “percent of time spent viewing content posted by 'friends' ” has declined in the past two years, from 22% cent to 17% on Facebook, and from 11% to 7% on Instagram"
               </blockquote>
 <div class="resource-tags">
 <a class="resource-tag" data-tag="Social Media" href="/resources?tag=Social Media">#Social Media</a>
@@ -525,7 +787,7 @@
 <!-- ══════════════════════════════════════════
                  QUOTE ENTRY
             ══════════════════════════════════════════ -->
-<li class="resource-entry" data-type="quote">
+<li class="resource-entry" data-type="quote" id="list-marcus-aurelius">
 <span class="media-badge media-badge--quote">Quote</span>
 <blockquote class="resource-blockquote resource-blockquote--standalone">
                 "The happiness of your life depends on the quality of your thoughts"
@@ -544,7 +806,7 @@
 <!-- ══════════════════════════════════════════
                  VIDEO ENTRY
             ══════════════════════════════════════════ -->
-<li class="resource-entry" data-type="video">
+<li class="resource-entry" data-type="video" id="list-alex-becker">
 <span class="media-badge media-badge--video">Video</span>
 <div class="resource-title">
 <a href="https://www.youtube.com/watch?v=tEWweaj_Zyo&t=346s" rel="noopener" target="_blank">
@@ -573,7 +835,7 @@
 <!-- ══════════════════════════════════════════
                  QUOTE ENTRY
             ══════════════════════════════════════════ -->
-<li class="resource-entry" data-type="quote">
+<li class="resource-entry" data-type="quote" id="list-epictetus">
 <span class="media-badge media-badge--quote">Quote</span>
 <blockquote class="resource-blockquote resource-blockquote--standalone">
                 "The more we value things outside of our control, the less control we have."
@@ -590,7 +852,7 @@
 </div>
 </li>
 <!-- ══ Co-Intelligence · p. xvii ══ -->
-<li class="resource-entry" data-book="Co-Intelligence" data-type="book">
+<li class="resource-entry" data-book="Co-Intelligence" data-type="book" id="list-co-intelligence">
 <span class="media-badge media-badge--book">Book</span>
 <div class="resource-title">
 <a href="/book-notes-co-intelligence">Co-Intelligence</a>
@@ -660,7 +922,7 @@
 </div>
 <div class="resource-meta">Ethan Mollick  ·  Four Rules For Co-Intelligence  ·  p. 59</div>
 <blockquote class="resource-blockquote">
-                “The key is to give the LLM some guidance and direction on how to generate outputs that match your expectations and needs, to put it in the right ‘headspace’ to give you interesting and unique answers.”
+                “The key is to give the LLM some guidance and direction on how to generate outputs that match your expectations and needs, to put it in the right 'headspace' to give you interesting and unique answers.”
               </blockquote>
 <div class="my-take-wrap">
 <div class="my-take-text collapsed" id="take-co-4">
@@ -695,7 +957,7 @@
 </div>
 <div class="resource-meta">Ethan Mollick  ·  AI As A Person  ·  p. 90</div>
 <blockquote class="resource-blockquote">
-                “Soon, companies will start to deploy LLMs that are built specifically to optimize ‘engagement’ in the same way that social media timelines are fine-tuned to increase the amount of time you spend on your favorite site.”
+                “Soon, companies will start to deploy LLMs that are built specifically to optimize 'engagement' in the same way that social media timelines are fine-tuned to increase the amount of time you spend on your favorite site.”
               </blockquote>
 <div class="resource-tags">
 <a class="resource-tag" data-tag="AI" href="/resources?tag=AI">#AI</a>
@@ -762,7 +1024,7 @@
 </div>
 </li>
 <!-- ══ If This Is A Man · p. 79 ══ -->
-<li class="resource-entry" data-book="If This Is A Man" data-type="book">
+<li class="resource-entry" data-book="If This Is A Man" data-type="book" id="list-if-this-is-a-man">
 <span class="media-badge media-badge--book">Book</span>
 <div class="resource-title">
 <a href="/book-notes-if-this-is-a-man">If This Is A Man</a>
@@ -783,14 +1045,14 @@
 </div>
 </li>
 <!-- ══ Fahrenheit 451 · p. 52 ══ -->
-<li class="resource-entry" data-book="Fahrenheit 451" data-type="book">
+<li class="resource-entry" data-book="Fahrenheit 451" data-type="book" id="list-fahrenheit-451">
 <span class="media-badge media-badge--book">Book</span>
 <div class="resource-title">
 <a href="/book-notes-fahrenheit-451">Fahrenheit 451</a>
 </div>
 <div class="resource-meta">Ray Bradbury  ·  The Hearth and the Salamander  ·  p. 52</div>
 <blockquote class="resource-blockquote">
-                “Whirl man’s mind around so fast under the pumping hands of publishers, exploiters, broadcasters that the centrifuge flings off all unnecessary, time-wasting thought!”
+                “Whirl man's mind around so fast under the pumping hands of publishers, exploiters, broadcasters that the centrifuge flings off all unnecessary, time-wasting thought!”
               </blockquote>
 <div class="resource-tags">
 <a class="resource-tag" data-tag="Attention" href="/resources?tag=Attention">#Attention</a>
@@ -819,7 +1081,7 @@
 </div>
 <div class="resource-meta">Ray Bradbury  ·  The Sieve and the Sand  ·  p. 80</div>
 <blockquote class="resource-blockquote">
-                “Off hours, yes. But time to think? If you’re not driving a hundred miles an hour, at a clip where you can’t think of anything else but the danger, then you’re playing some game or sitting in some room where you can’t argue with the four-wall televisor.”
+                “Off hours, yes. But time to think? If you're not driving a hundred miles an hour, at a clip where you can't think of anything else but the danger, then you're playing some game or sitting in some room where you can't argue with the four-wall televisor.”
               </blockquote>
 <div class="resource-tags">
 <a class="resource-tag" data-tag="Attention" href="/resources?tag=Attention">#Attention</a>
@@ -899,7 +1161,7 @@
 </div>
 </li>
 <!-- ══ A Marriage at Sea · p. 116 ══ -->
-<li class="resource-entry" data-book="A Marriage at Sea" data-type="book">
+<li class="resource-entry" data-book="A Marriage at Sea" data-type="book" id="list-a-marriage-at-sea">
 <span class="media-badge media-badge--book">Book</span>
 <div class="resource-title">
 <a href="/book-notes-a-marriage-at-sea">A Marriage at Sea</a>
@@ -988,6 +1250,7 @@
 </li>
 </ul>
 </div>
+</div><!-- /list-view -->
 </main>
 </div>
 <!-- /main-layout -->
@@ -1418,5 +1681,427 @@
       });
     })();
   </script>
+
+<!-- ── Knowledge Graph ──────────────────────────────────── -->
+<script>
+(function(){
+  var KG_C = {
+    book:    {f:'#d4ebda',s:'#2a6636',t:'#1a4422',b:'#2a6636',bt:'#eef6f0'},
+    article: {f:'#d4e4f7',s:'#336699',t:'#002255',b:'#336699',bt:'#eef4ff'},
+    quote:   {f:'#e8e4f5',s:'#6655aa',t:'#332277',b:'#6655aa',bt:'#f0eeff'},
+    video:   {f:'#f7e0d4',s:'#aa4400',t:'#772200',b:'#aa4400',bt:'#fff3ee'},
+    tag:     {f:'#eef2f8',s:'#6688aa',t:'#336699',b:'#6688aa',bt:'#f0f4fa'}
+  };
+  var KG_BG = '#ffffff';
+  var KG_EDGE = 'rgba(153,170,204,0.35)';
+  var KG_EDGE_HI = 'rgba(0,51,102,0.55)';
+  var KG_EDGE_REL = 'rgba(255,102,0,0.5)';
+
+  var KG_ND = [
+    {id:'co-intelligence',    label:'Co-Intelligence',       type:'book',    info:'Ethan Mollick',              tags:['tag-ai','tag-futurework','tag-humannature','tag-attention','tag-deepwork'],      quote:'”Whatever AI you are using right now is going to be the worst AI you will ever use.”',                                       ann:'Workers who figure out how to make AI useful will have a large impact. Over-relying on AI for first drafts risks losing our creativity.',            link:'/book-notes-co-intelligence', listId:'list-co-intelligence'},
+    {id:'fahrenheit-451',     label:'Fahrenheit 451',        type:'book',    info:'Ray Bradbury',                tags:['tag-attention','tag-deepwork','tag-reading','tag-humannature','tag-psychology'], quote:'”Off hours, yes. But time to think?”',                                                                                         ann:'Written as a warning about distraction and the death of deep reading. Feels more relevant every year.',                                                 link:'/book-notes-fahrenheit-451',  listId:'list-fahrenheit-451'},
+    {id:'if-this-is-a-man',   label:'If This Is A Man',      type:'book',    info:'Primo Levi',                  tags:['tag-humannature','tag-psychology'],                                              quote:'”Grief and pain…hide, the lesser behind the greater, according to the law of perspective.”',                                   ann:'This has me reflecting on the hedonic treadmill — that happiness tends to return to baseline after positive or negative events.',                  link:'/book-notes-if-this-is-a-man', listId:'list-if-this-is-a-man'},
+    {id:'a-marriage-at-sea',  label:'A Marriage at Sea',     type:'book',    info:'Sophie Elmhirst',             tags:['tag-writing','tag-solitude','tag-humannature','tag-deepwork','tag-creativity'],  quote:'”It is possible to write yourself out of loneliness.”',                                                                              ann:'Solitude, when chosen, can feel like a gift. Work for its own sake — not everything has to be seen.',                                              link:'/book-notes-a-marriage-at-sea', listId:'list-a-marriage-at-sea'},
+    {id:'zuckerberg-art',     label:'Social Media Is Over',  type:'article', info:'The New Yorker · Apr 2025', tags:['tag-socialmedia','tag-attentioneconomy'],                                   ann:'Only 7% of time on Instagram is spent viewing friends\' content. The platforms have transformed from social connection to social marketing.',      link:'https://www.newyorker.com/culture/infinite-scroll/mark-zuckerberg-says-social-media-is-over', listId:'list-zuckerberg-art'},
+    {id:'marcus-aurelius',    label:'Marcus Aurelius',        type:'quote',   info:'Roman Emperor & Philosopher', tags:['tag-stoicism','tag-philosophy'],                                                quote:'”The happiness of your life depends on the quality of your thoughts.”',                                                                ann:'You would never talk to others the way you talk to yourself. Give yourself grace and focus on what\'s directly in your control.',                                                                                                                                                                          listId:'list-marcus-aurelius'},
+    {id:'epictetus',          label:'Epictetus',              type:'quote',   info:'Stoic Philosopher',           tags:['tag-stoicism','tag-philosophy'],                                                quote:'”The more we value things outside of our control, the less control we have.”',                                                        ann:'Epictetus was born a slave. In those conditions there\'s no choice but to focus internally.',                                                                                                                                                                                                             listId:'list-epictetus'},
+    {id:'alex-becker',        label:'Alex Becker on Alcohol', type:'video',  info:'YouTube · 2023',         tags:['tag-alcohol','tag-health','tag-focus'],                                         quote:'”You\'re destroying your brain so much that a boring experience becomes extremely entertaining.”',                                  ann:'Made me rethink my relationship with alcohol entirely. My weekend drink had become automatic.',                                                         link:'https://www.youtube.com/watch?v=tEWweaj_Zyo',                                                                                                     listId:'list-alex-becker'},
+    {id:'tag-ai',               label:'#AI',               type:'tag'},
+    {id:'tag-futurework',       label:'#FutureOfWork',     type:'tag'},
+    {id:'tag-humannature',      label:'#HumanNature',      type:'tag'},
+    {id:'tag-attention',        label:'#Attention',        type:'tag'},
+    {id:'tag-deepwork',         label:'#DeepWork',         type:'tag'},
+    {id:'tag-stoicism',         label:'#Stoicism',         type:'tag'},
+    {id:'tag-philosophy',       label:'#Philosophy',       type:'tag'},
+    {id:'tag-reading',          label:'#Reading',          type:'tag'},
+    {id:'tag-creativity',       label:'#Creativity',       type:'tag'},
+    {id:'tag-solitude',         label:'#Solitude',         type:'tag'},
+    {id:'tag-socialmedia',      label:'#SocialMedia',      type:'tag'},
+    {id:'tag-attentioneconomy', label:'#AttentionEconomy', type:'tag'},
+    {id:'tag-psychology',       label:'#Psychology',       type:'tag'},
+    {id:'tag-health',           label:'#Health',           type:'tag'},
+    {id:'tag-focus',            label:'#Focus',            type:'tag'},
+    {id:'tag-writing',          label:'#Writing',          type:'tag'},
+    {id:'tag-alcohol',          label:'#Alcohol',          type:'tag'}
+  ];
+
+  var KG_RE = [
+    ['co-intelligence','tag-ai'],['co-intelligence','tag-futurework'],
+    ['co-intelligence','tag-humannature'],['co-intelligence','tag-attention'],
+    ['co-intelligence','tag-deepwork'],
+    ['fahrenheit-451','tag-attention'],['fahrenheit-451','tag-deepwork'],
+    ['fahrenheit-451','tag-reading'],['fahrenheit-451','tag-humannature'],
+    ['fahrenheit-451','tag-psychology'],
+    ['if-this-is-a-man','tag-humannature'],['if-this-is-a-man','tag-psychology'],
+    ['a-marriage-at-sea','tag-writing'],['a-marriage-at-sea','tag-solitude'],
+    ['a-marriage-at-sea','tag-humannature'],['a-marriage-at-sea','tag-deepwork'],
+    ['a-marriage-at-sea','tag-creativity'],
+    ['zuckerberg-art','tag-socialmedia'],['zuckerberg-art','tag-attentioneconomy'],
+    ['marcus-aurelius','tag-stoicism'],['marcus-aurelius','tag-philosophy'],
+    ['epictetus','tag-stoicism'],['epictetus','tag-philosophy'],
+    ['alex-becker','tag-alcohol'],['alex-becker','tag-health'],['alex-becker','tag-focus']
+  ];
+
+  var kgNodeMap = {};
+  KG_ND.forEach(function(n){ kgNodeMap[n.id] = n; });
+  var kgDeg = {};
+  KG_ND.forEach(function(n){ kgDeg[n.id] = 0; });
+  KG_RE.forEach(function(e){ kgDeg[e[0]]++; kgDeg[e[1]]++; });
+
+  function kgGetRelated(n) {
+    if (!n.tags || !n.tags.length) return [];
+    var direct = {};
+    KG_RE.forEach(function(e){
+      if (e[0] === n.id) direct[e[1]] = true;
+      if (e[1] === n.id) direct[e[0]] = true;
+    });
+    var scores = {};
+    KG_ND.forEach(function(other){
+      if (other.id === n.id || direct[other.id] || !other.tags || other.type === 'tag') return;
+      var shared = other.tags.filter(function(t){ return n.tags.indexOf(t) !== -1; });
+      if (shared.length > 0) scores[other.id] = {count:shared.length, tags:shared, node:other};
+    });
+    return Object.keys(scores).map(function(k){ return scores[k]; })
+      .sort(function(a,b){ return b.count - a.count; }).slice(0,3);
+  }
+
+  var kgCw     = document.getElementById('kg-cw');
+  var kgCanvas = document.getElementById('kg-canvas');
+  var kgCtx    = kgCanvas.getContext('2d');
+  var kgTip    = document.getElementById('kg-tip');
+  var kgDp     = document.getElementById('kg-dp');
+  var kgDi     = document.getElementById('kg-di');
+
+  var KG_W = 0, KG_H = 0;
+  function kgResize() {
+    var r = kgCw.getBoundingClientRect();
+    KG_W = Math.round(r.width) || 680;
+    KG_H = Math.round(r.height) || 520;
+    kgCanvas.width  = Math.round(KG_W * devicePixelRatio);
+    kgCanvas.height = Math.round(KG_H * devicePixelRatio);
+    kgCanvas.style.width  = KG_W + 'px';
+    kgCanvas.style.height = KG_H + 'px';
+    kgCtx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  }
+
+  var kgCamX = 0, kgCamY = 0, kgCamZ = 1;
+  function kgTw(sx,sy){ return {x:(sx-KG_W/2)/kgCamZ+KG_W/2-kgCamX, y:(sy-KG_H/2)/kgCamZ+KG_H/2-kgCamY}; }
+  function kgTs(wx,wy){ return {x:(wx+kgCamX-KG_W/2)*kgCamZ+KG_W/2, y:(wy+kgCamY-KG_H/2)*kgCamZ+KG_H/2}; }
+  function kgNr(n){ var c=kgDeg[n.id]; return n.type==='tag' ? 6+c*2.5 : 15+c*1.5; }
+
+  var kgNodes = KG_ND.map(function(n){
+    return {id:n.id,label:n.label,type:n.type,info:n.info,tags:n.tags,quote:n.quote,ann:n.ann,link:n.link,
+            x:0,y:0,vx:0,vy:0,r:kgNr(n),pinned:false};
+  });
+  var kgEdges = KG_RE.map(function(e){
+    return {s:kgNodes.filter(function(n){return n.id===e[0];})[0],
+            t:kgNodes.filter(function(n){return n.id===e[1];})[0]};
+  });
+
+  var kgSelected=null, kgDragging=null, kgPanStart=null;
+  var kgCamSX=0, kgCamSY=0, kgDOX=0, kgDOY=0;
+  var kgSearchQ='', kgSgOn=false, kgFrame=0;
+  var kgHiddenT={}, kgRelatedIds={};
+
+  function kgInitPos(){
+    kgNodes.forEach(function(n){
+      n.x=KG_W/2+(Math.random()-0.5)*220;
+      n.y=KG_H/2+(Math.random()-0.5)*220;
+      n.vx=0; n.vy=0;
+    });
+  }
+
+  function kgVis(n){
+    if(kgHiddenT[n.type]) return false;
+    if(kgSgOn&&kgSelected){var c=kgGetConn(kgSelected);if(n!==kgSelected&&!c[n.id]) return false;}
+    return true;
+  }
+  function kgIsDimmed(n){
+    if(kgSearchQ&&n.label.toLowerCase().indexOf(kgSearchQ)===-1) return true;
+    if(kgSelected){var c=kgGetConn(kgSelected);if(n!==kgSelected&&!c[n.id]&&!kgRelatedIds[n.id]) return true;}
+    return false;
+  }
+  function kgGetConn(n){
+    var s={};
+    kgEdges.forEach(function(e){if(e.s===n)s[e.t.id]=true;if(e.t===n)s[e.s.id]=true;});
+    return s;
+  }
+
+  function kgSimulate(){
+    kgNodes.forEach(function(n){if(!n.pinned){n.vx*=0.82;n.vy*=0.82;}});
+    for(var i=0;i<kgNodes.length;i++){
+      for(var j=i+1;j<kgNodes.length;j++){
+        var a=kgNodes[i],b=kgNodes[j];
+        if(!kgVis(a)||!kgVis(b)) continue;
+        var dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1,md=(a.r+b.r)*2.4;
+        if(d<md){var f=(md-d)/d*0.55;if(!a.pinned){a.vx-=dx*f;a.vy-=dy*f;}if(!b.pinned){b.vx+=dx*f;b.vy+=dy*f;}}
+      }
+    }
+    kgEdges.forEach(function(e){
+      if(!kgVis(e.s)||!kgVis(e.t)) return;
+      var dx=e.t.x-e.s.x,dy=e.t.y-e.s.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=(d-95)/d*0.07;
+      if(!e.s.pinned){e.s.vx+=dx*f;e.s.vy+=dy*f;}if(!e.t.pinned){e.t.vx-=dx*f;e.t.vy-=dy*f;}
+    });
+    kgNodes.forEach(function(n){
+      if(!kgVis(n)||n.pinned) return;
+      n.vx+=(KG_W/2-n.x)*0.004; n.vy+=(KG_H/2-n.y)*0.004;
+      n.x+=n.vx; n.y+=n.vy;
+      n.x=Math.max(n.r+20,Math.min(KG_W-n.r-20,n.x));
+      n.y=Math.max(n.r+20,Math.min(KG_H-n.r-20,n.y));
+    });
+  }
+
+  function kgDraw(){
+    kgCtx.clearRect(0,0,KG_W,KG_H);
+    kgCtx.fillStyle=KG_BG; kgCtx.fillRect(0,0,KG_W,KG_H);
+    kgCtx.save();
+    kgCtx.translate(KG_W/2,KG_H/2);
+    kgCtx.scale(kgCamZ,kgCamZ);
+    kgCtx.translate(-KG_W/2+kgCamX,-KG_H/2+kgCamY);
+
+    if(kgSelected&&Object.keys(kgRelatedIds).length){
+      Object.keys(kgRelatedIds).forEach(function(rid){
+        var rn=kgNodes.filter(function(n){return n.id===rid;})[0];
+        if(!rn||!kgVis(rn)) return;
+        kgCtx.beginPath();kgCtx.moveTo(kgSelected.x,kgSelected.y);kgCtx.lineTo(rn.x,rn.y);
+        kgCtx.strokeStyle=KG_EDGE_REL;kgCtx.lineWidth=1.5;kgCtx.setLineDash([4,4]);kgCtx.stroke();kgCtx.setLineDash([]);
+      });
+    }
+
+    kgEdges.forEach(function(e){
+      if(!kgVis(e.s)||!kgVis(e.t)) return;
+      var hi=kgSelected&&(e.s===kgSelected||e.t===kgSelected);
+      kgCtx.beginPath();kgCtx.moveTo(e.s.x,e.s.y);kgCtx.lineTo(e.t.x,e.t.y);
+      kgCtx.strokeStyle=hi?KG_EDGE_HI:KG_EDGE;kgCtx.lineWidth=hi?1.5:0.8;kgCtx.stroke();
+    });
+
+    kgNodes.forEach(function(n){
+      if(!kgVis(n)) return;
+      var c=KG_C[n.type],isSel=kgSelected===n,isRel=!!kgRelatedIds[n.id],dimmed=kgIsDimmed(n),isDrag=kgDragging===n;
+      kgCtx.globalAlpha=dimmed?0.15:1;
+      if(isDrag){kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r+7,0,Math.PI*2);kgCtx.strokeStyle=c.s;kgCtx.lineWidth=1.5;kgCtx.globalAlpha=0.3;kgCtx.stroke();kgCtx.globalAlpha=dimmed?0.15:1;}
+      if(isSel&&!isDrag){kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r+5,0,Math.PI*2);kgCtx.strokeStyle=c.s;kgCtx.lineWidth=1;kgCtx.globalAlpha=0.4;kgCtx.stroke();kgCtx.globalAlpha=dimmed?0.15:1;}
+      if(isRel&&!dimmed){kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r+4,0,Math.PI*2);kgCtx.strokeStyle='#FF6600';kgCtx.lineWidth=1.5;kgCtx.globalAlpha=0.7;kgCtx.stroke();kgCtx.globalAlpha=1;}
+      kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r,0,Math.PI*2);kgCtx.fillStyle=c.f;kgCtx.fill();
+      kgCtx.strokeStyle=isRel?'#FF6600':c.s;kgCtx.lineWidth=(isSel||isDrag||isRel)?2.5:1;kgCtx.stroke();
+      var fs=n.type==='tag'?10:11;
+      kgCtx.font=fs+'px Verdana,Arial,sans-serif';
+      kgCtx.fillStyle=c.t;kgCtx.textAlign='center';kgCtx.textBaseline='middle';
+      if(n.type==='tag'){
+        kgCtx.globalAlpha=dimmed?0.15:0.85;
+        kgCtx.fillText(n.label,n.x,n.y+n.r+11);
+      } else {
+        var words=n.label.split(' '),mw=n.r*2+8;
+        if(words.length>2){var m=Math.ceil(words.length/2);kgCtx.fillText(words.slice(0,m).join(' '),n.x,n.y-6,mw);kgCtx.fillText(words.slice(m).join(' '),n.x,n.y+6,mw);}
+        else kgCtx.fillText(n.label,n.x,n.y,mw);
+      }
+      kgCtx.globalAlpha=1;
+    });
+    kgCtx.restore();
+  }
+
+  function kgLoop(){if(kgFrame<240){for(var i=0;i<4;i++)kgSimulate();kgFrame++;}else kgSimulate();kgDraw();requestAnimationFrame(kgLoop);}
+
+  function kgGetNodeAt(sx,sy){
+    for(var i=kgNodes.length-1;i>=0;i--){
+      var n=kgNodes[i];if(!kgVis(n)) continue;
+      var s=kgTs(n.x,n.y);
+      if(Math.sqrt(Math.pow(sx-s.x,2)+Math.pow(sy-s.y,2))<n.r*kgCamZ+6) return n;
+    }
+    return null;
+  }
+
+  function kgOpenDetail(n){
+    var c=KG_C[n.type]; kgDp.classList.add('open');
+    var h='<h3>'+n.label+'</h3>';
+    h+='<span class="kg-dtype" style="background:'+c.b+';color:'+c.bt+'">'+n.type+'</span>';
+    if(n.info) h+='<div class="kg-dmeta">'+n.info+'</div>';
+    if(n.quote) h+='<div class="kg-dquote">'+n.quote+'</div>';
+    if(n.ann) h+='<div class="kg-dann">'+n.ann+'</div>';
+    if(n.tags&&n.tags.length){
+      h+='<div class="kg-dsec">Tags</div><div class="kg-dtags">';
+      n.tags.forEach(function(tid){var t=kgNodeMap[tid];if(t)h+='<span class="kg-dtag" onclick="kgSelNode(\''+tid+'\')">'+t.label+'</span>';});
+      h+='</div>';
+    }
+    if(n.type==='tag'){
+      var conn=Object.keys(kgGetConn(kgNodes.filter(function(x){return x.id===n.id;})[0])).map(function(id){return kgNodeMap[id];}).filter(Boolean);
+      h+='<div class="kg-dmeta" style="margin-top:8px">'+conn.length+' connected</div><div class="kg-dtags">';
+      conn.forEach(function(cn){h+='<span class="kg-dtag" onclick="kgSelNode(\''+cn.id+'\')">'+cn.label+'</span>';});
+      h+='</div>';
+    }
+    if(n.listId) h+='<a class="kg-dlink" href="#" onclick="kgOpenInList(\''+n.listId+'\');return false;">Open in list &rarr;</a>';
+    if(n.link) h+='<a class="kg-dlink" href="'+n.link+'" target="_blank">Open source &nearr;</a>';
+    var related=kgGetRelated(n);
+    if(related.length){
+      h+='<div class="kg-dsec">You might also connect</div>';
+      related.forEach(function(r){
+        var sl=r.tags.map(function(tid){return kgNodeMap[tid]?kgNodeMap[tid].label:null;}).filter(Boolean);
+        h+='<div class="kg-rel-card" onclick="kgSelNode(\''+r.node.id+'\')">'
+          +'<div class="kg-rc-label">'+r.node.label+'</div>'
+          +'<div class="kg-rc-why">Shares '+r.count+' tag'+(r.count>1?'s':'')+': '
+          +sl.map(function(l){return '<span class="kg-rc-shared">'+l+'</span>';}).join('')
+          +'</div></div>';
+      });
+    }
+    kgDi.innerHTML=h;
+  }
+
+  function kgCloseDetail(){
+    kgDp.classList.remove('open');
+    kgSelected=null; kgRelatedIds={};
+    kgSgOn=false; document.getElementById('kg-sg-btn').classList.remove('active');
+    document.querySelectorAll('.kg-tag-pill').forEach(function(p){ p.classList.remove('kg-tag-active'); });
+  }
+
+  window.kgSelNode=function(id){
+    var n=kgNodes.filter(function(x){return x.id===id;})[0];
+    if(n){
+      kgSelected=n;
+      var rel=kgGetRelated(n); kgRelatedIds={};
+      rel.forEach(function(r){kgRelatedIds[r.node.id]=true;});
+      kgOpenDetail(n);
+    }
+  };
+
+  window.kgCloseDetail = kgCloseDetail;
+
+  window.kgOpenInList = function(listId){
+    document.getElementById('list-view').style.display='';
+    document.getElementById('kg-view').style.display='none';
+    document.getElementById('kb-list-btn').classList.add('active');
+    document.getElementById('kb-graph-btn').classList.remove('active');
+    var target=document.getElementById(listId);
+    if(!target) return;
+    if(target.getAttribute('data-type')==='book'){
+      var bookName=target.getAttribute('data-book');
+      var grp=document.querySelector('[data-book-group="'+bookName+'"]');
+      if(grp&&grp.getAttribute('data-expanded')!=='true') grp.click();
+    }
+    target.style.display='';
+    setTimeout(function(){ target.scrollIntoView({behavior:'smooth',block:'center'}); },120);
+  };
+
+  window.kgToggleTagFilter = function(id){
+    if(kgSelected && kgSelected.id===id){
+      kgCloseDetail();
+    } else {
+      window.kgSelNode(id);
+      document.querySelectorAll('.kg-tag-pill').forEach(function(p){
+        p.classList.toggle('kg-tag-active', p.getAttribute('data-kgid')===id);
+      });
+    }
+  };
+
+  document.getElementById('kg-dc').addEventListener('click',kgCloseDetail);
+
+  var kgMoved=false,kgPsx=0,kgPsy=0,kgLt=null;
+  function kgPp(e){var r=kgCanvas.getBoundingClientRect();if(e.touches)return{x:e.touches[0].clientX-r.left,y:e.touches[0].clientY-r.top};return{x:e.clientX-r.left,y:e.clientY-r.top};}
+
+  kgCanvas.addEventListener('mousedown',function(e){
+    var p=kgPp(e);kgPsx=p.x;kgPsy=p.y;kgMoved=false;
+    var n=kgGetNodeAt(p.x,p.y);
+    if(n){kgDragging=n;n.pinned=true;var w=kgTw(p.x,p.y);kgDOX=n.x-w.x;kgDOY=n.y-w.y;kgCanvas.style.cursor='grabbing';}
+    else{kgPanStart={x:p.x,y:p.y};kgCamSX=kgCamX;kgCamSY=kgCamY;kgCanvas.style.cursor='grabbing';}
+  });
+
+  kgCanvas.addEventListener('mousemove',function(e){
+    var p=kgPp(e);
+    if(Math.sqrt(Math.pow(p.x-kgPsx,2)+Math.pow(p.y-kgPsy,2))>3) kgMoved=true;
+    if(kgDragging){var w=kgTw(p.x,p.y);kgDragging.x=Math.max(kgDragging.r+20,Math.min(KG_W-kgDragging.r-20,w.x+kgDOX));kgDragging.y=Math.max(kgDragging.r+20,Math.min(KG_H-kgDragging.r-20,w.y+kgDOY));kgDragging.vx=0;kgDragging.vy=0;kgTip.style.display='none';return;}
+    if(kgPanStart){kgCamX=kgCamSX+(p.x-kgPanStart.x)/kgCamZ;kgCamY=kgCamSY+(p.y-kgPanStart.y)/kgCamZ;kgTip.style.display='none';return;}
+    var n=kgGetNodeAt(p.x,p.y);
+    if(n){kgCanvas.style.cursor='grab';kgTip.style.display='block';kgTip.style.left=(p.x+14)+'px';kgTip.style.top=(p.y-8)+'px';var d=kgDeg[n.id];kgTip.innerHTML='<strong>'+n.label+'</strong>'+(n.info?'<br>'+n.info:'')+'<br><span style="color:#99AACC">'+d+' connection'+(d!==1?'s':'')+'</span>';}
+    else{kgCanvas.style.cursor=kgPanStart?'grabbing':'default';kgTip.style.display='none';}
+  });
+
+  kgCanvas.addEventListener('mouseup',function(e){
+    if(kgDragging){
+      if(!kgMoved){if(kgSelected===kgDragging)kgCloseDetail();else{kgSelected=kgDragging;var rel=kgGetRelated(kgSelected);kgRelatedIds={};rel.forEach(function(r){kgRelatedIds[r.node.id]=true;});kgOpenDetail(kgSelected);}}
+      else kgDragging.pinned=true;
+      kgDragging=null;kgCanvas.style.cursor='default';
+    }else if(kgPanStart){if(!kgMoved)kgCloseDetail();kgPanStart=null;kgCanvas.style.cursor='default';}
+  });
+
+  kgCanvas.addEventListener('mouseleave',function(){if(kgDragging){kgDragging.pinned=true;kgDragging=null;}kgPanStart=null;kgTip.style.display='none';kgCanvas.style.cursor='default';});
+  kgCanvas.addEventListener('dblclick',function(e){var p=kgPp(e);var n=kgGetNodeAt(p.x,p.y);if(n){n.pinned=false;n.vx=0;n.vy=0;}});
+  kgCanvas.addEventListener('wheel',function(e){e.preventDefault();var p=kgPp(e);var w0=kgTw(p.x,p.y);kgCamZ=Math.max(0.3,Math.min(4,kgCamZ*(e.deltaY<0?1.1:0.91)));var w1=kgTw(p.x,p.y);kgCamX+=w1.x-w0.x;kgCamY+=w1.y-w0.y;},{passive:false});
+
+  kgCanvas.addEventListener('touchstart',function(e){e.preventDefault();kgMoved=false;var p=kgPp(e);kgPsx=p.x;kgPsy=p.y;if(e.touches.length===1){var n=kgGetNodeAt(p.x,p.y);if(n){kgDragging=n;n.pinned=true;var w=kgTw(p.x,p.y);kgDOX=n.x-w.x;kgDOY=n.y-w.y;}else{kgPanStart={x:p.x,y:p.y};kgCamSX=kgCamX;kgCamSY=kgCamY;}}kgLt=e.touches;},{passive:false});
+  kgCanvas.addEventListener('touchmove',function(e){e.preventDefault();var p=kgPp(e);if(Math.sqrt(Math.pow(p.x-kgPsx,2)+Math.pow(p.y-kgPsy,2))>4)kgMoved=true;if(e.touches.length===2&&kgLt&&kgLt.length===2){var d1=Math.sqrt(Math.pow(e.touches[0].clientX-e.touches[1].clientX,2)+Math.pow(e.touches[0].clientY-e.touches[1].clientY,2));var d0=Math.sqrt(Math.pow(kgLt[0].clientX-kgLt[1].clientX,2)+Math.pow(kgLt[0].clientY-kgLt[1].clientY,2));kgCamZ=Math.max(0.3,Math.min(4,kgCamZ*(d1/d0)));}else if(kgDragging){var w=kgTw(p.x,p.y);kgDragging.x=Math.max(kgDragging.r+20,Math.min(KG_W-kgDragging.r-20,w.x+kgDOX));kgDragging.y=Math.max(kgDragging.r+20,Math.min(KG_H-kgDragging.r-20,w.y+kgDOY));kgDragging.vx=0;kgDragging.vy=0;}else if(kgPanStart){kgCamX=kgCamSX+(p.x-kgPanStart.x)/kgCamZ;kgCamY=kgCamSY+(p.y-kgPanStart.y)/kgCamZ;}kgLt=e.touches;},{passive:false});
+  kgCanvas.addEventListener('touchend',function(e){e.preventDefault();if(kgDragging){if(!kgMoved){if(kgSelected===kgDragging)kgCloseDetail();else{kgSelected=kgDragging;var rel=kgGetRelated(kgSelected);kgRelatedIds={};rel.forEach(function(r){kgRelatedIds[r.node.id]=true;});kgOpenDetail(kgSelected);}}else kgDragging.pinned=true;kgDragging=null;}else if(kgPanStart){if(!kgMoved)kgCloseDetail();kgPanStart=null;}kgLt=null;},{passive:false});
+
+  document.getElementById('kg-z-in').addEventListener('click',function(){kgCamZ=Math.min(4,kgCamZ*1.25);});
+  document.getElementById('kg-z-out').addEventListener('click',function(){kgCamZ=Math.max(0.3,kgCamZ*0.8);});
+  document.getElementById('kg-z-fit').addEventListener('click',function(){kgCamZ=1;kgCamX=0;kgCamY=0;});
+  document.getElementById('kg-search').addEventListener('input',function(e){kgSearchQ=e.target.value.trim().toLowerCase();});
+
+  var kgSgBtn=document.getElementById('kg-sg-btn');
+  kgSgBtn.addEventListener('click',function(){if(!kgSelected)return;kgSgOn=!kgSgOn;kgSgBtn.classList.toggle('active',kgSgOn);kgFrame=0;});
+
+  document.querySelectorAll('.kg-leg').forEach(function(el){
+    var on=true,type=el.getAttribute('data-kgtype');
+    el.addEventListener('click',function(){on=!on;el.style.opacity=on?1:0.35;if(on)delete kgHiddenT[type];else kgHiddenT[type]=true;kgFrame=0;});
+  });
+
+  var kgInited=false;
+  window.kgInit=function(){
+    if(kgInited) return;
+    kgInited=true;
+    kgResize();
+    kgInitPos();
+    var bar=document.getElementById('kg-tag-bar');
+    if(bar){
+      var tags=KG_ND.filter(function(n){return n.type==='tag';});
+      var label=bar.querySelector('.kg-tag-bar-label');
+      bar.innerHTML='';
+      if(label) bar.appendChild(label);
+      tags.forEach(function(t){
+        var span=document.createElement('span');
+        span.className='kg-tag-pill';
+        span.setAttribute('data-kgid',t.id);
+        span.textContent=t.label;
+        span.onclick=function(){window.kgToggleTagFilter(t.id);};
+        bar.appendChild(span);
+      });
+    }
+    var surpriseBtn=document.getElementById('kg-surprise-btn');
+    if(surpriseBtn){
+      surpriseBtn.addEventListener('click',function(){
+        document.querySelectorAll('.kg-tag-pill').forEach(function(p){p.classList.remove('kg-tag-active');});
+        var content=kgNodes.filter(function(n){return n.type!=='tag';});
+        var pick=content[Math.floor(Math.random()*content.length)];
+        window.kgSelNode(pick.id);
+      });
+    }
+    kgLoop();
+  };
+
+  window.addEventListener('resize',function(){
+    if(document.getElementById('kg-view').style.display!=='none'){kgResize();kgFrame=0;}
+  });
+
+  if(document.readyState==='complete') setTimeout(window.kgInit,80);
+  else window.addEventListener('load',function(){setTimeout(window.kgInit,80);});
+})();
+
+// ── View toggle ──────────────────────────────────────────────
+(function(){
+  var listBtn  = document.getElementById('kb-list-btn');
+  var graphBtn = document.getElementById('kb-graph-btn');
+  var listView = document.getElementById('list-view');
+  var kgView   = document.getElementById('kg-view');
+
+  listBtn.addEventListener('click',function(){
+    listView.style.display=''; kgView.style.display='none';
+    listBtn.classList.add('active'); graphBtn.classList.remove('active');
+  });
+
+  graphBtn.addEventListener('click',function(){
+    kgView.style.display=''; listView.style.display='none';
+    graphBtn.classList.add('active'); listBtn.classList.remove('active');
+    window.kgInit();
+  });
+})();
+</script>
 </body>
 </html>

@@ -28,11 +28,24 @@
 // ░░ NOTE: the `note` lines below are factual placeholders, not my words.
 //    Rewrite each one in your own voice — that's the whole point of the page.
 //
-var nowSpinningId = 'off-the-wall';
+var nowSpinningId = 'dawn-fm';
 
 var nowSpinningSince = 'today';
 
 var recordCollection = [
+  {
+    id:       'dawn-fm',
+    artist:   'The Weeknd',
+    title:    'Dawn FM',
+    year:     2022,
+    cover:    'dawn-fm.png',
+    genre:    'synth-pop',
+    note:     'A late-night radio broadcast concept from start to finish. The production is immaculate.',
+    youtube:  'https://www.youtube.com/watch?v=odmqgURmMss',
+    acquired: null,
+    track:    "Don't Break My Heart",
+    audio:    'dont-break-my-heart.mp3'
+  },
   {
     id:       'off-the-wall',
     artist:   'Michael Jackson',
