@@ -41,7 +41,7 @@ var recordCollection = [
     cover:    'dawn-fm.png',
     genre:    'synth-pop',
     note:     'A late-night radio broadcast concept from start to finish. The production is immaculate.',
-    youtube:  'https://www.youtube.com/watch?v=odmqgURmMss',
+    youtube:  'https://www.youtube.com/watch?v=w8eFZoOcYKc&list=PLtdokPm7vPss1TXrV4gr2pnSXmMu-UFF4',
     acquired: null,
     track:    "Don't Break My Heart",
     audio:    'dont-break-my-heart.mp3'
