@@ -106,6 +106,17 @@ var deepWork = {
    '2026-05-17': [
     { h: 3, cat: 'build',    note: 'Personal website updates' },
     { h: 1, cat: 'practice', note: 'Guitar practice' }
+  ],
+   '2026-06-23': { h: 2, cat: 'build', note: 'Built personal agent Jarvis' },
+   '2026-06-24': [
+    { h: 2,   cat: 'build', note: 'Built a personal morning briefing automation' },
+    { h: 3,   cat: 'build', note: 'Work workflow automations' },
+    { h: 0.5, cat: 'read',  note: 'Reading - Ghost Work' }
+  ],
+   '2026-06-25': { h: 0.67, cat: 'read', note: 'Reading' },
+   '2026-06-26': [
+    { h: 0.67, cat: 'read',  note: 'Reading' },
+    { h: 3,    cat: 'build', note: 'Fine tuning agentic workflows at work' }
   ]
 };
 

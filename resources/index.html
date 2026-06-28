@@ -694,7 +694,7 @@
 
 <!-- ── Graph view ──────────────────────────────────── -->
 <div id="kg-view">
-  <p class="kg-intro">A force-directed map of this knowledge base. Each node is a book, article, quote, video, concept, or post — connected through shared tags. Click any node to explore it. Use the tag filter to follow a thread of ideas across sources.</p>
+  <p class="kg-intro">A layered map of how this knowledge base connects — tags on the left feed into concept nodes in the middle, which link to books, posts, articles, and videos on the right. Click any node to explore its connections.</p>
   <div id="kg-wrap">
     <div id="kg-toolbar">
       <input id="kg-search" type="text" placeholder="Search nodes…"/>
@@ -720,7 +720,7 @@
           <button class="kg-zb" id="kg-z-out">&minus;</button>
           <button class="kg-zb" id="kg-z-fit" style="font-size:11px">&#8862;</button>
         </div>
-        <div id="kg-hint">Scroll to zoom &middot; Drag to pan<br>Click node for details &middot; Double-click to unpin</div>
+        <div id="kg-hint">Scroll to zoom &middot; Drag to pan<br>Click node for details &middot; Double-click to reset</div>
       </div>
       <div id="kg-dp">
         <div id="kg-dh"><span>Details</span><button id="kg-dc">&times;</button></div>
@@ -2004,6 +2004,7 @@
     {id:'concept-stoicism',  label:'Stoicism',            type:'concept', info:'Ancient Greek Philosophy',   tags:['tag-stoicism','tag-philosophy'],                                               ann:'A practical philosophy: we control our judgments and responses, not external events. The goal is virtue and equanimity through reason — not detachment, but the right relationship with what you can and cannot change.'},
     {id:'concept-attention', label:'The Attention Crisis', type:'concept', info:'Distraction by Design',     tags:['tag-attention','tag-attentioneconomy','tag-deepwork'],                         ann:'The platforms are optimized for engagement, not for us. Dopamine loops, algorithmic feeds, and always-on connectivity have normalized a level of distraction that would have seemed pathological a generation ago. Reclaiming attention is the defining personal challenge of this era.'},
     {id:'concept-innerlife', label:'Inner Life',           type:'concept', info:'The Inward Turn',            tags:['tag-solitude','tag-philosophy','tag-deepwork'],                                ann:'The quality of your inner life is the one thing that remains yours. Circumstances vary; the capacity to respond to them with intention is cultivable. Solitude, chosen work, philosophical practice — all routes to the same place.'},
+    {id:'concept-power',  label:'Power & Institutions', type:'concept', info:'Structural Critique',          tags:['tag-ai','tag-futurework','tag-socialmedia','tag-attentioneconomy'],            ann:'Technology doesn\'t redistribute power — it concentrates it. AI hype exploits broken institutions desperate for quick fixes. The concern about AI in the labor market is really about capitalism. Logging off is an act against a designed system, not just personal discipline.'},
     {id:'tag-ai',               label:'#AI',               type:'tag'},
     {id:'tag-futurework',       label:'#FutureOfWork',     type:'tag'},
     {id:'tag-humannature',      label:'#HumanNature',      type:'tag'},
@@ -2026,46 +2027,67 @@
   ];
 
   var KG_RE = [
-    ['co-intelligence','tag-ai'],['co-intelligence','tag-futurework'],
-    ['co-intelligence','tag-humannature'],['co-intelligence','tag-attention'],
-    ['co-intelligence','tag-deepwork'],
-    ['fahrenheit-451','tag-attention'],['fahrenheit-451','tag-deepwork'],
-    ['fahrenheit-451','tag-reading'],['fahrenheit-451','tag-humannature'],
-    ['fahrenheit-451','tag-psychology'],
-    ['if-this-is-a-man','tag-humannature'],['if-this-is-a-man','tag-psychology'],
-    ['a-marriage-at-sea','tag-writing'],['a-marriage-at-sea','tag-solitude'],
-    ['a-marriage-at-sea','tag-humannature'],['a-marriage-at-sea','tag-deepwork'],
-    ['a-marriage-at-sea','tag-creativity'],
-    ['zuckerberg-art','tag-socialmedia'],['zuckerberg-art','tag-attentioneconomy'],
-    ['marcus-aurelius','tag-stoicism'],['marcus-aurelius','tag-philosophy'],
-    ['epictetus','tag-stoicism'],['epictetus','tag-philosophy'],
-    ['alex-becker','tag-alcohol'],['alex-becker','tag-health'],['alex-becker','tag-focus'],
-    ['post-logging-off','tag-attention'],['post-logging-off','tag-attentioneconomy'],['post-logging-off','tag-socialmedia'],['post-logging-off','tag-humannature'],
-    ['post-logging-off','concept-attention'],['post-logging-off','zuckerberg-art'],['post-logging-off','concept-innerlife'],
-    ['post-eight-months-later','tag-attention'],['post-eight-months-later','tag-attentioneconomy'],['post-eight-months-later','tag-socialmedia'],['post-eight-months-later','tag-psychology'],
-    ['post-eight-months-later','concept-attention'],['post-eight-months-later','post-logging-off'],['post-eight-months-later','alex-becker'],['post-eight-months-later','concept-innerlife'],
-    ['post-unraveling','tag-philosophy'],['post-unraveling','tag-deepwork'],['post-unraveling','tag-psychology'],['post-unraveling','tag-humannature'],
-    ['post-unraveling','concept-innerlife'],['post-unraveling','concept-stoicism'],['post-unraveling','epictetus'],
-    ['post-houston-marathon','tag-humannature'],['post-houston-marathon','tag-psychology'],['post-houston-marathon','tag-resilience'],
-    ['post-houston-marathon','concept-stoicism'],['post-houston-marathon','if-this-is-a-man'],['post-houston-marathon','concept-innerlife'],
-    ['post-annual-review','tag-attention'],['post-annual-review','tag-deepwork'],['post-annual-review','tag-ai'],['post-annual-review','tag-philosophy'],['post-annual-review','tag-reflection'],
-    ['post-annual-review','concept-attention'],['post-annual-review','co-intelligence'],['post-annual-review','fahrenheit-451'],['post-annual-review','concept-innerlife'],['post-annual-review','post-unraveling'],
-    ['concept-meaning','marcus-aurelius'],['concept-meaning','epictetus'],['concept-meaning','if-this-is-a-man'],
-    ['concept-meaning','post-houston-marathon'],['concept-meaning','post-unraveling'],
-    ['concept-meaning','concept-stoicism'],['concept-meaning','concept-innerlife'],
-    ['concept-meaning','tag-philosophy'],['concept-meaning','tag-psychology'],['concept-meaning','tag-humannature'],
-    ['concept-stoicism','marcus-aurelius'],['concept-stoicism','epictetus'],['concept-stoicism','if-this-is-a-man'],
-    ['concept-stoicism','tag-stoicism'],['concept-stoicism','tag-philosophy'],
-    ['concept-attention','fahrenheit-451'],['concept-attention','zuckerberg-art'],['concept-attention','alex-becker'],['concept-attention','co-intelligence'],
-    ['concept-attention','tag-attention'],['concept-attention','tag-attentioneconomy'],['concept-attention','tag-deepwork'],
-    ['concept-innerlife','marcus-aurelius'],['concept-innerlife','epictetus'],['concept-innerlife','a-marriage-at-sea'],['concept-innerlife','if-this-is-a-man'],
-    ['concept-innerlife','tag-solitude'],['concept-innerlife','tag-philosophy'],['concept-innerlife','tag-deepwork'],
-    ['ai-snake-oil','tag-ai'],['ai-snake-oil','tag-futurework'],['ai-snake-oil','tag-humannature'],
-    ['ai-snake-oil','tag-psychology'],['ai-snake-oil','tag-attentioneconomy'],['ai-snake-oil','tag-socialmedia'],
-    ['ai-snake-oil','co-intelligence'],['ai-snake-oil','concept-attention'],
-    ['didnt-do-thing-today','tag-attention'],['didnt-do-thing-today','tag-psychology'],
-    ['didnt-do-thing-today','tag-humannature'],['didnt-do-thing-today','tag-deepwork'],['didnt-do-thing-today','tag-focus'],
-    ['didnt-do-thing-today','concept-attention'],['didnt-do-thing-today','fahrenheit-451']
+    // Tags → Concepts (left → middle)
+    ['tag-philosophy',       'concept-meaning'],
+    ['tag-philosophy',       'concept-stoicism'],
+    ['tag-philosophy',       'concept-innerlife'],
+    ['tag-stoicism',         'concept-stoicism'],
+    ['tag-resilience',       'concept-meaning'],
+    ['tag-resilience',       'concept-stoicism'],
+    ['tag-reflection',       'concept-meaning'],
+    ['tag-reflection',       'concept-innerlife'],
+    ['tag-humannature',      'concept-meaning'],
+    ['tag-humannature',      'concept-innerlife'],
+    ['tag-psychology',       'concept-meaning'],
+    ['tag-psychology',       'concept-innerlife'],
+    ['tag-solitude',         'concept-innerlife'],
+    ['tag-writing',          'concept-innerlife'],
+    ['tag-creativity',       'concept-innerlife'],
+    ['tag-reading',          'concept-innerlife'],
+    ['tag-health',           'concept-innerlife'],
+    ['tag-attention',        'concept-attention'],
+    ['tag-deepwork',         'concept-attention'],
+    ['tag-deepwork',         'concept-innerlife'],
+    ['tag-focus',            'concept-attention'],
+    ['tag-alcohol',          'concept-attention'],
+    ['tag-ai',               'concept-attention'],
+    ['tag-ai',               'concept-power'],
+    ['tag-futurework',       'concept-attention'],
+    ['tag-futurework',       'concept-power'],
+    ['tag-socialmedia',      'concept-attention'],
+    ['tag-socialmedia',      'concept-power'],
+    ['tag-attentioneconomy', 'concept-attention'],
+    ['tag-attentioneconomy', 'concept-power'],
+    // Concepts → Content (middle → right)
+    ['concept-meaning',      'marcus-aurelius'],
+    ['concept-meaning',      'epictetus'],
+    ['concept-meaning',      'if-this-is-a-man'],
+    ['concept-meaning',      'post-houston-marathon'],
+    ['concept-meaning',      'post-unraveling'],
+    ['concept-stoicism',     'marcus-aurelius'],
+    ['concept-stoicism',     'epictetus'],
+    ['concept-stoicism',     'if-this-is-a-man'],
+    ['concept-stoicism',     'post-houston-marathon'],
+    ['concept-innerlife',    'a-marriage-at-sea'],
+    ['concept-innerlife',    'if-this-is-a-man'],
+    ['concept-innerlife',    'marcus-aurelius'],
+    ['concept-innerlife',    'epictetus'],
+    ['concept-innerlife',    'post-unraveling'],
+    ['concept-innerlife',    'post-logging-off'],
+    ['concept-innerlife',    'post-eight-months-later'],
+    ['concept-attention',    'fahrenheit-451'],
+    ['concept-attention',    'co-intelligence'],
+    ['concept-attention',    'ai-snake-oil'],
+    ['concept-attention',    'zuckerberg-art'],
+    ['concept-attention',    'alex-becker'],
+    ['concept-attention',    'didnt-do-thing-today'],
+    ['concept-attention',    'post-logging-off'],
+    ['concept-attention',    'post-eight-months-later'],
+    ['concept-attention',    'post-annual-review'],
+    ['concept-power',        'ai-snake-oil'],
+    ['concept-power',        'zuckerberg-art'],
+    ['concept-power',        'co-intelligence'],
+    ['concept-power',        'post-annual-review'],
   ];
 
   var kgNodeMap = {};
@@ -2113,11 +2135,11 @@
   var kgCamX = 0, kgCamY = 0, kgCamZ = 1;
   function kgTw(sx,sy){ return {x:(sx-KG_W/2)/kgCamZ+KG_W/2-kgCamX, y:(sy-KG_H/2)/kgCamZ+KG_H/2-kgCamY}; }
   function kgTs(wx,wy){ return {x:(wx+kgCamX-KG_W/2)*kgCamZ+KG_W/2, y:(wy+kgCamY-KG_H/2)*kgCamZ+KG_H/2}; }
-  function kgNr(n){ var c=kgDeg[n.id]; if(n.type==='tag') return Math.min(6+c*2,18); if(n.rating) return Math.round(n.rating*2.2+c*0.4); return 15+c*1.5; }
+  function kgNr(n){ if(n.type==='tag') return 5; if(n.type==='concept') return 22; if(n.rating) return Math.max(10,Math.min(16,Math.round(n.rating*1.8))); return 11; }
 
   var kgNodes = KG_ND.map(function(n){
-    return {id:n.id,label:n.label,type:n.type,info:n.info,tags:n.tags,quote:n.quote,ann:n.ann,link:n.link,
-            x:0,y:0,vx:0,vy:0,r:kgNr(n),pinned:false};
+    return {id:n.id,label:n.label,type:n.type,info:n.info,tags:n.tags,quote:n.quote,ann:n.ann,link:n.link,listId:n.listId,
+            x:0,y:0,vx:0,vy:0,ox:0,oy:0,r:kgNr(n),pinned:false};
   });
   var kgEdges = KG_RE.map(function(e){
     return {s:kgNodes.filter(function(n){return n.id===e[0];})[0],
@@ -2129,12 +2151,22 @@
   var kgSearchQ='', kgSgOn=false, kgFrame=0;
   var kgHiddenT={}, kgRelatedIds={};
 
-  function kgInitPos(){
-    kgNodes.forEach(function(n){
-      n.x=KG_W/2+(Math.random()-0.5)*220;
-      n.y=KG_H/2+(Math.random()-0.5)*220;
-      n.vx=0; n.vy=0;
-    });
+  function kgAssignPositions(){
+    var tagOrder=['tag-philosophy','tag-stoicism','tag-resilience','tag-reflection','tag-humannature','tag-psychology','tag-solitude','tag-writing','tag-creativity','tag-reading','tag-health','tag-attention','tag-deepwork','tag-focus','tag-alcohol','tag-ai','tag-futurework','tag-socialmedia','tag-attentioneconomy'];
+    var conceptOrder=['concept-meaning','concept-stoicism','concept-innerlife','concept-attention','concept-power'];
+    var contentOrder=['marcus-aurelius','epictetus','if-this-is-a-man','post-houston-marathon','post-unraveling','a-marriage-at-sea','post-logging-off','post-eight-months-later','fahrenheit-451','alex-becker','didnt-do-thing-today','co-intelligence','zuckerberg-art','ai-snake-oil','post-annual-review'];
+    var tags=kgNodes.filter(function(n){return n.type==='tag';});
+    var concepts=kgNodes.filter(function(n){return n.type==='concept';});
+    var content=kgNodes.filter(function(n){return n.type!=='tag'&&n.type!=='concept';});
+    tags.sort(function(a,b){var ai=tagOrder.indexOf(a.id),bi=tagOrder.indexOf(b.id);return(ai===-1?99:ai)-(bi===-1?99:bi);});
+    concepts.sort(function(a,b){var ai=conceptOrder.indexOf(a.id),bi=conceptOrder.indexOf(b.id);return(ai===-1?99:ai)-(bi===-1?99:bi);});
+    content.sort(function(a,b){var ai=contentOrder.indexOf(a.id),bi=contentOrder.indexOf(b.id);return(ai===-1?99:ai)-(bi===-1?99:bi);});
+    var pad=50,usable=KG_H-pad*2;
+    var xTag=Math.round(KG_W*0.08),xConcept=Math.round(KG_W*0.42),xContent=Math.round(KG_W*0.72);
+    function assignCol(arr,xc){arr.forEach(function(n,i){n.ox=xc;n.oy=pad+(arr.length>1?(usable/(arr.length-1))*i:usable/2);n.x=n.ox;n.y=n.oy;n.vx=0;n.vy=0;n.pinned=true;});}
+    assignCol(tags,xTag);
+    assignCol(concepts,xConcept);
+    assignCol(content,xContent);
   }
 
   function kgVis(n){
@@ -2153,29 +2185,7 @@
     return s;
   }
 
-  function kgSimulate(){
-    kgNodes.forEach(function(n){if(!n.pinned){n.vx*=0.78;n.vy*=0.78;}});
-    for(var i=0;i<kgNodes.length;i++){
-      for(var j=i+1;j<kgNodes.length;j++){
-        var a=kgNodes[i],b=kgNodes[j];
-        if(!kgVis(a)||!kgVis(b)) continue;
-        var dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1,md=(a.r+b.r)*2.2;
-        if(d<md){var f=(md-d)/d*0.45;if(!a.pinned){a.vx-=dx*f;a.vy-=dy*f;}if(!b.pinned){b.vx+=dx*f;b.vy+=dy*f;}}
-      }
-    }
-    kgEdges.forEach(function(e){
-      if(!kgVis(e.s)||!kgVis(e.t)) return;
-      var dx=e.t.x-e.s.x,dy=e.t.y-e.s.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=(d-95)/d*0.07;
-      if(!e.s.pinned){e.s.vx+=dx*f;e.s.vy+=dy*f;}if(!e.t.pinned){e.t.vx-=dx*f;e.t.vy-=dy*f;}
-    });
-    kgNodes.forEach(function(n){
-      if(!kgVis(n)||n.pinned) return;
-      n.vx+=(KG_W/2-n.x)*0.004; n.vy+=(KG_H/2-n.y)*0.004;
-      n.x+=n.vx; n.y+=n.vy;
-      n.x=Math.max(n.r+20,Math.min(KG_W-n.r-20,n.x));
-      n.y=Math.max(n.r+20,Math.min(KG_H-n.r-20,n.y));
-    });
-  }
+  // positions are fixed; no simulation needed
 
   function kgDraw(){
     kgCtx.clearRect(0,0,KG_W,KG_H);
@@ -2185,63 +2195,85 @@
     kgCtx.scale(kgCamZ,kgCamZ);
     kgCtx.translate(-KG_W/2+kgCamX,-KG_H/2+kgCamY);
 
-    if(kgSelected&&Object.keys(kgRelatedIds).length){
-      Object.keys(kgRelatedIds).forEach(function(rid){
-        var rn=kgNodes.filter(function(n){return n.id===rid;})[0];
-        if(!rn||!kgVis(rn)) return;
-        kgCtx.beginPath();kgCtx.moveTo(kgSelected.x,kgSelected.y);kgCtx.lineTo(rn.x,rn.y);
-        kgCtx.strokeStyle=KG_EDGE_REL;kgCtx.lineWidth=1.5;kgCtx.setLineDash([4,4]);kgCtx.stroke();kgCtx.setLineDash([]);
-      });
-    }
+    // Column headers
+    var xTag=Math.round(KG_W*0.08),xConcept=Math.round(KG_W*0.42),xContent=Math.round(KG_W*0.72);
+    kgCtx.font='bold 9px Verdana,Arial,sans-serif';
+    kgCtx.textAlign='center';kgCtx.textBaseline='middle';
+    kgCtx.fillStyle='#aabbcc';
+    kgCtx.fillText('TAGS',xTag,20);
+    kgCtx.fillText('CONCEPTS',xConcept,20);
+    kgCtx.fillText('CONTENT',xContent+Math.round(KG_W*0.14),20);
 
+    // Edges as bezier curves
+    var selConn=kgSelected?kgGetConn(kgSelected):{};
     kgEdges.forEach(function(e){
-      if(!kgVis(e.s)||!kgVis(e.t)) return;
-      var hi=kgSelected&&(e.s===kgSelected||e.t===kgSelected);
-      kgCtx.beginPath();kgCtx.moveTo(e.s.x,e.s.y);kgCtx.lineTo(e.t.x,e.t.y);
-      kgCtx.strokeStyle=hi?KG_EDGE_HI:KG_EDGE;kgCtx.lineWidth=hi?1.5:0.8;kgCtx.stroke();
+      if(!e.s||!e.t||!kgVis(e.s)||!kgVis(e.t)) return;
+      var hi=!!(kgSelected&&(e.s===kgSelected||e.t===kgSelected||selConn[e.s.id]||selConn[e.t.id]));
+      var dim=!!(kgSelected&&!hi);
+      kgCtx.globalAlpha=dim?0.05:hi?0.7:0.18;
+      kgCtx.beginPath();
+      kgCtx.moveTo(e.s.x,e.s.y);
+      var dx=e.t.x-e.s.x;
+      kgCtx.bezierCurveTo(e.s.x+dx*0.4,e.s.y,e.s.x+dx*0.6,e.t.y,e.t.x,e.t.y);
+      kgCtx.strokeStyle=hi?KG_EDGE_HI:KG_EDGE;
+      kgCtx.lineWidth=hi?1.5:0.7;
+      kgCtx.stroke();
+      kgCtx.globalAlpha=1;
     });
 
+    // Nodes
     kgNodes.forEach(function(n){
       if(!kgVis(n)) return;
-      var c=KG_C[n.type],isSel=kgSelected===n,isRel=!!kgRelatedIds[n.id],dimmed=kgIsDimmed(n),isDrag=kgDragging===n;
-      kgCtx.globalAlpha=dimmed?0.15:1;
-      if(isDrag){kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r+7,0,Math.PI*2);kgCtx.strokeStyle=c.s;kgCtx.lineWidth=1.5;kgCtx.globalAlpha=0.3;kgCtx.stroke();kgCtx.globalAlpha=dimmed?0.15:1;}
-      if(isSel&&!isDrag){kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r+5,0,Math.PI*2);kgCtx.strokeStyle=c.s;kgCtx.lineWidth=1;kgCtx.globalAlpha=0.4;kgCtx.stroke();kgCtx.globalAlpha=dimmed?0.15:1;}
-      if(isRel&&!dimmed){kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r+4,0,Math.PI*2);kgCtx.strokeStyle='#FF6600';kgCtx.lineWidth=1.5;kgCtx.globalAlpha=0.7;kgCtx.stroke();kgCtx.globalAlpha=1;}
-      kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r,0,Math.PI*2);kgCtx.fillStyle=c.f;kgCtx.fill();
-      kgCtx.strokeStyle=isRel?'#FF6600':c.s;kgCtx.lineWidth=(isSel||isDrag||isRel)?2.5:1;kgCtx.stroke();
-      kgCtx.textAlign='center';kgCtx.textBaseline='middle';
+      var c=KG_C[n.type]||KG_C['article'];
+      var isSel=kgSelected===n;
+      var isConn=!!(kgSelected&&selConn[n.id]);
+      var dim=!!(kgSelected&&n!==kgSelected&&!isConn);
+      kgCtx.globalAlpha=dim?0.15:1;
+      if(isSel){
+        kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r+5,0,Math.PI*2);
+        kgCtx.strokeStyle=c.s;kgCtx.lineWidth=1.5;kgCtx.globalAlpha=0.5;kgCtx.stroke();
+        kgCtx.globalAlpha=1;
+      }
+      kgCtx.beginPath();kgCtx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      kgCtx.fillStyle=c.f;kgCtx.fill();
+      kgCtx.strokeStyle=isSel?c.s:'rgba(0,0,0,0.18)';
+      kgCtx.lineWidth=isSel?2:0.8;kgCtx.stroke();
       if(n.type==='tag'){
-        kgCtx.globalAlpha=dimmed?0.15:0.85;
-        kgCtx.font='10px Verdana,Arial,sans-serif';
-        kgCtx.fillStyle=c.t;
-        kgCtx.fillText(n.label,n.x,n.y+n.r+11);
-      } else {
+        kgCtx.font='8px Verdana,Arial,sans-serif';
+        kgCtx.textAlign='left';kgCtx.textBaseline='middle';
+        kgCtx.fillStyle=dim?'#c0ccdd':'#6688aa';
+        kgCtx.fillText(n.label,n.x+n.r+4,n.y);
+      } else if(n.type==='concept'){
         var words=n.label.split(' '),fitted=false;
+        kgCtx.textAlign='center';kgCtx.textBaseline='middle';
         for(var fs=11;fs>=7&&!fitted;fs--){
-          kgCtx.font=fs+'px Verdana,Arial,sans-serif';
+          kgCtx.font='bold '+fs+'px Verdana,Arial,sans-serif';
           var maxW=n.r*1.72,lineH=fs+3,lines=[],cur='';
           for(var wi=0;wi<words.length;wi++){var test=cur?cur+' '+words[wi]:words[wi];if(kgCtx.measureText(test).width<=maxW){cur=test;}else{if(cur)lines.push(cur);cur=words[wi];}}
           if(cur)lines.push(cur);
           if(lines.every(function(l){return kgCtx.measureText(l).width<=maxW;})&&lines.length*lineH<=n.r*1.72){
             kgCtx.fillStyle=c.t;
             var sy=n.y-(lines.length*lineH)/2+lineH/2;
-            lines.forEach(function(l,i){kgCtx.fillText(l,n.x,sy+i*lineH);});
+            lines.forEach(function(l,li){kgCtx.fillText(l,n.x,sy+li*lineH);});
             fitted=true;
           }
         }
-        if(!fitted){var fb=n.label.split(' ')[0];kgCtx.font='7px Verdana,Arial,sans-serif';if(kgCtx.measureText(fb).width<=n.r*1.72){kgCtx.fillStyle=c.t;kgCtx.fillText(fb,n.x,n.y);}}
+        if(!fitted){kgCtx.font='7px Verdana,Arial,sans-serif';kgCtx.fillStyle=c.t;kgCtx.fillText(n.label.split(' ')[0],n.x,n.y);}
+      } else {
+        kgCtx.font='9px Verdana,Arial,sans-serif';
+        kgCtx.textAlign='left';kgCtx.textBaseline='middle';
+        kgCtx.fillStyle=dim?'#aabbcc':isSel?'#003366':'#224466';
+        var lx=n.x+n.r+5,maxLW=KG_W-lx-6,lbl=n.label;
+        while(lbl.length>4&&kgCtx.measureText(lbl).width>maxLW) lbl=lbl.slice(0,-1);
+        if(lbl!==n.label) lbl=lbl.slice(0,-1)+'…';
+        kgCtx.fillText(lbl,lx,n.y);
       }
       kgCtx.globalAlpha=1;
     });
     kgCtx.restore();
   }
 
-  function kgLoop(){
-    if(kgFrame<300){for(var i=0;i<4;i++)kgSimulate();kgFrame++;}
-    else{var ke=0;kgNodes.forEach(function(n){ke+=n.vx*n.vx+n.vy*n.vy;});if(ke>0.05)kgSimulate();}
-    kgDraw();requestAnimationFrame(kgLoop);
-  }
+  function kgLoop(){ kgDraw(); requestAnimationFrame(kgLoop); }
 
   function kgGetNodeAt(sx,sy){
     for(var i=kgNodes.length-1;i>=0;i--){
@@ -2364,7 +2396,7 @@
   });
 
   kgCanvas.addEventListener('mouseleave',function(){if(kgDragging){kgDragging.pinned=true;kgDragging=null;}kgPanStart=null;kgTip.style.display='none';kgCanvas.style.cursor='default';});
-  kgCanvas.addEventListener('dblclick',function(e){var p=kgPp(e);var n=kgGetNodeAt(p.x,p.y);if(n){n.pinned=false;n.vx=0;n.vy=0;}});
+  kgCanvas.addEventListener('dblclick',function(e){var p=kgPp(e);var n=kgGetNodeAt(p.x,p.y);if(n&&n.ox!==undefined){n.x=n.ox;n.y=n.oy;n.vx=0;n.vy=0;}});
   kgCanvas.addEventListener('wheel',function(e){e.preventDefault();var p=kgPp(e);var w0=kgTw(p.x,p.y);kgCamZ=Math.max(0.3,Math.min(4,kgCamZ*(e.deltaY<0?1.1:0.91)));var w1=kgTw(p.x,p.y);kgCamX+=w1.x-w0.x;kgCamY+=w1.y-w0.y;},{passive:false});
 
   kgCanvas.addEventListener('touchstart',function(e){e.preventDefault();kgMoved=false;var p=kgPp(e);kgPsx=p.x;kgPsy=p.y;if(e.touches.length===1){var n=kgGetNodeAt(p.x,p.y);if(n){kgDragging=n;n.pinned=true;var w=kgTw(p.x,p.y);kgDOX=n.x-w.x;kgDOY=n.y-w.y;}else{kgPanStart={x:p.x,y:p.y};kgCamSX=kgCamX;kgCamSY=kgCamY;}}kgLt=e.touches;},{passive:false});
@@ -2389,7 +2421,7 @@
     if(kgInited) return;
     kgInited=true;
     kgResize();
-    kgInitPos();
+    kgAssignPositions();
     var bar=document.getElementById('kg-tag-bar');
     if(bar){
       var tags=KG_ND.filter(function(n){return n.type==='tag';});
@@ -2423,7 +2455,7 @@
       clearTimeout(kgResizeTimer);
       kgResizeTimer=setTimeout(function(){
         var newW=Math.round(kgCw.getBoundingClientRect().width);
-        if(Math.abs(newW-KG_W)>5){kgResize();kgFrame=0;}
+        if(Math.abs(newW-KG_W)>5){kgResize();kgAssignPositions();}
       },150);
     }
   });
