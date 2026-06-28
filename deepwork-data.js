@@ -117,6 +117,12 @@ var deepWork = {
    '2026-06-26': [
     { h: 0.67, cat: 'read',  note: 'Reading' },
     { h: 3,    cat: 'build', note: 'Fine tuning agentic workflows at work' }
+  ],
+
+   '2026-06-27': [
+    { h: 1, cat: 'read',     note: 'Reading' },
+    { h: 1, cat: 'study',    note: 'Researching Hermes agent' },
+    { h: 1, cat: 'practice', note: 'Guitar' },
   ]
 };
 
