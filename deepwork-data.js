@@ -120,10 +120,28 @@ var deepWork = {
   ],
 
    '2026-06-27': [
-    { h: 1, cat: 'read',     note: 'Reading' },
+    { h: 1, cat: 'read',     note: 'Ghost Work' },
     { h: 1, cat: 'study',    note: 'Researching Hermes agent' },
-    { h: 1, cat: 'practice', note: 'Guitar' },
-  ]
+    { h: 1, cat: 'practice', note: 'Harmonic minor chord progressions with Mark' },
+  ],
+
+   '2026-06-29': [
+    { h: 2, cat: 'build', note: 'Fine-tuning automations' },
+    { h: 2, cat: 'write', note: 'Performance review' }
+  ],
+   '2026-06-30': [
+    { h: 2, cat: 'write', note: 'Performance review' },
+    { h: 2, cat: 'build', note: 'Creating an LLM judge for agent system' }
+  ],
+   '2026-07-01': [
+    { h: 2,   cat: 'build', note: 'Debugging' },
+    { h: 0.5, cat: 'write', note: 'Performance review' }
+  ],
+   '2026-07-02': [
+    { h: 2, cat: 'build', note: 'Skill automations' },
+    { h: 2, cat: 'build', note: 'Personal voice-to-text assistant' }
+  ],
+   '2026-07-03': { h: 2, cat: 'build', note: 'Personal voice-to-text assistant (continued)' }
 };
 
 // ── Daily Notes ───────────────────────────────────────────────────────────
@@ -172,6 +190,11 @@ var dayNotes = {
     links: [
       {label: 'thomasdenny.co', url: 'https://thomasdenny.co/'}
     ]
-   }
+   },
+
+  '2026-06-27': {
+    note: 'Reading Ghost Work. Researching Hermes agent. Harmonic minor chord progressions with Mark.',
+    links: []
+  }
 
 };
