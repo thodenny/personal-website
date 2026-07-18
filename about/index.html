@@ -66,6 +66,7 @@
     .wk-cell.reading  { background: #8b6f47; }
     .wk-cell.exercise   { background: #4a90c8; }
     .wk-cell.whitespace { background: #ebe6dc; }
+    .wk-cell.transition { background: #9fa8b0; }
 
     .week-legend {
       display: flex;
@@ -101,6 +102,7 @@
     .wk-swatch.reading  { background: #8b6f47; }
     .wk-swatch.exercise   { background: #4a90c8; }
     .wk-swatch.whitespace { background: #ebe6dc; border: 1px solid #d8d2c4; }
+    .wk-swatch.transition { background: #9fa8b0; }
   </style>
 </head>
 <body>
@@ -240,32 +242,33 @@
       var hours = ['6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p','10p','11p','12a','1a','2a','3a','4a','5a'];
       var days  = ['Mo','Tu','We','Th','Fr','Sa','Su'];
 
-      // 24 entries per row — one per hour starting at 6a; sleep runs 9p–6a
+      // 24 entries per row — one per hour starting at 6a (wake ~6:30a); sleep runs 10p–6a
       var weekday = [
         'whitespace','family','family',
         'work','work','work','work','work','work','work','work',
-        'family','family','family','family',
-        'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
+        'family','family','family','family','family',
+        'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
       ];
       var weekend = [
         'whitespace','family','family','family','family','family','family','family',
-        'family','family','family','family','family','family','family',
-        'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
+        'family','family','family','family','family','family','family','family',
+        'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
       ];
       // Sunday: white space — unplanned awake hours
       var sunday = weekend.slice();
-      for (var i = 0; i < 15; i++) sunday[i] = 'whitespace';
+      for (var i = 0; i < 16; i++) sunday[i] = 'whitespace';
       // Saturday: guitar 2–5p (indices 8–10), exercise 7a–9a (indices 1–2)
       var saturday = weekend.slice();
       saturday[8] = saturday[9] = saturday[10] = 'guitar';
       saturday[1] = saturday[2] = 'exercise';
-      // Friday: date night 5p–9p (indices 11–14), exercise 7a–9a (indices 1–2)
+      // Friday: date night 5p–10p, until sleep (indices 11–15), exercise 7a–9a (indices 1–2)
       var friday = weekday.slice();
-      friday[11] = friday[12] = friday[13] = friday[14] = 'date';
+      friday[11] = friday[12] = friday[13] = friday[14] = friday[15] = 'date';
       friday[1] = friday[2] = 'exercise';
-      // Mon–Thu: study 5p–7p (indices 11–12)
+      // Mon–Thu: transition 5p–6p (index 11), study 6p–8p (indices 12–13)
       var monThu = weekday.slice();
-      monThu[11] = monThu[12] = 'study';
+      monThu[11] = 'transition';
+      monThu[12] = monThu[13] = 'study';
       // Monday: exercise 7a–9a (indices 1–2)
       var monday = monThu.slice();
       monday[1] = monday[2] = 'exercise';
@@ -287,7 +290,7 @@
         grid.appendChild(el);
       });
 
-      var totals = { family: 0, reading: 0, exercise: 0, work: 0, study: 0, date: 0, guitar: 0, whitespace: 0, sleep: 0 };
+      var totals = { family: 0, reading: 0, exercise: 0, work: 0, study: 0, date: 0, guitar: 0, whitespace: 0, transition: 0, sleep: 0 };
 
       days.forEach(function(d, i) {
         var dl = document.createElement('div');
@@ -313,6 +316,7 @@
         ['date',       'Date Night'],
         ['guitar',     'Guitar'],
         ['whitespace', 'White Space'],
+        ['transition', 'Transition'],
         ['sleep',      'Sleep']
       ];
       order.forEach(function(pair) {
