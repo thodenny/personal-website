@@ -242,32 +242,39 @@
 
       // 24 entries per row — one per hour starting at 6a; sleep runs 9p–6a
       var weekday = [
-        'reading','family','family',
+        'whitespace','family','family',
         'work','work','work','work','work','work','work','work',
         'family','family','family','family',
         'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
       ];
       var weekend = [
-        'family','family','family','family','family','family','family','family',
+        'whitespace','family','family','family','family','family','family','family',
         'family','family','family','family','family','family','family',
         'sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep','sleep'
       ];
       // Sunday: white space — unplanned awake hours
       var sunday = weekend.slice();
       for (var i = 0; i < 15; i++) sunday[i] = 'whitespace';
-      // Saturday: guitar 2–5p (indices 8–10)
+      // Saturday: guitar 2–5p (indices 8–10), exercise 7a–9a (indices 1–2)
       var saturday = weekend.slice();
       saturday[8] = saturday[9] = saturday[10] = 'guitar';
-      // Friday: date night 5p–9p (indices 11–14)
+      saturday[1] = saturday[2] = 'exercise';
+      // Friday: date night 5p–9p (indices 11–14), exercise 7a–9a (indices 1–2)
       var friday = weekday.slice();
       friday[11] = friday[12] = friday[13] = friday[14] = 'date';
+      friday[1] = friday[2] = 'exercise';
       // Mon–Thu: study 5p–7p (indices 11–12)
       var monThu = weekday.slice();
       monThu[11] = monThu[12] = 'study';
       // Monday: exercise 7a–9a (indices 1–2)
       var monday = monThu.slice();
       monday[1] = monday[2] = 'exercise';
-      var schedule = [monday, monThu, monThu, monThu, friday, saturday, sunday];
+      // Wednesday: exercise 7a–9a (indices 1–2)
+      var wednesday = monThu.slice();
+      wednesday[1] = wednesday[2] = 'exercise';
+      // Tuesday & Thursday: reading 7a–9a (indices 1–2)
+      monThu[1] = monThu[2] = 'reading';
+      var schedule = [monday, monThu, wednesday, monThu, friday, saturday, sunday];
 
       var grid = document.getElementById('week-grid');
       if (!grid) return;
