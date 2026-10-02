@@ -24,7 +24,7 @@
   <style>
     .stats-strip {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 0;
       padding: 0 !important;
     }
@@ -63,13 +63,6 @@
     }
     .stat-tile:hover strong { color: #c8930a; }
 
-    @media (max-width: 540px) {
-      .stats-strip { grid-template-columns: repeat(2, 1fr); }
-      .stat-tile:nth-child(2) { border-right: none; }
-      .stat-tile:nth-child(1), .stat-tile:nth-child(2) {
-        border-bottom: 1px solid #dde4ee;
-      }
-    }
 
     /* ── Now Spinning card ──────────────────────────────────────────────── */
     .hs-card {
@@ -282,8 +275,6 @@
       <a href="/blog"  class="nav-link">Blog</a>
       <a href="/books" class="nav-link">Books</a>
       <a href="/projects" class="nav-link">Projects</a>
-      <a href="/deepwork" class="nav-link">Deep Work</a>
-      <a href="/resources" class="nav-link">Knowledge Base</a>
     </nav>
 
     <!-- ======================================================
@@ -488,11 +479,6 @@
         ================================================ -->
         <div class="section-header">By the Numbers</div>
         <div class="content-box stats-strip">
-          <a href="/deepwork" class="stat-tile">
-            <strong id="stat-hours">—</strong>
-            <span class="stat-label">Deep Work Hours</span>
-            <span class="stat-sub">Since Apr 4, 2026</span>
-          </a>
           <a href="/books" class="stat-tile">
             <strong>10</strong>
             <span class="stat-label">Books Read</span>
@@ -649,23 +635,6 @@
   <!-- /page-wrapper -->
 
   <script src="script.js"></script>
-
-  <!-- ── Live deep work hours for the By the Numbers strip ──────────────── -->
-  <script src="deepwork-data.js"></script>
-  <script>
-    (function() {
-      if (typeof deepWork === 'undefined') return;
-      var ytd = 0;
-      Object.keys(deepWork).forEach(function(key) {
-        if (key.indexOf('2026') !== 0) return;
-        var val = deepWork[key];
-        var sessions = Array.isArray(val) ? val : [val];
-        sessions.forEach(function(s) { ytd += (s.h || 0); });
-      });
-      var el = document.getElementById('stat-hours');
-      if (el) el.textContent = (ytd % 1 === 0 ? ytd : ytd.toFixed(1));
-    })();
-  </script>
 
   <!-- ── Now Spinning card ─────────────────────────────────────────────── -->
   <script src="records-data.js"></script>
@@ -868,8 +837,6 @@
       { title: 'Blog',          type: 'page', desc: 'Posts on running, AI, building things, and whatever else is on my mind.',  url: '/blog',         keywords: 'blog posts writing essays' },
       { title: 'Books',         type: 'page', desc: 'Running list of books I\'ve read with ratings and notes.',                 url: '/books',        keywords: 'books reading list' },
       { title: 'Projects',      type: 'page', desc: 'Things I\'ve built — personal projects and GenAI coursework.',             url: '/projects',     keywords: 'projects built portfolio' },
-      { title: 'Deep Work',     type: 'page', desc: 'Month-by-month log of focused work hours across Build, Study, Practice.',  url: '/deepwork',     keywords: 'deep work focus hours log heatmap cal newport' },
-      { title: 'Knowledge Base',type: 'page', desc: 'Articles, book notes, quotes, and videos I\'ve found worthwhile.',         url: '/resources',    keywords: 'knowledge base resources articles quotes videos notes' },
       { title: 'Newsletter',   type: 'page', desc: 'Occasional updates — new posts, things I\'m reading, what I\'m building.',   url: '/newsletter',   keywords: 'newsletter subscribe email updates reading building' },
       { title: 'Pics',         type: 'page', desc: 'Photos — family, travel, Austin, and life.',                                  url: '/pics',         keywords: 'photos pictures gallery family travel austin life' },
       { title: 'Repertoire',   type: 'page', desc: 'Songs I play on guitar — with difficulty level, status, and genre.',          url: '/repertoire',   keywords: 'repertoire guitar songs music eric clapton metallica pink floyd eagles practice' },
@@ -906,15 +873,6 @@
       { title: 'Fade to Black',                type: 'song', desc: 'Metallica · Intermediate · Performance Ready',     url: '/repertoire', keywords: 'fade to black metallica metal guitar intermediate performance ready' },
       { title: 'Layla',                        type: 'song', desc: 'Eric Clapton · Intermediate · Performance Ready',  url: '/repertoire', keywords: 'layla eric clapton blues rock guitar intermediate performance ready' },
 
-      // ── Knowledge Base ─────────────────────────────────────────────────
-      { title: 'Mark Zuckerberg Says Social Media Is Over',                   type: 'kb', desc: 'Article · Kyle Chayka · The New Yorker. Only 7% of time on Instagram is spent viewing friends\' content. The shift from social media to social marketing.',     url: '/resources',               keywords: 'zuckerberg social media instagram facebook new yorker kyle chayka meta attention economy friends marketing influencer' },
-      { title: '"The happiness of your life depends on the quality of your thoughts."', type: 'kb', desc: 'Quote · Marcus Aurelius · Roman Emperor & Philosopher. On self-talk, grace, and controlling what\'s in your power.',                                   url: '/resources?tag=Stoicism',  keywords: 'marcus aurelius stoicism philosophy happiness thoughts self talk grace control roman emperor' },
-      { title: '"The more we value things outside of our control, the less control we have."', type: 'kb', desc: 'Quote · Epictetus · Stoic Philosopher. On focusing internally and not wasting energy on what you can\'t control.',                              url: '/resources?tag=Stoicism',  keywords: 'epictetus stoicism philosophy control slave internal focus waste energy' },
-      { title: 'Alex Becker on quitting alcohol (video)',                      type: 'kb', desc: 'Video · YouTube. On rethinking your relationship with alcohol and why drinking became a habit in the first place.',                                             url: '/resources?tag=Alcohol',   keywords: 'alex becker alcohol quitting drinking health focus brain habit weekend sober' },
-      { title: 'Co-Intelligence — book notes',                                 type: 'kb', desc: '10 passages from Ethan Mollick\'s Co-Intelligence, with personal takes. Topics: AI, FutureOfWork, Attention, Creativity.',                                     url: '/resources?tag=AI',        keywords: 'co-intelligence ethan mollick ai future of work autoregressive hallucinations prompt engineering context window creativity' },
-      { title: 'Fahrenheit 451 — book notes',                                  type: 'kb', desc: '8 passages from Ray Bradbury\'s Fahrenheit 451. Topics: Attention, DeepWork, Reading, HumanNature.',                                                           url: '/resources?tag=DeepWork',  keywords: 'fahrenheit 451 bradbury attention deep work reading human nature centrifuge television distraction' },
-      { title: 'A Marriage at Sea — book notes',                               type: 'kb', desc: '6 passages from Sophie Elmhirst\'s A Marriage at Sea. Topics: Writing, Solitude, DeepWork, Creativity.',                                                        url: '/resources?tag=Solitude',  keywords: 'marriage sea elmhirst writing solitude creativity loneliness raft pacific' },
-      { title: 'If This Is A Man — book notes',                                type: 'kb', desc: '1 passage from Primo Levi on grief, pain, and the hedonic treadmill. Topics: HumanNature, Psychology.',                                                         url: '/resources?tag=HumanNature', keywords: 'if this is a man primo levi grief pain hedonic treadmill psychology human nature consciousness' },
     ];
 
     // ── Type labels & CSS classes ────────────────────────────────────────
@@ -923,7 +881,6 @@
       blog:    { label: 'Blog Post',    cls: 'srt-blog'    },
       book:    { label: 'Book',         cls: 'srt-book'    },
       project: { label: 'Project',      cls: 'srt-project' },
-      kb:      { label: 'Knowledge Base', cls: 'srt-kb'   },
       song:    { label: 'Song',         cls: 'srt-song'    },
     };
 
