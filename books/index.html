@@ -192,7 +192,19 @@
     .t8 .t { -webkit-line-clamp: 3 !important; font-weight: normal !important; }
     .grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; gap: 12px 10px !important; }
 
+    /* Keep the library toolbar on one line on desktop: long option names truncate in the closed select */
+    #author, #shelfsel { max-width: 155px; }
+    #sort { max-width: 145px; }
+    .tb .grow { min-width: 150px !important; }
+    .tab-intro { font-size: 13px !important; color: #444; margin: 10px 0 0 !important; max-width: 68ch; }
+    .tab-intro[hidden] { display: none; }
+    .map-sub { margin: -4px 0 8px !important; }
+    .list .meta strong { color: var(--orange-text); }
+
     @media (max-width: 820px) {
+      /* The tabs don't fit a phone: let the row scroll sideways */
+      .shelf-tabs { overflow-x: auto; padding-left: 0; scrollbar-width: none; }
+      .tab { flex: 0 0 auto; white-space: nowrap; padding: 7px 10px; }
       .hero, .row2, .insights, .project { grid-template-columns: minmax(0, 1fr); }
       .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       /* Top 8 becomes one swipeable row on phones */
@@ -226,8 +238,8 @@
       <section class="insights-panel" id="insights" aria-label="Reading insights" hidden>
         <div class="insights">
           <div class="content-box"><h3>Genres</h3><div id="bars"></div></div>
-          <div class="content-box"><h3>Read the World</h3><div class="map" id="map"></div><ul class="clist" id="countries"></ul></div>
-          <div class="content-box"><h3 id="num-h">By the numbers</h3><table class="details-table numtab" id="nums"></table></div>
+          <div class="content-box"><h3>Read the World</h3><p class="meta map-sub" id="map-sub"></p><div class="map" id="map"></div><ul class="clist" id="countries"></ul></div>
+          <div class="content-box"><h3 id="num-h"></h3><table class="details-table numtab" id="nums"></table></div>
         </div>
         <div class="content-box project" style="margin:12px 0 0;" id="project"></div>
       </section>
@@ -248,6 +260,7 @@
         <div class="shelf-tabs" role="group" aria-label="Show" id="status"></div>
         <div class="content-box shelf-box">
           <div class="tb">
+            <span class="ctl ctl-year"><span class="view" role="group" aria-label="Year" id="years"></span></span>
             <p class="count" id="count" role="status"></p>
             <span class="ctl ctl-lib grow"><label class="sr-only" for="q">Search the library</label>
             <input class="field" id="q" type="search" placeholder="Search title or author"></span>
@@ -255,13 +268,16 @@
             <select class="field" id="shelfsel"><option value="">All shelves</option></select></span>
             <span class="ctl ctl-log"><label class="sr-only" for="genre">Genre</label>
             <select class="field" id="genre"><option value="">All genres</option></select></span>
-            <label class="sr-only" for="sort">Sort</label>
-            <select class="field" id="sort"><option value="recent">Newest first</option><option value="rating">Highest rated</option><option value="title">Title A–Z</option></select>
+            <span class="ctl ctl-auth"><label class="sr-only" for="author">Author</label>
+            <select class="field" id="author"><option value="">All authors</option></select></span>
+            <span class="ctl ctl-sort"><label class="sr-only" for="sort">Sort</label>
+            <select class="field" id="sort"><option value="recent">Newest first</option><option value="rating">Highest rated</option><option value="title">Title A–Z</option></select></span>
             <div class="view" role="group" aria-label="View">
               <button class="chip" id="v-list" aria-pressed="true">List</button>
               <button class="chip" id="v-grid" aria-pressed="false">Covers</button>
             </div>
           </div>
+          <p class="tab-intro" id="intro" hidden></p>
           <div class="active-filter" id="active" hidden></div>
           <div id="results"></div>
           <div class="showall" id="more-wrap"><button class="chip" id="more" aria-controls="results"></button></div>
@@ -274,7 +290,7 @@
   </div>
 
   <script src="../script.js"></script>
-  <script src="../reading-data.js?v=2026110903"></script>
+  <script src="../reading-data.js?v=2026110907"></script>
   <script src="../world-map-data.js?v=20261109"></script>
   <script>
 // Helpers and derived lists, built from reading-data.js.
@@ -300,7 +316,7 @@ var M = (function() {
   function a(url, inner, cls) {
     return '<a href="' + esc(url) + '"' + (cls ? ' class="' + cls + '"' : '') + (isExternal(url) ? ' target="_blank" rel="noopener"' : '') + '>' + inner + '</a>';
   }
-  function authorsOf(b) { return b.author ? b.author.split(' & ') : []; }
+  function authorsOf(b) { return b.author ? b.author.split(/ & |, /) : []; }
   function countriesOf(b) { return b.country ? [].concat(b.country) : []; }
   function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
 
@@ -310,7 +326,9 @@ var M = (function() {
   var reading = books.filter(function(b) { return b.inProgress; });
   var shelfBooks = (typeof library !== 'undefined' ? library : []).map(function(b) { b.status = b.read ? 'read-before' : 'shelf'; return b; });
   var everything = books.concat(shelfBooks);
-  var statsYear = Math.max.apply(null, finished.map(year));
+  // Every year with a book in the log, newest first. The page opens on the newest.
+  var years = books.map(year).filter(function(y, i, a) { return y && a.indexOf(y) === i; }).sort(function(x, y) { return y - x; });
+  var statsYear = years[0];
 
   function when(b) {
     if (b.inProgress) return 'Started ' + shortDate(b.started || b.date);
@@ -336,7 +354,7 @@ var M = (function() {
   }
 
   function stats(y) {
-    var yr = finished.filter(function(b) { return year(b) === y; });
+    var yr = finished.filter(function(b) { return y === 'all' || year(b) === y; });
     var done = yr.filter(function(b) { return !b.dnf; });
     var withPages = done.filter(function(b) { return b.pages; });
     var pages = withPages.reduce(function(s, b) { return s + b.pages; }, 0);
@@ -359,7 +377,7 @@ var M = (function() {
   }
 
   function shade(n, max) {
-    var t = max <= 1 ? 1 : (n - 1) / (max - 1);
+    var t = max <= 1 ? 1 : Math.log(n) / Math.log(max);
     var from = [255, 214, 184], to = [204, 68, 0];
     return 'rgb(' + from.map(function(v, i) { return Math.round(v + (to[i] - v) * (0.35 + 0.65 * t)); }).join(',') + ')';
   }
@@ -397,17 +415,15 @@ var M = (function() {
     authorsOf: authorsOf, countriesOf: countriesOf, plural: plural, when: when, cover: cover, badge: badge,
     rating: rating, stats: stats, shade: shade, mapSvg: mapSvg, topEightBooks: topEightBooks, projectSlots: projectSlots,
     books: books, finished: finished, completed: completed, reading: reading, shelfBooks: shelfBooks,
-    everything: everything, statsYear: statsYear
+    everything: everything, statsYear: statsYear, years: years
   };
 })();
   </script>
   <script>
   (function() {
-    var $ = M.$, esc = M.esc, S = M.stats(M.statsYear);
+    var $ = M.$, esc = M.esc, S;
     var shelfNames = typeof libraryShelves !== 'undefined' ? libraryShelves : {};
 
-    $('tiles').innerHTML = [[S.books, 'Read in ' + S.year], [S.pages.toLocaleString(), 'Pages'], [S.avg.toFixed(1), 'Avg rating'], [M.everything.length, 'On the shelf']]
-      .map(function(t) { return '<div class="tile"><b>' + t[0] + '</b><span>' + t[1] + '</span></div>'; }).join('');
 
     var b = M.reading[0];
     $('now').innerHTML = b ? '<div class="now">' + M.a(M.link(b), M.cover(b)) + '<div><h2>' + M.a(M.link(b), esc(b.title)) + '</h2><div class="meta">' + esc(b.author) + '<br>' + M.when(b) + '</div>' + (b.note ? '<p>' + b.note + '</p>' : '') + '</div></div>' : '<p class="meta">Between books.</p>';
@@ -416,17 +432,46 @@ var M = (function() {
     // ── Shelf browser ──
     // Two views: this year's log, and the whole library (every book on the shelves,
     // including this year's). Filters live in the URL so Back and shared links work.
-    var all = M.everything;
+    // Want to read: books he owns only need a title; the rest (author, cover,
+    // country) comes from the library entry.
+    var owned = {}; M.everything.forEach(function(b) { owned[b.title] = b; });
+    function listOf(arr, flag) {
+      return (arr || []).map(function(r, i) {
+        var src = owned[r.title] || {};
+        var o = Object.assign({ author: src.author, cover: src.cover, country: src.country }, r);
+        o[flag] = true; o._order = i; o.onShelf = !!owned[r.title]; o.note = r.why || r.note; o.status = flag;
+        return o;
+      });
+    }
+    var wantList = listOf(typeof wantToRead !== 'undefined' ? wantToRead : [], '_want');
+    var all = M.everything.concat(wantList);
+    function finishedIt(b) { return (b.num && !b.dnf && !b.inProgress) || b.read === true; }
     var views = {
-      log: { label: M.statsYear + ' log', pred: function(b) { return !!b.num; }, view: 'list', sort: 'recent' },
-      library: { label: 'Library', pred: function(b) { return !!b.shelf; }, view: 'grid', sort: 'title' }
+      log: { label: M.statsYear + ' log', pred: function(b) { return !!b.num && (state.year === 'all' || M.year(b) === state.year); }, view: 'list', sort: 'recent' },
+      library: { label: 'Library', pred: function(b) { return !!b.shelf; }, view: 'grid', sort: 'title' },
+      want: { label: 'Want to read', pred: function(b) { return !!b._want; }, view: 'list', sort: 'added',
+        intro: 'Books I plan to read next.' }
     };
-    var DEFAULT = { status: 'log', shelf: '', genre: '', q: '', sort: 'recent', view: 'list', extra: null, all: false };
+    var DEFAULT = { status: 'log', year: M.statsYear, shelf: '', genre: '', author: '', q: '', sort: 'recent', view: 'list', extra: null, all: false };
     var state = Object.assign({}, DEFAULT);
 
-    $('status').innerHTML = Object.keys(views).map(function(k) {
-      return '<button class="tab" data-s="' + k + '" aria-pressed="false">' + views[k].label + ' <span class="n">' + all.filter(views[k].pred).length + '</span></button>';
-    }).join('');
+    $('status').innerHTML = Object.keys(views).map(function(k) { return '<button class="tab" data-s="' + k + '" aria-pressed="false"></button>'; }).join('');
+    function tabLabels() {
+      views.log.label = state.year === 'all' ? 'Reading log' : state.year + ' log';
+      [].forEach.call($('status').children, function(c) {
+        var k = c.getAttribute('data-s');
+        c.innerHTML = views[k].label + ' <span class="n">' + all.filter(views[k].pred).length + '</span>';
+      });
+    }
+    // Year buttons only appear once there's more than one year in the log.
+    var yearList = M.years.slice().reverse().concat(M.years.length > 1 ? ['all'] : []);
+    $('years').innerHTML = yearList.map(function(y) { return '<button class="chip" data-y="' + y + '" aria-pressed="false">' + (y === 'all' ? 'All' : y) + '</button>'; }).join('');
+    $('years').addEventListener('click', function(e) {
+      var c = e.target.closest('button'); if (!c) return;
+      var y = c.getAttribute('data-y'); y = y === 'all' ? 'all' : +y;
+      if (y === state.year) return;
+      state.year = y; state.all = false; sync(); toURL(true); render();
+    });
     $('shelfsel').innerHTML += Object.keys(shelfNames).map(function(k) { return '<option value="' + k + '">' + shelfNames[k] + '</option>'; }).join('');
     var logTags = [];
     M.books.forEach(function(b) { (b.tags || []).forEach(function(t) { if (logTags.indexOf(t) < 0) logTags.push(t); }); });
@@ -436,7 +481,7 @@ var M = (function() {
     // Filters set from the Reading map panel (genre bar, country, longest book…)
     var extras = {
       genre: function(v) { return { label: M.plain(M.tagLabel(v)), fn: function(b) { return (b.tags || []).indexOf(v) >= 0; } }; },
-      country: function(v) { return { label: 'authors from ' + v, fn: function(b) { return b.num && !b.dnf && M.countriesOf(b).indexOf(v) >= 0; } }; },
+      country: function(v) { return { label: 'books I\'ve read by authors from ' + v, fn: function(b) { return finishedIt(b) && M.countriesOf(b).indexOf(v) >= 0; } }; },
       book: function(v) { return { label: v, fn: function(b) { return b.title === v; } }; },
       rated8: function() { return { label: 'rated 8 or higher', fn: function(b) { return b.num && !b.dnf && b.rating >= 8; } }; },
       fiction: function() { return { label: 'fiction', fn: function(b) { return b.num && !b.dnf && (b.tags || []).indexOf('fiction') >= 0; } }; },
@@ -448,8 +493,10 @@ var M = (function() {
     function toURL(push) {
       var p = new URLSearchParams();
       if (state.status !== 'log') p.set('view', state.status);
+      if (state.year !== M.statsYear) p.set('year', state.year);
       if (state.shelf) p.set('shelf', state.shelf);
       if (state.genre) p.set('genre', state.genre);
+      if (state.author) p.set('author', state.author);
       if (state.q) p.set('q', state.q);
       if (state.sort !== views[state.status].sort) p.set('sort', state.sort);
       if (state.view !== views[state.status].view) p.set('as', state.view);
@@ -459,7 +506,9 @@ var M = (function() {
     }
     function fromURL() {
       var p = new URLSearchParams(location.search), v = views[p.get('view')] ? p.get('view') : 'log';
-      state = { status: v, shelf: p.get('shelf') || '', genre: p.get('genre') || '', q: p.get('q') || '',
+      var y = p.get('year') === 'all' ? 'all' : +p.get('year');
+      if (yearList.indexOf(y) < 0) y = M.statsYear;
+      state = { status: v, year: y, shelf: p.get('shelf') || '', genre: p.get('genre') || '', author: p.get('author') || '', q: p.get('q') || '',
         sort: p.get('sort') || views[v].sort, view: p.get('as') || views[v].view, extra: p.get('filter'), all: false };
     }
 
@@ -467,23 +516,31 @@ var M = (function() {
     function render() {
       var pred = views[state.status].pred, ex = extraObj(), q = state.q.toLowerCase(), lib = state.status === 'library';
       var list = all.filter(function(b) {
-        return pred(b) && (!ex || ex.fn(b)) &&
+        return pred(b) && (!ex || ex.fn(b)) && (!state.author || M.authorsOf(b).indexOf(state.author) >= 0) &&
           (lib ? (!state.shelf || b.shelf === state.shelf) && (!q || (b.title + ' ' + (b.author || '')).toLowerCase().indexOf(q) >= 0)
                : (!state.genre || (b.tags || []).indexOf(state.genre) >= 0));
       });
-      list.sort(state.sort === 'rating' ? function(x, y) { return (y.rating || 0) - (x.rating || 0) || st(x.title).localeCompare(st(y.title)); }
+      list.sort(state.sort === 'added' ? function(x, y) { return x._order - y._order; }
+        : state.sort === 'rating' ? function(x, y) { return (y.rating || 0) - (x.rating || 0) || st(x.title).localeCompare(st(y.title)); }
         : state.sort === 'title' ? function(x, y) { return st(x.title).localeCompare(st(y.title)); }
-        : function(x, y) { return (y.num || '00').localeCompare(x.num || '00') || st(x.title).localeCompare(st(y.title)); });
+        : function(x, y) { return (y.date || '').localeCompare(x.date || '') || (y.num || '00').localeCompare(x.num || '00') || st(x.title).localeCompare(st(y.title)); });
       $('count').textContent = M.plural(list.length, 'book');
+      var intro = views[state.status].intro;
+      $('intro').hidden = !intro; $('intro').textContent = intro || '';
       $('active').hidden = !ex;
       if (ex) {
         $('active').innerHTML = '<span>Filtered to <strong>' + esc(ex.label) + '</strong></span><button class="chip" id="x">Remove filter</button>';
         $('x').addEventListener('click', function() { state.extra = null; toURL(true); render(); });
       }
+      if (!list.length && state.status === 'want' && !ex) {
+        $('more-wrap').hidden = true;
+        $('results').innerHTML = '<div class="empty">Nothing on the list yet.</div>';
+        return;
+      }
       if (!list.length) {
         $('more-wrap').hidden = true;
         $('results').innerHTML = '<div class="empty">No books match. <button class="chip" id="reset">Clear filters</button></div>';
-        $('reset').addEventListener('click', function() { state = Object.assign({}, DEFAULT, { status: state.status, view: state.view, sort: state.sort }); sync(); toURL(true); render(); });
+        $('reset').addEventListener('click', function() { state = Object.assign({}, DEFAULT, { status: state.status, year: state.year, view: state.view, sort: state.sort }); sync(); toURL(true); render(); });
         return;
       }
       var limit = state.view === 'grid' ? 30 : 8;
@@ -497,18 +554,38 @@ var M = (function() {
       } else {
         $('results').innerHTML = '<ul class="list">' + list.map(function(b, i) {
           var nid = 'n' + i;
-          return '<li>' + M.cover(b) + '<div><h3>' + M.a(M.link(b), esc(b.title)) + ' ' + M.badge(b) + '</h3><div class="meta">' + esc(b.author || '') +
-            (b.date ? ' · ' + M.when(b) : '') + ' · ' + (b.tags ? b.tags.map(M.tagLabel).join(', ') : (shelfNames[b.shelf] || '')) + '</div>' +
+          var meta = [esc(b.author || ''), b.date ? M.when(b) : '', b._want ? M.countriesOf(b).join(' &amp; ') : '',
+            b.tags ? b.tags.map(M.tagLabel).join(', ') : (shelfNames[b.shelf] || ''), b.onShelf ? '<strong>On my shelf</strong>' : '']
+            .filter(Boolean).join(' · ');
+          return '<li>' + M.cover(b) + '<div><h3>' + M.a(M.link(b), esc(b.title)) + ' ' + M.badge(b) + '</h3><div class="meta">' + meta + '</div>' +
             (b.note ? '<p class="note clamp" id="' + nid + '">' + b.note + '</p><button class="more" aria-expanded="false" aria-controls="' + nid + '" hidden>Read more</button>' : '') + '</div><div>' + M.rating(b) + '</div></li>';
         }).join('') + '</ul>';
         [].forEach.call(document.querySelectorAll('#results .note.clamp'), function(n) { if (n.scrollHeight > n.clientHeight + 2) n.nextElementSibling.hidden = false; });
       }
     }
+    // Author list for the current tab, sorted by last name; "(2)" when there's more than one book.
+    function fillAuthors() {
+      var counts = {}, pred = views[state.status].pred;
+      all.filter(pred).forEach(function(b) { M.authorsOf(b).forEach(function(a) { counts[a] = (counts[a] || 0) + 1; }); });
+      var last = function(a) { return a.split(' ').pop().toLowerCase(); };
+      var names = Object.keys(counts).sort(function(x, y) { return last(x).localeCompare(last(y)) || x.localeCompare(y); });
+      if (state.author && !counts[state.author]) { names.unshift(state.author); counts[state.author] = 0; }
+      $('author').innerHTML = '<option value="">All authors</option>' + names.map(function(a) {
+        return '<option value="' + esc(a) + '">' + esc(a) + (counts[a] > 1 ? ' (' + counts[a] + ')' : '') + '</option>';
+      }).join('');
+      $('author').value = state.author;
+    }
     function sync() {
       var lib = state.status === 'library';
+      tabLabels(); renderStats();
       [].forEach.call($('status').children, function(c) { c.setAttribute('aria-pressed', c.getAttribute('data-s') === state.status); });
+      [].forEach.call($('years').children, function(c) { c.setAttribute('aria-pressed', c.getAttribute('data-y') === String(state.year)); });
+      [].forEach.call(document.querySelectorAll('.ctl-year'), function(c) { c.hidden = state.status !== 'log' || yearList.length < 2; });
       [].forEach.call(document.querySelectorAll('.ctl-lib'), function(c) { c.hidden = !lib; });
-      [].forEach.call(document.querySelectorAll('.ctl-log'), function(c) { c.hidden = lib; });
+      [].forEach.call(document.querySelectorAll('.ctl-log'), function(c) { c.hidden = state.status !== 'log'; });
+      [].forEach.call(document.querySelectorAll('.ctl-auth'), function(c) { c.hidden = state.status === 'want'; });
+      fillAuthors();
+      [].forEach.call(document.querySelectorAll('.ctl-sort'), function(c) { c.hidden = views[state.status].sort === 'added'; });
       $('q').value = state.q; $('shelfsel').value = state.shelf; $('genre').value = state.genre; $('sort').value = state.sort;
       $('sort').querySelector('[value="recent"]').textContent = lib ? 'Recently read first' : 'Newest first';
       $('v-list').setAttribute('aria-pressed', state.view === 'list'); $('v-grid').setAttribute('aria-pressed', state.view === 'grid');
@@ -516,11 +593,12 @@ var M = (function() {
     $('status').addEventListener('click', function(e) {
       var c = e.target.closest('button'); if (!c) return;
       var k = c.getAttribute('data-s'); if (k === state.status) return;
-      state = Object.assign({}, DEFAULT, { status: k, sort: views[k].sort, view: views[k].view });
+      state = Object.assign({}, DEFAULT, { status: k, year: state.year, sort: views[k].sort, view: views[k].view });
       sync(); toURL(true); render();
     });
     $('q').addEventListener('input', function() { state.q = this.value; state.all = false; toURL(false); render(); });
     $('shelfsel').addEventListener('change', function() { state.shelf = this.value; state.all = false; toURL(true); render(); });
+    $('author').addEventListener('change', function() { state.author = this.value; state.all = false; toURL(true); render(); });
     $('genre').addEventListener('change', function() { state.genre = this.value; state.all = false; toURL(true); render(); });
     $('sort').addEventListener('change', function() { state.sort = this.value; state.all = false; toURL(false); render(); });
     $('more').addEventListener('click', function() { state.all = !state.all; render(); });
@@ -537,40 +615,54 @@ var M = (function() {
     $('v-list').addEventListener('click', function() { state.view = 'list'; sync(); toURL(false); render(); });
     $('v-grid').addEventListener('click', function() { state.view = 'grid'; sync(); toURL(false); render(); });
     window.addEventListener('popstate', function() { fromURL(); sync(); render(); });
-    function focusFilter(key) {
-      state = Object.assign({}, DEFAULT, { extra: key });
+    function focusFilter(key, status) {
+      var v = views[status] ? status : 'log';
+      state = Object.assign({}, DEFAULT, { status: v, year: state.year, sort: views[v].sort, view: views[v].view, extra: key });
       sync(); toURL(true); render(); $('shelf').scrollIntoView({ behavior: 'smooth' }); $('shelf-h').focus({ preventScroll: true });
+    }
+    // Tiles, genre bars and "by the numbers" follow the year picked on the log tab.
+    function renderStats() {
+      S = M.stats(state.year);
+      var everyYear = state.year === 'all';
+      $('tiles').innerHTML = [[S.books, everyYear ? 'Books read' : 'Read in ' + S.year], [S.pages.toLocaleString(), 'Pages'],
+        [S.done ? S.avg.toFixed(1) : '–', 'Avg rating'], [M.everything.length, 'On the shelf']]
+        .map(function(t) { return '<div class="tile"><b>' + t[0] + '</b><span>' + t[1] + '</span></div>'; }).join('');
+      var gk = Object.keys(S.genres).sort(function(x, y) { return S.genres[y] - S.genres[x]; }), gmax = S.genres[gk[0]] || 1;
+      $('bars').innerHTML = gk.length ? gk.slice(0, 8).map(function(t) {
+        return '<div class="bar-row"><span class="lab"><button class="linkish" data-t="' + t + '">' + M.tagLabel(t) + '</button></span><span class="bar-track"><span class="bar-fill" style="width:' + (S.genres[t] / gmax * 100) + '%"></span></span><span class="num">' + S.genres[t] + '</span></div>';
+      }).join('') : '<p class="meta">Nothing finished yet this year.</p>';
+      $('num-h').textContent = everyYear ? 'All years by the numbers' : S.year + ' by the numbers';
+      var an = Object.keys(S.authors).sort(function(x, y) { return S.authors[y].length - S.authors[x].length; });
+      var top = S.authors[an[0]] && S.authors[an[0]].length > 1 ? ' <span class="meta">(' + esc(an[0].split(' ').pop()) + ' ×' + S.authors[an[0]].length + ')</span>' : '';
+      var btn = function(key, text) { return '<button class="linkish" data-x="' + esc(key) + '">' + text + '</button>'; };
+      var rows = [
+        ['Finished', S.done + (S.dnf ? ' <span class="meta">+ ' + btn('dnf', S.dnf + ' DNF') + '</span>' : '')],
+        ['Rated 8+', btn('rated8', S.eightPlus + ' of ' + S.done)],
+        ['Fiction', btn('fiction', S.fiction)],
+        ['Nonfiction', btn('nonfiction', S.nonfiction)],
+        ['Countries', Object.keys(S.countries).length],
+        ['Authors', an.length + top]
+      ];
+      if (S.longest) rows.push(['Longest', btn('book:' + S.longest.title, esc(S.longest.title)) + ' <span class="meta">' + S.longest.pages + '&nbsp;pp</span>']);
+      if (S.shortest && S.shortest !== S.longest) rows.push(['Shortest', btn('book:' + S.shortest.title, esc(S.shortest.title)) + ' <span class="meta">' + S.shortest.pages + '&nbsp;pp</span>']);
+      $('nums').innerHTML = rows.map(function(r) { return '<tr><td class="details-label">' + r[0] + '</td><td class="details-value">' + r[1] + '</td></tr>'; }).join('');
     }
     $('shelf-h').tabIndex = -1;
     fromURL(); sync(); render();
 
     // ── Insights ──
-    var gk = Object.keys(S.genres).sort(function(x, y) { return S.genres[y] - S.genres[x]; }), gmax = S.genres[gk[0]] || 1;
-    $('bars').innerHTML = gk.slice(0, 8).map(function(t) {
-      return '<div class="bar-row"><span class="lab"><button class="linkish" data-t="' + t + '">' + M.tagLabel(t) + '</button></span><span class="bar-track"><span class="bar-fill" style="width:' + (S.genres[t] / gmax * 100) + '%"></span></span><span class="num">' + S.genres[t] + '</span></div>';
-    }).join('');
     $('bars').addEventListener('click', function(e) { var t = e.target.closest('button'); if (!t) return; var k = t.getAttribute('data-t');
       focusFilter('genre:' + k); });
 
-    var cn = Object.keys(S.countries).sort(function(x, y) { return S.countries[y] - S.countries[x]; }), cmax = S.countries[cn[0]] || 1;
-    $('map').innerHTML = M.mapSvg(S.countries);
-    $('countries').innerHTML = cn.map(function(c) { return '<li><span class="dot" style="background:' + M.shade(S.countries[c], cmax) + '"></span><button class="linkish" data-c="' + esc(c) + '">' + c + '</button> ' + S.countries[c] + '</li>'; }).join('');
+    // Read the World covers every book he's finished, from any year, not just this one.
+    var world = {}, readAll = M.everything.filter(finishedIt);
+    readAll.forEach(function(b) { M.countriesOf(b).forEach(function(c) { world[c] = (world[c] || 0) + 1; }); });
+    var cn = Object.keys(world).sort(function(x, y) { return world[y] - world[x] || x.localeCompare(y); }), cmax = world[cn[0]] || 1;
+    $('map-sub').textContent = 'Every book I\'ve finished, by author\'s country: ' + M.plural(readAll.length, 'book') + ' from ' + cn.length + ' countries.';
+    $('map').innerHTML = M.mapSvg(world);
+    $('countries').innerHTML = cn.map(function(c) { return '<li><span class="dot" style="background:' + M.shade(world[c], cmax) + '"></span><button class="linkish" data-c="' + esc(c) + '">' + c + '</button> ' + world[c] + '</li>'; }).join('');
     $('countries').addEventListener('click', function(e) { var t = e.target.closest('button'); if (!t) return; var c = t.getAttribute('data-c');
-      focusFilter('country:' + c); });
-
-    var an = Object.keys(S.authors).sort(function(x, y) { return S.authors[y].length - S.authors[x].length; });
-    var top = S.authors[an[0]] && S.authors[an[0]].length > 1 ? ' <span class="meta">(' + esc(an[0].split(' ').pop()) + ' ×' + S.authors[an[0]].length + ')</span>' : '';
-    var btn = function(key, text) { return '<button class="linkish" data-x="' + esc(key) + '">' + text + '</button>'; };
-    $('nums').innerHTML = [
-      ['Finished', S.done + ' <span class="meta">+ ' + btn('dnf', S.dnf + ' DNF') + '</span>'],
-      ['Rated 8+', btn('rated8', S.eightPlus + ' of ' + S.done)],
-      ['Fiction', btn('fiction', S.fiction)],
-      ['Nonfiction', btn('nonfiction', S.nonfiction)],
-      ['Countries', Object.keys(S.countries).length],
-      ['Authors', an.length + top],
-      ['Longest', btn('book:' + S.longest.title, esc(S.longest.title)) + ' <span class="meta">' + S.longest.pages + '&nbsp;pp</span>'],
-      ['Shortest', btn('book:' + S.shortest.title, esc(S.shortest.title)) + ' <span class="meta">' + S.shortest.pages + '&nbsp;pp</span>']
-    ].map(function(r) { return '<tr><td class="details-label">' + r[0] + '</td><td class="details-value">' + r[1] + '</td></tr>'; }).join('');
+      focusFilter('country:' + c, 'library'); });
     $('nums').addEventListener('click', function(e) { var t = e.target.closest('button[data-x]'); if (t) focusFilter(t.getAttribute('data-x')); });
 
     var p = readingProjects[0], slots = M.projectSlots(p), filled = slots.filter(function(s) { return s.hits.length; }).length;
