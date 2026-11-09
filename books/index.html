@@ -192,10 +192,15 @@
     .t8 .t { -webkit-line-clamp: 3 !important; font-weight: normal !important; }
     .grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; gap: 12px 10px !important; }
 
-    /* Keep the library toolbar on one line on desktop: long option names truncate in the closed select */
-    #author, #shelfsel { max-width: 155px; }
-    #sort { max-width: 145px; }
-    .tb .grow { min-width: 150px !important; }
+    /* Library toolbar is two rows on purpose: count, search and view on top, the
+       filters underneath at their natural width so no option text gets cut off. */
+    #author { max-width: 230px; }
+    .tb .grow .field { min-width: 0; }
+    .tb .tb-break { display: block; flex-basis: 100%; height: 0; }
+    .tb .tb-break[hidden] { display: none; }
+    .tb.is-lib .view { order: 1; }
+    .tb.is-lib .tb-break { order: 2; }
+    .tb.is-lib select.field { order: 3; }
     .tab-intro { font-size: 13px !important; color: #444; margin: 10px 0 0 !important; max-width: 68ch; }
     .tab-intro[hidden] { display: none; }
     .map-sub { margin: -4px 0 8px !important; }
@@ -259,13 +264,16 @@
         <h2 class="sr-only" id="shelf-h">The bookshelf</h2>
         <div class="shelf-tabs" role="group" aria-label="Show" id="status"></div>
         <div class="content-box shelf-box">
-          <div class="tb">
+          <div class="tb" id="tb">
             <span class="ctl ctl-year"><span class="view" role="group" aria-label="Year" id="years"></span></span>
             <p class="count" id="count" role="status"></p>
             <span class="ctl ctl-lib grow"><label class="sr-only" for="q">Search the library</label>
             <input class="field" id="q" type="search" placeholder="Search title or author"></span>
+            <span class="ctl ctl-lib tb-break" aria-hidden="true"></span>
             <span class="ctl ctl-lib"><label class="sr-only" for="shelfsel">Shelf</label>
             <select class="field" id="shelfsel"><option value="">All shelves</option></select></span>
+            <span class="ctl ctl-lib"><label class="sr-only" for="readsel">Read or not</label>
+            <select class="field" id="readsel"><option value="">All books</option><option value="read">Read</option><option value="unread">Not read yet</option></select></span>
             <span class="ctl ctl-log"><label class="sr-only" for="genre">Genre</label>
             <select class="field" id="genre"><option value="">All genres</option></select></span>
             <span class="ctl ctl-auth"><label class="sr-only" for="author">Author</label>
@@ -290,7 +298,7 @@
   </div>
 
   <script src="../script.js"></script>
-  <script src="../reading-data.js?v=2026110907"></script>
+  <script src="../reading-data.js?v=2026110912"></script>
   <script src="../world-map-data.js?v=20261109"></script>
   <script>
 // Helpers and derived lists, built from reading-data.js.
@@ -325,7 +333,9 @@ var M = (function() {
   var completed = finished.filter(function(b) { return !b.dnf; });
   var reading = books.filter(function(b) { return b.inProgress; });
   var shelfBooks = (typeof library !== 'undefined' ? library : []).map(function(b) { b.status = b.read ? 'read-before' : 'shelf'; return b; });
-  var everything = books.concat(shelfBooks);
+  // Read but not owned: they live in the Library view with the rest, flagged notOwned.
+  var elsewhere = (typeof readElsewhere !== 'undefined' ? readElsewhere : []).map(function(b) { b.read = true; b.notOwned = true; b.status = 'read-before'; return b; });
+  var everything = books.concat(shelfBooks, elsewhere);
   // Every year with a book in the log, newest first. The page opens on the newest.
   var years = books.map(year).filter(function(y, i, a) { return y && a.indexOf(y) === i; }).sort(function(x, y) { return y - x; });
   var statsYear = years[0];
@@ -439,7 +449,7 @@ var M = (function() {
       return (arr || []).map(function(r, i) {
         var src = owned[r.title] || {};
         var o = Object.assign({ author: src.author, cover: src.cover, country: src.country }, r);
-        o[flag] = true; o._order = i; o.onShelf = !!owned[r.title]; o.note = r.why || r.note; o.status = flag;
+        o[flag] = true; o._order = i; o.onShelf = !!owned[r.title] && !owned[r.title].notOwned; o.note = r.why || r.note; o.status = flag;
         return o;
       });
     }
@@ -452,7 +462,7 @@ var M = (function() {
       want: { label: 'Want to read', pred: function(b) { return !!b._want; }, view: 'list', sort: 'added',
         intro: 'Books I plan to read next.' }
     };
-    var DEFAULT = { status: 'log', year: M.statsYear, shelf: '', genre: '', author: '', q: '', sort: 'recent', view: 'list', extra: null, all: false };
+    var DEFAULT = { status: 'log', year: M.statsYear, read: '', shelf: '', genre: '', author: '', q: '', sort: 'recent', view: 'list', extra: null, all: false };
     var state = Object.assign({}, DEFAULT);
 
     $('status').innerHTML = Object.keys(views).map(function(k) { return '<button class="tab" data-s="' + k + '" aria-pressed="false"></button>'; }).join('');
@@ -472,7 +482,11 @@ var M = (function() {
       if (y === state.year) return;
       state.year = y; state.all = false; sync(); toURL(true); render();
     });
-    $('shelfsel').innerHTML += Object.keys(shelfNames).map(function(k) { return '<option value="' + k + '">' + shelfNames[k] + '</option>'; }).join('');
+    $('shelfsel').innerHTML += '<optgroup label="Shelf">' + Object.keys(shelfNames).map(function(k) { return '<option value="' + k + '">' + shelfNames[k] + '</option>'; }).join('') + '</optgroup>' +
+      (M.everything.some(function(b) { return b.notOwned; }) ? '<optgroup label="Ownership"><option value="owned">On my shelves</option><option value="away">Not on my shelves</option></optgroup>' : '');
+    function shelfMatch(b) {
+      return !state.shelf || (state.shelf === 'away' ? !!b.notOwned : state.shelf === 'owned' ? !b.notOwned : b.shelf === state.shelf);
+    }
     var logTags = [];
     M.books.forEach(function(b) { (b.tags || []).forEach(function(t) { if (logTags.indexOf(t) < 0) logTags.push(t); }); });
     logTags.sort(function(x, y) { return M.tagLabel(x).localeCompare(M.tagLabel(y)); });
@@ -495,6 +509,7 @@ var M = (function() {
       if (state.status !== 'log') p.set('view', state.status);
       if (state.year !== M.statsYear) p.set('year', state.year);
       if (state.shelf) p.set('shelf', state.shelf);
+      if (state.read) p.set('read', state.read);
       if (state.genre) p.set('genre', state.genre);
       if (state.author) p.set('author', state.author);
       if (state.q) p.set('q', state.q);
@@ -508,7 +523,7 @@ var M = (function() {
       var p = new URLSearchParams(location.search), v = views[p.get('view')] ? p.get('view') : 'log';
       var y = p.get('year') === 'all' ? 'all' : +p.get('year');
       if (yearList.indexOf(y) < 0) y = M.statsYear;
-      state = { status: v, year: y, shelf: p.get('shelf') || '', genre: p.get('genre') || '', author: p.get('author') || '', q: p.get('q') || '',
+      state = { status: v, year: y, read: /^(un)?read$/.test(p.get('read')) ? p.get('read') : '', shelf: p.get('shelf') || '', genre: p.get('genre') || '', author: p.get('author') || '', q: p.get('q') || '',
         sort: p.get('sort') || views[v].sort, view: p.get('as') || views[v].view, extra: p.get('filter'), all: false };
     }
 
@@ -517,7 +532,7 @@ var M = (function() {
       var pred = views[state.status].pred, ex = extraObj(), q = state.q.toLowerCase(), lib = state.status === 'library';
       var list = all.filter(function(b) {
         return pred(b) && (!ex || ex.fn(b)) && (!state.author || M.authorsOf(b).indexOf(state.author) >= 0) &&
-          (lib ? (!state.shelf || b.shelf === state.shelf) && (!q || (b.title + ' ' + (b.author || '')).toLowerCase().indexOf(q) >= 0)
+          (lib ? shelfMatch(b) && (!state.read || (state.read === 'read') === !!finishedIt(b)) && (!q || (b.title + ' ' + (b.author || '')).toLowerCase().indexOf(q) >= 0)
                : (!state.genre || (b.tags || []).indexOf(state.genre) >= 0));
       });
       list.sort(state.sort === 'added' ? function(x, y) { return x._order - y._order; }
@@ -555,7 +570,7 @@ var M = (function() {
         $('results').innerHTML = '<ul class="list">' + list.map(function(b, i) {
           var nid = 'n' + i;
           var meta = [esc(b.author || ''), b.date ? M.when(b) : '', b._want ? M.countriesOf(b).join(' &amp; ') : '',
-            b.tags ? b.tags.map(M.tagLabel).join(', ') : (shelfNames[b.shelf] || ''), b.onShelf ? '<strong>On my shelf</strong>' : '']
+            b.tags ? b.tags.map(M.tagLabel).join(', ') : (shelfNames[b.shelf] || ''), b.onShelf ? '<strong>On my shelf</strong>' : '', b.notOwned ? 'Not on my shelves' : '']
             .filter(Boolean).join(' · ');
           return '<li>' + M.cover(b) + '<div><h3>' + M.a(M.link(b), esc(b.title)) + ' ' + M.badge(b) + '</h3><div class="meta">' + meta + '</div>' +
             (b.note ? '<p class="note clamp" id="' + nid + '">' + b.note + '</p><button class="more" aria-expanded="false" aria-controls="' + nid + '" hidden>Read more</button>' : '') + '</div><div>' + M.rating(b) + '</div></li>';
@@ -582,11 +597,12 @@ var M = (function() {
       [].forEach.call($('years').children, function(c) { c.setAttribute('aria-pressed', c.getAttribute('data-y') === String(state.year)); });
       [].forEach.call(document.querySelectorAll('.ctl-year'), function(c) { c.hidden = state.status !== 'log' || yearList.length < 2; });
       [].forEach.call(document.querySelectorAll('.ctl-lib'), function(c) { c.hidden = !lib; });
+      $('tb').classList.toggle('is-lib', lib);
       [].forEach.call(document.querySelectorAll('.ctl-log'), function(c) { c.hidden = state.status !== 'log'; });
       [].forEach.call(document.querySelectorAll('.ctl-auth'), function(c) { c.hidden = state.status === 'want'; });
       fillAuthors();
       [].forEach.call(document.querySelectorAll('.ctl-sort'), function(c) { c.hidden = views[state.status].sort === 'added'; });
-      $('q').value = state.q; $('shelfsel').value = state.shelf; $('genre').value = state.genre; $('sort').value = state.sort;
+      $('q').value = state.q; $('shelfsel').value = state.shelf; $('readsel').value = state.read; $('genre').value = state.genre; $('sort').value = state.sort;
       $('sort').querySelector('[value="recent"]').textContent = lib ? 'Recently read first' : 'Newest first';
       $('v-list').setAttribute('aria-pressed', state.view === 'list'); $('v-grid').setAttribute('aria-pressed', state.view === 'grid');
     }
@@ -598,6 +614,7 @@ var M = (function() {
     });
     $('q').addEventListener('input', function() { state.q = this.value; state.all = false; toURL(false); render(); });
     $('shelfsel').addEventListener('change', function() { state.shelf = this.value; state.all = false; toURL(true); render(); });
+    $('readsel').addEventListener('change', function() { state.read = this.value; state.all = false; toURL(true); render(); });
     $('author').addEventListener('change', function() { state.author = this.value; state.all = false; toURL(true); render(); });
     $('genre').addEventListener('change', function() { state.genre = this.value; state.all = false; toURL(true); render(); });
     $('sort').addEventListener('change', function() { state.sort = this.value; state.all = false; toURL(false); render(); });
@@ -625,7 +642,7 @@ var M = (function() {
       S = M.stats(state.year);
       var everyYear = state.year === 'all';
       $('tiles').innerHTML = [[S.books, everyYear ? 'Books read' : 'Read in ' + S.year], [S.pages.toLocaleString(), 'Pages'],
-        [S.done ? S.avg.toFixed(1) : '–', 'Avg rating'], [M.everything.length, 'On the shelf']]
+        [S.done ? S.avg.toFixed(1) : '–', 'Avg rating'], [M.everything.filter(function(b) { return !b.notOwned; }).length, 'On the shelf']]
         .map(function(t) { return '<div class="tile"><b>' + t[0] + '</b><span>' + t[1] + '</span></div>'; }).join('');
       var gk = Object.keys(S.genres).sort(function(x, y) { return S.genres[y] - S.genres[x]; }), gmax = S.genres[gk[0]] || 1;
       $('bars').innerHTML = gk.length ? gk.slice(0, 8).map(function(t) {
