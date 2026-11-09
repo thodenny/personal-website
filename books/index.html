@@ -165,7 +165,7 @@
     .ctl-lib .field[type=search] { flex: 1; min-width: 180px; }
     .sp { flex: 1; display: block !important; }
     .sp[hidden] { display: none !important; }
-    .now p { font-size: 13px; color: #444; line-height: 1.5; margin: 6px 0 0 !important; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .now p { font-size: 12px; color: #444; line-height: 1.5; margin: 6px 0 0 !important; }
     .numtab td { font-size: 12px; padding: 5px 8px; }
     .numtab .details-value { font-variant-numeric: tabular-nums; }
     .numtab .details-label { width: auto; white-space: nowrap; }
@@ -274,7 +274,7 @@
   </div>
 
   <script src="../script.js"></script>
-  <script src="../reading-data.js?v=20261109"></script>
+  <script src="../reading-data.js?v=2026110902"></script>
   <script src="../world-map-data.js?v=20261109"></script>
   <script>
 // Helpers and derived lists, built from reading-data.js.
@@ -331,6 +331,7 @@ var M = (function() {
   function rating(b) {
     if (b.status === 'reading') return '<span class="rt rt-reading">Reading</span>';
     if (b.rating) return '<span class="rt">' + b.rating + '<small>/10</small></span>';
+    if (b.status === 'read-before') return '<span class="rt rt-reading">Read</span>';
     return '';
   }
 
@@ -491,7 +492,7 @@ var M = (function() {
       if (!state.all) list = list.slice(0, limit);
       if (state.view === 'grid') {
         $('results').innerHTML = '<div class="grid">' + list.map(function(b) {
-          return M.a(M.link(b), M.cover(b) + '<span class="t">' + esc(b.title) + '</span>' + (b.status === 'reading' ? '<span class="r">Reading</span>' : b.rating ? '<span class="r">' + b.rating + '/10' + (b.dnf ? ' · DNF' : '') + '</span>' : ''));
+          return M.a(M.link(b), M.cover(b) + '<span class="t">' + esc(b.title) + '</span>' + (b.status === 'reading' ? '<span class="r">Reading</span>' : b.rating ? '<span class="r">' + b.rating + '/10' + (b.dnf ? ' · DNF' : '') + '</span>' : b.status === 'read-before' ? '<span class="r">Read</span>' : ''));
         }).join('') + '</div>';
       } else {
         $('results').innerHTML = '<ul class="list">' + list.map(function(b, i) {
