@@ -22,563 +22,562 @@
   <link rel="alternate" type="application/rss+xml" title="Thomas Denny" href="/feed.xml" />
 
   <style>
-    /* Books-finished timeline */
-    .bf-timeline-wrap {
-      position: relative;
+    /* Same MySpace palette as styles.css, with the two low-contrast text colors
+       swapped for passing ones: muted text #6688aa (3.7:1) → #4a6788 (5.9:1), and orange text
+       #FF6600 (2.9:1) → #c2410c (5.2:1). #FF6600 stays for fills and accents. */
+    :root {
+      --blue: #336699;
+      --navy: #003366;
+      --orange: #FF6600;
+      --orange-text: #c2410c;
+      --text: #333333;
+      --muted: #4a6788;
+      --border: #99AACC;
+      --row: #dde8f4;
+      --tint: #f0f5ff;
     }
-    .bf-timeline {
-      display: flex;
-      gap: 14px;
-      overflow-x: auto;
-      padding: 4px 2px 10px;
-      scroll-behavior: smooth;
-    }
-    .bf-tl-scroll-btn {
-      position: absolute;
-      top: 0;
-      bottom: 10px;
-      right: 0;
-      width: 56px;
-      background: linear-gradient(to right, rgba(255,255,255,0) 0%, #ffffff 70%);
-      border: none;
-      color: #6688aa;
-      font-size: 20px;
-      font-weight: normal;
-      line-height: 1;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 6px 0 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease, color 0.15s ease;
-      z-index: 2;
-    }
-    .bf-tl-scroll-btn.is-visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .bf-tl-scroll-btn:hover {
-      color: #FF6600;
-    }
-    .bf-tl-item {
-      flex: 0 0 auto;
-      width: 80px;
-      text-align: center;
-      text-decoration: none;
-      color: #003366;
-    }
-    .bf-tl-item img {
-      width: 70px;
-      height: 100px;
-      object-fit: cover;
-      border: 1px solid #99AACC;
-      border-radius: 2px;
-      display: block;
-      margin: 0 auto 6px;
-      box-shadow: 1px 1px 0 #99AACC;
-      transition: transform 0.15s ease;
-    }
-    .bf-tl-item:hover img {
-      transform: translateY(-2px);
-      box-shadow: 2px 3px 0 #99AACC;
-    }
-    .bf-tl-title {
-      font-size: 10px;
-      font-weight: bold;
-      line-height: 1.2;
-      margin-bottom: 2px;
-      color: #003366;
-    }
-    .bf-tl-date {
-      font-size: 9px;
-      color: #6688aa;
-    }
-    .bf-tl-rating {
-      font-size: 9px;
-      color: #5e4a2f;
-      font-weight: bold;
+    
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    :focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+    a:focus-visible, button:focus-visible { border-radius: 2px; }
+    
+    /* Covers */
+    .cv { display: block; width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border: 1px solid var(--border); border-radius: 2px; box-shadow: 1px 1px 0 var(--border); background: #fff; }
+    .cv-spine { box-sizing: border-box; padding: 6px 5px; overflow: hidden; background: linear-gradient(to bottom, #4477aa, #1a4d8a); color: #fff;
+      font-family: Georgia, serif; font-size: 10px; line-height: 1.25; display: flex; flex-direction: column; justify-content: center; gap: 4px; text-align: center; }
+    .cv-spine small { font-family: Verdana, sans-serif; font-size: 8px; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.3px; }
+    a:hover .cv { box-shadow: 2px 3px 0 var(--border); transform: translateY(-2px); }
+    .cv { transition: transform 0.15s ease-out, box-shadow 0.15s ease-out; }
+    @media (prefers-reduced-motion: reduce) { .cv { transition: none; } a:hover .cv { transform: none; } }
+    
+    /* Pills + ratings */
+    .pill { display: inline-block; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 2px; border: 1px solid; vertical-align: 1px; }
+    .pill-dnf { color: #882222; background: #fff0f0; border-color: #aa3333; }
+    .pill-reading { color: var(--blue); background: #e8f0ff; border-color: var(--border); }
+    .rt { color: var(--orange-text); font-weight: bold; font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .rt small { font-size: 11px; font-weight: normal; color: var(--muted); }
+    .rt-reading { font-size: 12px; }
+    .tag { display: inline-block; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.4px; color: var(--blue);
+      background: linear-gradient(to bottom, #f0f5ff, #e4edf8); border: 1px solid var(--border); border-radius: 2px; padding: 1px 6px; }
+    
+    /* Buttons: MySpace raised chips */
+    .chip { font: inherit; font-size: 12px; color: var(--blue); background: linear-gradient(to bottom, #f6f9ff, #e4edf8); border: 1px solid var(--border);
+      border-radius: 2px; padding: 4px 10px; cursor: pointer; min-height: 28px; display: inline-flex; align-items: center; gap: 5px; text-decoration: none; }
+    .chip:hover { border-color: var(--orange); color: #CC4400; text-decoration: none; }
+    .chip[aria-pressed="true"], .chip[aria-selected="true"], .chip.on { background: linear-gradient(to bottom, #4d7db5, #1a4d8a); border-color: var(--navy); color: #fff; }
+    .chip .n { font-variant-numeric: tabular-nums; opacity: 0.8; font-size: 11px; }
+    .field { font: inherit; font-size: 13px; color: var(--text); border: 1px solid var(--border); border-radius: 2px; padding: 4px 8px; min-height: 30px; background: #fff; }
+    .field:focus { border-color: var(--blue); }
+    label.lbl { font-size: 11px; font-weight: bold; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    /* Map */
+    .wm-sea { fill: #f3f7fc; stroke: var(--border); stroke-width: 1; }
+    .wm-land { fill: #dde3ea; stroke: #fff; stroke-width: 0.5; }
+    .map svg { width: 100%; height: auto; display: block; }
+    
+    /* Bars */
+    .bar-row { display: grid; grid-template-columns: minmax(0, 8.5em) 1fr 2em; gap: 8px; align-items: center; font-size: 12px; padding: 2px 0; }
+    .bar-row .lab { color: var(--blue); font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { height: 10px; background: #eef3fa; border: 1px solid #c8d8ec; border-radius: 2px; overflow: hidden; }
+    .bar-fill { display: block; height: 100%; background: linear-gradient(to right, #4477aa, #1a4d8a); }
+    .bar-row .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; }
+    .hero h1 { font-family: Georgia, serif; font-size: 26px; color: var(--navy); line-height: 1.2; margin: 0 0 4px; }
+    .hero p { font-size: 13px !important; margin: 0 !important; max-width: 48ch; }
+    .tiles { display: grid; grid-template-columns: repeat(4, minmax(92px, 1fr)); gap: 8px; }
+    .tile { border: 1px solid var(--border); border-radius: 2px; background: linear-gradient(to bottom, #fff, #eef3fa); padding: 8px 10px; text-align: center; box-shadow: 1px 1px 0 #ccddee; }
+    .tile b { display: block; font-size: 20px; color: var(--navy); font-variant-numeric: tabular-nums; line-height: 1.2; }
+    .tile span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: bold; }
+
+    .row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 12px; }
+    .now { display: grid; grid-template-columns: 84px 1fr; gap: 12px; }
+    .now h2 { font-family: Georgia, serif; font-size: 18px; margin: 0 0 2px; color: var(--navy); line-height: 1.25; }
+    .now h2 a { color: inherit; }
+    .meta { font-size: 12px; color: var(--muted); }
+    .eyebrow { font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 8px; }
+    .t8 { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+    .t8 a, .grid a { text-decoration: none; display: block; min-width: 0; }
+    .t8 .t, .grid .t { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; color: var(--blue); font-weight: bold; line-height: 1.25; margin-top: 4px; text-align: center; }
+
+    /* Shelf browser */
+    /* Bookshelf: raised MySpace tabs on top of the box, one toolbar row inside */
+    .shelf-tabs { display: flex; gap: 4px; padding-left: 6px; position: relative; z-index: 1; margin-bottom: -1px; }
+    .tab { font: inherit; font-size: 12px; font-weight: bold; color: #fff; cursor: pointer; padding: 7px 16px; min-height: 34px;
+      background: linear-gradient(to bottom, #6f95c2, #3a6699); border: 1px solid #1a3f72; border-bottom: none; border-radius: 4px 4px 0 0; }
+    .tab:hover { background: linear-gradient(to bottom, #ff9955, #ff6600); border-color: #cc5200; }
+    .tab[aria-pressed="true"] { background: #fff; color: var(--navy); border-color: #aabbcc; }
+    .tab .n { font-weight: normal; font-variant-numeric: tabular-nums; opacity: 0.85; margin-left: 2px; }
+    .tb { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid #ddeeff; }
+    .tb .count { margin: 0 auto 0 0 !important; font-size: 13px; color: var(--text); font-weight: bold; white-space: nowrap; }
+    .tb .field { min-height: 30px; }
+    .tb .chip { min-height: 30px; }
+    .tb .grow { display: flex; flex: 1; min-width: 180px; }
+    .tb .grow[hidden] { display: none; }
+    .tb .grow .field { width: 100%; }
+    .active-filter { margin-top: 10px; }
+    .seg { display: flex; flex-wrap: wrap; gap: 4px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .controls .field[type=search] { flex: 1; min-width: 180px; }
+    .view { display: flex; gap: 0; }
+    .view .chip:first-child { border-radius: 2px 0 0 2px; } .view .chip:last-child { border-radius: 0 2px 2px 0; margin-left: -1px; }
+    .active-filter { display: flex; gap: 6px; align-items: center; font-size: 12px; }
+    .count { font-size: 12px; color: var(--muted); margin: 10px 0 0 !important; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 16px 12px; margin-top: 12px; }
+    .grid .r { display: block; text-align: center; font-size: 12px; color: var(--orange-text); font-weight: bold; }
+    .list { list-style: none; padding: 0; margin: 4px 0 0 !important; }
+    .list li { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 14px; padding: 14px 0; border-bottom: 1px solid #ddeeff; margin: 0 !important; }
+    .list li:last-child { border-bottom: 0; }
+    .list h3 { font-family: Georgia, serif; font-size: 16px; line-height: 1.3; margin: 0 0 2px !important; color: var(--navy) !important; }
+    .list h3 a { color: inherit; }
+    .list .note { font-size: 13px; line-height: 1.6; color: #444; margin: 6px 0 0; max-width: 65ch; }
+    .empty { text-align: center; padding: 28px 0; font-size: 13px; color: var(--muted); }
+
+    /* Insights */
+    .insights { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr) minmax(0, 1.1fr); gap: 12px; }
+    .insights .content-box { margin: 0; }
+    .insights h3 { font-family: Georgia, serif; font-size: 15px; color: var(--navy); margin: 0 0 8px !important; }
+    .linkish { font: inherit; background: none; border: 0; padding: 0; color: var(--blue); cursor: pointer; text-align: left; }
+    .linkish:hover { color: #CC4400; text-decoration: underline; }
+    .bar-row .lab .linkish { font-weight: bold; }
+    .clist { list-style: none; padding: 0; margin: 8px 0 0 !important; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+    .clist li { font-size: 12px !important; margin: 0 !important; display: inline-flex; gap: 5px; align-items: center; }
+    .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; border: 1px solid rgba(0,0,0,0.2); }
+    .alist { list-style: none; padding: 0; margin: 0 !important; }
+    .alist li { font-size: 12px !important; margin: 0 !important; padding: 3px 0; border-bottom: 1px solid #ddeeff; display: flex; justify-content: space-between; }
+    .alist b { color: var(--orange-text); font-variant-numeric: tabular-nums; }
+    .project { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px; align-items: start; }
+    .prog-bar { height: 14px; border: 1px solid var(--border); background: #eef3fa; border-radius: 2px; overflow: hidden; margin: 8px 0 4px; }
+    .prog-bar span { display: block; height: 100%; background: linear-gradient(to bottom, #ff8833, #ff6600); }
+    .gchips { display: flex; flex-wrap: wrap; gap: 4px; }
+    .gchip { font-size: 12px; padding: 2px 8px; border-radius: 2px; border: 1px solid var(--border); }
+    .gchip.done { background: linear-gradient(to bottom, #fff8f2, #ffeede); border-color: #ffaa77; color: #7a2e00; }
+    .gchip.done::before { content: "✓ "; }
+    .gchip.open { border-style: dashed; color: var(--muted); }
+
+    /* Currently reading and Top 8 boxes share one height */
+    .row2 > section { display: flex; flex-direction: column; }
+    .row2 > section > .content-box { flex: 1; }
+
+    /* Controls that only apply to one view */
+    .ctl { display: contents; }
+    .ctl[hidden] { display: none; }
+    .ctl-lib .field[type=search] { flex: 1; min-width: 180px; }
+    .sp { flex: 1; display: block !important; }
+    .sp[hidden] { display: none !important; }
+    .now p { font-size: 13px; color: #444; line-height: 1.5; margin: 6px 0 0 !important; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .numtab td { font-size: 12px; padding: 5px 8px; }
+    .numtab .details-value { font-variant-numeric: tabular-nums; }
+    .numtab .details-label { width: auto; white-space: nowrap; }
+
+    /* Stats drop-down */
+    .hero-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; border-top: 1px solid #ddeeff; padding-top: 10px; margin-top: 2px; }
+    .disclose { font: inherit; font-size: 12px; font-weight: bold; color: var(--blue); cursor: pointer; padding: 5px 12px; min-height: 30px;
+      background: linear-gradient(to bottom, #f6f9ff, #e4edf8); border: 1px solid var(--border); border-radius: 2px; }
+    .disclose:hover { border-color: var(--orange); color: #CC4400; }
+    .disclose .car { display: inline-block; transition: transform 0.15s ease-out; }
+    .disclose[aria-expanded="true"] .car { transform: rotate(180deg); }
+    @media (prefers-reduced-motion: reduce) { .disclose .car { transition: none; } }
+    .insights-panel { margin: -6px 0 12px; padding: 12px; background: #f3f7fc; border: 1px solid #aabbcc; border-top: 0; border-radius: 0 0 2px 2px; }
+    .insights-panel[hidden] { display: none; }
+
+    /* Compact rows + show more */
+    .list li { grid-template-columns: 40px minmax(0, 1fr) auto !important; gap: 12px !important; padding: 10px 0 !important; }
+    .list .note { margin-top: 4px !important; line-height: 1.55 !important; max-width: 68ch !important; }
+    .list .note.clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .more { font: inherit; font-size: 12px; font-weight: bold; color: var(--blue); background: none; border: 0; padding: 2px 0; cursor: pointer; }
+    .more:hover { color: #CC4400; text-decoration: underline; }
+    .showall { display: flex; justify-content: center; padding-top: 12px; border-top: 1px solid #ddeeff; margin-top: 4px; }
+    .showall[hidden] { display: none; }
+    .t8 .t { -webkit-line-clamp: 3 !important; font-weight: normal !important; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important; gap: 12px 10px !important; }
+
+    @media (max-width: 820px) {
+      .hero, .row2, .insights, .project { grid-template-columns: minmax(0, 1fr); }
+      .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      /* Top 8 becomes one swipeable row on phones */
+      .t8 { display: flex; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+      .t8 a { flex: 0 0 76px; scroll-snap-align: start; }
+      .tb .count { flex-basis: 100%; }
     }
   </style>
 </head>
 <body>
-
   <div class="page-wrapper">
-
-    <!-- ======================================================
-         NAVIGATION BAR
-    ====================================================== -->
-    <nav class="main-nav">
+    <nav class="main-nav" aria-label="Primary">
       <a href="/" class="nav-title">thomas denny</a>
       <a href="/" class="nav-link">Home</a>
-      <a href="/now"   class="nav-link">Now</a>
+      <a href="/now" class="nav-link">Now</a>
       <a href="/about" class="nav-link">About Me</a>
-      <a href="/blog"  class="nav-link">Blog</a>
-      <a href="/books" class="nav-link active">Books</a>
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/books" class="nav-link active" aria-current="page">Books</a>
       <a href="/projects" class="nav-link">Projects</a>
     </nav>
 
-    <!-- ======================================================
-         MAIN LAYOUT
-    ====================================================== -->
-    <div class="main-layout">
+    <main id="main">
+      <div class="content-box hero">
+        <div>
+          <h1>Books</h1>
+          <p>A running log of what I read and what I thought of it. Plus everything else on my shelves.</p>
+          <button class="disclose" id="ins-btn" aria-expanded="false" aria-controls="insights" style="margin-top:10px;">Reading map <span class="car" aria-hidden="true">▾</span></button>
+        </div>
+        <div class="tiles" id="tiles"></div>
+      </div>
+      <section class="insights-panel" id="insights" aria-label="Reading insights" hidden>
+        <div class="insights">
+          <div class="content-box"><h3>Genres</h3><div id="bars"></div></div>
+          <div class="content-box"><h3>Read the World</h3><div class="map" id="map"></div><ul class="clist" id="countries"></ul></div>
+          <div class="content-box"><h3 id="num-h">By the numbers</h3><table class="details-table numtab" id="nums"></table></div>
+        </div>
+        <div class="content-box project" style="margin:12px 0 0;" id="project"></div>
+      </section>
 
-      <!-- ====================================================
-           LEFT COLUMN — Compact Profile Card
-      ==================================================== -->
-      <aside class="col-left-sm">
+      <div class="row2">
+        <section aria-labelledby="now-h">
+          <h2 class="section-header" id="now-h">Currently reading</h2>
+          <div class="content-box" id="now"></div>
+        </section>
+        <section aria-labelledby="t8-h">
+          <h2 class="section-header" id="t8-h">Thomas's Top 8</h2>
+          <div class="content-box"><div class="t8" id="t8"></div></div>
+        </section>
+      </div>
 
-        <div class="profile-card-sm">
-          <img
-            src="../me.jpg"
-            alt="Thomas Denny"
-          />
-          <div class="pcm-name">Thomas Denny</div>
-          <div class="pcm-status">
-            <span class="online-dot"></span> Online Now
+      <section aria-labelledby="shelf-h" id="shelf">
+        <h2 class="sr-only" id="shelf-h">The bookshelf</h2>
+        <div class="shelf-tabs" role="group" aria-label="Show" id="status"></div>
+        <div class="content-box shelf-box">
+          <div class="tb">
+            <p class="count" id="count" role="status"></p>
+            <span class="ctl ctl-lib grow"><label class="sr-only" for="q">Search the library</label>
+            <input class="field" id="q" type="search" placeholder="Search title or author"></span>
+            <span class="ctl ctl-lib"><label class="sr-only" for="shelfsel">Shelf</label>
+            <select class="field" id="shelfsel"><option value="">All shelves</option></select></span>
+            <span class="ctl ctl-log"><label class="sr-only" for="genre">Genre</label>
+            <select class="field" id="genre"><option value="">All genres</option></select></span>
+            <label class="sr-only" for="sort">Sort</label>
+            <select class="field" id="sort"><option value="recent">Newest first</option><option value="rating">Highest rated</option><option value="title">Title A–Z</option></select>
+            <div class="view" role="group" aria-label="View">
+              <button class="chip" id="v-list" aria-pressed="true">List</button>
+              <button class="chip" id="v-grid" aria-pressed="false">Covers</button>
+            </div>
           </div>
-          <div class="pcm-mood">Mood: <span>Reading</span></div>
-          <a href="/" class="btn-back-home">← Back to Profile</a>
+          <div class="active-filter" id="active" hidden></div>
+          <div id="results"></div>
+          <div class="showall" id="more-wrap"><button class="chip" id="more" aria-controls="results"></button></div>
         </div>
+      </section>
 
-        <div class="sidebar-page-nav">
-          <div class="spn-title">Pages</div>
-          <a href="/">Home</a>
-          <a href="/now">Now</a>
-          <a href="/about">About Me</a>
-          <a href="/blog">Blog</a>
-          <a href="/books" class="current">Books</a>
-          <a href="/projects">Projects</a>
-          <a href="/repertoire">Repertoire</a>
-          <a href="/records">Records</a>
-        </div>
+    </main>
 
-        <!-- Genre filter -->
-        <div class="sidebar-page-nav" style="margin-top:0;">
-          <div class="spn-title">Filter by Genre</div>
-          <a href="#" class="genre-filter active" data-genre="all">All</a>
-          <a href="#" class="genre-filter" data-genre="adventure">Adventure</a>
-          <a href="#" class="genre-filter" data-genre="ai-tech">AI & Tech</a>
-          <a href="#" class="genre-filter" data-genre="dystopian">Dystopian</a>
-          <a href="#" class="genre-filter" data-genre="fiction">Fiction</a>
-          <a href="#" class="genre-filter" data-genre="history">History</a>
-          <a href="#" class="genre-filter" data-genre="memoir">Memoir</a>
-          <a href="#" class="genre-filter" data-genre="nonfiction">Nonfiction</a>
-          <a href="#" class="genre-filter" data-genre="philosophy">Philosophy</a>
-          <a href="#" class="genre-filter" data-genre="true-crime">True Crime</a>
-        </div>
-          <!-- Rating filter -->
-          <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:4px; align-items:center;">
-            <span style="font-size:11px; color:#6688aa; margin-right:4px;">Rating:</span>
-            <a href="#" class="rating-filter active" data-min="0">All</a>
-            <a href="#" class="rating-filter" data-min="6">6+</a>
-            <a href="#" class="rating-filter" data-min="7">7+</a>
-            <a href="#" class="rating-filter" data-min="8">8+</a>
-            <a href="#" class="rating-filter" data-min="9">9+</a>
-          </div>
-
-        <!-- Reading stats -->
-        <div class="details-box" style="margin-top:0;">
-          <div class="details-header">Books Read</div>
-          <table class="details-table">
-            <tr>
-              <td class="details-label">2026:</td>
-              <td class="details-value">10</td>
-            </tr>
-          </table>
-        </div>
-
-      </aside>
-
-      <!-- ====================================================
-           RIGHT COLUMN — Books List
-      ==================================================== -->
-      <main class="col-right">
-
-        <!-- ================================================
-             READING LOG HEATMAP
-        ================================================ -->
-        <div class="section-header">Reading in 2026</div>
-        <div class="content-box inner-content">
-
-          <p style="font-size:12px; color:#6688aa; margin-bottom:14px;">
-            Books finished in order. Click a cover to see my notes.
-          </p>
-
-          <div class="bf-timeline-wrap">
-            <div class="bf-timeline" id="bf-timeline"></div>
-            <button type="button" class="bf-tl-scroll-btn" id="bf-tl-scroll-btn" aria-label="Scroll books right">›</button>
-          </div>
-
-        </div>
-
-        <div class="section-header">Currently Reading</div>
-
-        <div class="content-box inner-content">
-
-          <ul class="book-list">
-
-            <li class="book-item" data-tags="nonfiction ai-tech">
-              <div class="book-num">→</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../ghost_work.png" alt="Ghost Work" style="width:80px; border:1px solid #99AACC; border-radius:2px;" />
-              </div>
-              <div class="book-info">
-                <h4><a href="https://www.goodreads.com/book/show/41963432-ghost-work" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">Ghost Work</a></h4>
-                <div class="book-author">Mary L. Gray &amp; Siddharth Suri &nbsp;·&nbsp; Started June 23, 2026</div>
-                <div class="book-note">The hidden human labor behind AI — the on-demand workers who train models, moderate content, and fill the gaps machines can't close.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">AI &amp; Tech</span></div>
-              </div>
-              <div class="book-stars" style="font-size:11px; white-space:nowrap;">In Progress</div>
-            </li>
-
-          </ul>
-
-        </div>
-
-        <div class="section-header">Books</div>
-
-        <div class="content-box inner-content">
-
-          <p style="font-size:12px; color:#6688aa; margin-bottom:12px;">
-            A running list of what I've read, with a sentence or two on each. Click the book title to get my notes on each book.
-          </p>
-
-          <div class="details-box" style="margin-bottom:16px;">
-            <div class="details-header">Rating Scale</div>
-            <table class="details-table">
-              <tr><td class="details-label">10/10</td><td class="details-value">Changed something in me. I'll read it again.</td></tr>
-              <tr><td class="details-label">9/10</td><td class="details-value">Excellent. Recommended without hesitation.</td></tr>
-              <tr><td class="details-label">8/10</td><td class="details-value">Really good. Stuck with me after I finished.</td></tr>
-              <tr><td class="details-label">7/10</td><td class="details-value">Solid. Worth your time.</td></tr>
-              <tr><td class="details-label">6/10</td><td class="details-value">Decent. Had good ideas but didn't fully land.</td></tr>
-              <tr><td class="details-label">5/10</td><td class="details-value">Mixed. Some value, some filler.</td></tr>
-              <tr><td class="details-label">4/10</td><td class="details-value">Struggled to finish. Wouldn't recommend.</td></tr>
-              <tr><td class="details-label">3/10</td><td class="details-value">Not for me.</td></tr>
-              <tr><td class="details-label">2/10</td><td class="details-value">Genuinely bad.</td></tr>
-              <tr><td class="details-label">1/10</td><td class="details-value">Did not finish.</td></tr>
-            </table>
-          </div>
-
-          <!-- Sort controls -->
-          <div class="book-sort-bar">
-            <span class="sort-label">Sort by:</span>
-            <button class="sort-btn active" data-sort="date">Date Read</button>
-            <button class="sort-btn" data-sort="rating">Rating</button>
-          </div>
-
-          <!-- 2026 -->
-          <div class="section-header" style="margin-bottom:12px;">2026</div>
-
-          <ul class="book-list" id="book-list-2026">
-
-            <li class="book-item" data-tags="fiction" data-rating="8">
-              <div class="book-num">01</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../room.jpg" alt="Room" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-room" data-notes-url="/book-notes-room" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="/book-notes-room" style="color:#003366; text-decoration:none;">Room</a> <a href="https://www.goodreads.com/book/show/31685789-room" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Emma Donoghue &nbsp;·&nbsp; Jan 9, 2026</div>
-                <div class="book-note">My sister recommended this. A story told entirely from the POV of a five-year-old who has never left the room he was born in, which is actually a shed in someone's backyard. This book was inspired by the <a href="https://en.wikipedia.org/wiki/Fritzl_case">Josef Fritzl</a> case. Messed up stuff.</div>
-                <div class="book-tags"><span class="book-tag">Fiction</span></div>
-              </div>
-              <div class="book-stars">8/10</div>
-            </li>
-
-            <li class="book-item" data-tags="nonfiction adventure" data-rating="7">
-              <div class="book-num">02</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../marriage.jpg" alt="A Marriage at Sea" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-a-marriage-at-sea" data-notes-url="/book-notes-a-marriage-at-sea" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="/book-notes-a-marriage-at-sea" style="color:#003366; text-decoration:none;">A Marriage at Sea</a> <a href="https://www.goodreads.com/book/show/220239083-a-marriage-at-sea" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Sophie Elmhirst &nbsp;·&nbsp; Jan 13, 2026</div>
-                <div class="book-note">A couple decides to sail across the Pacific with almost no experience. Their boat sinks. They spend 118 days on a raft. The survival story is gripping. Enjoyed this one.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">Adventure</span></div>
-              </div>
-              <div class="book-stars">7/10</div>
-            </li>
-
-            <li class="book-item" data-tags="nonfiction true-crime adventure" data-rating="8">
-              <div class="book-num">03</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../the-tiger.jpg" alt="The Tiger" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-the-tiger" data-notes-url="/book-notes-the-tiger" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="/book-notes-the-tiger" style="color:#003366; text-decoration:none;">The Tiger</a> <a href="https://www.goodreads.com/book/show/7624594-the-tiger" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">John Vaillant &nbsp;·&nbsp; Jan 19, 2026</div>
-                <div class="book-note">A tiger in Siberia decides to hunt humans, methodically, over days. It's terrifying and the setting makes it worse. Vaillant writes the landscape so well you feel cold reading it.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">True Crime</span><span class="book-tag">Adventure</span></div>
-              </div>
-              <div class="book-stars">8/10</div>
-            </li>
-
-            <li class="book-item" data-tags="nonfiction ai-tech" data-rating="6">
-              <div class="book-num">04</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../cointelligence.jpg" alt="Co-Intelligence" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-co-intelligence" data-notes-url="/book-notes-co-intelligence" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="/book-notes-co-intelligence" style="color:#003366; text-decoration:none;">Co-Intelligence</a> <a href="https://www.goodreads.com/book/show/198678736-co-intelligence" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Ethan Mollick &nbsp;·&nbsp; Feb 9, 2026</div>
-                <div class="book-note">Mollick is one of the clearest thinkers writing about AI right now, and there's a lot of noise out there. This is practical and genuinely interesting. I rated it a 6 mostly because I came in with a lot of context. If you're newer to the space, it's probably an 8.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">AI & Tech</span></div>
-              </div>
-              <div class="book-stars">6/10</div>
-            </li>
-
-            <li class="book-item" data-tags="nonfiction true-crime" data-rating="9">
-              <div class="book-num">05</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../art-thief.jpg" alt="The Art Thief" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-the-art-thief" data-notes-url="/book-notes-the-art-thief" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="/book-notes-the-art-thief" style="color:#003366; text-decoration:none;">The Art Thief</a> <a href="https://www.goodreads.com/book/show/62873378-the-art-thief" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Michael Finkel &nbsp;·&nbsp; Feb 16, 2026</div>
-                <div class="book-note">The most successful art thief in history was doing it because he just genuinely loved the paintings. Stashed a billion dollars worth of art in his apartment. Finkel tells the story in a way that makes you almost root for the guy. Read in one sitting.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">True Crime</span></div>
-              </div>
-              <div class="book-stars">9/10</div>
-            </li>
-
-            <li class="book-item" data-tags="fiction dystopian" data-rating="7">
-              <div class="book-num">06</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../faranheit-451.jpg" alt="Fahrenheit 451" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-fahrenheit-451" data-notes-url="/book-notes-fahrenheit-451" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="/book-notes-fahrenheit-451" style="color:#003366; text-decoration:none;">Fahrenheit 451</a> <a href="https://www.goodreads.com/book/show/13079982-fahrenheit-451" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Ray Bradbury &nbsp;·&nbsp; March 2026</div>
-                <div class="book-note"></div>
-                <div class="book-note">Books are banned and firemen set fire to any that are found. The story follows Guy Montag, a fireman, as he begins to question the society he lives in. This was fun read.</div>
-                <div class="book-tags"><span class="book-tag">Fiction</span><span class="book-tag">Dystopian</span></div>
-              </div>
-              <div class="book-stars">7/10</div>
-            </li>
-
-            <li class="book-item" data-tags="nonfiction philosophy" data-rating="8">
-              <div class="book-num">07</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../mans-search-for-meaning.jpg" alt="Man's Search for Meaning" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-mans-search-for-meaning" data-notes-url="/book-notes-mans-search-for-meaning" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="/book-notes-mans-search-for-meaning" style="color:#003366; text-decoration:none;">Man's Search for Meaning</a> <a href="https://www.goodreads.com/book/show/4069.Man_s_Search_for_Meaning" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Viktor E. Frankl &nbsp;·&nbsp; March 2026</div>
-                <div class="book-note">Viktor Frankl's account of surviving four Nazi concentration camps, and the psychological framework, logotherapy, he developed from the experience. The central argument: meaning, not pleasure or power, is the primary human drive. One of those books that makes you rethink suffering and choice.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">Philosophy</span></div>
-              </div>
-              <div class="book-stars">8/10</div>
-            </li>
-
-            <li class="book-item" data-tags="nonfiction history memoir" data-rating="8">
-              <div class="book-num">08</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../if-this-is-a-man.jpg" alt="If This Is A Man" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-if-this-is-a-man" data-notes-url="/book-notes-if-this-is-a-man" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="/book-notes-if-this-is-a-man" style="color:#003366; text-decoration:none;">If This Is A Man</a> <a href="https://www.goodreads.com/book/show/6181.If_This_Is_a_Man_The_Truce?from_search=true&from_srp=true&qid=Ha9ULnaDeu&rank=1" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Primo Levi &nbsp;·&nbsp; May 4, 2026</div>
-                <div class="book-note">A firsthand account of survival in Auschwitz, written by Italian chemist Primo Levi. It's a precise and unflinching look at what the camp system did to human identity.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">History</span><span class="book-tag">Memoir</span></div>
-              </div>
-              <div class="book-stars">8/10</div>
-            </li>
-
-            <li class="book-item" id="book-09" data-tags="nonfiction productivity" data-rating="5">
-              <div class="book-num">09</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../i-didnt-do-the-thing-today.jpg" alt="I Didn't Do the Thing Today" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-i-didnt-do-the-thing-today" data-notes-url="/book-notes-i-didnt-do-the-thing-today" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <span class="dnf-badge" title="Did Not Finish">DNF · Did Not Finish</span>
-                <h4><a href="https://www.goodreads.com/book/show/58210932-i-didn-t-do-the-thing-today" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">I Didn't Do the Thing Today</a></h4>
-                <div class="book-author">Madeleine Dore &nbsp;·&nbsp; May 2026</div>
-                <div class="book-note">Some decent ideas to sit with, but none of it felt new. A 5 for me because I'd already heard most of these conversations elsewhere — if it's your first pass through the productivity-guilt space, you'd probably get more out of it.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">Productivity</span></div>
-              </div>
-              <div class="book-stars">5/10</div>
-            </li>
-
-            <li class="book-item" id="book-10" data-tags="nonfiction ai-tech" data-rating="7">
-              <div class="book-num">10</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../ai-snake-oil.png" alt="AI Snake Oil" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-                <a href="/book-notes-ai-snake-oil" data-notes-url="/book-notes-ai-snake-oil" style="font-size:10px; color:#6688aa; text-decoration:none; white-space:nowrap;">0 notes</a>
-              </div>
-              <div class="book-info">
-                <h4><a href="https://www.goodreads.com/book/show/210319458-ai-snake-oil" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">AI Snake Oil</a> <a href="https://www.goodreads.com/book/show/210319458-ai-snake-oil" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Arvind Narayanan &amp; Sayash Kapoor &nbsp;·&nbsp; Jun 4, 2026</div>
-                <div class="book-note">A clear-eyed takedown of AI hype. The distinction between predictive AI (mostly snake oil) and generative AI (genuinely capable, but not magic) is the book's best contribution. Worth reading if you work near this stuff and want the vocabulary to push back on inflated claims.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">AI &amp; Tech</span></div>
-              </div>
-              <div class="book-stars">7/10</div>
-            </li>
-
-            <li class="book-item" id="book-12" data-tags="nonfiction ai-tech">
-              <div class="book-num">11</div>
-              <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0; gap:5px;">
-                <img src="../ghost_work.png" alt="Ghost Work" style="width:60px; border:1px solid #99AACC; border-radius:2px;" />
-              </div>
-              <div class="book-info">
-                <span class="dnf-badge" style="background:#e8f0ff; color:#336699; border-color:#99AACC;">In Progress</span>
-                <h4><a href="https://www.goodreads.com/book/show/41963432-ghost-work" target="_blank" rel="noopener" style="color:#003366; text-decoration:none;">Ghost Work</a> <a href="https://www.goodreads.com/book/show/41963432-ghost-work" target="_blank" rel="noopener" style="font-size:10px; color:#6688aa; font-weight:normal;">(Goodreads)</a></h4>
-                <div class="book-author">Mary L. Gray &amp; Siddharth Suri &nbsp;·&nbsp; Started Jun 23, 2026</div>
-                <div class="book-note">The hidden human labor behind AI — the on-demand workers who train models, moderate content, and fill the gaps machines can't close.</div>
-                <div class="book-tags"><span class="book-tag">Nonfiction</span><span class="book-tag">AI &amp; Tech</span></div>
-              </div>
-              <div class="book-stars" style="font-size:11px; color:#FF6600; white-space:nowrap;">Reading</div>
-            </li>
-
-          </ul>
-
-        </div>
-
-      </main>
-
-    </div>
-    <!-- /main-layout -->
-
-    <footer class="site-footer">
-      Thomas Denny &copy; <span class="footer-year"></span> &nbsp;|&nbsp; Built with intention, not a template.
-    </footer>
-
+    <footer class="site-footer">Thomas Denny &copy; <span class="footer-year"></span> &nbsp;|&nbsp; Built with intention, not a template.</footer>
   </div>
-  <!-- /page-wrapper -->
 
   <script src="../script.js"></script>
-  <script src="../reading-data.js"></script>
+  <script src="../reading-data.js?v=20261109"></script>
+  <script src="../world-map-data.js?v=20261109"></script>
   <script>
-    // ── Books-finished timeline ────────────────────────────────────────────
-    (function() {
-      if (typeof booksFinished === 'undefined') return;
-      var MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      var timeline = document.getElementById('bf-timeline');
-      if (!timeline) return;
+// Helpers and derived lists, built from reading-data.js.
+var M = (function() {
+  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-      var ordered = booksFinished.slice().sort(function(a, c) {
-        return a.date.localeCompare(c.date);
-      });
-      ordered.forEach(function(b) {
-        var parts = b.date.split('-');
-        var dt = new Date(+parts[0], +parts[1] - 1, +parts[2]);
-        var dateLabel = MONTH_NAMES[dt.getMonth()] + ' ' + dt.getDate();
-        var item = document.createElement('a');
-        item.className = 'bf-tl-item';
-        item.href = b.slug || '#';
-        item.innerHTML =
-          (b.cover ? '<img src="../' + b.cover + '" alt="' + b.title + '">' : '') +
-          '<div class="bf-tl-title">' + b.title + '</div>' +
-          '<div class="bf-tl-date">' + dateLabel + '</div>' +
-          (b.inProgress ? '<div class="bf-tl-rating" style="color:#FF6600;">Reading</div>' : '<div class="bf-tl-rating">' + b.rating + '/10</div>') +
-          (b.dnf ? '<div class="dnf-badge-tl">DNF</div>' : '');
-        timeline.appendChild(item);
-      });
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/&(?!amp;|#?\w+;)/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+  function plain(s) { return String(s).replace(/&amp;/g, '&'); }
+  function parseDate(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function shortDate(s) { var d = parseDate(s); return MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear(); }
+  function monthYear(s) { var d = parseDate(s); return MONTHS_LONG[d.getMonth()] + ' ' + d.getFullYear(); }
+  function year(b) { return b.date ? +b.date.slice(0, 4) : null; }
+  function tagLabel(t) {
+    if (typeof bookTagLabels !== 'undefined' && bookTagLabels[t]) return bookTagLabels[t];
+    return t.split('-').map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+  }
+  function link(b) {
+    return b.notes || b.goodreads || 'https://www.goodreads.com/search?q=' + encodeURIComponent(b.title + (b.author ? ' ' + b.author : ''));
+  }
+  function isExternal(u) { return /^https?:/.test(u); }
+  function a(url, inner, cls) {
+    return '<a href="' + esc(url) + '"' + (cls ? ' class="' + cls + '"' : '') + (isExternal(url) ? ' target="_blank" rel="noopener"' : '') + '>' + inner + '</a>';
+  }
+  function authorsOf(b) { return b.author ? b.author.split(' & ') : []; }
+  function countriesOf(b) { return b.country ? [].concat(b.country) : []; }
+  function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
 
-      var btn = document.getElementById('bf-tl-scroll-btn');
-      if (!btn) return;
+  var books = booksFinished.map(function(b, i) { b._i = i; b.status = b.inProgress ? 'reading' : b.dnf ? 'dnf' : 'read'; return b; });
+  var finished = books.filter(function(b) { return !b.inProgress; });
+  var completed = finished.filter(function(b) { return !b.dnf; });
+  var reading = books.filter(function(b) { return b.inProgress; });
+  var shelfBooks = (typeof library !== 'undefined' ? library : []).map(function(b) { b.status = b.read ? 'read-before' : 'shelf'; return b; });
+  var everything = books.concat(shelfBooks);
+  var statsYear = Math.max.apply(null, finished.map(year));
 
-      function updateBtn() {
-        var hasOverflow = timeline.scrollWidth - timeline.clientWidth > 4;
-        var atEnd = timeline.scrollLeft + timeline.clientWidth >= timeline.scrollWidth - 4;
-        btn.classList.toggle('is-visible', hasOverflow && !atEnd);
-      }
+  function when(b) {
+    if (b.inProgress) return 'Started ' + shortDate(b.started || b.date);
+    return b.approxDate ? monthYear(b.date) : shortDate(b.date);
+  }
 
-      btn.addEventListener('click', function() {
-        timeline.scrollBy({ left: timeline.clientWidth * 0.8, behavior: 'smooth' });
-      });
-      timeline.addEventListener('scroll', updateBtn);
-      window.addEventListener('resize', updateBtn);
-      updateBtn();
-    })();
-  </script>
+  function cover(b, cls) {
+    if (b.cover) return '<img class="' + (cls || 'cv') + '" src="../' + b.cover + '" alt="" loading="lazy">';
+    return '<span class="' + (cls || 'cv') + ' cv-spine" aria-hidden="true"><span>' + esc(b.title) + '</span>' +
+      (b.author ? '<small>' + esc(b.author) + '</small>' : '') + '</span>';
+  }
 
-  <script>
-    // Dynamic note counts
-    document.querySelectorAll('a[data-notes-url]').forEach(function(link) {
-      var url = link.getAttribute('data-notes-url');
-      fetch(url)
-        .then(function(r) { return r.text(); })
-        .then(function(html) {
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(html, 'text/html');
-          var count = doc.querySelectorAll('.note-entry').length;
-          link.textContent = count === 1 ? '1 note' : count + ' notes';
-        })
-        .catch(function() { /* fail silently */ });
+  function badge(b) {
+    if (b.status === 'dnf') return '<span class="pill pill-dnf">DNF</span>';
+    return '';
+  }
+
+  function rating(b) {
+    if (b.status === 'reading') return '<span class="rt rt-reading">Reading</span>';
+    if (b.rating) return '<span class="rt">' + b.rating + '<small>/10</small></span>';
+    return '';
+  }
+
+  function stats(y) {
+    var yr = finished.filter(function(b) { return year(b) === y; });
+    var done = yr.filter(function(b) { return !b.dnf; });
+    var withPages = done.filter(function(b) { return b.pages; });
+    var pages = withPages.reduce(function(s, b) { return s + b.pages; }, 0);
+    var avg = done.length ? done.reduce(function(s, b) { return s + b.rating; }, 0) / done.length : 0;
+    var byLen = withPages.slice().sort(function(x, z) { return z.pages - x.pages; });
+    var countries = {}, authors = {}, genres = {};
+    done.forEach(function(b) {
+      countriesOf(b).forEach(function(c) { countries[c] = (countries[c] || 0) + 1; });
+      authorsOf(b).forEach(function(x) { (authors[x] = authors[x] || []).push(b); });
     });
+    yr.forEach(function(b) { (b.tags || []).forEach(function(t) { if (t !== 'fiction' && t !== 'nonfiction') genres[t] = (genres[t] || 0) + 1; }); });
+    var has = function(t) { return function(b) { return (b.tags || []).indexOf(t) !== -1; }; };
+    return {
+      year: y, books: yr.length, done: done.length, dnf: yr.length - done.length, pages: pages,
+      avg: avg, eightPlus: done.filter(function(b) { return b.rating >= 8; }).length,
+      fiction: done.filter(has('fiction')).length, nonfiction: done.filter(has('nonfiction')).length,
+      longest: byLen[0], shortest: byLen[byLen.length - 1],
+      countries: countries, authors: authors, genres: genres
+    };
+  }
 
-    // Shared filter state
-    var activeGenre = 'all';
-    var activeMinRating = 0;
+  function shade(n, max) {
+    var t = max <= 1 ? 1 : (n - 1) / (max - 1);
+    var from = [255, 214, 184], to = [204, 68, 0];
+    return 'rgb(' + from.map(function(v, i) { return Math.round(v + (to[i] - v) * (0.35 + 0.65 * t)); }).join(',') + ')';
+  }
 
-    function applyFilters() {
-      document.querySelectorAll('.book-item').forEach(function(item) {
-        var tags = (item.getAttribute('data-tags') || '').split(' ');
-        var rating = parseFloat(item.getAttribute('data-rating')) || 0;
-        var genreMatch = activeGenre === 'all' || tags.indexOf(activeGenre) !== -1;
-        var ratingMatch = rating >= activeMinRating || (activeMinRating === 0);
-        item.style.display = (genreMatch && ratingMatch) ? '' : 'none';
-      });
+  // Map is decorative for screen readers; the country list next to it is the accessible version.
+  function mapSvg(counts) {
+    if (typeof worldMap === 'undefined') return '';
+    var max = Math.max.apply(null, Object.keys(counts).map(function(k) { return counts[k]; }).concat([1]));
+    var svg = '<svg viewBox="0 0 ' + worldMap.width + ' ' + worldMap.height + '" aria-hidden="true" focusable="false">' +
+      '<defs><clipPath id="sph"><path d="' + worldMap.outline + '"/></clipPath></defs>' +
+      '<path d="' + worldMap.outline + '" class="wm-sea"/><g clip-path="url(#sph)">';
+    Object.keys(worldMap.countries).forEach(function(name) {
+      var n = counts[name] || 0;
+      svg += '<path d="' + worldMap.countries[name] + '" class="wm-land"' + (n ? ' style="fill:' + shade(n, max) + '"' : '') + '><title>' + esc(name) + (n ? ' — ' + plural(n, 'book') : '') + '</title></path>';
+    });
+    return svg + '</g></svg>';
+  }
+
+  function topEightBooks() {
+    var pool = everything;
+    return (typeof topEight !== 'undefined' ? topEight : []).map(function(t) {
+      return pool.filter(function(b) { return b.title === t; })[0];
+    }).filter(Boolean).slice(0, 8);
+  }
+
+  function projectSlots(p) {
+    return p.slots.map(function(s) {
+      var hits = completed.filter(function(b) { return (b.tags || []).some(function(t) { return s.tags.indexOf(t) !== -1; }); });
+      return { label: s.label, tags: s.tags, hits: hits };
+    });
+  }
+
+  return {
+    $: $, esc: esc, plain: plain, shortDate: shortDate, year: year, tagLabel: tagLabel, link: link, a: a,
+    authorsOf: authorsOf, countriesOf: countriesOf, plural: plural, when: when, cover: cover, badge: badge,
+    rating: rating, stats: stats, shade: shade, mapSvg: mapSvg, topEightBooks: topEightBooks, projectSlots: projectSlots,
+    books: books, finished: finished, completed: completed, reading: reading, shelfBooks: shelfBooks,
+    everything: everything, statsYear: statsYear
+  };
+})();
+  </script>
+  <script>
+  (function() {
+    var $ = M.$, esc = M.esc, S = M.stats(M.statsYear);
+    var shelfNames = typeof libraryShelves !== 'undefined' ? libraryShelves : {};
+
+    $('tiles').innerHTML = [[S.books, 'Read in ' + S.year], [S.pages.toLocaleString(), 'Pages'], [S.avg.toFixed(1), 'Avg rating'], [M.everything.length, 'On the shelf']]
+      .map(function(t) { return '<div class="tile"><b>' + t[0] + '</b><span>' + t[1] + '</span></div>'; }).join('');
+
+    var b = M.reading[0];
+    $('now').innerHTML = b ? '<div class="now">' + M.a(M.link(b), M.cover(b)) + '<div><h2>' + M.a(M.link(b), esc(b.title)) + '</h2><div class="meta">' + esc(b.author) + '<br>' + M.when(b) + '</div>' + (b.note ? '<p>' + b.note + '</p>' : '') + '</div></div>' : '<p class="meta">Between books.</p>';
+    $('t8').innerHTML = M.topEightBooks().map(function(b) { return M.a(M.link(b), M.cover(b) + '<span class="t">' + esc(b.title) + '</span>'); }).join('');
+
+    // ── Shelf browser ──
+    // Two views: this year's log, and the whole library (every book on the shelves,
+    // including this year's). Filters live in the URL so Back and shared links work.
+    var all = M.everything;
+    var views = {
+      log: { label: M.statsYear + ' log', pred: function(b) { return !!b.num; }, view: 'list', sort: 'recent' },
+      library: { label: 'Library', pred: function(b) { return !!b.shelf; }, view: 'grid', sort: 'title' }
+    };
+    var DEFAULT = { status: 'log', shelf: '', genre: '', q: '', sort: 'recent', view: 'list', extra: null, all: false };
+    var state = Object.assign({}, DEFAULT);
+
+    $('status').innerHTML = Object.keys(views).map(function(k) {
+      return '<button class="tab" data-s="' + k + '" aria-pressed="false">' + views[k].label + ' <span class="n">' + all.filter(views[k].pred).length + '</span></button>';
+    }).join('');
+    $('shelfsel').innerHTML += Object.keys(shelfNames).map(function(k) { return '<option value="' + k + '">' + shelfNames[k] + '</option>'; }).join('');
+    var logTags = [];
+    M.books.forEach(function(b) { (b.tags || []).forEach(function(t) { if (logTags.indexOf(t) < 0) logTags.push(t); }); });
+    logTags.sort(function(x, y) { return M.tagLabel(x).localeCompare(M.tagLabel(y)); });
+    $('genre').innerHTML += logTags.map(function(t) { return '<option value="' + t + '">' + M.tagLabel(t) + '</option>'; }).join('');
+
+    // Filters set from the Reading map panel (genre bar, country, longest book…)
+    var extras = {
+      genre: function(v) { return { label: M.plain(M.tagLabel(v)), fn: function(b) { return (b.tags || []).indexOf(v) >= 0; } }; },
+      country: function(v) { return { label: 'authors from ' + v, fn: function(b) { return b.num && !b.dnf && M.countriesOf(b).indexOf(v) >= 0; } }; },
+      book: function(v) { return { label: v, fn: function(b) { return b.title === v; } }; },
+      rated8: function() { return { label: 'rated 8 or higher', fn: function(b) { return b.num && !b.dnf && b.rating >= 8; } }; },
+      fiction: function() { return { label: 'fiction', fn: function(b) { return b.num && !b.dnf && (b.tags || []).indexOf('fiction') >= 0; } }; },
+      nonfiction: function() { return { label: 'nonfiction', fn: function(b) { return b.num && !b.dnf && (b.tags || []).indexOf('nonfiction') >= 0; } }; },
+      dnf: function() { return { label: 'did not finish', fn: function(b) { return b.dnf; } }; }
+    };
+    function extraObj() { if (!state.extra) return null; var k = state.extra.split(':'); return extras[k[0]] ? extras[k[0]](k.slice(1).join(':')) : null; }
+
+    function toURL(push) {
+      var p = new URLSearchParams();
+      if (state.status !== 'log') p.set('view', state.status);
+      if (state.shelf) p.set('shelf', state.shelf);
+      if (state.genre) p.set('genre', state.genre);
+      if (state.q) p.set('q', state.q);
+      if (state.sort !== views[state.status].sort) p.set('sort', state.sort);
+      if (state.view !== views[state.status].view) p.set('as', state.view);
+      if (state.extra) p.set('filter', state.extra);
+      var url = location.pathname + (p.toString() ? '?' + p.toString() : '') + location.hash;
+      history[push ? 'pushState' : 'replaceState'](null, '', url);
+    }
+    function fromURL() {
+      var p = new URLSearchParams(location.search), v = views[p.get('view')] ? p.get('view') : 'log';
+      state = { status: v, shelf: p.get('shelf') || '', genre: p.get('genre') || '', q: p.get('q') || '',
+        sort: p.get('sort') || views[v].sort, view: p.get('as') || views[v].view, extra: p.get('filter'), all: false };
     }
 
-    // Genre filter
-    document.querySelectorAll('.genre-filter').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        activeGenre = this.getAttribute('data-genre');
-        document.querySelectorAll('.genre-filter').forEach(function(l) { l.classList.remove('active'); });
-        this.classList.add('active');
-        applyFilters();
+    var st = function(t) { return t.replace(/^(the|a|an)\s+/i, '').replace(/^[^a-z0-9]+/i, '').toLowerCase(); };
+    function render() {
+      var pred = views[state.status].pred, ex = extraObj(), q = state.q.toLowerCase(), lib = state.status === 'library';
+      var list = all.filter(function(b) {
+        return pred(b) && (!ex || ex.fn(b)) &&
+          (lib ? (!state.shelf || b.shelf === state.shelf) && (!q || (b.title + ' ' + (b.author || '')).toLowerCase().indexOf(q) >= 0)
+               : (!state.genre || (b.tags || []).indexOf(state.genre) >= 0));
       });
+      list.sort(state.sort === 'rating' ? function(x, y) { return (y.rating || 0) - (x.rating || 0) || st(x.title).localeCompare(st(y.title)); }
+        : state.sort === 'title' ? function(x, y) { return st(x.title).localeCompare(st(y.title)); }
+        : function(x, y) { return (y.num || '00').localeCompare(x.num || '00') || st(x.title).localeCompare(st(y.title)); });
+      $('count').textContent = M.plural(list.length, 'book');
+      $('active').hidden = !ex;
+      if (ex) {
+        $('active').innerHTML = '<span>Filtered to <strong>' + esc(ex.label) + '</strong></span><button class="chip" id="x">Remove filter</button>';
+        $('x').addEventListener('click', function() { state.extra = null; toURL(true); render(); });
+      }
+      if (!list.length) {
+        $('more-wrap').hidden = true;
+        $('results').innerHTML = '<div class="empty">No books match. <button class="chip" id="reset">Clear filters</button></div>';
+        $('reset').addEventListener('click', function() { state = Object.assign({}, DEFAULT, { status: state.status, view: state.view, sort: state.sort }); sync(); toURL(true); render(); });
+        return;
+      }
+      var limit = state.view === 'grid' ? 30 : 8;
+      $('more-wrap').hidden = list.length <= limit;
+      $('more').textContent = state.all ? 'Show fewer' : 'Show all ' + list.length + ' books';
+      if (!state.all) list = list.slice(0, limit);
+      if (state.view === 'grid') {
+        $('results').innerHTML = '<div class="grid">' + list.map(function(b) {
+          return M.a(M.link(b), M.cover(b) + '<span class="t">' + esc(b.title) + '</span>' + (b.status === 'reading' ? '<span class="r">Reading</span>' : b.rating ? '<span class="r">' + b.rating + '/10' + (b.dnf ? ' · DNF' : '') + '</span>' : ''));
+        }).join('') + '</div>';
+      } else {
+        $('results').innerHTML = '<ul class="list">' + list.map(function(b, i) {
+          var nid = 'n' + i;
+          return '<li>' + M.cover(b) + '<div><h3>' + M.a(M.link(b), esc(b.title)) + ' ' + M.badge(b) + '</h3><div class="meta">' + esc(b.author || '') +
+            (b.date ? ' · ' + M.when(b) : '') + ' · ' + (b.tags ? b.tags.map(M.tagLabel).join(', ') : (shelfNames[b.shelf] || '')) + '</div>' +
+            (b.note ? '<p class="note clamp" id="' + nid + '">' + b.note + '</p><button class="more" aria-expanded="false" aria-controls="' + nid + '" hidden>Read more</button>' : '') + '</div><div>' + M.rating(b) + '</div></li>';
+        }).join('') + '</ul>';
+        [].forEach.call(document.querySelectorAll('#results .note.clamp'), function(n) { if (n.scrollHeight > n.clientHeight + 2) n.nextElementSibling.hidden = false; });
+      }
+    }
+    function sync() {
+      var lib = state.status === 'library';
+      [].forEach.call($('status').children, function(c) { c.setAttribute('aria-pressed', c.getAttribute('data-s') === state.status); });
+      [].forEach.call(document.querySelectorAll('.ctl-lib'), function(c) { c.hidden = !lib; });
+      [].forEach.call(document.querySelectorAll('.ctl-log'), function(c) { c.hidden = lib; });
+      $('q').value = state.q; $('shelfsel').value = state.shelf; $('genre').value = state.genre; $('sort').value = state.sort;
+      $('sort').querySelector('[value="recent"]').textContent = lib ? 'Recently read first' : 'Newest first';
+      $('v-list').setAttribute('aria-pressed', state.view === 'list'); $('v-grid').setAttribute('aria-pressed', state.view === 'grid');
+    }
+    $('status').addEventListener('click', function(e) {
+      var c = e.target.closest('button'); if (!c) return;
+      var k = c.getAttribute('data-s'); if (k === state.status) return;
+      state = Object.assign({}, DEFAULT, { status: k, sort: views[k].sort, view: views[k].view });
+      sync(); toURL(true); render();
     });
-
-    // Rating filter
-    document.querySelectorAll('.rating-filter').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        activeMinRating = parseInt(this.getAttribute('data-min')) || 0;
-        document.querySelectorAll('.rating-filter').forEach(function(l) { l.classList.remove('active'); });
-        this.classList.add('active');
-        applyFilters();
-      });
+    $('q').addEventListener('input', function() { state.q = this.value; state.all = false; toURL(false); render(); });
+    $('shelfsel').addEventListener('change', function() { state.shelf = this.value; state.all = false; toURL(true); render(); });
+    $('genre').addEventListener('change', function() { state.genre = this.value; state.all = false; toURL(true); render(); });
+    $('sort').addEventListener('change', function() { state.sort = this.value; state.all = false; toURL(false); render(); });
+    $('more').addEventListener('click', function() { state.all = !state.all; render(); });
+    $('results').addEventListener('click', function(e) {
+      var b = e.target.closest('.more'); if (!b) return;
+      var open = b.getAttribute('aria-expanded') !== 'true';
+      b.setAttribute('aria-expanded', open); b.textContent = open ? 'Show less' : 'Read more';
+      $(b.getAttribute('aria-controls')).classList.toggle('clamp', !open);
     });
-
-    // Sort
-    document.querySelectorAll('.sort-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.sort-btn').forEach(function(b) { b.classList.remove('active'); });
-        this.classList.add('active');
-
-        var list = document.querySelector('#book-list-2026');
-        var items = Array.from(list.querySelectorAll('.book-item'));
-        var sort = this.getAttribute('data-sort');
-
-        items.sort(function(a, b) {
-          if (sort === 'rating') {
-            var ra = parseFloat((a.querySelector('.book-stars') || {textContent:'0'}).textContent) || 0;
-            var rb = parseFloat((b.querySelector('.book-stars') || {textContent:'0'}).textContent) || 0;
-            return rb - ra;
-          } else {
-            var na = parseInt(a.querySelector('.book-num').textContent) || 0;
-            var nb = parseInt(b.querySelector('.book-num').textContent) || 0;
-            return na - nb;
-          }
-        });
-
-        items.forEach(function(item) { list.appendChild(item); });
-      });
+    $('ins-btn').addEventListener('click', function() {
+      var open = this.getAttribute('aria-expanded') !== 'true';
+      this.setAttribute('aria-expanded', open); $('insights').hidden = !open;
     });
+    $('v-list').addEventListener('click', function() { state.view = 'list'; sync(); toURL(false); render(); });
+    $('v-grid').addEventListener('click', function() { state.view = 'grid'; sync(); toURL(false); render(); });
+    window.addEventListener('popstate', function() { fromURL(); sync(); render(); });
+    function focusFilter(key) {
+      state = Object.assign({}, DEFAULT, { extra: key });
+      sync(); toURL(true); render(); $('shelf').scrollIntoView({ behavior: 'smooth' }); $('shelf-h').focus({ preventScroll: true });
+    }
+    $('shelf-h').tabIndex = -1;
+    fromURL(); sync(); render();
+
+    // ── Insights ──
+    var gk = Object.keys(S.genres).sort(function(x, y) { return S.genres[y] - S.genres[x]; }), gmax = S.genres[gk[0]] || 1;
+    $('bars').innerHTML = gk.slice(0, 8).map(function(t) {
+      return '<div class="bar-row"><span class="lab"><button class="linkish" data-t="' + t + '">' + M.tagLabel(t) + '</button></span><span class="bar-track"><span class="bar-fill" style="width:' + (S.genres[t] / gmax * 100) + '%"></span></span><span class="num">' + S.genres[t] + '</span></div>';
+    }).join('');
+    $('bars').addEventListener('click', function(e) { var t = e.target.closest('button'); if (!t) return; var k = t.getAttribute('data-t');
+      focusFilter('genre:' + k); });
+
+    var cn = Object.keys(S.countries).sort(function(x, y) { return S.countries[y] - S.countries[x]; }), cmax = S.countries[cn[0]] || 1;
+    $('map').innerHTML = M.mapSvg(S.countries);
+    $('countries').innerHTML = cn.map(function(c) { return '<li><span class="dot" style="background:' + M.shade(S.countries[c], cmax) + '"></span><button class="linkish" data-c="' + esc(c) + '">' + c + '</button> ' + S.countries[c] + '</li>'; }).join('');
+    $('countries').addEventListener('click', function(e) { var t = e.target.closest('button'); if (!t) return; var c = t.getAttribute('data-c');
+      focusFilter('country:' + c); });
+
+    var an = Object.keys(S.authors).sort(function(x, y) { return S.authors[y].length - S.authors[x].length; });
+    var top = S.authors[an[0]] && S.authors[an[0]].length > 1 ? ' <span class="meta">(' + esc(an[0].split(' ').pop()) + ' ×' + S.authors[an[0]].length + ')</span>' : '';
+    var btn = function(key, text) { return '<button class="linkish" data-x="' + esc(key) + '">' + text + '</button>'; };
+    $('nums').innerHTML = [
+      ['Finished', S.done + ' <span class="meta">+ ' + btn('dnf', S.dnf + ' DNF') + '</span>'],
+      ['Rated 8+', btn('rated8', S.eightPlus + ' of ' + S.done)],
+      ['Fiction', btn('fiction', S.fiction)],
+      ['Nonfiction', btn('nonfiction', S.nonfiction)],
+      ['Countries', Object.keys(S.countries).length],
+      ['Authors', an.length + top],
+      ['Longest', btn('book:' + S.longest.title, esc(S.longest.title)) + ' <span class="meta">' + S.longest.pages + '&nbsp;pp</span>'],
+      ['Shortest', btn('book:' + S.shortest.title, esc(S.shortest.title)) + ' <span class="meta">' + S.shortest.pages + '&nbsp;pp</span>']
+    ].map(function(r) { return '<tr><td class="details-label">' + r[0] + '</td><td class="details-value">' + r[1] + '</td></tr>'; }).join('');
+    $('nums').addEventListener('click', function(e) { var t = e.target.closest('button[data-x]'); if (t) focusFilter(t.getAttribute('data-x')); });
+
+    var p = readingProjects[0], slots = M.projectSlots(p), filled = slots.filter(function(s) { return s.hits.length; }).length;
+    $('project').innerHTML = '<div><h3 style="font-family:Georgia,serif;font-size:15px;color:var(--navy);margin:0 0 4px !important;">Project: ' + p.name + '</h3><p style="font-size:13px;">' + p.desc + '</p>' +
+      '<div class="prog-bar" role="progressbar" aria-label="Read Wide progress" aria-valuemin="0" aria-valuemax="' + slots.length + '" aria-valuenow="' + filled + '"><span style="width:' + (filled / slots.length * 100) + '%"></span></div>' +
+      '<div class="meta"><strong>' + filled + '</strong> of ' + slots.length + ' genres covered</div></div>' +
+      '<div class="gchips">' + slots.map(function(s) { return '<span class="gchip ' + (s.hits.length ? 'done' : 'open') + '"' + (s.hits.length ? ' title="' + esc(M.plain(s.hits.map(function(h) { return h.title; }).join(', '))) + '"' : '') + '>' + s.label + (s.hits.length ? '' : '<span class="sr-only"> (not yet)</span>') + '</span>'; }).join('') + '</div>';
+  })();
   </script>
 </body>
 </html>
