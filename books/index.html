@@ -242,7 +242,7 @@
       </div>
       <section class="insights-panel" id="insights" aria-label="Reading insights" hidden>
         <div class="insights">
-          <div class="content-box"><h3>Genres</h3><div id="bars"></div></div>
+          <div class="content-box"><h3>Genres</h3><p class="meta map-sub" id="bars-sub"></p><div id="bars"></div></div>
           <div class="content-box"><h3>Read the World</h3><p class="meta map-sub" id="map-sub"></p><div class="map" id="map"></div><ul class="clist" id="countries"></ul></div>
           <div class="content-box"><h3 id="num-h"></h3><table class="details-table numtab" id="nums"></table></div>
         </div>
@@ -637,17 +637,13 @@ var M = (function() {
       state = Object.assign({}, DEFAULT, { status: v, year: state.year, sort: views[v].sort, view: views[v].view, extra: key });
       sync(); toURL(true); render(); $('shelf').scrollIntoView({ behavior: 'smooth' }); $('shelf-h').focus({ preventScroll: true });
     }
-    // Tiles, genre bars and "by the numbers" follow the year picked on the log tab.
+    // Tiles and "by the numbers" follow the year picked on the log tab. Genres and the map cover every book read.
     function renderStats() {
       S = M.stats(state.year);
       var everyYear = state.year === 'all';
       $('tiles').innerHTML = [[S.books, everyYear ? 'Books read' : 'Read in ' + S.year], [S.pages.toLocaleString(), 'Pages'],
         [S.done ? S.avg.toFixed(1) : '–', 'Avg rating'], [M.everything.filter(function(b) { return !b.notOwned; }).length, 'On the shelf']]
         .map(function(t) { return '<div class="tile"><b>' + t[0] + '</b><span>' + t[1] + '</span></div>'; }).join('');
-      var gk = Object.keys(S.genres).sort(function(x, y) { return S.genres[y] - S.genres[x]; }), gmax = S.genres[gk[0]] || 1;
-      $('bars').innerHTML = gk.length ? gk.slice(0, 8).map(function(t) {
-        return '<div class="bar-row"><span class="lab"><button class="linkish" data-t="' + t + '">' + M.tagLabel(t) + '</button></span><span class="bar-track"><span class="bar-fill" style="width:' + (S.genres[t] / gmax * 100) + '%"></span></span><span class="num">' + S.genres[t] + '</span></div>';
-      }).join('') : '<p class="meta">Nothing finished yet this year.</p>';
       $('num-h').textContent = everyYear ? 'All years by the numbers' : S.year + ' by the numbers';
       var an = Object.keys(S.authors).sort(function(x, y) { return S.authors[y].length - S.authors[x].length; });
       var top = S.authors[an[0]] && S.authors[an[0]].length > 1 ? ' <span class="meta">(' + esc(an[0].split(' ').pop()) + ' ×' + S.authors[an[0]].length + ')</span>' : '';
@@ -668,11 +664,25 @@ var M = (function() {
     fromURL(); sync(); render();
 
     // ── Insights ──
-    $('bars').addEventListener('click', function(e) { var t = e.target.closest('button'); if (!t) return; var k = t.getAttribute('data-t');
-      focusFilter('genre:' + k); });
-
-    // Read the World covers every book he's finished, from any year, not just this one.
+    // Read the World and Genres cover every book he's finished, from any year, not just this one.
     var world = {}, readAll = M.everything.filter(finishedIt);
+
+    // Genres: every finished book by library shelf. Short labels so they fit beside the bars.
+    var SHORT = { business: 'Business', self: 'Self-help', money: 'Money', health: 'Health', running: 'Running', philosophy: 'Philosophy',
+      fiction: 'Fiction', stories: 'True stories', memoir: 'Memoir', ideas: 'Science', tech: 'AI &amp; tech', faith: 'Faith' };
+    var genres = {};
+    readAll.forEach(function(b) { if (b.shelf) genres[b.shelf] = (genres[b.shelf] || 0) + 1; });
+    var gk = Object.keys(genres).sort(function(x, y) { return genres[y] - genres[x] || x.localeCompare(y); }), gmax = genres[gk[0]] || 1;
+    $('bars-sub').textContent = 'Every book I\'ve finished, by shelf.';
+    $('bars').innerHTML = gk.map(function(k) {
+      return '<div class="bar-row"><span class="lab"><button class="linkish" data-sh="' + k + '" title="' + M.plain(shelfNames[k] || k) + '">' + (SHORT[k] || shelfNames[k] || k) + '</button></span><span class="bar-track"><span class="bar-fill" style="width:' + (genres[k] / gmax * 100) + '%"></span></span><span class="num">' + genres[k] + '</span></div>';
+    }).join('');
+    $('bars').addEventListener('click', function(e) {
+      var t = e.target.closest('button[data-sh]'); if (!t) return;
+      state = Object.assign({}, DEFAULT, { status: 'library', year: state.year, sort: 'rating', view: views.library.view, shelf: t.getAttribute('data-sh'), read: 'read' });
+      sync(); toURL(true); render(); $('shelf').scrollIntoView({ behavior: 'smooth' }); $('shelf-h').focus({ preventScroll: true });
+    });
+
     readAll.forEach(function(b) { M.countriesOf(b).forEach(function(c) { world[c] = (world[c] || 0) + 1; }); });
     var cn = Object.keys(world).sort(function(x, y) { return world[y] - world[x] || x.localeCompare(y); }), cmax = world[cn[0]] || 1;
     $('map-sub').textContent = 'Every book I\'ve finished, by author\'s country: ' + M.plural(readAll.length, 'book') + ' from ' + cn.length + ' countries.';
