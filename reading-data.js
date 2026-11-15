@@ -384,5 +384,7 @@ var wantToRead = [
   { title: 'The Death of Ivan Ilyich', author: 'Leo Tolstoy', country: 'Russia', cover: 'covers/the-death-of-ivan-ilyich.jpg', tags: ['fiction', 'classic', 'translated'],
     note: 'A man realizes, too late, that he spent his life on the wrong things.' },
   { title: 'The Remains of the Day', author: 'Kazuo Ishiguro', country: 'United Kingdom', cover: 'covers/the-remains-of-the-day.jpg', tags: ['fiction', 'literary'],
-    note: 'A butler looks back on a life given entirely to duty and starts to wonder what it cost him.' }
+    note: 'A butler looks back on a life given entirely to duty and starts to wonder what it cost him.' },
+  { title: 'Thinking in Systems', author: 'Donella H. Meadows', country: 'United States', cover: 'covers/thinking-in-systems.jpg', tags: ['nonfiction', 'science'],
+    note: 'A primer on feedback loops, delays and leverage points, and why systems so often behave in ways nobody intended.' }
 ];
